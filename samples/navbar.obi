@@ -1,0 +1,21 @@
+var pages = {"home", "news", "about", "contact"};
+
+style{
+    a{
+        text-decoration: none;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+    a.home{
+        font-weight:bold;
+    }
+}
+
+ul{
+    for page in pages{
+        li a(href "/" page ".html", .(page == "home"? "home" : "")) page;
+    }   
+}

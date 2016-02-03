@@ -1,0 +1,17 @@
+@width = 500;
+
+
+head{
+    title "Password Demo";
+
+    style{
+        #main{
+            margin:auto;
+            width: @width px;
+        }
+    }
+}
+body{
+
+
+}
