@@ -1,6 +1,6 @@
-var pages = {"home", "news", "about", "contact"};
+$pages = ["home", "news", "about", "contact"];
 
-style{
+style
     a{
         text-decoration: none;
     }
@@ -12,10 +12,7 @@ style{
     a.home{
         font-weight:bold;
     }
-}
 
-ul{
-    for page in pages{
-        li a(href "/" page ".html", .(page == "home"? "home" : "")) page;
-    }   
-}
+ul
+    for page in pages
+        li a(href "/" page ".html", .(page == "home" ? "home" : "")) page;  

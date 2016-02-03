@@ -1,0 +1,19 @@
+head
+    title [title]
+
+    style
+        h1{
+            font-size:30px;
+        }
+body
+    h1 [heading]
+    > navbar.obi
+
+    [body]
+
+    div(style "position:fixed;
+               height:100px;
+               bottom:0px;
+               width:100%;")
+        p "This is our footer"
+    
