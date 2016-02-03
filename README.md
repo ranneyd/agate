@@ -1,4 +1,4 @@
-![Logo](/logo.png)
+![Logo](/logo_small.png)
 
 #Agate
 
