@@ -20,10 +20,10 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 ###General
 
 - Whitespace-based code blocking.
-- Loosely typed variables delimited by the '@'' symbol.
+- Loosely typed variables delimited by the `@` symbol.
     - Supports integers, floating-point numbers, strings, and arrays.
 - Simple control blocks such as if/else and for loops.
-    - Includes a ternary 'statement ? true_case : false_case' operator
+    - Includes a ternary `statement ? true_case : false_case` operator
 - Import widgets (copy/paste style) into code with `> filename`.
     - Importing copy/pastes the code THEN compiles as if they were one document. `>> filename` imports code as raw text and does not compile it.
 - Invoke templates with `| filename`.
@@ -38,13 +38,13 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 
 ###HTML
 - Any HTML tag can be placed with the tag name.
-    - 'p' in agate produces '<p></p>'.
+    - 'p' in agate produces `<p></p>`.
     - HTML attributes can be parenthesized.
-        - They are "name 'value'" and comma-separated.
-        - Quotes around 'value' are optional.
-        - 'id' and 'class' have shortcuts '#' and '.' respectively and do not require a space.
-            - 'p(#ourP, .red)' produces `<p id="ourP" class="red"></p>`.
-        - ex: 'img(#ourImage, .thumbnail, src image.jpg, alt "Alt text!")'
+        - They are `name 'value'` and comma-separated.
+        - Quotes around `value` are optional.
+        - `id` and `class` have shortcuts `#` and `.` respectively and do not require a space.
+            - `p(#ourP, .red)` produces `<p id="ourP" class="red"></p>`.
+        - ex: `img(#ourImage, .thumbnail, src image.jpg, alt "Alt text!")`
     - Content of tag (assuming non-self-closing tag) is in indented block
         - Contents can be included in one line if short, such as `p "contents of p"`
             - In this case, curly brackets are optional 
