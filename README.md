@@ -77,7 +77,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
     style
         p: {
             background-color: red;
-> p_styles.css
+    > p_styles.css
         }
     ```
 
