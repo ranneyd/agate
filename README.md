@@ -37,8 +37,10 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 - Templating works like reverse widget importing. Code will be inserted and then the resultant file will be compiled.
 
 ###HTML
+- Concatenation is done by placing objects next to each other
+    - `"Hello" " " "World"` produces `"Hello World"`
 - Any HTML tag can be placed with the tag name.
-    - 'p' in agate produces `<p></p>`.
+    - `p` in agate produces `<p></p>`.
     - HTML attributes can be parenthesized.
         - They are `name 'value'` and comma-separated.
         - Quotes around `value` are optional.
@@ -47,8 +49,10 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
         - ex: `img(#ourImage, .thumbnail, src image.jpg, alt "Alt text!")`
     - Content of tag (assuming non-self-closing tag) is in indented block
         - Contents can be included in one line if short, such as `p "contents of p"`
-            - In this case, curly brackets are optional 
-
-
-- Import external CSS and JavaScript files with 'css "filename"' and 'js "filename"' shortcuts, respectively.
+            - This content can include tags
+                - Content belonging to tag is _non-greedy_.
+                    - `p strong "bold" " stuff"` produces `<p><strong>bold</strong> stuff</p>`.
+                - Curly brackets can optionally be used to change this behavior
+                    - `p{strong "bold" " stuff"}` produces `<p><strong>bold stuff</strong></p>`.
+- Import external CSS and JavaScript files with `css "filename"` and `js "filename"` shortcuts, respectively.
 
