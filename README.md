@@ -22,8 +22,16 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 - Whitespace-based code blocking.
 - Loosely typed variables delimited by the `@` symbol.
     - Supports integers, floating-point numbers, strings, and arrays.
+    - Variable assignment via the `=` symbol.
 - Simple control blocks such as if/else and for loops.
     - Includes a ternary `statement ? true_case : false_case` operator
+- Mixins
+    - Mixin signatures are the `def` keyword, followed by an identifier, followed by parenthesized parameters
+        - ex: `def my_mixin(arg1, arg2, arg3)`
+    - Indentation block below constitutes body of function
+    - Mixins are invoked with the identifier, followed by parenthesized arguments
+        - ex: `my_mixin(1, "string", @variable)`
+    - Any markup generated in functions will be inserted where mixin is called
 - Import widgets (copy/paste style) into code with `> filename`.
     - Importing copy/pastes the code THEN compiles as if they were one document. `>> filename` imports code as raw text and does not compile it.
 - Invoke templates with `| filename`.
@@ -55,4 +63,21 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
                 - Curly brackets can optionally be used to change this behavior
                     - `p{strong "bold" " stuff"}` produces `<p><strong>bold stuff</strong></p>`.
 - Import external CSS and JavaScript files with `css "filename"` and `js "filename"` shortcuts, respectively.
+
+###CSS
+- Raw CSS can be put in a `style` block
+    - Content of a `style` block will be pasted directly into a `<style type="text/css"></style>` tag.
+- CSS placed in `style` block will be preprocessed
+    - Nested classes will be compiled, similar to how they work in LESS and SASS
+    - Variable values introduced earlier in the document can be referenced in the CSS
+        - If, before the `style` block, the programmer writes `@foo = "red"` then the CSS `background-color:@foo` will be converted into `background-color: red`
+- CSS can be imported and templated in the same way as normal Agate
+    - `>` and `|` statements can be written at top-level indentation and will be escaped from the CSS
+    ```
+    style
+        p: {
+            background-color: red;
+> p_styles.css
+        }
+    ```
 
