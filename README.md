@@ -21,8 +21,23 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 
 - Whitespace-based code blocking.
 - Loosely typed variables delimited by the `@` symbol.
-    - Supports integers, floating-point numbers, strings, and arrays.
+    - Supports integers (`int`), floating-point numbers (`float`), strings (`strings`), and arrays (`array`).
+    - Type specification is not required because type can be inferred.
     - Variable assignment via the `=` symbol.
+- Basic arithmetic operators and parentheses are supported
+    - Integers divided by integers result in truncated integers.
+        - `3 / 2` produces `1`.
+    - Floats divided by integers or integers divided by floats will be floats.
+        - `3.0 / 2` and `3 / 2.0` both produce `1.5`.
+    - Types can be casted with `int`, `float`, and `string`.
+        - Parentheses are optional
+        - `int 3.0 / 2` and `int(3.0 / 2)` produce `1`.
+        - `float(2 + 2)` produces `4.0`
+        - `string(float 4)` produces `'4.0'`
+    - Variables and literals can be concatenated by placing them next to each other
+        - Concatenation will always result in a string.
+        - `"Hello " 4.0 " World"` produces `"Hello 4.0 World"`.
+        - `"Hello " float(2 + 2) " World"` produces `"Hello 4.0 World"`.
 - Simple control blocks such as if/else and for loops.
     - Includes a ternary `statement ? true_case : false_case` operator
 - Mixins
@@ -45,8 +60,6 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 - Templating works like reverse widget importing. Code will be inserted and then the resultant file will be compiled.
 
 ###HTML
-- Concatenation is done by placing objects next to each other
-    - `"Hello" " " "World"` produces `"Hello World"`
 - Any HTML tag can be placed with the tag name.
     - `p` in agate produces `<p></p>`.
     - HTML attributes can be parenthesized.
@@ -57,6 +70,8 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
         - ex: `img(#ourImage, .thumbnail, src image.jpg, alt "Alt text!")`
     - Content of tag (assuming non-self-closing tag) is in indented block
         - Contents can be included in one line if short, such as `p "contents of p"`
+            - Contents can include variables and literals.
+                - Note, that a string literal containing raw HTML will be inserted into the resultant document. 
             - This content can include tags
                 - Content belonging to tag is _non-greedy_.
                     - `p strong "bold" " stuff"` produces `<p><strong>bold</strong> stuff</p>`.
@@ -66,13 +81,14 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 
 ###CSS
 - Raw CSS can be put in a `style` block
-    - Content of a `style` block will be pasted directly into a `<style type="text/css"></style>` tag.
-- CSS placed in `style` block will be preprocessed
+    - Contents of a `style` block will be passed directly into a `<style type="text/css"></style>` tag.
+- CSS placed in `style` blocks will be preprocessed
     - Nested classes will be compiled, similar to how they work in LESS and SASS
     - Variable values introduced earlier in the document can be referenced in the CSS
         - If, before the `style` block, the programmer writes `@foo = "red"` then the CSS `background-color:@foo` will be converted into `background-color: red`
 - CSS can be imported and templated in the same way as normal Agate
     - `>` and `|` statements can be written at top-level indentation and will be escaped from the CSS
+    - ex: injecting the contents of `p_styles.css` would go like 
     ```
     style
         p: {
@@ -80,4 +96,11 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
     > p_styles.css
         }
     ```
+###JS
+- Raw JavaScript can be put in a `script` block
+    - Contents of a `script` block will be passed directly into a `<script type="text/javascript"></script` tag.
+- JavaScript placed in `script` blocks
 
+###Options
+- Insert JavaScript where JavaScript-compiled code occurs or combine all JavaScript in `script` tag at the end of the document
+- 
