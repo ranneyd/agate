@@ -73,11 +73,11 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
         - If, before the `style` block, the programmer writes `@foo = "red"` then the CSS `background-color:@foo` will be converted into `background-color: red`
 - CSS can be imported and templated in the same way as normal Agate
     - `>` and `|` statements can be written at top-level indentation and will be escaped from the CSS
-    ```
-    style
-        p: {
-            background-color: red;
-    > p_styles.css
-        }
-    ```
+        ```
+        style
+            p: {
+                background-color: red;
+        > p_styles.css
+            }
+        ```
 
