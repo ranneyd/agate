@@ -108,8 +108,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
     script
         alert('@foo');
     ```
-
-
+- JavaScript can be imported and templated in the same way CSS is imported and templated, as described above.
 
 ###Options
 - Insert JavaScript where JavaScript-compiled code occurs or combine all JavaScript in `script` tag at the end of the document
