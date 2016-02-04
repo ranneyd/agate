@@ -97,10 +97,20 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
         }
     ```
 ###JS
-- Raw JavaScript can be put in a `script` block
+- Raw JavaScript can be put in a `script` block.
     - Contents of a `script` block will be passed directly into a `<script type="text/javascript"></script` tag.
-- JavaScript placed in `script` blocks
+- JavaScript placed in `script` blocks will be preprocessed.
+    - Any time `'@variable'` occurs, for any identifier in place of `variable`, that entire statement will be replaced with the corresponding value.
+    - ex: the following creates an alert dialog that says `42`
+    ```
+    @foo = 42
+    ...
+    script
+        alert('@foo');
+    ```
+
+
 
 ###Options
 - Insert JavaScript where JavaScript-compiled code occurs or combine all JavaScript in `script` tag at the end of the document
-- 
+- Compile code into one HTML document, or compile into an HTML, a CSS, and a JavaScript file.
