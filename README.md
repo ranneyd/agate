@@ -21,16 +21,18 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 
 - Whitespace-based code blocking.
 - Loosely typed variables delimited by the `@` symbol.
-    - Supports integers (`int`), floating-point numbers (`float`), strings (`strings`), and arrays (`array`).
+    - Supports Booleans (`boolean`), integers (`int`), floating-point numbers (`float`), strings (`strings`), and arrays (`array`).
     - Type specification is not required because type can be inferred.
     - Variable assignment via the `=` symbol.
 - Basic arithmetic operators and parentheses are supported
+    - `0`, `0.0`, and `""` evaluate to `false` when converted to a `boolean`. All other values evaluate to true.
     - Integers divided by integers result in truncated integers.
         - `3 / 2` produces `1`.
     - Floats divided by integers or integers divided by floats will be floats.
         - `3.0 / 2` and `3 / 2.0` both produce `1.5`.
-    - Types can be casted with `int`, `float`, and `string`.
-        - Parentheses are optional
+    - Types can be casted with `boolean`, `int`, `float`, and `string`.
+        - Parentheses are optional.
+        - Casting to `boolean` is almost never necessary, because all values can be automatically cast to a boolean value.
         - `int 3.0 / 2` and `int(3.0 / 2)` produce `1`.
         - `float(2 + 2)` produces `4.0`
         - `string(float 4)` produces `'4.0'`
@@ -50,13 +52,14 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 - Import widgets (copy/paste style) into code with `> filename`.
     - Importing copy/pastes the code THEN compiles as if they were one document. `>> filename` imports code as raw text and does not compile it.
 - Invoke templates with `| filename`.
+- Comments are C-style, `\\` denoting a single-line comment and `\**\` denoting a comment block.
 
 ###Templates
 
-- Templates define labels at top-level indentation followed by colons, such as `label:`.
-    - Indentation block after a label in a template will be the default value. 
-- Files that invoke templates will define the contents of these labels by putting colons followed by label names at top-level indentation, such as `:label`.
+- Templates define labels with square brackets, such as `[label]`.
+- Files that invoke templates will define the contents of these labels by indenting after a template invocation, inserting labels with square brackets (`[label]`), then inserting template content after the labels
     - Indentation block after label will be inserted where the corresponding label in the template is.
+    - "One liners" can be written right after the name of a label.
 - Templating works like reverse widget importing. Code will be inserted and then the resultant file will be compiled.
 
 ###HTML
