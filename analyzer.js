@@ -1,25 +1,10 @@
-var file;
+module.exports = (data) => {
+    var tokens = {};
 
-var processArguments = function(){
-    process.argv.slice(2).forEach(function (arg, index) {
-        file = arg;
-    });
-    if ( !file ){
-        throw new Error('No file selected');
+    var position = 0,
+        // I don't trust javascript to optimize this and not call length every time
+        dataLength = length(data);
+    while(position < dataLength){
+        
     }
-};
-
-var readFile = function(){
-    fs = require('fs')
-    fs.readFile(file, 'utf8', function (err, data) {
-        if (err) {
-            return console.log(err);
-        }
-        console.log(data);
-    });
-};
-
-
-processArguments();
-
-readFile();
+}
