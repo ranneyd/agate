@@ -4,6 +4,9 @@
         "text": "head"
     },
     {
+        "type" : "newline"
+    },
+    {
         "type": "indent"
     },
     {
@@ -15,11 +18,17 @@
         "text": "\"Hello World\""
     },
     {
+        "type" : "newline"
+    },
+    {
         "type": "dedent"
     },
         {
         "type": "tag",
         "text": "body"
+    },
+    {
+        "type" : "newline"
     },
     {
         "type": "indent"
