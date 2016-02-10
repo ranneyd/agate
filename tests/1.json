@@ -1,0 +1,35 @@
+[
+    {
+        "type": "tag",
+        "text": "head"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "tag",
+        "text": "title"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"Hello World\""
+    },
+    {
+        "type": "dedent"
+    },
+        {
+        "type": "tag",
+        "text": "body"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "tag",
+        "text": "h1"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"Hello World\""
+    }
+]
