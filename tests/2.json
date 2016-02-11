@@ -1,0 +1,62 @@
+[
+    {
+        "type": "tag",
+        "text": "html"
+    },
+    {
+        "type": "newline",
+    },
+    {
+        "type": "indent",
+    },
+    {
+        "type": "tag",
+        "text": "title"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"Nesting and Concatentation Example\""
+    },
+    {
+        "type": "newline",
+    },
+    {
+        "type": "dedent",
+    },
+    {
+        "type": "tag",
+        "text": "body"
+    },
+    {
+        "type": "newline",
+    },
+    {
+        "type": "indent",
+    },
+    {
+        "type": "id",
+        "text": "@file"
+    },
+    {
+        "type": "assignment",
+    },
+    {
+        "type": "stringlit",
+        "text": "\"thing\""
+    },
+    {
+        "type": "newline",
+    },
+    {
+        "type": "tag",
+        "text": "p"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"A \""
+    },
+    {
+        "type": "tag",
+        "text": "a"
+    },
+]
