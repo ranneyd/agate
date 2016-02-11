@@ -5,7 +5,7 @@ use integer;
 
 my $out = "[\n";
 my $buff;
-my $noTextTokens = qw{indent dedent newline assignment openParen closeParen};
+my @noTextTokens = qw{indent dedent newline assignment openParen closeParen openCurly closeCurly};
 
 # Loop over lines of input until only a newline is entered
 while( ($buff = <>) =~ /^[^\n]+$/ ){
@@ -13,16 +13,19 @@ while( ($buff = <>) =~ /^[^\n]+$/ ){
     # $buff =~ s/\s+//g;
     chomp $buff;
 
-    $out .= "\t{\n\t\t\"type\": \"$buff\",\n";
+    $out .= "\t{\n\t\t\"type\": \"$buff\"";
 
-    if( !(grep {$buff eq $_} $noTextTokens) ) {
+    if( !(grep {$buff eq $_} @noTextTokens) ) {
         my $newbuff = <>;
         chomp $newbuff;
+        # fix backslashes
+        $newbuff =~ s/\\/\\\\/g;
+        # fix quotes
         $newbuff =~ s/"/\\"/g;
-        $out .= "\t\t\"text\": \"$newbuff\"\n";
+        $out .= ",\n\t\t\"text\": \"$newbuff\"";
     }
 
-    $out .= "\t},\n";
+    $out .= "\n\t},\n";
 }
 
 print $out . "]";
