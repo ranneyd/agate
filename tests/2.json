@@ -4,10 +4,10 @@
         "text": "html"
     },
     {
-        "type": "newline",
+        "type": "newline"
     },
     {
-        "type": "indent",
+        "type": "indent"
     },
     {
         "type": "tag",
@@ -18,34 +18,34 @@
         "text": "\"Nesting and Concatentation Example\""
     },
     {
-        "type": "newline",
+        "type": "newline"
     },
     {
-        "type": "dedent",
+        "type": "dedent"
     },
     {
         "type": "tag",
         "text": "body"
     },
     {
-        "type": "newline",
+        "type": "newline"
     },
     {
-        "type": "indent",
+        "type": "indent"
     },
     {
         "type": "id",
         "text": "@file"
     },
     {
-        "type": "assignment",
+        "type": "assignment"
     },
     {
         "type": "stringlit",
         "text": "\"thing\""
     },
     {
-        "type": "newline",
+        "type": "newline"
     },
     {
         "type": "tag",
@@ -59,4 +59,105 @@
         "type": "tag",
         "text": "a"
     },
+    {
+        "type": "openParen"
+    },
+    {
+        "type": "attribute",
+        "text": "href"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"\\\""
+    },
+    {
+        "type": "id",
+        "text": "@file"
+    },
+    {
+        "type": "stringlit",
+        "text": "\".html\""
+    },
+    {
+        "type": "closeParen"
+    },
+    {
+        "type": "tag",
+        "text": "strong"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"bold\""
+    },
+    {
+        "type": "stringlit",
+        "text": "\" link\""
+    },
+    {
+        "type": "stringlit",
+        "text": "\" for you\""
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "tag",
+        "text": "p"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"An \""
+    },
+    {
+        "type": "tag",
+        "text": "a"
+    },
+    {
+        "type": "openParen"
+    },
+    {
+        "type": "attribute",
+        "text": "href"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"\\\""
+    },
+    {
+        "type": "id",
+        "text": "@file"
+    },
+    {
+        "type": "stringlit",
+        "text": "\".html\""
+    },
+    {
+        "type": "closeParen"
+    },
+    {
+        "type": "openCurly"
+    },
+    {
+        "type": "tag",
+        "text": "em"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"italicized\""
+    },
+    {
+        "type": "stringlit",
+        "text": "\" link to \\\""
+    },
+    {
+        "type": "id",
+        "text": "@file"
+    },
+    {
+        "type": "stringlit",
+        "text": "\".html\""
+    },
+    {
+        "type": "closeCurly"
+    }
 ]
