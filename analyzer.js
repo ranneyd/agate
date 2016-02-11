@@ -1,3 +1,26 @@
+/*
+    Microsyntax
+    token     | match
+    --------------------------
+    intlit    | \d+
+    floatlit  | (\.\d+|\d+(\.\d+)?)([Ee]\d+)?
+    stringlit | ('([^'\\]|(\\''))*'|"([^"\\]|(\\"))*")
+    boollit   | (true)|(false)
+    id        | @[\p{L}$_-]+
+    relop     | <|>|(<=)|(==)|(\!=)|(>=)
+    addop     | \+|-
+    multop    | \*|\/
+    prefixop  | \!|-
+    newline   | (\r\n|\r|\n)+
+    indent    | complicated
+    dedent    | also complicated
+    keyword   | (if)|(else)|(for)|(in)|(css)|(js)
+    widget    | >.+?[\r\n]+
+    template  | \|.+?[\r\n]+
+    label     | \[[\p{L}_-]\]
+*/
+
+
 module.exports = (data) => {
 
     var tokens = [],
