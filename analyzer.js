@@ -22,7 +22,6 @@
     assignment | =
     openParen  | \(
     closeParen | \)
-    comma      | ,
 */
 
 
@@ -48,6 +47,7 @@ module.exports = (data) => {
             }
         },
         line = 0,
+        char = 0,
         position = 0,
         // I don't trust javascript to optimize this and not call length every time
         dataLength = data.length;
@@ -62,6 +62,8 @@ module.exports = (data) => {
                 "type": "stringlit",
                 "text": matchData[0]
             } );
+
+            char += matchData[0].length;
             position += matchData[0].length;
         }
         // Some tag
@@ -70,6 +72,8 @@ module.exports = (data) => {
                 "type": "tag",
                 "text": matchData[0]
             });
+
+            char += matchData[0].length;
             position += matchData[0].length;
         }
         // newline and indentation
@@ -81,7 +85,9 @@ module.exports = (data) => {
             });
 
             line++;
+            char = 0;
             position += matchData[0].length;
+
 
             // Last matching group is the indentation. Note one tab = one space
             // because we don't respect people who mix spaces and tabs.
@@ -106,6 +112,7 @@ module.exports = (data) => {
                         return {
                             status: "error",
                             line: line,
+                            char: char,
                             message: "Indentation error"
                         }
                     }
@@ -121,6 +128,7 @@ module.exports = (data) => {
         }
         // Whitespace (for ignoring)
         else if ( matchData = /^[\s]+/.exec( truncData ) ) {
+            char += matchData[0].length;
             position += matchData[0].length;
         }
         // If it doesn't match those we have a problem
@@ -128,6 +136,7 @@ module.exports = (data) => {
             return {
                 status: "error",
                 line: line,
+                char: char,
                 message: "Could not tokenize"
             };
         }
