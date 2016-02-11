@@ -6,7 +6,7 @@
     floatlit   | (\.\d+|\d+(\.\d+)?)([Ee]\d+)?
     stringlit  | ('([^'\\]|(\\''))*'|"([^"\\]|(\\"))*")
     boollit    | (true)|(false)
-    id         | @[\p{L}$_-]+
+    id         | @[A-Za-z0-9$_-]+
     relop      | <|>|(<=)|(==)|(\!=)|(>=)
     addop      | \+|-
     multop     | \*|\/
@@ -18,7 +18,7 @@
                |     |(js)|(float)|(int)|(boolean)|(string)
     widget     | >.+?[\r\n]+
     template   | \|.+?[\r\n]+
-    label      | \[[\p{L}_-]\]
+    label      | \[[A-Za-z0-9_-]\]
     assignment | =
     openParen  | \(
     closeParen | \)
@@ -34,12 +34,32 @@ var regexes = [
     },
     {
         "type": "id",
-        "regex": /^@[\p{L}$_-]+/
+        "regex": /^@[A-Za-z$_-]+/
     },
     {
         "type": "tag",
         "regex": /^[a-zA-Z_][a-zA-Z0-9-_.]*/
-    }
+    },
+    {
+        "type": "assignment",
+        "regex": /^=/
+    },
+    {
+        "type": "openParen",
+        "regex": /^\(/
+    },
+    {
+        "type": "closeParen",
+        "regex": /^\)/
+    },
+    {
+        "type": "openCurly",
+        "regex": /^\{/
+    },
+    {
+        "type": "closeCurly",
+        "regex": /^\}/
+    },
 ];
 
 
@@ -64,8 +84,8 @@ module.exports = (data) => {
                 return !this.elems.length;
             }
         },
-        line = 0,
-        char = 0,
+        line = 1,
+        column = 1,
         position = 0,
         // I don't trust javascript to optimize this and not call length every time
         dataLength = data.length;
@@ -84,7 +104,7 @@ module.exports = (data) => {
                     "text": matchData[0]
                 } );
 
-                char += matchData[0].length;
+                column += matchData[0].length;
                 position += matchData[0].length;
                 notMatched = false;
             }
@@ -101,7 +121,7 @@ module.exports = (data) => {
                 });
 
                 line++;
-                char = 0;
+                column = 1;
                 position += matchData[0].length;
 
 
@@ -128,7 +148,7 @@ module.exports = (data) => {
                             return {
                                 status: "error",
                                 line: line,
-                                char: char,
+                                column: column,
                                 message: "Indentation error"
                             }
                         }
@@ -141,18 +161,22 @@ module.exports = (data) => {
                         }
                     } while ( !indent.isTop(0) && (indent.pop() !== indentSize) );
                 }
+
+                column += indentSize;
             }
             // Whitespace (for ignoring)
             else if ( matchData = /^[\s]+/.exec( truncData ) ) {
-                char += matchData[0].length;
+                column += matchData[0].length;
                 position += matchData[0].length;
             }
             // If it doesn't match those we have a problem
             else {
+                console.log("Dump: ");
+                console.log(tokens);
                 return {
                     status: "error",
                     line: line,
-                    char: char,
+                    column: column,
                     message: "Could not tokenize"
                 };
             }

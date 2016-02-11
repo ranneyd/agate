@@ -43,7 +43,7 @@ fs.readdir( dir, function ( dir_err, list ) {
                         console.log( "Expected: " );
                         console.log( expected );
                         console.log( "Produced: " );
-                        console.log(analysis);  
+                        console.log(analysis);
                     }
                 }
                 else {
