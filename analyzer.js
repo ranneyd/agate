@@ -4,16 +4,19 @@ module.exports = (data) => {
         indent = {
             elems: [0],
             pop: function () {
-                return elems.pop();
+                return this.elems.pop();
             },
             push: function ( elem ) {
-                return elems.push();
+                this.elems.push( elem );
             },
             peek: function () {
-                return elems[elems.length - 1];
+                return this.elems[this.elems.length - 1];
             },
             isTop: function ( elem ) {
                 return this.peek() === elem;
+            },
+            isEmpty: function () {
+                return !this.elems.length;
             }
         },
         line = 0,
@@ -41,49 +44,51 @@ module.exports = (data) => {
             });
             position += matchData[0].length;
         }
-        // newline
-        else if ( matchData = /^(\r\n|\r|\n)+/.exec( truncData ) ) {
+        // newline and indentation
+        else if ( matchData = /^((\r\n|\r|\n)+)([\t ]*)/.exec( truncData ) ) {
+            // This is inspired heavily by Python
+            // https://docs.python.org/3/reference/lexical_analysis.html
             tokens.push({
                 "type": "newline"
             });
+
             line++;
             position += matchData[0].length;
-        }
-        // indentation
-        // only happens if last thing was a newline
-        else if ( tokens[tokens.length - 1].type === "newline"
-                && matchData = /^[\t ]*/.exec( truncData ) ) {
-            // NOTE: one tab = one space. Using tabs is dumb anyway
-            var indentSize = matchData[0].length;
-            
-            // If level is greater than the current indent level.
+
+            // Last matching group is the indentation. Note one tab = one space
+            // because we don't respect people who mix spaces and tabs.
+            // Technically, however, if you use only tabs it will work fine
+            var indentSize = matchData[matchData.length - 1].length;
+
+            // If the top indentation level is smaller than what we have, we
+            // have a new indentation block
             if ( indent.peek() < indentSize ) {
                 tokens.push({
                     "type": "indent"
                 });
+
                 indent.push(indentSize);
             }
-            // If level is less than the current index level
+            // In the other case, we have returned to a previous indent level
             if ( indent.peek() > indentSize ) {
-                var popped;
-                while ( (popped = indent.pop()) !== indentSize ) {
-                    tokens.push({
-                        "type": "dedent"
-                    });
-                    // If we pop indents that are smaller than what we're looking for, we have an indent error
-                    if (popped < indentSize) {
+                do {
+                    // If we peek at an indent that is smaller than what we're
+                    // looking for, we have an indent error
+                    if (indent.peek() < indentSize) {
                         return {
                             status: "error",
                             line: line,
                             message: "Indentation error"
                         }
                     }
-                }
-                // If we accidentally popped the 0, we have to put it back
-                if ( !popped ) {
-                    indent.push(0);
-                }
 
+                    // If we aren't at the 0, we want to dedent
+                    if (!indent.isTop(0)) {
+                        tokens.push({
+                            "type": "dedent"
+                        });
+                    }
+                } while ( !indent.isTop(0) && (indent.pop() !== indentSize) );
             }
         }
         // Whitespace (for ignoring)

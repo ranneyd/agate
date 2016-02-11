@@ -7,7 +7,7 @@ head
         }
 body
     h1 [heading]
-    > navbar.obi
+    > navbar.agate
 
     [body]
 
@@ -16,4 +16,3 @@ body
                bottom:0px;
                width:100%;")
         p "This is our footer"
-    
