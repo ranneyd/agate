@@ -15,7 +15,7 @@ while( ($buff = <>) =~ /^[^\n]+$/ ){
 
     $out .= "\t{\n\t\t\"type\": \"$buff\",\n";
 
-    if( !(grep {$buff eq $_} noTextTokens) ) {
+    if( !(grep {$buff eq $_} $noTextTokens) ) {
         my $newbuff = <>;
         chomp $newbuff;
         $newbuff =~ s/"/\\"/g;
