@@ -44,10 +44,10 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
     - Includes a ternary `statement ? true_case : false_case` operator
 - Mixins
     - Mixin signatures are the `def` keyword, followed by an identifier, followed by parenthesized parameters
-        - ex: `def my_mixin(arg1, arg2, arg3)`
+        - ex: `def my_mixin(arg1 arg2 arg3)`
     - Indentation block below constitutes body of function
     - Mixins are invoked with the identifier, followed by parenthesized arguments
-        - ex: `my_mixin(1, "string", @variable)`
+        - ex: `my_mixin(1 "string" @variable)`
     - Any markup generated in functions will be inserted where mixin is called
 - Import widgets (copy/paste style) into code with `> filename`.
     - Importing copy/pastes the code THEN compiles as if they were one document. `>> filename` imports code as raw text and does not compile it.
