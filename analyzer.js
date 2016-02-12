@@ -27,6 +27,10 @@
     hash       | #
     dot        | \.
     bareword   | [a-zA-Z._-][a-zA-Z0-9._-]+
+    script     | script + complicated
+    js         | [^\n\r].+?(?=(\r\n|\r|\n)|('@))
+    style      | style + complicated
+    css        | [^\n\r].+?(?=(\r\n|\r|\n)|(@))
 */
 
 var regexes = [
@@ -75,6 +79,11 @@ var regexes = [
     {
         "type": "dot",
         "regex": /^\./,
+        "notext": true
+    },
+    {
+        "type": "tilde",
+        "regex": /^~/,
         "notext": true
     },
 ];
