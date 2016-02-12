@@ -81,6 +81,15 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
                 - Curly brackets can optionally be used to change this behavior
                     - `p{strong "bold" " stuff"}` produces `<p><strong>bold stuff</strong></p>`.
 - Import external CSS and JavaScript files with `css "filename"` and `js "filename"` shortcuts, respectively.
+- Some basic, common JavaScript idioms will be implemented directly in Agate.
+    - Elements can be selected by id or class name via `#name` and `.name`, respectively.
+        - Any element in the document can be accessed anywhere in the document.
+    - Any selection can be preceded by a `~event` where `event` is any HTML event attribute.
+        - i.e. `~onclick`, `~onsubmit`,`~onpause`
+            - The "on" is optional, so `.click`, `.submit`, and `.pause` would work.
+        - The contents of the event block will execute when that event happens.
+            - For instance, when a form is submitted, a `p` tag that says "thank you for submitting" can appear.
+        - Note: inserting an element counts as a selection, so `p(#myP) "a paragraph"` followed by `#myP~mouseover` is equivalent to `p(#myP) "a paragraph" ~mouseover`
 
 ###CSS
 - Raw CSS can be put in a `style` block
