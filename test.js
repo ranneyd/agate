@@ -34,16 +34,28 @@ fs.readdir( dir, function ( dir_err, list ) {
                 // lexical analysis
                 var expected = require( dir + "/" + fileParts[1] + ".json" );
                 var analysis = analyzer( testee );
-                if ( expected ){ 
+                if ( expected ){
                     if ( JSON.stringify( expected ) === JSON.stringify( analysis ) ) {
                         console.log( "Test " + fileParts[1] + " passed!" );
                     }
                     else {
                         console.log( "Test " + fileParts[1] + " FAILED!" );
-                        console.log( "Expected: " );
-                        console.log( expected );
-                        console.log( "Produced: " );
-                        console.log(analysis);
+
+                        var i;
+                        for(i = 0; i < expected.length; ++i) {
+                            if (JSON.stringify(expected[i]) !== JSON.stringify(analysis[i])){
+                                console.log("Item " + (i + 1))
+                                console.log("Expected:");
+                                console.log(expected[i]);
+                                console.log("Produced:");
+                                console.log(analysis[i]);
+                            }
+                        }
+
+                        // console.log( "Expected: " );
+                        // console.log( expected );
+                        // console.log( "Produced: " );
+                        // console.log(analysis);
                     }
                 }
                 else {

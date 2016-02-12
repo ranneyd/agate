@@ -1,6 +1,6 @@
 [
     {
-        "type": "tag",
+        "type": "bareword",
         "text": "head"
     },
     {
@@ -10,7 +10,7 @@
         "type": "indent"
     },
     {
-        "type": "tag",
+        "type": "bareword",
         "text": "title"
     },
     {
@@ -24,7 +24,7 @@
         "type": "dedent"
     },
         {
-        "type": "tag",
+        "type": "bareword",
         "text": "body"
     },
     {
@@ -34,7 +34,7 @@
         "type": "indent"
     },
     {
-        "type": "tag",
+        "type": "bareword",
         "text": "h1"
     },
     {

@@ -1,0 +1,15 @@
+Test 1 passed!
+Test 2 FAILED!
+Line 5
+Expected:
+{ type: 'stringlit',
+  text: '"Nesting and Concatentation Example"' }
+Produced:
+{ type: 'stringlit',
+  text: '"Nesting and Concatenation Example"' }
+Line 20
+Expected:
+{ type: 'stringlit', text: '"\\"' }
+Produced:
+{ type: 'stringlit', text: '"\\\\"' }
+Test fail1 passed!

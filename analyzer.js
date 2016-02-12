@@ -24,41 +24,58 @@
     closeParen | \)
     openCurly  | \{
     closeCurly | \}
-    attribute  | (?<=\()[^=\w"'@]+
+    hash       | #
+    dot        | \.
+    bareword   | [a-zA-Z._-][a-zA-Z0-9._-]+
 */
 
 var regexes = [
     {
         "type": "stringlit",
-        "regex": /^('([^'\\]|(\\''))*'|"([^"\\]|(\\"))*")/
+        "regex": /^('([^'\\]|(\\'')|(\\\\))*'|"([^"\\]|(\\")|(\\\\))*")/
     },
     {
         "type": "id",
         "regex": /^@[A-Za-z$_-]+/
     },
     {
-        "type": "tag",
-        "regex": /^[a-zA-Z_][a-zA-Z0-9-_.]*/
+        "type": "bareword",
+        "regex": /^[a-zA-Z._-][a-zA-Z0-9._-]*/
     },
     {
         "type": "assignment",
-        "regex": /^=/
+        "regex": /^=/,
+        "notext": true
     },
     {
         "type": "openParen",
-        "regex": /^\(/
+        "regex": /^\(/,
+        "notext": true
     },
     {
         "type": "closeParen",
-        "regex": /^\)/
+        "regex": /^\)/,
+        "notext": true
     },
     {
         "type": "openCurly",
-        "regex": /^\{/
+        "regex": /^\{/,
+        "notext": true
     },
     {
         "type": "closeCurly",
-        "regex": /^\}/
+        "regex": /^\}/,
+        "notext": true
+    },
+    {
+        "type": "hash",
+        "regex": /^#/,
+        "notext": true
+    },
+    {
+        "type": "dot",
+        "regex": /^\./,
+        "notext": true
     },
 ];
 
@@ -99,10 +116,15 @@ module.exports = (data) => {
         // do the stuff down there
         for ( var type in regexes ) {
             if ( notMatched && (matchData = regexes[type].regex.exec( truncData ) ) ) {
-                tokens.push( {
+                var token = {
                     "type": regexes[type].type,
-                    "text": matchData[0]
-                } );
+                };
+
+                if (!regexes[type].notext) {
+                    token.text = matchData[0];
+                }
+
+                tokens.push( token );
 
                 column += matchData[0].length;
                 position += matchData[0].length;
@@ -171,8 +193,6 @@ module.exports = (data) => {
             }
             // If it doesn't match those we have a problem
             else {
-                console.log("Dump: ");
-                console.log(tokens);
                 return {
                     status: "error",
                     line: line,

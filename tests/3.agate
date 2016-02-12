@@ -1,7 +1,7 @@
 head
     title "Password Demo"
 body
-    input(#pass type password).submit
+    input(#pass, type password).submit
         if(length(.value) < 8)
             p(style "color:red; background-color:cyan") "Your password sucks"
         else

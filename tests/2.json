@@ -1,6 +1,6 @@
 [
     {
-        "type": "tag",
+        "type": "bareword",
         "text": "html"
     },
     {
@@ -10,12 +10,12 @@
         "type": "indent"
     },
     {
-        "type": "tag",
+        "type": "bareword",
         "text": "title"
     },
     {
         "type": "stringlit",
-        "text": "\"Nesting and Concatentation Example\""
+        "text": "\"Nesting and Concatenation Example\""
     },
     {
         "type": "newline"
@@ -24,7 +24,7 @@
         "type": "dedent"
     },
     {
-        "type": "tag",
+        "type": "bareword",
         "text": "body"
     },
     {
@@ -48,7 +48,7 @@
         "type": "newline"
     },
     {
-        "type": "tag",
+        "type": "bareword",
         "text": "p"
     },
     {
@@ -56,19 +56,19 @@
         "text": "\"A \""
     },
     {
-        "type": "tag",
+        "type": "bareword",
         "text": "a"
     },
     {
         "type": "openParen"
     },
     {
-        "type": "attribute",
+        "type": "bareword",
         "text": "href"
     },
     {
         "type": "stringlit",
-        "text": "\"\\\""
+        "text": "\"\\\\\""
     },
     {
         "type": "id",
@@ -82,7 +82,7 @@
         "type": "closeParen"
     },
     {
-        "type": "tag",
+        "type": "bareword",
         "text": "strong"
     },
     {
@@ -101,7 +101,7 @@
         "type": "newline"
     },
     {
-        "type": "tag",
+        "type": "bareword",
         "text": "p"
     },
     {
@@ -109,19 +109,19 @@
         "text": "\"An \""
     },
     {
-        "type": "tag",
+        "type": "bareword",
         "text": "a"
     },
     {
         "type": "openParen"
     },
     {
-        "type": "attribute",
+        "type": "bareword",
         "text": "href"
     },
     {
         "type": "stringlit",
-        "text": "\"\\\""
+        "text": "\"\\\\\""
     },
     {
         "type": "id",
@@ -138,7 +138,7 @@
         "type": "openCurly"
     },
     {
-        "type": "tag",
+        "type": "bareword",
         "text": "em"
     },
     {
@@ -147,7 +147,7 @@
     },
     {
         "type": "stringlit",
-        "text": "\" link to \\\""
+        "text": "\" link to \\\\\""
     },
     {
         "type": "id",
