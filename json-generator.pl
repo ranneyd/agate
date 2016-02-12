@@ -5,7 +5,18 @@ use integer;
 
 my $out = "[\n";
 my $buff;
-my @noTextTokens = qw{indent dedent newline assignment openParen closeParen openCurly closeCurly hash dot};
+my @noTextTokens = qw{indent
+                      dedent
+                      newline
+                      assignment
+                      openParen
+                      closeParen
+                      openCurly
+                      closeCurly
+                      hash
+                      dot
+                      tilde
+                    };
 
 # Loop over lines of input until only a newline is entered
 while( ($buff = <>) =~ /^[^\n]+$/ ){
