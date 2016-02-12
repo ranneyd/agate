@@ -89,6 +89,8 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
             - The "on" is optional, so `.click`, `.submit`, and `.pause` would work.
         - The contents of the event block will execute when that event happens.
             - For instance, when a form is submitted, a `p` tag that says "thank you for submitting" can appear.
+        - Attributes of the parent element can be accessed with just `~attr`.
+            - Imagine `this~attr` but with an implicit `this` because having `this` is lame.
         - Note: inserting an element counts as a selection, so `p(#myP) "a paragraph"` followed by `#myP~mouseover` is equivalent to `p(#myP) "a paragraph" ~mouseover`
 
 ###CSS
@@ -125,3 +127,14 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 ###Options
 - Insert JavaScript where JavaScript-compiled code occurs or combine all JavaScript in `script` tag at the end of the document
 - Compile code into one HTML document, or compile into an HTML, a CSS, and a JavaScript file.
+
+###Misc
+- Values taken from attributes via selectors will be implicitly typecast
+    - The agate compiler will try to figure out the best return type of `#myInput~value`
+    - The precedence is as follows
+        - If the value is `true`, `false`, `0`, or `1`, the value is a Boolean
+            - This does mean that even if a value `0` or `1` is meant to be an integer, it will be initially cast as a boolean. However, all arithmetic operators implicitly convert Booleans to integers or floats depending on the context so it shouldn't matter.
+        - Otherwise, if the value is an integer, the type is made integer
+        - Otherwise, if the value is a float ("digits . digits E digits"), the type is made float
+            - Actual matching pattern for floats: `/(\.\d+|\d+(\.\d+)?)([Ee]\d+)?/`
+        - Otherwise, value is made a string.
