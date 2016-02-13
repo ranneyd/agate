@@ -148,5 +148,5 @@
     {
         "type": "js",
         "text": "alert(\"Hooray!\");"
-    },
+    }
 ]

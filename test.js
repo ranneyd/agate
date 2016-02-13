@@ -34,7 +34,11 @@ fs.readdir( dir, function ( dir_err, list ) {
                 // lexical analysis
                 var expected = require( dir + "/" + fileParts[1] + ".json" );
                 var analysis = analyzer( testee );
-                if ( expected ){
+                if ( analysis.status === "error" && !expected.status ) {
+                    console.log("Error in Test " + fileParts[1]);
+                    console.log(analysis);
+                }
+                else if ( expected ){
                     if ( JSON.stringify( expected ) === JSON.stringify( analysis ) ) {
                         console.log( "Test " + fileParts[1] + " passed!" );
                     }

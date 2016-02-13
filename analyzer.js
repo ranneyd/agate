@@ -7,7 +7,7 @@
     stringlit  | ('([^'\\]|(\\''))*'|"([^"\\]|(\\"))*")
     boollit    | (true)|(false)
     id         | @[A-Za-z0-9$_-]+
-    relop      | <|>|(<=)|(==)|(\!=)|(>=)
+    relop      | \<|\>|(\<\=)|(\=\=)|(\!\=)|(\>\=)
     addop      | \+|-
     multop     | \*|\/
     prefixop   | \!|-
@@ -45,6 +45,18 @@ var regexes = [
     {
         "type": "bareword",
         "regex": /^[a-zA-Z._-][a-zA-Z0-9._-]*/
+    },
+    {
+        "type": "relop",
+        "regex": /^\<|\>|(\<\=)|(\=\=)|(\!\=)|(\>\=)/
+    },
+    {
+        "type": "floatlit",
+        "regex": /^(\.\d+|\d+(\.\d+)?)([Ee]\d+)?/
+    },
+    {
+        "type": "intlit",
+        "regex": /^\d+/
     },
     {
         "type": "assignment",
