@@ -16,6 +16,8 @@ my @noTextTokens = qw{indent
                       hash
                       dot
                       tilde
+                      script
+                      style
                     };
 
 # Loop over lines of input until only a newline is entered

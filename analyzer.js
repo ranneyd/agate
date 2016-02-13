@@ -125,6 +125,9 @@ module.exports = (data) => {
         line = 1,
         column = 1,
         position = 0,
+        jsMode = false,
+        cssMode = false,
+        newModeTrigger = false,
         // I don't trust javascript to optimize this and not call length every time
         dataLength = data.length;
 
@@ -132,6 +135,47 @@ module.exports = (data) => {
         var truncData = data.slice( position ),
             matchData,
             notMatched = true;
+
+        // Some complicated ones we need to preempt
+
+        // Since JS and CSS are separate token sets, we have to use these flags to determine when
+        // we're looking at them.
+        if ( newModeTrigger ) {
+            // If it's JS mode, we do JS, otherwise, it's css
+            if ( jsMode ) {
+                matchData = /^[^\n\r].+?(?=(\r\n|\r|\n))/.exec( truncData );
+
+
+                
+                var token = {
+                    "type": "script"
+                };
+
+                tokens.push( token );
+
+                column += matchData[0].length;
+                position += matchData[0].length;
+
+                // If the next char is a ', we want to skip 
+
+            }
+            else {
+
+            }
+        } 
+
+        if (matchData = /^script/.exec( truncData )) {
+            var token = {
+                "type": "script"
+            };
+
+            tokens.push( token );
+
+            column += matchData[0].length;
+            position += matchData[0].length;
+            notMatched = false;
+            jsMode = true;
+        }
 
         // Simples cases handled here. If we match something, notMatched will be false so we won't
         // do the stuff down there
@@ -181,6 +225,15 @@ module.exports = (data) => {
                     });
 
                     indent.push(indentSize);
+
+
+                    // If we have a script or style tag, the resultant block will be a separate set
+                    // of tokens. If a script or style tag is found, jsMode or cssMode is made true,
+                    // respectively. Once we get a new line and a new indentation block, it's game
+                    // time.
+                    if ( jsMode || cssMode ) {
+                        newModeTrigger = true;
+                    }
                 }
                 // In the other case, we have returned to a previous indent level
                 if ( indent.peek() > indentSize ) {
