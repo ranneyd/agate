@@ -140,35 +140,33 @@ module.exports = (data) => {
         // Since JS and CSS are separate token sets, we have to use these flags to determine when
         // we're looking at them.
         if ( newModeTrigger ) {
-            // If it's JS mode, we do JS, otherwise, it's css
-            if ( jsMode ) {
-                if ( matchData = /^[^\n\r$]+/.exec( truncData ) ) {
-                    var token = {
-                        "type": "js",
-                        "text": matchData ? matchData[0] : ""
-                    };
+            // Interesting note about this bad boy: it makes the quotes in '@name' optional. The
+            // problem is @ isn't technically illegal JS and I think it can be used in legal JS
+            // identifiers, so it may lead to incorrectness. But hey, if the user doesn't want
+            // to put the quotes, they don't have to. If there are quotes around it, however,
+            // they will be removed.
+            if ( matchData = /^((.(?!'?@|[\n\r]))*.)('?(@[A-Za-z$_-]+)'?)?/.exec( truncData ) ) {
+                var token = {
+                    "type": jsMode ? "js" : "css",
+                    "text": matchData ? matchData[1] : ""
+                };
 
-                    tokens.push( token );
+                tokens.push( token );
 
-                    column += matchData[0].length;
-                    position += matchData[0].length;
+                column += matchData[0].length;
+                position += matchData[0].length;
+
+                // If the last group is matched, this is it. Otherwise this is undefined. :D
+                var potentialID = matchData[matchData.length - 1]
+                if ( potentialID ) {
+                    tokens.push( {
+                        "type":"id",
+                        "text":potentialID
+                    });
                 }
             }
-            else {
-                if ( matchData = /^[^\n\r]+/.exec( truncData ) ) {
-                    var token = {
-                        "type": "css",
-                        "text": matchData ? matchData[0] : ""
-                    };
-
-                    tokens.push( token );
-
-                    column += matchData[0].length;
-                    position += matchData[0].length;
-                }
-            }
-            // If this is null, we didn't get a match, meaning we have a newline, meaning we need to
-            // keep checking. Otherwise, we don't want to keep checking
+            // If this is null, we didn't get a match, meaning we have a newline or an id, meaning
+            // we need to keep checking. Otherwise, we don't want to keep checking
             if ( !!matchData ) {
                 notMatched = false;
             }
