@@ -112,6 +112,9 @@
         "type": "script"
     },
     {
+        "type": "newline"
+    },
+    {
         "type": "indent"
     },
     {
@@ -165,6 +168,9 @@
     {
         "type": "bareword",
         "text": "body"
+    },
+    {
+        "type": "newline"
     },
     {
         "type": "indent"

@@ -135,7 +135,6 @@ module.exports = (data) => {
         var truncData = data.slice( position ),
             matchData,
             notMatched = true;
-
         // Some complicated ones we need to preempt
 
         // Since JS and CSS are separate token sets, we have to use these flags to determine when
@@ -143,7 +142,7 @@ module.exports = (data) => {
         if ( newModeTrigger ) {
             // If it's JS mode, we do JS, otherwise, it's css
             if ( jsMode ) {
-                if ( matchData = /^[^\n\r].+?(?=(\r\n|\r|\n|$))/.exec( truncData ) ) {
+                if ( matchData = /^[^\n\r$]+/.exec( truncData ) ) {
                     var token = {
                         "type": "js",
                         "text": matchData ? matchData[0] : ""
@@ -156,7 +155,7 @@ module.exports = (data) => {
                 }
             }
             else {
-                if ( matchData = /^[^\n\r].+?(?=(\r\n|\r|\n|$))/.exec( truncData ) ) {
+                if ( matchData = /^[^\n\r]+/.exec( truncData ) ) {
                     var token = {
                         "type": "css",
                         "text": matchData ? matchData[0] : ""
@@ -212,7 +211,7 @@ module.exports = (data) => {
         // More complicated ones
         if( notMatched ) {
             // newline and indentation
-            if ( matchData = /^((\r\n|\r|\n)+)([\t ]*)/.exec( truncData ) ) {
+            if ( matchData = /^(\r\n|\r|\n)([\t ]*)/.exec( truncData ) ) {
                 // This is inspired heavily by Python
                 // https://docs.python.org/3/reference/lexical_analysis.html
                 tokens.push({
@@ -276,10 +275,11 @@ module.exports = (data) => {
                         newModeTrigger = false;
 
                         column += indentSize;
-                        position += indentSize;
+                        position += matchData[0].length;
                     }
                     else {
-                        position += indent.peek();
+                        // Get the newline char and all the spaces minus the ones we're leaving
+                        position += matchData[0].length - specialIndentSize;
                         column += indent.peek();
                     }
                 }
