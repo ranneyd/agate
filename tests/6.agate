@@ -6,7 +6,7 @@ head
             background-color: red;
         }
         a.specialA {
-            color: blue;
+            color: @color;
         }
     script(src "/js/main.js")
     script
@@ -14,7 +14,7 @@ head
         console.log("Print statement");
         if( testingIndentation ) {
             var lets = "hope this works";
-            var test = 'notdoingidsyet';
+            var test = '@color';
         }
 body
     script

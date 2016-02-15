@@ -71,7 +71,15 @@
     },
     {
         "type": "css",
-        "text": "    color: blue;"
+        "text": "    color: "
+    },
+    {
+        "type": "id",
+        "text": "@color"
+    },
+    {
+        "type": "css",
+        "text": ";"
     },
     {
         "type": "newline"
@@ -142,7 +150,15 @@
     },
     {
         "type": "js",
-        "text": "    var test = 'notdoingidsyet';"
+        "text": "    var test = "
+    },
+    {
+        "type": "id",
+        "text": "@color"
+    },
+    {
+        "type": "js",
+        "text": ";"
     },
     {
         "type": "newline"

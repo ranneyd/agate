@@ -53,7 +53,7 @@
     },
     {
         "type": "stringlit",
-        "text": "password"
+        "text": "\"password\""
     },
     {
         "type": "closeParen"
@@ -64,6 +64,9 @@
     {
         "type": "bareword",
         "text": "submit"
+    },
+    {
+        "type": "newline"
     },
     {
         "type": "indent"
@@ -111,8 +114,7 @@
         "type": "openParen"
     },
     {
-        "type": "bareword",
-        "text": "style"
+        "type": "style"
     },
     {
         "type": "stringlit",
@@ -136,7 +138,13 @@
         "text": "else"
     },
     {
-        "type": "script",
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "script"
     },
     {
         "type": "newline"
