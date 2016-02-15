@@ -25,12 +25,14 @@
         "text": "@color"
     },
     {
-        "type": "assignent",
-        "text": "stringlit"
+        "type": "assignment"
     },
     {
-        "type": ""cyan"",
-        "text": "newline"
+        "type": "stringlit",
+        "text": "\"cyan\""
+    },
+    {
+        "type": "newline"
     },
     {
         "type": "style"
