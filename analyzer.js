@@ -51,12 +51,12 @@ var regexes = [
         "regex": /^\<|\>|(\<\=)|(\=\=)|(\!\=)|(\>\=)/
     },
     {
-        "type": "floatlit",
-        "regex": /^(\.\d+|\d+(\.\d+)?)([Ee]\d+)?/
-    },
-    {
         "type": "intlit",
         "regex": /^\d+/
+    },
+    {
+        "type": "floatlit",
+        "regex": /^(\.\d+|\d+(\.\d+)?)([Ee]\d+)?/
     },
     {
         "type": "assignment",
@@ -143,30 +143,41 @@ module.exports = (data) => {
         if ( newModeTrigger ) {
             // If it's JS mode, we do JS, otherwise, it's css
             if ( jsMode ) {
-                matchData = /^[^\n\r].+?(?=(\r\n|\r|\n))/.exec( truncData );
+                if ( matchData = /^[^\n\r].+?(?=(\r\n|\r|\n|$))/.exec( truncData ) ) {
+                    var token = {
+                        "type": "js",
+                        "text": matchData ? matchData[0] : ""
+                    };
 
+                    tokens.push( token );
 
-                
-                var token = {
-                    "type": "script"
-                };
-
-                tokens.push( token );
-
-                column += matchData[0].length;
-                position += matchData[0].length;
-
-                // If the next char is a ', we want to skip 
-
+                    column += matchData[0].length;
+                    position += matchData[0].length;
+                }
             }
             else {
+                if ( matchData = /^[^\n\r].+?(?=(\r\n|\r|\n|$))/.exec( truncData ) ) {
+                    var token = {
+                        "type": "css",
+                        "text": matchData ? matchData[0] : ""
+                    };
 
+                    tokens.push( token );
+
+                    column += matchData[0].length;
+                    position += matchData[0].length;
+                }
+            }
+            // If this is null, we didn't get a match, meaning we have a newline, meaning we need to
+            // keep checking. Otherwise, we don't want to keep checking
+            if ( !!matchData ) {
+                notMatched = false;
             }
         } 
 
-        if (matchData = /^script/.exec( truncData )) {
+        if (matchData = /^((script)|(style))/.exec( truncData )) {
             var token = {
-                "type": "script"
+                "type": matchData[0]
             };
 
             tokens.push( token );
@@ -174,7 +185,8 @@ module.exports = (data) => {
             column += matchData[0].length;
             position += matchData[0].length;
             notMatched = false;
-            jsMode = true;
+            jsMode = matchData[0] === "script";
+            cssMode = !jsMode;
         }
 
         // Simples cases handled here. If we match something, notMatched will be false so we won't
@@ -209,7 +221,6 @@ module.exports = (data) => {
 
                 line++;
                 column = 1;
-                position += matchData[0].length;
 
 
                 // Last matching group is the indentation. Note one tab = one space because we don't
@@ -217,48 +228,100 @@ module.exports = (data) => {
                 // tabs it will work fine
                 var indentSize = matchData[matchData.length - 1].length;
 
-                // If the top indentation level is smaller than what we have, we have a new
-                // indentation block
-                if ( indent.peek() < indentSize ) {
+                // Encapsulating this so I can use it in the js/css mode also
+                var dedentDetect = function(indentSize){
+
+                    indent.pop();
+
                     tokens.push({
-                        "type": "indent"
+                        "type": "dedent"
                     });
 
-                    indent.push(indentSize);
+                    var nextIndent = indent.peek();
 
-
-                    // If we have a script or style tag, the resultant block will be a separate set
-                    // of tokens. If a script or style tag is found, jsMode or cssMode is made true,
-                    // respectively. Once we get a new line and a new indentation block, it's game
-                    // time.
-                    if ( jsMode || cssMode ) {
-                        newModeTrigger = true;
-                    }
-                }
-                // In the other case, we have returned to a previous indent level
-                if ( indent.peek() > indentSize ) {
-                    do {
-                        // If we peek at an indent that is smaller than what we're looking for, we
-                        // have an indent error
-                        if (indent.peek() < indentSize) {
-                            return {
+                    if( indentSize > nextIndent ) {
+                        return {
                                 status: "error",
                                 line: line,
                                 column: column,
                                 message: "Indentation error"
-                            }
+                        };
+                    }
+
+                    if ( indentSize === nextIndent) {
+                        return;
+                    }
+
+                    return dedentDetect(indentSize);
+                };
+
+                // We have special indentation rules if we're in JS or CSS mode
+                if ( (jsMode || cssMode) && newModeTrigger) {
+
+                    // If we're in JS/CSS mode, we want to ignore the first [previous indentation
+                    // level] space characters and capture the rest as raw js/css. 
+                    var specialIndentSize = indentSize - indent.peek();
+
+
+                    // If this number is negative, we have a dedent
+                    if( specialIndentSize < 0 ) {
+                        var error = dedentDetect(indentSize);
+                        if( error ){
+                            return error;
                         }
 
-                        // If we aren't at the 0, we want to dedent
-                        if (!indent.isTop(0)) {
-                            tokens.push({
-                                "type": "dedent"
-                            });
-                        }
-                    } while ( !indent.isTop(0) && (indent.pop() !== indentSize) );
+                        // If we're dedenting and we're in JS or CSS mode, we have to turn those off
+                        jsMode = false;
+                        cssMode = false;
+                        newModeTrigger = false;
+
+                        column += indentSize;
+                        position += indentSize;
+                    }
+                    else {
+                        position += indent.peek();
+                        column += indent.peek();
+                    }
                 }
+                else {
+                    position += matchData[0].length;
 
-                column += indentSize;
+                    // If the top indentation level is smaller than what we have, we have a new
+                    // indentation block
+                    if ( indent.peek() < indentSize ) {
+                        tokens.push({
+                            "type": "indent"
+                        });
+
+                        indent.push(indentSize);
+
+
+                        // If we have a script or style tag, the resultant block will be a separate set
+                        // of tokens. If a script or style tag is found, jsMode or cssMode is made true,
+                        // respectively. Once we get a new line and a new indentation block, it's game
+                        // time.
+                        if ( jsMode || cssMode ) {
+                            newModeTrigger = true;
+                        }
+                    }
+                    // In the other case, we have returned to a previous indent level
+                    if ( indent.peek() > indentSize ) {
+                        var error = dedentDetect(indentSize);
+                        if( error ){
+                            return error;
+                        }
+                    }
+
+                    // In the event that we got a style or script tag with nothing inside, then we'll
+                    // get jsMode or cssMode to be true but newModeTrigger to be false. But we need to
+                    // abandon ship in this case so we kill the jsMode and cssMode
+                    if ((jsMode || cssMode) && !newModeTrigger) {
+                        jsMode = false;
+                        cssMode = false;
+                    }
+
+                    column += indentSize;
+                }
             }
             // Whitespace (for ignoring)
             else if ( matchData = /^[\s]+/.exec( truncData ) ) {
