@@ -52,7 +52,10 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 - Import widgets (copy/paste style) into code with `> filename`.
     - Importing copy/pastes the code THEN compiles as if they were one document. `>> filename` imports code as raw text and does not compile it.
 - Invoke templates with `| filename`.
-- Comments are C-style, `\\` denoting a single-line comment and `\**\` denoting a comment block.
+- Comments are C-style, `\\` denoting a single-line comment.
+    - Comments will insert HTML comments into the code.
+    - Adding an exclamation point (`\\! comment`) will prevent the comment from occurring in HTML in the compiled document.
+    - Block comments can be achieved with indentation. 
 
 ###Templates
 

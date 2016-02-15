@@ -35,6 +35,14 @@
 
 var regexes = [
     {
+        "type": "unbufferedComment",
+        "regex": /^\/\/![^\r\n]*/
+    },
+    {
+        "type": "comment",
+        "regex": /^\/\/[^\r\n]*/
+    },
+    {
         "type": "stringlit",
         "regex": /^('([^'\\]|(\\'')|(\\\\))*'|"([^"\\]|(\\")|(\\\\))*")/
     },
