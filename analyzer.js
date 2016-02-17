@@ -31,6 +31,9 @@
     js         | [^\n\r].+?(?=(\r\n|\r|\n)|('@))
     style      | style + complicated
     css        | [^\n\r].+?(?=(\r\n|\r|\n)|(@))
+    include    | > *(.+?)(?=[\n\r])
+    template   | \| *(.+?)(?=[\n\r])
+    label      | \[.+?\]
 */
 
 var regexes = [
@@ -51,6 +54,16 @@ var regexes = [
         "regex": /^@[A-Za-z$_-]+/
     },
     {
+        "type": "def",
+        "regex": /^def/,
+        "notext": true
+    },
+    {
+        "type": "return",
+        "regex": /^return/,
+        "notext": true
+    },
+    {
         "type": "bareword",
         "regex": /^[a-zA-Z._-][a-zA-Z0-9._-]*/
     },
@@ -65,6 +78,10 @@ var regexes = [
     {
         "type": "floatlit",
         "regex": /^(\.\d+|\d+(\.\d+)?)([Ee]\d+)?/
+    },
+    {
+        "type": "label",
+        "regex": /^\[.+?\]/
     },
     {
         "type": "assignment",
@@ -315,6 +332,18 @@ module.exports = (data) => {
 
                     column += indentSize;
                 }
+            }
+            // Include
+            else if (matchData = /^> *(.+?)(?=[\n\r])/.exec( truncData )) {
+                tokens.push( token("include", matchData[1]) );
+                column += matchData[0].length;
+                position += matchData[0].length;
+            }
+            // Template
+            else if (matchData = /^\| *(.+?)(?=[\n\r])/.exec( truncData )) {
+                tokens.push( token("template", matchData[1]) );
+                column += matchData[0].length;
+                position += matchData[0].length;
             }
             // Whitespace (for ignoring)
             else if ( matchData = /^[\s]+/.exec( truncData ) ) {

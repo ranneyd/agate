@@ -1,10 +1,7 @@
 | template.agate
-
     [title]
         "Templating demo"
-
     [heading]
         "Our header"
-
     [body]
         p "Our template is generalized so we can fill in all these values in separate modules."
