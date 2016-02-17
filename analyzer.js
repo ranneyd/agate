@@ -25,6 +25,8 @@
     closeCurly | \}
     openSquare | \[
     closeSquare| \]
+    question   | \?
+    colon      | \:
     hash       | #
     dot        | \.
     def        | def
@@ -39,6 +41,7 @@
     label      | \[.+?\]
     comment    | \/\/[^\r\n]*
     unbuffered | \/\/![^\r\n]*
+    range      | \.\.
 */
 
 var regexes = [
@@ -57,6 +60,21 @@ var regexes = [
     {
         "type": "def",
         "regex": /^def/,
+        "notext": true
+    },
+    {
+        "type": "question",
+        "regex": /^\?/,
+        "notext": true
+    },
+    {
+        "type": "colon",
+        "regex": /^:/,
+        "notext": true
+    },
+    {
+        "type": "range",
+        "regex": /^\.\./,
         "notext": true
     },
     {
@@ -111,6 +129,16 @@ var regexes = [
     {
         "type": "closeCurly",
         "regex": /^\}/,
+        "notext": true
+    },
+    {
+        "type": "openSquare",
+        "regex": /^\[/,
+        "notext": true
+    },
+    {
+        "type": "closeSquare",
+        "regex": /^\]/,
         "notext": true
     },
     {
