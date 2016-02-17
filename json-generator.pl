@@ -22,8 +22,6 @@ my @noTextTokens = qw{indent
 
 # Loop over lines of input until only a newline is entered
 while( ($buff = <>) =~ /^[^\n]+$/ ){
-    # Replace all contiguous whitespace with a single space
-    # $buff =~ s/\s+//g;
     chomp $buff;
 
     $out .= "\t{\n\t\t\"type\": \"$buff\"";
@@ -37,6 +35,11 @@ while( ($buff = <>) =~ /^[^\n]+$/ ){
         $newbuff =~ s/"/\\"/g;
         $out .= ",\n\t\t\"text\": \"$newbuff\"";
     }
+
+    my $newbuff = <>;
+    $out .= ",\n\t\t\"line\": \"$newbuff\"";
+    $newbuff = <>;
+    $out .= ",\n\t\t\"column\": \"$newbuff\"";
 
     $out .= "\n\t},\n";
 }

@@ -1,0 +1,21 @@
+head
+    title "JS and CSS test"
+    @color = "cyan"
+    style
+        p {
+            background-color: red;
+        }
+        a.specialA {
+            color: blue;
+        }
+    script(src "/js/main.js")
+    script
+        alert("This is an alert");
+        console.log("Print statement");
+        if( testingIndentation ) {
+            var lets = "hope this works";
+            var test = 'notdoingidsyet';
+        }
+body
+    script
+        alert("Should be fine right?");

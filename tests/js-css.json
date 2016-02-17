@@ -1,191 +1,303 @@
 [
     {
         "type": "bareword",
+        "line": 1,
+        "column": 1,
         "text": "head"
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 1,
+        "column": 5
     },
     {
-        "type": "indent"
+        "type": "indent",
+        "line": 2,
+        "column": 1
     },
     {
         "type": "bareword",
+        "line": 2,
+        "column": 5,
         "text": "title"
     },
     {
         "type": "stringlit",
-        "text": "\"JS and CSS test\""
+           "line": 2,
+           "column": 11,
+           "text": "\"JS and CSS test\""
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 2,
+        "column": 28
     },
     {
         "type": "id",
+        "line": 3,
+        "column": 5,
         "text": "@color"
     },
     {
-        "type": "assignment"
+        "type": "assignment",
+        "line": 3,
+        "column": 12
     },
     {
         "type": "stringlit",
+        "line": 3,
+        "column": 14,
         "text": "\"cyan\""
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 3,
+        "column": 20
     },
     {
-        "type": "style"
+        "type": "style",
+        "line": 4,
+        "column": 5
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 4,
+        "column": 10
     },
     {
-        "type": "indent"
+        "type": "indent",
+        "line": 5,
+        "column": 1
     },
     {
         "type": "css",
+        "line": 5,
+        "column": 9,
         "text": "p {"
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 5,
+        "column": 12
     },
     {
         "type": "css",
-        "text": "    background-color: red;"
+           "line": 6,
+           "column": 9,
+           "text": "    background-color: red;"
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 6,
+        "column": 35
     },
     {
         "type": "css",
+        "line": 7,
+        "column": 9,
         "text": "}"
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 7,
+        "column": 10
     },
     {
         "type": "css",
+        "line": 8,
+        "column": 9,
         "text": "a.specialA {"
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 8,
+        "column": 21
     },
     {
         "type": "css",
+        "line": 9,
+        "column": 9,
         "text": "    color: blue;"
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 9,
+        "column": 25
     },
     {
         "type": "css",
+        "line": 10,
+        "column": 9,
         "text": "}"
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 10,
+        "column": 10
     },
     {
-        "type": "dedent"
+        "type": "dedent",
+        "line": 11,
+        "column": 1
     },
     {
-        "type": "script"
+        "type": "script",
+        "line": 11,
+        "column": 5
     },
     {
-        "type": "openParen"
+        "type": "openParen",
+        "line": 11,
+        "column": 11
     },
     {
         "type": "bareword",
+        "line": 11,
+        "column": 12,
         "text": "src"
     },
     {
         "type": "stringlit",
+        "line": 11,
+        "column": 16,
         "text": "\"/js/main.js\""
     },
     {
-        "type": "closeParen"
+        "type": "closeParen",
+        "line": 11,
+        "column": 29
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 11,
+        "column": 30
     },
     {
-        "type": "script"
+        "type": "script",
+        "line": 12,
+        "column": 5
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 12,
+        "column": 11
     },
     {
-        "type": "indent"
-    },
-    {
-        "type": "js",
-        "text": "alert(\"This is an alert\");"
-    },
-    {
-        "type": "newline"
-    },
-    {
-        "type": "js",
-        "text": "console.log(\"Print statement\");"
-    },
-    {
-        "type": "newline"
+        "type": "indent",
+        "line": 13,
+        "column": 1
     },
     {
         "type": "js",
-        "text": "if( testingIndentation ) {"
+           "line": 13,
+           "column": 9,
+           "text": "alert(\"This is an alert\");"
     },
     {
-        "type": "newline"
-    },
-    {
-        "type": "js",
-        "text": "    var lets = \"hope this works\";"
-    },
-    {
-        "type": "newline"
+        "type": "newline",
+        "line": 13,
+        "column": 35
     },
     {
         "type": "js",
-        "text": "    var test = 'notdoingidsyet';"
+           "line": 14,
+           "column": 9,
+           "text": "console.log(\"Print statement\");"
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 14,
+        "column": 40
     },
     {
         "type": "js",
+           "line": 15,
+           "column": 9,
+           "text": "if( testingIndentation ) {"
+    },
+    {
+        "type": "newline",
+        "line": 15,
+        "column": 35
+    },
+    {
+        "type": "js",
+           "line": 16,
+           "column": 9,
+           "text": "    var lets = \"hope this works\";"
+    },
+    {
+        "type": "newline",
+        "line": 16,
+        "column": 42
+    },
+    {
+        "type": "js",
+           "line": 17,
+           "column": 9,
+           "text": "    var test = 'notdoingidsyet';"
+    },
+    {
+        "type": "newline",
+        "line": 17,
+        "column": 41
+    },
+    {
+        "type": "js",
+        "line": 18,
+        "column": 9,
         "text": "}"
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 18,
+        "column": 10
     },
     {
-        "type": "dedent"
+        "type": "dedent",
+        "line": 19,
+        "column": 1
     },
     {
-        "type": "dedent"
+        "type": "dedent",
+        "line": 19,
+        "column": 1
     },
     {
         "type": "bareword",
+        "line": 19,
+        "column": 1,
         "text": "body"
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 19,
+        "column": 5
     },
     {
-        "type": "indent"
+        "type": "indent",
+        "line": 20,
+        "column": 1
     },
     {
-        "type": "script"
+        "type": "script",
+        "line": 20,
+        "column": 5
     },
     {
-        "type": "newline"
+        "type": "newline",
+        "line": 20,
+        "column": 11
     },
     {
-        "type": "indent"
+        "type": "indent",
+        "line": 21,
+        "column": 1
     },
     {
         "type": "js",
-        "text": "alert(\"Should be fine right?\");"
+           "line": 21,
+           "column": 9,
+           "text": "alert(\"Should be fine right?\");"
     }
 ]

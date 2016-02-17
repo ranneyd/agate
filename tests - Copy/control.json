@@ -1,0 +1,159 @@
+[
+    {
+        "type": "bareword",
+        "text": "head"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "bareword",
+        "text": "title"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"Password Demo\""
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "dedent"
+    },
+    {
+        "type": "bareword",
+        "text": "body"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "bareword",
+        "text": "input"
+    },
+    {
+        "type": "openParen"
+    },
+    {
+        "type": "hash"
+    },
+    {
+        "type": "bareword",
+        "text": "pass"
+    },
+    {
+        "type": "bareword",
+        "text": "type"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"password\""
+    },
+    {
+        "type": "closeParen"
+    },
+    {
+        "type": "tilde"
+    },
+    {
+        "type": "bareword",
+        "text": "submit"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "bareword",
+        "text": "if"
+    },
+    {
+        "type": "openParen"
+    },
+    {
+        "type": "bareword",
+        "text": "length"
+    },
+    {
+        "type": "tilde"
+    },
+    {
+        "type": "bareword",
+        "text": "value"
+    },
+    {
+        "type": "relop",
+        "text": "<"
+    },
+    {
+        "type": "intlit",
+        "text": "8"
+    },
+    {
+        "type": "closeParen"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "bareword",
+        "text": "p"
+    },
+    {
+        "type": "openParen"
+    },
+    {
+        "type": "style"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"color:red; background-color:cyan\""
+    },
+    {
+        "type": "closeParen"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"Your password sucks\""
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "dedent"
+    },
+    {
+        "type": "bareword",
+        "text": "else"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "script"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "js",
+        "text": "alert(\"Hooray!\");"
+    }
+]

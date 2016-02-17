@@ -6,6 +6,7 @@
  */
 
 var analyzer = require( "./analyzer.js" ),
+    parser = require("./parser.js"),
     fs = require( 'fs' ),
     dir = "./tests";
 
@@ -36,10 +37,17 @@ fs.readdir( dir, function ( dir_err, list ) {
             }
             else if ( expected ){
                 if ( JSON.stringify( expected ) === JSON.stringify( analysis ) ) {
-                    console.log( "Test " + fileParts[1] + " passed!" );
+                    console.log( "Analysis for Test " + fileParts[1] + " passed!" );
+                    var parseResults = parser(analysis);
+                    if (parseResults.status === "success") {
+                        console.log( "Parsing for Test " + fileParts[1] + " passed!" );
+                    }
+                    else {
+                        console.log( "Parsing for Test " + fileParts[1] + " FAILED!" );
+                    }
                 }
                 else {
-                    console.log( "Test " + fileParts[1] + " FAILED!" );
+                    console.log( "Analysis for Test " + fileParts[1] + " FAILED!" );
 
                     var i;
                     for(i = 0; i < expected.length; ++i) {
@@ -58,10 +66,10 @@ fs.readdir( dir, function ( dir_err, list ) {
                         }
                     }
 
-                    // console.log( "Expected: " );
-                    // console.log( expected );
-                    // console.log( "Produced: " );
-                    // console.log(analysis);
+                    console.log( "Expected: " );
+                    console.log( expected );
+                    console.log( "Produced: " );
+                    console.log(analysis);
                 }
             }
             else {

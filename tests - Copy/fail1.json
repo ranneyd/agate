@@ -1,0 +1,6 @@
+{ 
+    "status": "error",
+    "line": 5,
+    "column": 1,
+    "message": "Indentation error"
+}

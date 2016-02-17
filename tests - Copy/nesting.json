@@ -1,0 +1,125 @@
+[
+    {
+        "type": "bareword",
+        "text": "body"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "bareword",
+        "text": "div"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "bareword",
+        "text": "p"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "bareword",
+        "text": "a"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"text\""
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "dedent"
+    },
+    {
+        "type": "bareword",
+        "text": "span"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"other text\""
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "dedent"
+    },
+    {
+        "type": "dedent"
+    },
+    {
+        "type": "bareword",
+        "text": "p"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "bareword",
+        "text": "i"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"another p\""
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "dedent"
+    },
+    {
+        "type": "dedent"
+    },
+    {
+        "type": "dedent"
+    },
+    {
+        "type": "bareword",
+        "text": "div"
+    },
+    {
+        "type": "newline"
+    },
+    {
+        "type": "indent"
+    },
+    {
+        "type": "stringlit",
+        "text": "\"Another div\""
+    }
+]
