@@ -1,15 +1,15 @@
 head
-    title [title]
+    title {title}
 
     style
         h1{
             font-size:30px;
         }
 body
-    h1 [heading]
+    h1 {heading}
     > navbar.agate
 
-    [body]
+    {body}
 
     div(style "position:fixed;
                height:100px;

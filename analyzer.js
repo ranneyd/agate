@@ -11,21 +11,24 @@
     addop      | \+|-
     multop     | \*|\/
     prefixop   | \!|-
+    boolop     | (and)|(or)|(xor)
     newline    | (\r\n|\r|\n)+
     indent     | complicated
     dedent     | also complicated
-    keyword    | (if)|(else)|(for)|(in)|(def)|(css)
-               |     |(js)|(float)|(int)|(boolean)|(string)
     widget     | >.+?[\r\n]+
     template   | \|.+?[\r\n]+
-    label      | \[[A-Za-z0-9_-]\]
+    label      | \{[A-Za-z0-9_-]\}
     assignment | =
     openParen  | \(
     closeParen | \)
     openCurly  | \{
     closeCurly | \}
+    openSquare | \[
+    closeSquare| \]
     hash       | #
     dot        | \.
+    def        | def
+    return     | return
     bareword   | [a-zA-Z._-][a-zA-Z0-9._-]+
     script     | script + complicated
     js         | [^\n\r].+?(?=(\r\n|\r|\n)|('@))
@@ -34,13 +37,11 @@
     include    | > *(.+?)(?=[\n\r])
     template   | \| *(.+?)(?=[\n\r])
     label      | \[.+?\]
+    comment    | \/\/[^\r\n]*
+    unbuffered | \/\/![^\r\n]*
 */
 
 var regexes = [
-    {
-        "type": "unbufferedComment",
-        "regex": /^\/\/![^\r\n]*/
-    },
     {
         "type": "comment",
         "regex": /^\/\/[^\r\n]*/
@@ -57,6 +58,10 @@ var regexes = [
         "type": "def",
         "regex": /^def/,
         "notext": true
+    },
+    {
+        "type": "boolop",
+        "regex": /^(and)|(or)|(xor)/
     },
     {
         "type": "return",
@@ -81,7 +86,7 @@ var regexes = [
     },
     {
         "type": "label",
-        "regex": /^\[.+?\]/
+        "regex": /^\{[A-Za-z0-9_-]\}/
     },
     {
         "type": "assignment",
@@ -347,6 +352,11 @@ module.exports = (data) => {
             }
             // Whitespace (for ignoring)
             else if ( matchData = /^[\s]+/.exec( truncData ) ) {
+                column += matchData[0].length;
+                position += matchData[0].length;
+            }
+            // Comments for ignoring
+            else if ( matchData = /^\/\/![^\r\n]*/.exec( truncData ) ) {
                 column += matchData[0].length;
                 position += matchData[0].length;
             }
