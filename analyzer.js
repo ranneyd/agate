@@ -137,7 +137,18 @@ module.exports = (data) => {
         cssMode = false,
         newModeTrigger = false,
         // I don't trust javascript to optimize this and not call length every time
-        dataLength = data.length;
+        dataLength = data.length,
+        token = function(type, text){
+            var ourToken = {
+                "type": type,
+                "line": line,
+                "column": column
+            };
+            if (text) {
+                ourToken.text = text;
+            }
+            return ourToken;
+        };
 
     while( position < dataLength ) {
         var truncData = data.slice( position ),
@@ -154,12 +165,7 @@ module.exports = (data) => {
             // to put the quotes, they don't have to. If there are quotes around it, however,
             // they will be removed.
             if ( matchData = /^((.(?!'?@|[\n\r]))*.)('?(@[A-Za-z$_-]+)'?)?/.exec( truncData ) ) {
-                var token = {
-                    "type": jsMode ? "js" : "css",
-                    "text": matchData ? matchData[1] : ""
-                };
-
-                tokens.push( token );
+                tokens.push( token(jsMode ? "js" : "css", matchData ? matchData[1] : "") );
 
                 column += matchData[0].length;
                 position += matchData[0].length;
@@ -167,10 +173,7 @@ module.exports = (data) => {
                 // If the last group is matched, this is it. Otherwise this is undefined. :D
                 var potentialID = matchData[matchData.length - 1]
                 if ( potentialID ) {
-                    tokens.push( {
-                        "type":"id",
-                        "text":potentialID
-                    });
+                    tokens.push( token("id", potentialID) );
                 }
             }
             // If this is null, we didn't get a match, meaning we have a newline or an id, meaning
@@ -181,11 +184,8 @@ module.exports = (data) => {
         } 
 
         if (matchData = /^((script)|(style))/.exec( truncData )) {
-            var token = {
-                "type": matchData[0]
-            };
 
-            tokens.push( token );
+            tokens.push( token(matchData[0]) );
 
             column += matchData[0].length;
             position += matchData[0].length;
@@ -198,15 +198,8 @@ module.exports = (data) => {
         // do the stuff down there
         for ( var type in regexes ) {
             if ( notMatched && (matchData = regexes[type].regex.exec( truncData ) ) ) {
-                var token = {
-                    "type": regexes[type].type,
-                };
 
-                if (!regexes[type].notext) {
-                    token.text = matchData[0];
-                }
-
-                tokens.push( token );
+                tokens.push( token(regexes[type].type, regexes[type].notext ? false : matchData[0] ) );
 
                 column += matchData[0].length;
                 position += matchData[0].length;
@@ -220,9 +213,7 @@ module.exports = (data) => {
             if ( matchData = /^(\r\n|\r|\n)([\t ]*)/.exec( truncData ) ) {
                 // This is inspired heavily by Python
                 // https://docs.python.org/3/reference/lexical_analysis.html
-                tokens.push({
-                    "type": "newline"
-                });
+                tokens.push( token("newline") );
 
                 line++;
                 column = 1;
@@ -238,9 +229,7 @@ module.exports = (data) => {
 
                     indent.pop();
 
-                    tokens.push({
-                        "type": "dedent"
-                    });
+                    tokens.push( token("dedent") );
 
                     var nextIndent = indent.peek();
 
@@ -295,9 +284,7 @@ module.exports = (data) => {
                     // If the top indentation level is smaller than what we have, we have a new
                     // indentation block
                     if ( indent.peek() < indentSize ) {
-                        tokens.push({
-                            "type": "indent"
-                        });
+                        tokens.push( token("indent") );
 
                         indent.push(indentSize);
 
