@@ -143,3 +143,4 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
         - Otherwise, if the value is a float ("digits . digits E digits"), the type is made float
             - Actual matching pattern for floats: `/(\.\d+|\d+(\.\d+)?)([Ee]\d+)?/`
         - Otherwise, value is made a string.
+- We detect for circular dependencies.
