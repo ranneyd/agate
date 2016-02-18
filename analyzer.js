@@ -79,7 +79,7 @@ var regexes = [
     },
     {
         "type": "boolop",
-        "regex": /^(and)|(or)|(xor)/
+        "regex": /^((and)|(or)|(xor))/
     },
     {
         "type": "return",
@@ -390,9 +390,7 @@ module.exports = (data) => {
             }
             // If it doesn't match those we have a problem
             else {
-                console.log(truncData.slice(0,20));
-                console.log(position);
-                console.log(dataLength);
+                console.log(tokens);
                 return {
                     status: "error",
                     line: line,
