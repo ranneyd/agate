@@ -47,7 +47,7 @@
 var regexes = [
     {
         "type": "comment",
-        "regex": /^\/\/[^\r\n]*/
+        "regex": /^\/\/(?!\!)[^\r\n]*/
     },
     {
         "type": "stringlit",
@@ -390,6 +390,9 @@ module.exports = (data) => {
             }
             // If it doesn't match those we have a problem
             else {
+                console.log(truncData.slice(0,20));
+                console.log(position);
+                console.log(dataLength);
                 return {
                     status: "error",
                     line: line,

@@ -43,12 +43,6 @@
         "column": 1
     },
     {
-        "type": "unbufferedComment",
-           "line": 4,
-           "column": 9,
-           "text": "//! super comment"
-    },
-    {
         "type": "newline",
         "line": 4,
         "column": 26
