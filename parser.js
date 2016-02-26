@@ -16,7 +16,7 @@
     Class       | dot bareword
     Id          | hash bareword
     Attr        | bareword
-    Exp         | Exp1 ( question Exp1 colon Exp1)
+    Exp         | Exp1 ( question Exp1 colon Exp1)?
     Exp1        | Exp2 (boolop Exp2)*
     Exp2        | Exp3 (relop Exp3)*
     Exp3        | Exp4 (addop Exp4)*
@@ -121,6 +121,11 @@ module.exports = (scannerTokens) => {
             err = err || Event( tree );
             err = err || ChildBlock( tree );
         }
+        if( !at("newline") ) {
+            var exp = [];
+            err = err || Exp(exp);
+            tree.push(exp);
+        }
         return err;
     };     
     var Attrs = ( tree ) => {
@@ -142,10 +147,22 @@ module.exports = (scannerTokens) => {
 
     };
     var Exp = ( tree ) => {
-
+        var err = Exp1( tree );
+        if( at("question") ){
+            tree.push(match("question"));
+            err = err || Exp1( tree );
+            if( at("colon") ){
+                tree.push(match("colon"));
+            }
+            else{
+                return err || error("Parse Error: Ternary operator needs a colon", token[0].line, token[0].column);
+            }
+            err = err || Exp1( tree );
+        }
+        return err;
     };         
     var Exp1 = ( tree ) => {
-
+        var err = Exp2( tree );
     };     
     var Exp2 = ( tree ) => {
 
