@@ -1,11 +1,11 @@
 /* My glorious testing script
  * 
  * This script goes through the folder "tests" and looks at every file that ends in .agate. It then
- * looks for a corresponding .json file and compares the output of the analyzer on the .agate file
+ * looks for a corresponding .json file and compares the output of the scanner on the .agate file
  * and the JSON.
  */
 
-var analyzer = require( "./analyzer.js" ),
+var scanner = require( "./scanner.js" ),
     parser = require("./parser.js"),
     fs = require( 'fs' ),
     dir = "./tests";
@@ -30,7 +30,7 @@ fs.readdir( dir, function ( dir_err, list ) {
             // For every agate file there should be a corresponding json with the expected
             // lexical analysis
             var expected = require( dir + "/" + fileParts[1] + ".json" );
-            var analysis = analyzer( testee );
+            var analysis = scanner( testee );
             if ( analysis.status === "error" && !expected.status ) {
                 console.log("Error in Test " + fileParts[1]);
                 console.log(analysis);

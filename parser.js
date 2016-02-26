@@ -5,12 +5,11 @@
     Program     | Block
     Block       | (Statement newline)+
     Statement   | Element
-                | Exp
                 | Control
                 | comment
                 | js
                 | css
-    Element     | Tag(Class)?(Id)?Attrs?(ChildBlock?|Event ChildBlock)
+    Element     | (Tag|Exp)(Class)?(Id)?Attrs?(Element|ChildBlock|Event ChildBlock)?
     Attrs       | openParen ((Attr Exp)|Class|Id)+ closeParen
     ChildBlock  | newline indent Block dedent
     Tag         | bareword|script|style
@@ -27,102 +26,206 @@
     Val         | ElemAttr | Lit | id | FuncCall
     Lit         | stringlit | intlit | floatlit | boollit
     ElemAttr    | Id?tilde Attr
-    Event       | tilde("on")?bareword
+    Event       | tilde bareword
     FuncCall    | bareword(Exp|openParen(Exp)*closeParen)
-    Control*    | If | For | While
+    Control*    | If | For | While         
     If          | "if" Exp ChildBlock ("else" "if" Exp ChildBlock)*("else" ChildBlock)?
     For         | "for" id "in" Array|stringlit|Range ChildBlock
+    While       | "while" Exp
     Array       | openSquare Lit+ closeSquare
     Range       | openSquare intLit range intLit closeSquare
 */
 
-module.exports = (tokens) => {
-    var tree = {};
+module.exports = (scannerTokens) => {
+    var tokens = scannerTokens;
+    var programTree = ["program"];
+    var error = require("./error.js");
 
-    var Program = function(){
-        Block();
+
+    // If any of these return something, that means we had an error
+    var Program = ( tree ) => {
+        var block = [];
+        var err = Block(block) || matchBasic("EOF");
+        tree.push(block);
+        return err;
     };
-    var Block = function(){
-        
+    var Block = ( tree ) => {
+        var statements = [];
+        var err;
+
+        // If we get a dedent or an EOF, we have no more block
+        while(!at("dedent") && !at("EOF")){
+            var statement = {};
+            err = Statement(statement);
+            err = err || matchBasic("newline");
+            if(err) {
+                break;
+            }
+            else{
+                statements.push(statement);
+            }
+        }
+
+        if(at("dedent")){
+            matchBasic("dedent");
+        }
+
+        return err;
     };
-    var Statement = function(){
+    var Statement = ( tree ) => {
+        if( at("js") ){
+            tree.push( match("js") );
+            return;
+        }
+        if ( at("css") ){
+            tree.push( match("css") );
+            return;
+        }
+        if ( at("comment") ){
+            tree.push( match("comment") );
+            return;
+        }
+        if ( at("bareword") ) {
+            if ( at(['if', 'for', 'while']) ) {
+                return Control(tree);
+            }
+            else {
+                return Element(tree);
+            }
+        }
+        return error("Statement expected, got " + tokens[0].type, tokens[0].line, tokens[0].column);
 
     };
-    var Element = function () {
+    var Element = ( tree ) => {
+        var err;
 
+        if( at(['bareword', 'style', 'script']) ) {
+            err = Tag( tree );
+        }
+        else {
+            err = Exp( tree );
+        }
+        if( at("dot") ) {
+            err = err || Class( tree );
+        }
+        if( at("hash") ) {
+            err = err || Id( tree );
+        }
+        if( at("openParen") ) {
+            err = err || Attr( tree );
+        }
+        if( at("indent")  ) {
+            err = err || ChildBlock( tree );
+        }
+        if( at("tilde") ){
+            err = err || Event( tree );
+            err = err || ChildBlock( tree );
+        }
+        return err;
     };     
-    var Attrs = function () {
+    var Attrs = ( tree ) => {
 
     };       
-    var ChildBlock = function () {
+    var ChildBlock = ( tree ) => {
 
     };  
-    var Tag = function () {
+    var Tag = ( tree ) => {
 
     };         
-    var Class = function () {
+    var Class = ( tree ) => {
 
     };   
-    var Id = function () {
+    var Id = ( tree ) => {
 
     };       
-    var Attr = function () {
+    var Attr = ( tree ) => {
 
     };
-    var Exp = function () {
+    var Exp = ( tree ) => {
 
     };         
-    var Exp1 = function () {
+    var Exp1 = ( tree ) => {
 
     };     
-    var Exp2 = function () {
+    var Exp2 = ( tree ) => {
 
     };    
-    var Exp3 = function () {
+    var Exp3 = ( tree ) => {
 
     };    
-    var Exp4 = function () {
+    var Exp4 = ( tree ) => {
 
     };     
-    var Exp5 = function () {
+    var Exp5 = ( tree ) => {
 
     };     
-    var Exp6 = function () {
+    var Exp6 = ( tree ) => {
 
     };     
-    var Val = function () {
+    var Val = ( tree ) => {
 
     };      
-    var Lit = function () {
+    var Lit = ( tree ) => {
 
     };  
-    var ElemAttr = function () {
+    var ElemAttr = ( tree ) => {
 
     };  
-    var Event = function () {
+    var Event = ( tree ) => {
 
     };       
-    var FuncCall = function () {
+    var FuncCall = ( tree ) => {
 
     };    
-    var Control = function () {
+    var Control = ( tree ) => {
 
     };   
-    var If = function () {
+    var If = ( tree ) => {
 
     };          
-    var For = function () {
+    var For = ( tree ) => {
 
     };         
-    var ArrayDef = function () {
+    var ArrayDef = ( tree ) => {
 
     };       
-    var Range = function () {
+    var Range = ( tree ) => {
 
     };
 
-    Program();
-    return {
-        status: "success"
+    // Returns true if the next token has type "type", false otherwise
+    var at = ( type ) => {
+        return tokens.length && 
+            (Array.isArray( type ) && type.some(at) 
+                || type === tokens[0].type);
     };
+
+    // Pops off the top token if its type matches 'type', returns an error otherwise
+    var match = ( type ) => {
+        if( !tokens.length ) {
+            return error("Parse error: Expected " + type + ", got end of program");
+        }
+        else if( type === undefined ||  kind === tokens[0].type){
+            return tokens.shift();
+        }
+        else{
+            return error("Parse error: Expected " + type + ", got " + tokens[0].type, 
+                        tokens[0].line,
+                        tokens[0].column);
+        }
+    };
+
+    // Like match, but returns false if there is a match, rather than what was found.
+    var matchBasic = ( type ) => {
+        return errorMatch( match( type ) );
+    };
+
+    var errorMatch = ( match ) => {
+        if(match.type === "error"){
+            return match;
+        }
+        return false;
+    };
+
+    return Program(programTree) || programTree;
 }

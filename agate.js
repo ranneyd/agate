@@ -27,7 +27,7 @@ processArguments();
 
 readFile( function () {
 
-    var analyzer = require("./analyzer.js");
-
-    console.log(analyzer(code));
+    var scanner = require("./scanner.js");
+    var parser  = require("./parser.js");
+    console.log(parser(scanner(code)));
 });

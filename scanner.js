@@ -44,123 +44,123 @@
     range      | \.\.
 */
 
-var regexes = [
-    {
-        "type": "comment",
-        "regex": /^\/\/(?!\!)[^\r\n]*/
-    },
-    {
-        "type": "stringlit",
-        "regex": /^('([^'\\]|(\\'')|(\\\\))*'|"([^"\\]|(\\")|(\\\\))*")/
-    },
-    {
-        "type": "id",
-        "regex": /^@[A-Za-z$_-]+/
-    },
-    {
-        "type": "def",
-        "regex": /^def/,
-        "notext": true
-    },
-    {
-        "type": "question",
-        "regex": /^\?/,
-        "notext": true
-    },
-    {
-        "type": "colon",
-        "regex": /^:/,
-        "notext": true
-    },
-    {
-        "type": "range",
-        "regex": /^\.\./,
-        "notext": true
-    },
-    {
-        "type": "boolop",
-        "regex": /^((and)|(or)|(xor))/
-    },
-    {
-        "type": "return",
-        "regex": /^return/,
-        "notext": true
-    },
-    {
-        "type": "bareword",
-        "regex": /^[a-zA-Z._-][a-zA-Z0-9._-]*/
-    },
-    {
-        "type": "relop",
-        "regex": /^\<|\>|(\<\=)|(\=\=)|(\!\=)|(\>\=)/
-    },
-    {
-        "type": "intlit",
-        "regex": /^\d+/
-    },
-    {
-        "type": "floatlit",
-        "regex": /^(\.\d+|\d+(\.\d+)?)([Ee]\d+)?/
-    },
-    {
-        "type": "label",
-        "regex": /^\{[A-Za-z0-9_-]\}/
-    },
-    {
-        "type": "assignment",
-        "regex": /^=/,
-        "notext": true
-    },
-    {
-        "type": "openParen",
-        "regex": /^\(/,
-        "notext": true
-    },
-    {
-        "type": "closeParen",
-        "regex": /^\)/,
-        "notext": true
-    },
-    {
-        "type": "openCurly",
-        "regex": /^\{/,
-        "notext": true
-    },
-    {
-        "type": "closeCurly",
-        "regex": /^\}/,
-        "notext": true
-    },
-    {
-        "type": "openSquare",
-        "regex": /^\[/,
-        "notext": true
-    },
-    {
-        "type": "closeSquare",
-        "regex": /^\]/,
-        "notext": true
-    },
-    {
-        "type": "hash",
-        "regex": /^#/,
-        "notext": true
-    },
-    {
-        "type": "dot",
-        "regex": /^\./,
-        "notext": true
-    },
-    {
-        "type": "tilde",
-        "regex": /^~/,
-        "notext": true
-    },
-];
-
-
 module.exports = (data) => {
+    var error = require("./error.js");
 
+    var regexes = [
+        {
+            "type": "comment",
+            "regex": /^\/\/(?!\!)[^\r\n]*/
+        },
+        {
+            "type": "stringlit",
+            "regex": /^('([^'\\]|(\\'')|(\\\\))*'|"([^"\\]|(\\")|(\\\\))*")/
+        },
+        {
+            "type": "id",
+            "regex": /^@[A-Za-z$_-]+/
+        },
+        {
+            "type": "def",
+            "regex": /^def/,
+            "notext": true
+        },
+        {
+            "type": "question",
+            "regex": /^\?/,
+            "notext": true
+        },
+        {
+            "type": "colon",
+            "regex": /^:/,
+            "notext": true
+        },
+        {
+            "type": "range",
+            "regex": /^\.\./,
+            "notext": true
+        },
+        {
+            "type": "boolop",
+            "regex": /^((and)|(or)|(xor))/
+        },
+        {
+            "type": "return",
+            "regex": /^return/,
+            "notext": true
+        },
+        {
+            "type": "bareword",
+            "regex": /^[a-zA-Z._-][a-zA-Z0-9._-]*/
+        },
+        {
+            "type": "relop",
+            "regex": /^\<|\>|(\<\=)|(\=\=)|(\!\=)|(\>\=)/
+        },
+        {
+            "type": "intlit",
+            "regex": /^\d+/
+        },
+        {
+            "type": "floatlit",
+            "regex": /^(\.\d+|\d+(\.\d+)?)([Ee]\d+)?/
+        },
+        {
+            "type": "label",
+            "regex": /^\{[A-Za-z0-9_-]\}/
+        },
+        {
+            "type": "assignment",
+            "regex": /^=/,
+            "notext": true
+        },
+        {
+            "type": "openParen",
+            "regex": /^\(/,
+            "notext": true
+        },
+        {
+            "type": "closeParen",
+            "regex": /^\)/,
+            "notext": true
+        },
+        {
+            "type": "openCurly",
+            "regex": /^\{/,
+            "notext": true
+        },
+        {
+            "type": "closeCurly",
+            "regex": /^\}/,
+            "notext": true
+        },
+        {
+            "type": "openSquare",
+            "regex": /^\[/,
+            "notext": true
+        },
+        {
+            "type": "closeSquare",
+            "regex": /^\]/,
+            "notext": true
+        },
+        {
+            "type": "hash",
+            "regex": /^#/,
+            "notext": true
+        },
+        {
+            "type": "dot",
+            "regex": /^\./,
+            "notext": true
+        },
+        {
+            "type": "tilde",
+            "regex": /^~/,
+            "notext": true
+        },
+    ];
+    
     var tokens = [],
         indent = {
             elems: [0],
@@ -284,12 +284,7 @@ module.exports = (data) => {
                     var nextIndent = indent.peek();
 
                     if( indentSize > nextIndent ) {
-                        return {
-                                status: "error",
-                                line: line,
-                                column: column,
-                                message: "Indentation error"
-                        };
+                        return error("Scanner error: Indentation error", line, column);
                     }
 
                     if ( indentSize === nextIndent) {
@@ -390,16 +385,10 @@ module.exports = (data) => {
             }
             // If it doesn't match those we have a problem
             else {
-                console.log(tokens);
-                return {
-                    status: "error",
-                    line: line,
-                    column: column,
-                    message: "Could not tokenize"
-                };
+                return error("Scanner error: Could not tokenize", line, column);
             }
         }
     }
-
+    tokens.push( token("EOF") );
     return tokens;
 }
