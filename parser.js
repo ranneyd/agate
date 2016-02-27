@@ -6,12 +6,13 @@
     Block       | (Statement newline)+
     Statement   | Element
                 | Control
+                | Assignment
                 | comment
-                | js
-                | css
-    Element     | (Tag|Exp)(Class)?(Id)?Attrs?(Element|ChildBlock|Event ChildBlock)?
+    Element     | Tag(Class)?(Id)?Attrs?(Exp|Element|ChildBlock|Event ChildBlock)?
     Attrs       | openParen ((Attr Exp)|Class|Id)+ closeParen
-    ChildBlock  | newline indent Block dedent
+    ChildBlock  | newline indent (Block|JSBlock|CSSBlock) dedent
+    JSBlock     | js (Exp js)*
+    CSSBlock    | css (Exp css)*
     Tag         | bareword|script|style
     Class       | dot bareword
     Id          | hash bareword
@@ -22,191 +23,182 @@
     Exp3        | Exp4 (addop Exp4)*
     Exp4        | Exp5 (multop Exp5)*
     Exp5        | prefixop? Exp6
-    Exp6        | Val | openParen Exp closeParen
-    Val         | ElemAttr | Lit | id | FuncCall
+    Exp6        | Val | openParen Exp newline? closeParen
+    Val         | ElemAttr | Lit+ | id | FuncCall
     Lit         | stringlit | intlit | floatlit | boollit
-    ElemAttr    | Id?tilde Attr
+    ElemAttr    | (Id|Class)?tilde Attr
     Event       | tilde bareword
     FuncCall    | bareword(Exp|openParen(Exp)*closeParen)
     Control*    | If | For | While         
     If          | "if" Exp ChildBlock ("else" "if" Exp ChildBlock)*("else" ChildBlock)?
     For         | "for" id "in" Array|stringlit|Range ChildBlock
     While       | "while" Exp
-    Array       | openSquare Lit+ closeSquare
-    Range       | openSquare intLit range intLit closeSquare
+    Array       | openSquare (Lit+|Range) closeSquare
+    Range       | intLit range intLit
+    Assignment  | id assignment Exp
 */
 
 module.exports = (scannerTokens) => {
     var tokens = scannerTokens;
-    var programTree = ["program"];
     var error = require("./error.js");
 
-
-    // If any of these return something, that means we had an error
-    var Program = ( tree ) => {
-        var block = [];
-        var err = Block(block) || matchBasic("EOF");
-        tree.push(block);
-        return err;
+    var Program = () => {
+        var tree = ["program", Block()];
+        match("EOF");
+        return tree;
     };
-    var Block = ( tree ) => {
+    var Block = () => {
+        var block = ["block"];
         var statements = [];
-        var err;
 
         // If we get a dedent or an EOF, we have no more block
         while(!at("dedent") && !at("EOF")){
-            var statement = {};
-            err = Statement(statement);
-            err = err || matchBasic("newline");
-            if(err) {
-                break;
-            }
-            else{
-                statements.push(statement);
-            }
+            statements.push(Statement(statement));
+            match("newline");
         }
 
         if(at("dedent")){
-            matchBasic("dedent");
+            match("dedent");
         }
 
-        return err;
+        block.push(statements);
+        return block;
     };
-    var Statement = ( tree ) => {
+    var Statement = () => {
         if( at("js") ){
-            tree.push( match("js") );
-            return;
+            return match("js");
         }
         if ( at("css") ){
-            tree.push( match("css") );
-            return;
+            return match("css");
         }
         if ( at("comment") ){
-            tree.push( match("comment") );
-            return;
+            return match("comment");
         }
         if ( at("bareword") ) {
             if ( at(['if', 'for', 'while']) ) {
-                return Control(tree);
+                return Control();
             }
             else {
-                return Element(tree);
+                return Element();
             }
         }
-        return error("Statement expected, got " + tokens[0].type, tokens[0].line, tokens[0].column);
-
+        if ( at("id") ) {
+            return Assignment();
+        }
+        error("Statement expected, got " + tokens[0].type, tokens[0].line, tokens[0].column);
     };
-    var Element = ( tree ) => {
-        var err;
-
-        if( at(['bareword', 'style', 'script']) ) {
-            err = Tag( tree );
-        }
-        else {
-            err = Exp( tree );
-        }
+    var Element = () => {
+        var element = [Tag()];
         if( at("dot") ) {
-            err = err || Class( tree );
+            element.push(Class());
         }
         if( at("hash") ) {
-            err = err || Id( tree );
+            element.push(Id());
         }
         if( at("openParen") ) {
-            err = err || Attr( tree );
+            element.push(Attrs());
         }
         if( at("indent")  ) {
-            err = err || ChildBlock( tree );
+            element.push(ChildBlock());
         }
         if( at("tilde") ){
-            err = err || Event( tree );
-            err = err || ChildBlock( tree );
+            element.push(Event());
+            element.push(ChildBlock());
+        }
+        if( !at(["bareword", "script", "style"]) ) {
+            var exp = [];
+            err = err || Exp(exp);
+            tree.push(exp);
         }
         if( !at("newline") ) {
             var exp = [];
             err = err || Exp(exp);
             tree.push(exp);
         }
-        return err;
+        return element;
     };     
-    var Attrs = ( tree ) => {
+    var Attrs = () => {
 
     };       
-    var ChildBlock = ( tree ) => {
+    var ChildBlock = () => {
 
     };  
-    var Tag = ( tree ) => {
+    var Tag = () => {
 
     };         
-    var Class = ( tree ) => {
+    var Class = () => {
 
     };   
-    var Id = ( tree ) => {
+    var Id = () => {
 
     };       
-    var Attr = ( tree ) => {
+    var Attr = () => {
 
     };
-    var Exp = ( tree ) => {
-        var err = Exp1( tree );
+    var Exp = () => {
+        var err = Exp1();
         if( at("question") ){
             tree.push(match("question"));
-            err = err || Exp1( tree );
+            err = err || Exp1();
             if( at("colon") ){
                 tree.push(match("colon"));
             }
             else{
                 return err || error("Parse Error: Ternary operator needs a colon", token[0].line, token[0].column);
             }
-            err = err || Exp1( tree );
+            err = err || Exp1();
         }
         return err;
     };         
-    var Exp1 = ( tree ) => {
-        var err = Exp2( tree );
+    var Exp1 = () => {
+        var err = Exp2();
     };     
-    var Exp2 = ( tree ) => {
+    var Exp2 = () => {
 
     };    
-    var Exp3 = ( tree ) => {
+    var Exp3 = () => {
 
     };    
-    var Exp4 = ( tree ) => {
+    var Exp4 = () => {
 
     };     
-    var Exp5 = ( tree ) => {
+    var Exp5 = () => {
 
     };     
-    var Exp6 = ( tree ) => {
+    var Exp6 = () => {
 
     };     
-    var Val = ( tree ) => {
+    var Val = () => {
 
     };      
-    var Lit = ( tree ) => {
+    var Lit = () => {
 
     };  
-    var ElemAttr = ( tree ) => {
+    var ElemAttr = () => {
 
     };  
-    var Event = ( tree ) => {
+    var Event = () => {
 
     };       
-    var FuncCall = ( tree ) => {
+    var FuncCall = () => {
 
     };    
-    var Control = ( tree ) => {
+    var Control = () => {
 
     };   
-    var If = ( tree ) => {
+    var If = () => {
 
     };          
-    var For = ( tree ) => {
+    var For = () => {
 
     };         
-    var ArrayDef = ( tree ) => {
+    var ArrayDef = () => {
 
     };       
-    var Range = ( tree ) => {
+    var Range = () => {
+
+    };
+    var Assignment = () => {
 
     };
 
@@ -232,17 +224,5 @@ module.exports = (scannerTokens) => {
         }
     };
 
-    // Like match, but returns false if there is a match, rather than what was found.
-    var matchBasic = ( type ) => {
-        return errorMatch( match( type ) );
-    };
-
-    var errorMatch = ( match ) => {
-        if(match.type === "error"){
-            return match;
-        }
-        return false;
-    };
-
-    return Program(programTree) || programTree;
+    return Program();
 }
