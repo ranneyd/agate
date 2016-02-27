@@ -88,32 +88,32 @@ module.exports = (scannerTokens) => {
         error("Statement expected, got " + tokens[0].type, tokens[0].line, tokens[0].column);
     };
     var Element = () => {
-        var element = [Tag()];
+        var element = [ Tag() ];
         if( at("dot") ) {
-            element.push(Class());
+            element.push( Class() );
         }
         if( at("hash") ) {
-            element.push(Id());
+            element.push( Id() );
         }
         if( at("openParen") ) {
-            element.push(Attrs());
+            element.push( Attrs() );
         }
+
+
         if( at("indent")  ) {
-            element.push(ChildBlock());
+            element.push( ChildBlock() );
         }
-        if( at("tilde") ){
-            element.push(Event());
-            element.push(ChildBlock());
+        else if( at("tilde") ){
+            element.push( Event() );
+            element.push( ChildBlock() );
         }
-        if( !at(["bareword", "script", "style"]) ) {
-            var exp = [];
-            err = err || Exp(exp);
-            tree.push(exp);
+        else if( at(["bareword", "script", "style"]) ) {
+            element.push( Element() );
         }
-        if( !at("newline") ) {
-            var exp = [];
-            err = err || Exp(exp);
-            tree.push(exp);
+        else{
+            if( !at("newline") ) {
+                element.push( Exp() );
+            }
         }
         return element;
     };     
@@ -136,7 +136,7 @@ module.exports = (scannerTokens) => {
 
     };
     var Exp = () => {
-        var err = Exp1();
+        var exp = Exp1();
         if( at("question") ){
             tree.push(match("question"));
             err = err || Exp1();
