@@ -102,6 +102,7 @@ module.exports = (scannerTokens, verbose) => {
         error("Statement expected, got " + tokens[0].type, tokens[0].line, tokens[0].column);
     };
     var Element = () => {
+        debugger;
         log("Matching Element");
         let element = [ Tag() ];
         if( at("dot") ) {
@@ -114,7 +115,8 @@ module.exports = (scannerTokens, verbose) => {
             element.push( Attrs() );
         }
 
-        if( at("indent")  ) {
+        debugger;
+        if( atSequential(["newline", "indent"]) ) {
             element.push( ChildBlock() );
         }
         else if( at("tilde") ){
@@ -135,10 +137,20 @@ module.exports = (scannerTokens, verbose) => {
 
     };       
     var ChildBlock = () => {
-
+        match("newline");
+        match("indent");
+        if( at("js") ){
+            return JSBlock();
+        }
+        else if( at("css") ){
+            return JSBlock();
+        }
+        else {
+            return Block();
+        }
     };  
     var Tag = () => {
-        log("Matching tag");
+        log("Matching Tag");
         for( let tag in tags){
             if( at(tags[tag]) ){
                 return match(tags[tag]);
@@ -278,11 +290,23 @@ module.exports = (scannerTokens, verbose) => {
 
     };
 
-    // Returns true if the next token has type "type", false otherwise
+    // Returns true if the next token has type "type", or a type in "type" if
+    // type is an array, false otherwise
     var at = ( type ) => {
         return tokens.length && 
             (Array.isArray( type ) && type.some(at) 
                 || type === tokens[0].type);
+    };
+    // Like at except if type is an array, it checks one after the other.
+    var atSequential = ( type ) => {
+        for(let i = 0; i < type.length; ++i){
+            // If we don't have enough tokens or the token we're at doesn't
+            // match, no sale
+            if(tokens.length <= i || type[i] !== tokens[i].type){
+                return false;
+            }
+        }
+        return true;
     };
 
     // Pops off the top token if its type matches 'type', returns an error otherwise
@@ -290,7 +314,7 @@ module.exports = (scannerTokens, verbose) => {
         if( !tokens.length ) {
             return error("Parse error: Expected " + type + ", got end of program");
         }
-        else if( type === undefined ||  kind === tokens[0].type){
+        else if( type === undefined ||  type === tokens[0].type){
             log("Matched " + type);
             log("Tokens remaining: " + tokens.length);
             return tokens.shift();

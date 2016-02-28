@@ -27,10 +27,20 @@ processArguments();
 
 readFile( function () {
 
-    var scanner = require("./scanner.js");
-    var parser  = require("./parser.js");
+    let util = require("util");
+    let exec = require('child_process').execSync;
 
-    var tokens = scanner(code);
-    console.log(tokens);
-    console.log(parser(tokens, true));
+    let scanner = require("./scanner.js");
+    let parser  = require("./parser.js");
+
+    let tokens = scanner(code);
+    let parse-tree = parser(tokens, false);
+    
+    console.log(util.inspect(parse-tree, false, null));
+
+
+    exec("perl someperl.pl", function(err, stdout, stderr) {
+        /* do something */
+    });
+    console.log(util.inspect(parser(tokens, false), false, null));
 });
