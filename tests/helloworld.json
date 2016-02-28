@@ -64,5 +64,10 @@
         "line": 4,
         "column": 8,
         "text": "\"Hello World\""
+    },
+    { 
+        "type": "EOF",
+        "line": 4,
+        "column": 21 
     }
 ]

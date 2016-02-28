@@ -29,5 +29,8 @@ readFile( function () {
 
     var scanner = require("./scanner.js");
     var parser  = require("./parser.js");
-    console.log(parser(scanner(code)));
+
+    var tokens = scanner(code);
+    console.log(tokens);
+    console.log(parser(tokens, true));
 });

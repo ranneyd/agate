@@ -1,3 +1,5 @@
+"use strict";
+
 /*
     Macrosyntax
     name        | def
@@ -38,22 +40,33 @@
     Assignment  | id assignment Exp
 */
 
-module.exports = (scannerTokens) => {
+var lits = ["stringlit", "intlit", "floatlit", "boollit"];
+var tags = ["bareword", "script", "style"];
+
+module.exports = (scannerTokens, verbose) => {
     var tokens = scannerTokens;
     var error = require("./error.js");
 
+    var log = function(message){
+        if(verbose){
+            console.log(message);
+        }
+    }
+
     var Program = () => {
-        var tree = ["program", Block()];
+        log("Matching the program");
+        let tree = ["program", Block()];
         match("EOF");
         return tree;
     };
     var Block = () => {
-        var block = ["block"];
-        var statements = [];
+        log("Matching block");
+        let block = ["block"];
+        let statements = [];
 
         // If we get a dedent or an EOF, we have no more block
         while(!at("dedent") && !at("EOF")){
-            statements.push(Statement(statement));
+            statements.push( Statement() );
             match("newline");
         }
 
@@ -65,6 +78,7 @@ module.exports = (scannerTokens) => {
         return block;
     };
     var Statement = () => {
+        log("Matching a Statement");
         if( at("js") ){
             return match("js");
         }
@@ -88,7 +102,8 @@ module.exports = (scannerTokens) => {
         error("Statement expected, got " + tokens[0].type, tokens[0].line, tokens[0].column);
     };
     var Element = () => {
-        var element = [ Tag() ];
+        log("Matching Element");
+        let element = [ Tag() ];
         if( at("dot") ) {
             element.push( Class() );
         }
@@ -98,7 +113,6 @@ module.exports = (scannerTokens) => {
         if( at("openParen") ) {
             element.push( Attrs() );
         }
-
 
         if( at("indent")  ) {
             element.push( ChildBlock() );
@@ -124,7 +138,14 @@ module.exports = (scannerTokens) => {
 
     };  
     var Tag = () => {
-
+        log("Matching tag");
+        for( let tag in tags){
+            if( at(tags[tag]) ){
+                return match(tags[tag]);
+            }
+        }
+        let errorStr = "Parse Error: Expected some kind of tag, got " + tokens[0].type;
+        return error(errorStr, tokens[0].line, tokens[0].column);
     };         
     var Class = () => {
 
@@ -136,43 +157,98 @@ module.exports = (scannerTokens) => {
 
     };
     var Exp = () => {
-        var exp = Exp1();
+        let exp = Exp1();
         if( at("question") ){
-            tree.push(match("question"));
-            err = err || Exp1();
+            let ternary = [ "ternary", [exp, Exp1()] ];
             if( at("colon") ){
-                tree.push(match("colon"));
+                ternary[1].push( Exp1() );
             }
             else{
-                return err || error("Parse Error: Ternary operator needs a colon", token[0].line, token[0].column);
+                let errorStr = "Parse Error: Ternary operator needs a colon";
+                error(errorStr, tokens[0].line, tokens[0].column);
             }
-            err = err || Exp1();
+            exp = ternary;
         }
-        return err;
+        return exp;
     };         
     var Exp1 = () => {
-        var err = Exp2();
+        let exp = Exp2();
+        while( at("boolop") ) {
+            let boolop = [ match("boolop"), [exp, Exp2()]]
+            exp = boolop;
+        }
+        return exp;
     };     
     var Exp2 = () => {
-
+        let exp = Exp3();
+        while( at("relop") ) {
+            let relop = [ match("relop"), [exp, Exp3()]]
+            exp = relop;
+        }
+        return exp;
     };    
     var Exp3 = () => {
-
+        let exp = Exp4();
+        while( at("addop") ) {
+            let addop = [ match("addop"), [exp, Exp4()]]
+            exp = addop;
+        }
+        return exp;
     };    
     var Exp4 = () => {
-
+        let exp = Exp5();
+        while( at("multop") ) {
+            let multop = [ match("multop"), [exp, Exp5()]]
+            exp = multop;
+        }
+        return exp;
     };     
     var Exp5 = () => {
-
+        let exp;
+        if ( at("prefixop") ){
+            exp = [ match("prefixop"), Exp6()];
+        }
+        else{
+            exp = Exp6();
+        }
+        return exp;
     };     
     var Exp6 = () => {
-
+        if ( at("openParen") ) {
+            let exp = Exp();
+            while( at("newline") ) {
+                match("newline");
+            }
+            return Exp();
+        }
+        return Val();
     };     
     var Val = () => {
-
+        if( at(["dot", "hash", "tilde"]) ){
+            return ElemAttr();
+        }
+        else if( at(lits) ){
+            return Lit();
+        }
+        else if( at("id") ){
+            return match("id");
+        }
+        else if( at("bareword") ){
+            return FuncCall();
+        }
+        else {
+            let errorStr = "Parse Error: Expected some kind of value, got " + tokens[0].type;
+            return error(errorStr, tokens[0].line, tokens[0].column);
+        }
     };      
     var Lit = () => {
-
+        for( let lit in lits){
+            if( at(lits[lit]) ){
+                return match(lits[lit]);
+            }
+        }
+        let errorStr = "Parse Error: Expected some kind of literal, got " + tokens[0].type;
+        return error(errorStr, tokens[0].line, tokens[0].column);
     };  
     var ElemAttr = () => {
 
@@ -215,6 +291,8 @@ module.exports = (scannerTokens) => {
             return error("Parse error: Expected " + type + ", got end of program");
         }
         else if( type === undefined ||  kind === tokens[0].type){
+            log("Matched " + type);
+            log("Tokens remaining: " + tokens.length);
             return tokens.shift();
         }
         else{

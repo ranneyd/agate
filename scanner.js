@@ -1,3 +1,5 @@
+"use strict";
+
 /*
     Microsyntax
     token      | match
@@ -160,7 +162,7 @@ module.exports = (data) => {
             "notext": true
         },
     ];
-    
+
     var tokens = [],
         indent = {
             elems: [0],
