@@ -1,5 +1,8 @@
+'use strict';
+
 var file;
 var code;
+var fs = require("fs");
 
 var processArguments = function(){
     // First two elements are "node" and "analyzer.js"
@@ -12,7 +15,6 @@ var processArguments = function(){
 };
 
 var readFile = function( callback ){
-    fs = require('fs')
     fs.readFile(file, 'utf8', function (err, data) {
         if (err) {
             return console.log(err);
@@ -34,13 +36,13 @@ readFile( function () {
     let parser  = require("./parser.js");
 
     let tokens = scanner(code);
-    let parse-tree = parser(tokens, false);
+    let parseTree = parser(tokens, false);
     
-    console.log(util.inspect(parse-tree, false, null));
+    fs.writeFileSync(file+".parse", util.inspect(parser(tokens, false), false, null)); 
 
-
-    exec("perl someperl.pl", function(err, stdout, stderr) {
-        /* do something */
+    exec("perl abstracttree.pl " + file + ".parse", function(err, stdout, stderr) {
+        console.log(":D");
+        console.log(stdout);
     });
-    console.log(util.inspect(parser(tokens, false), false, null));
+
 });
