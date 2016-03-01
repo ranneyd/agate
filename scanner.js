@@ -46,7 +46,7 @@
     range      | \.\.
 */
 
-import Error from ("./error.js");
+Error = require("./error.js");
 
 var error = new Error();
 

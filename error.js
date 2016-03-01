@@ -1,5 +1,5 @@
 'use strict';
-export class Error{
+module.exports = class Error{
     constructor() {
         this.count = 0;
     }
