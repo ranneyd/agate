@@ -36,13 +36,8 @@ readFile( function () {
     let parser  = require("./parser.js");
 
     let tokens = scanner(code);
-    let parseTree = parser(tokens, false);
+    let parseTree = parser(tokens, true);
     
-    fs.writeFileSync(file+".parse", util.inspect(parser(tokens, false), false, null)); 
-
-    exec("perl abstracttree.pl " + file + ".parse", function(err, stdout, stderr) {
-        console.log(":D");
-        console.log(stdout);
-    });
+    console.log(JSON.stringify(parseTree, null, 3));
 
 });

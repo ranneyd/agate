@@ -5,14 +5,14 @@
     name        | def
     ---------------------------------
     Program     | Block
-    Block       | (Statement newline)+
+    Block       | (Statement ((?<!ChildBlock)newline)?)+
     Statement   | Element
                 | Control
                 | Assignment
                 | comment
     Element     | Tag(Class)?(Id)?Attrs?(Exp|Element|ChildBlock|Event ChildBlock)?
     Attrs       | openParen ((Attr Exp)|Class|Id)+ closeParen
-    ChildBlock  | newline indent (Block|JSBlock|CSSBlock) dedent
+    ChildBlock  | newline indent (Block|JSBlock|CSSBlock) newline dedent
     JSBlock     | js (Exp js)*
     CSSBlock    | css (Exp css)*
     Tag         | bareword|script|style
@@ -45,6 +45,7 @@ var tags = ["bareword", "script", "style"];
 
 module.exports = (scannerTokens, verbose) => {
     var tokens = scannerTokens;
+    var lastToken;
     var error = require("./error.js");
 
     var log = function(message){
@@ -67,11 +68,12 @@ module.exports = (scannerTokens, verbose) => {
         // If we get a dedent or an EOF, we have no more block
         while(!at("dedent") && !at("EOF")){
             statements.push( Statement() );
-            match("newline");
-        }
 
-        if(at("dedent")){
-            match("dedent");
+            // child blocks are special cases. Since dedents come after the
+            // newlines, the ChildBlock pattern needs to consume the newline.
+            if(lastToken.type !== "dedent" && !at("EOF")){
+                match("newline");
+            }
         }
 
         block.push(statements);
@@ -102,8 +104,8 @@ module.exports = (scannerTokens, verbose) => {
         error("Statement expected, got " + tokens[0].type, tokens[0].line, tokens[0].column);
     };
     var Element = () => {
-        debugger;
         log("Matching Element");
+        debugger;
         let element = [ Tag() ];
         if( at("dot") ) {
             element.push( Class() );
@@ -115,7 +117,6 @@ module.exports = (scannerTokens, verbose) => {
             element.push( Attrs() );
         }
 
-        debugger;
         if( atSequential(["newline", "indent"]) ) {
             element.push( ChildBlock() );
         }
@@ -137,17 +138,25 @@ module.exports = (scannerTokens, verbose) => {
 
     };       
     var ChildBlock = () => {
+        log("Matching ChildBlock");
         match("newline");
         match("indent");
+
+        let block;
+
         if( at("js") ){
-            return JSBlock();
+            block = JSBlock();
         }
         else if( at("css") ){
-            return JSBlock();
+            block = JSBlock();
         }
         else {
-            return Block();
+            block = Block();
         }
+        if( !at("EOF")){
+            match("dedent");
+        }
+        return block;
     };  
     var Tag = () => {
         log("Matching Tag");
@@ -169,6 +178,7 @@ module.exports = (scannerTokens, verbose) => {
 
     };
     var Exp = () => {
+        log("Matching Exp");
         let exp = Exp1();
         if( at("question") ){
             let ternary = [ "ternary", [exp, Exp1()] ];
@@ -254,6 +264,7 @@ module.exports = (scannerTokens, verbose) => {
         }
     };      
     var Lit = () => {
+        log("Matching Lit");
         for( let lit in lits){
             if( at(lits[lit]) ){
                 return match(lits[lit]);
@@ -317,7 +328,8 @@ module.exports = (scannerTokens, verbose) => {
         else if( type === undefined ||  type === tokens[0].type){
             log("Matched " + type);
             log("Tokens remaining: " + tokens.length);
-            return tokens.shift();
+            lastToken = tokens.shift();
+            return lastToken;
         }
         else{
             return error("Parse error: Expected " + type + ", got " + tokens[0].type, 
