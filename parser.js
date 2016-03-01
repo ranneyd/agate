@@ -7,9 +7,11 @@
     Program     | Block
     Block       | (Statement ((?<!ChildBlock)newline)?)+
     Statement   | Element
+                | Exp
                 | Control
                 | Assignment
                 | comment
+                | newline
     Element     | Tag(Class)?(Id)?Attrs?(Exp|Element|ChildBlock|Event ChildBlock)?
     Attrs       | openParen ((Attr Exp)|Class|Id)+ closeParen
     ChildBlock  | newline indent (Block|JSBlock|CSSBlock) newline dedent
@@ -29,7 +31,7 @@
     Val         | ElemAttr | Lit+ | id | FuncCall
     Lit         | stringlit | intlit | floatlit | boollit
     ElemAttr    | (Id|Class)?tilde Attr
-    Event       | tilde bareword
+    Event       | tilde Attr
     FuncCall    | bareword(Exp|openParen(Exp)*closeParen)
     Control*    | If | For | While         
     If          | "if" Exp ChildBlock ("else" "if" Exp ChildBlock)*("else" ChildBlock)?
@@ -67,7 +69,13 @@ module.exports = (scannerTokens, verbose) => {
 
         // If we get a dedent or an EOF, we have no more block
         while(!at("dedent") && !at("EOF")){
-            statements.push( Statement() );
+            let statement = Statement();
+
+            // They can put as many blank lines as they'd like, but that
+            // doesn't mean we have to pay attention to them
+            if(statement !== "blank"){
+                statements.push( statement );
+            }
 
             // child blocks are special cases. Since dedents come after the
             // newlines, the ChildBlock pattern needs to consume the newline.
@@ -101,7 +109,11 @@ module.exports = (scannerTokens, verbose) => {
         if ( at("id") ) {
             return Assignment();
         }
-        error("Statement expected, got " + tokens[0].type, tokens[0].line, tokens[0].column);
+        if ( at("newline") ){
+            return "blank";
+        }
+        return Exp();
+        //error("Statement expected, got " + tokens[0].type, tokens[0].line, tokens[0].column);
     };
     var Element = () => {
         log("Matching Element");
@@ -121,8 +133,7 @@ module.exports = (scannerTokens, verbose) => {
             element.push( ChildBlock() );
         }
         else if( at("tilde") ){
-            element.push( Event() );
-            element.push( ChildBlock() );
+            element.push( [ Event(), ChildBlock() ]);
         }
         else if( at(["bareword", "script", "style"]) ) {
             element.push( Element() );
@@ -135,7 +146,31 @@ module.exports = (scannerTokens, verbose) => {
         return element;
     };     
     var Attrs = () => {
+        log("Matching Attrs");
+        
+        var attrs = [];
 
+        match("openParen")
+
+        do{
+            if( at("hash") ){
+                attrs.push( Id() );
+            }
+            else if( at("dot") ){
+                attrs.push( Class() );
+            }
+            else if( at("bareword") ){
+                attrs.push([Attr(), Exp()]);
+            }
+            else{
+                let errorStr = "Parse Error: Expected some attribute, got " + tokens[0].type;
+                return error(errorStr, tokens[0].line, tokens[0].column);
+            }
+        } while( !at("closeParen") );
+
+        match("closeParen");
+
+        return attrs;
     };       
     var ChildBlock = () => {
         log("Matching ChildBlock");
@@ -169,13 +204,18 @@ module.exports = (scannerTokens, verbose) => {
         return error(errorStr, tokens[0].line, tokens[0].column);
     };         
     var Class = () => {
-
+        log("Matching Class");
+        match("dot");
+        return { "class": match("bareword") };
     };   
     var Id = () => {
-
+        log("Matching Id (html kind)");
+        match("hash");
+        return { "id": match("bareword") };
     };       
     var Attr = () => {
-
+        log("Matching Attr");
+        return { "attr": match("bareword") };
     };
     var Exp = () => {
         log("Matching Exp");
@@ -194,6 +234,7 @@ module.exports = (scannerTokens, verbose) => {
         return exp;
     };         
     var Exp1 = () => {
+        log("Matching Exp1");
         let exp = Exp2();
         while( at("boolop") ) {
             let boolop = [ match("boolop"), [exp, Exp2()]]
@@ -202,6 +243,7 @@ module.exports = (scannerTokens, verbose) => {
         return exp;
     };     
     var Exp2 = () => {
+        log("Matching Exp2");
         let exp = Exp3();
         while( at("relop") ) {
             let relop = [ match("relop"), [exp, Exp3()]]
@@ -210,6 +252,7 @@ module.exports = (scannerTokens, verbose) => {
         return exp;
     };    
     var Exp3 = () => {
+        log("Matching Exp3");
         let exp = Exp4();
         while( at("addop") ) {
             let addop = [ match("addop"), [exp, Exp4()]]
@@ -218,6 +261,7 @@ module.exports = (scannerTokens, verbose) => {
         return exp;
     };    
     var Exp4 = () => {
+        log("Matching Exp4");
         let exp = Exp5();
         while( at("multop") ) {
             let multop = [ match("multop"), [exp, Exp5()]]
@@ -226,6 +270,7 @@ module.exports = (scannerTokens, verbose) => {
         return exp;
     };     
     var Exp5 = () => {
+        log("Matching Exp5");
         let exp;
         if ( at("prefixop") ){
             exp = [ match("prefixop"), Exp6()];
@@ -236,6 +281,7 @@ module.exports = (scannerTokens, verbose) => {
         return exp;
     };     
     var Exp6 = () => {
+        log("Matching Exp6");
         if ( at("openParen") ) {
             let exp = Exp();
             while( at("newline") ) {
@@ -246,6 +292,7 @@ module.exports = (scannerTokens, verbose) => {
         return Val();
     };     
     var Val = () => {
+        log("Matching Val");
         if( at(["dot", "hash", "tilde"]) ){
             return ElemAttr();
         }
@@ -274,19 +321,99 @@ module.exports = (scannerTokens, verbose) => {
         return error(errorStr, tokens[0].line, tokens[0].column);
     };  
     var ElemAttr = () => {
+        log("Matching ElemAttr");
 
-    };  
+        let elemAttr = [];
+
+        if( at("dot") ){
+            elemAttr.push( Class() );
+        }
+        else if( at("hash") ){
+            elemAttr.push( Id() );
+        }
+        else{
+            elemAttr.push( "this" );
+        }
+
+        match("tilde");
+
+        elemAttr.push( Attr() );
+
+        return elemAttr;
+
+    };
+    // Note that this is very similar to ElemAttr. I considered merging the
+    // two somehow, but they really have different meanings. At the end of an
+    // element you should not be able to access any attribute of that element
+    // (since you can do that in its attributes area). It really is JUST for
+    // events
     var Event = () => {
+        log("Matching Event");
 
+        match("tilde");
+
+        return match("bareword");
     };       
     var FuncCall = () => {
+        log("Matching Function call");
 
+        let funcCall = [ match("bareword") ];
+
+        if( at("openParen") ){
+            let args = [];
+            match("openParen");
+            while( !at("closeParen") ){
+                args.push( Exp() );
+            }
+            match("closeParen");
+            funcCall.push(args);
+        }
+        else{
+            funcCall.push( Exp() );
+        }
+
+        return funcCall;
     };    
     var Control = () => {
+        log("Matching Control block");
+
+        if( at("bareword") ) {
+            if( tokens[0].text === "if" ) {
+                return If();
+            }
+            else if( tokens[0].text === "for" ) {
+                return For();
+            }
+            else if( tokens[0].text === "while" ) {
+                return While();
+            }
+            else {
+                let errorStr = "Parse Error: '" + tokens[0].text + "' is not a recognized control statement";
+                return error(errorStr, tokens[0].line, tokens[0].column);
+            }
+        }
+        else {
+            let errorStr = "Parse Error: Expecting some kind of control statement, got " + tokens[0].type;
+            return error(errorStr, tokens[0].line, tokens[0].column);
+        }
 
     };   
     var If = () => {
+        log("Matching If");
 
+        let ifStatement = ["if"];
+
+        if( at("bareword") && tokens[0].text === "if") {
+            match("bareword");
+            ifStatement.push( Exp() );
+            
+        }
+        else {
+            let errorStr = "Parse Error: Expecting an if statement, got a " + tokens[0].type;
+            return error(errorStr, tokens[0].line, tokens[0].column);           
+        }
+
+        return ifStatement;
     };          
     var For = () => {
 
@@ -326,12 +453,13 @@ module.exports = (scannerTokens, verbose) => {
             return error("Parse error: Expected " + type + ", got end of program");
         }
         else if( type === undefined ||  type === tokens[0].type){
-            log("Matched " + type);
+            log("Matched '" + type + "'" + (tokens[0].text? " with text '" + tokens[0].text + "'":""));
             log("Tokens remaining: " + tokens.length);
             lastToken = tokens.shift();
             return lastToken;
         }
         else{
+            tokens.shift();
             return error("Parse error: Expected " + type + ", got " + tokens[0].type, 
                         tokens[0].line,
                         tokens[0].column);
