@@ -42,13 +42,17 @@
     Assignment  | id assignment Exp
 */
 
+import Error from "./error.js";
+
+var error = new Error();
+
 var lits = ["stringlit", "intlit", "floatlit", "boollit"];
 var tags = ["bareword", "script", "style"];
+
 
 module.exports = (scannerTokens, verbose) => {
     var tokens = scannerTokens;
     var lastToken;
-    var error = require("./error.js");
 
     var log = function(message){
         if(verbose){
@@ -113,7 +117,6 @@ module.exports = (scannerTokens, verbose) => {
             return "blank";
         }
         return Exp();
-        //error("Statement expected, got " + tokens[0].type, tokens[0].line, tokens[0].column);
     };
     var Element = () => {
         log("Matching Element");
@@ -163,8 +166,7 @@ module.exports = (scannerTokens, verbose) => {
                 attrs.push([Attr(), Exp()]);
             }
             else{
-                let errorStr = "Parse Error: Expected some attribute, got " + tokens[0].type;
-                return error(errorStr, tokens[0].line, tokens[0].column);
+                return error.expected('some attribute', tokens[0]);
             }
         } while( !at("closeParen") );
 
@@ -224,8 +226,7 @@ module.exports = (scannerTokens, verbose) => {
                 return match(tags[tag]);
             }
         }
-        let errorStr = "Parse Error: Expected some kind of tag, got " + tokens[0].type;
-        return error(errorStr, tokens[0].line, tokens[0].column);
+        return error.expected('some kind of tag', tokens[0]);
     };         
     var Class = () => {
         log("Matching Class");
@@ -253,8 +254,7 @@ module.exports = (scannerTokens, verbose) => {
                 ternary[1].push( Exp1() );
             }
             else{
-                let errorStr = "Parse Error: Ternary operator needs a colon";
-                error(errorStr, tokens[0].line, tokens[0].column);
+                return error.parse('Ternay operator needs a colon', tokens[0]);
             }
             exp = ternary;
         }
@@ -333,8 +333,7 @@ module.exports = (scannerTokens, verbose) => {
             return FuncCall();
         }
         else {
-            let errorStr = "Parse Error: Expected some kind of value, got " + tokens[0].type;
-            return error(errorStr, tokens[0].line, tokens[0].column);
+            return error.expected('some kind of value', tokens[0]);
         }
     };      
     var Lit = () => {
@@ -344,8 +343,8 @@ module.exports = (scannerTokens, verbose) => {
                 return match(lits[lit]);
             }
         }
-        let errorStr = "Parse Error: Expected some kind of literal, got " + tokens[0].type;
-        return error(errorStr, tokens[0].line, tokens[0].column);
+        return error.expected('some kind of literal', tokens[0]);
+
     };  
     var ElemAttr = () => {
         log("Matching ElemAttr");
@@ -415,13 +414,11 @@ module.exports = (scannerTokens, verbose) => {
                 return While();
             }
             else {
-                let errorStr = "Parse Error: '" + tokens[0].text + "' is not a recognized control statement";
-                return error(errorStr, tokens[0].line, tokens[0].column);
+                return error.parse('${tokens[0].text} is not a recognized control statement', tokens[0]);
             }
         }
         else {
-            let errorStr = "Parse Error: Expecting some kind of control statement, got " + tokens[0].type;
-            return error(errorStr, tokens[0].line, tokens[0].column);
+            return error.expected('some kind of control statement', tokens[0]);
         }
 
     };   
@@ -459,8 +456,7 @@ module.exports = (scannerTokens, verbose) => {
             }
         }
         else {
-            let errorStr = "Parse Error: Expecting an if statement, got " + tokens[0].type;
-            return error(errorStr, tokens[0].line, tokens[0].column);           
+            return error.expected('an if statement', tokens[0]);          
         }
 
         return ifStatement;
@@ -474,8 +470,7 @@ module.exports = (scannerTokens, verbose) => {
             return [ "while", Exp(), ChildBlock() ];
         }
         else {
-            let errorStr = "Parse Error: Expecting a while statement, got " + tokens[0].type;
-            return error(errorStr, tokens[0].line, tokens[0].column);  
+            return error.expected('an while statement', tokens[0]);
         }
     };     
     var ArrayDef = () => {
@@ -510,7 +505,7 @@ module.exports = (scannerTokens, verbose) => {
     // Pops off the top token if its type matches 'type', returns an error otherwise
     var match = ( type ) => {
         if( !tokens.length ) {
-            return error("Parse error: Expected " + type + ", got end of program");
+            return error.parse('Expected ${type}, got end of program');
         }
         else if( type === undefined ||  type === tokens[0].type){
             log("Matched '" + type + "'" + (tokens[0].text? " with text '" + tokens[0].text + "'":""));
@@ -520,9 +515,7 @@ module.exports = (scannerTokens, verbose) => {
         }
         else{
             tokens.shift();
-            return error("Parse error: Expected " + type + ", got " + tokens[0].type, 
-                        tokens[0].line,
-                        tokens[0].column);
+            return error.expected(type, tokens[0]);
         }
     };
 

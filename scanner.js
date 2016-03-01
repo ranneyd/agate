@@ -46,8 +46,11 @@
     range      | \.\.
 */
 
+import Error from ("./error.js");
+
+var error = new Error();
+
 module.exports = (data) => {
-    var error = require("./error.js");
 
     var regexes = [
         {
@@ -286,7 +289,7 @@ module.exports = (data) => {
                     var nextIndent = indent.peek();
 
                     if( indentSize > nextIndent ) {
-                        return error("Scanner error: Indentation error", line, column);
+                        return error.scanner("Indentation error", line, column);
                     }
 
                     if ( indentSize === nextIndent) {
@@ -387,7 +390,7 @@ module.exports = (data) => {
             }
             // If it doesn't match those we have a problem
             else {
-                return error("Scanner error: Could not tokenize", line, column);
+                return error.scanner("Could not tokenize", line, column);
             }
         }
     }
