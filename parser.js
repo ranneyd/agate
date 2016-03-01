@@ -15,8 +15,8 @@
     Element     | Tag(Class)?(Id)?Attrs?(Exp|Element|ChildBlock|Event ChildBlock)?
     Attrs       | openParen ((Attr Exp)|Class|Id)+ closeParen
     ChildBlock  | newline indent (Block|JSBlock|CSSBlock) newline dedent
-    JSBlock     | js (Exp js)*
-    CSSBlock    | css (Exp css)*
+    JSBlock     | js (id js)*
+    CSSBlock    | css (id css)*
     Tag         | bareword|script|style
     Class       | dot bareword
     Id          | hash bareword
@@ -98,7 +98,7 @@ module.exports = (scannerTokens, verbose) => {
         if ( at("comment") ){
             return match("comment");
         }
-        if ( at("bareword") ) {
+        if ( at(tags) ) {
             if ( at(['if', 'for', 'while']) ) {
                 return Control();
             }
@@ -159,7 +159,7 @@ module.exports = (scannerTokens, verbose) => {
             else if( at("dot") ){
                 attrs.push( Class() );
             }
-            else if( at("bareword") ){
+            else if( at("bareword") || at("style") ){
                 attrs.push([Attr(), Exp()]);
             }
             else{
@@ -192,7 +192,31 @@ module.exports = (scannerTokens, verbose) => {
             match("dedent");
         }
         return block;
-    };  
+    };
+    var JSBlock = () => {
+        log("Matching JS Block");
+
+        let js = [ match("js") ];
+        while( at("id") ) {
+            js.push( match( "id" ));
+            // TODO: Why can't it end with an id?
+            js.push( match( "js" ));
+        }
+
+        return js;
+    }
+    var CSSBlock = () => {
+        log("Matching CSS Block");
+
+        let css = [ match("css") ];
+        while( at("id") ) {
+            css.push( match( "id" ));
+            // TODO: Why can't it end with an id?
+            css.push( match( "css" ));
+        }
+
+        return js;
+    }
     var Tag = () => {
         log("Matching Tag");
         for( let tag in tags){
@@ -215,6 +239,9 @@ module.exports = (scannerTokens, verbose) => {
     };       
     var Attr = () => {
         log("Matching Attr");
+        if( at("style") ){
+            return { "attr": match("style") };
+        }
         return { "attr": match("bareword") };
     };
     var Exp = () => {
