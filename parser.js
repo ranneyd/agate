@@ -35,8 +35,8 @@
     FuncCall    | bareword(Exp|openParen(Exp)*closeParen)
     Control*    | If | For | While         
     If          | "if" Exp ChildBlock ("else" "if" Exp ChildBlock)*("else" ChildBlock)?
-    For         | "for" id "in" Array|stringlit|Range ChildBlock
-    While       | "while" Exp
+    For         | "for" id "in" (Array|stringlit|Range) ChildBlock
+    While       | "while" Exp ChildBlock
     Array       | openSquare (Lit+|Range) closeSquare
     Range       | intLit range intLit
     Assignment  | id assignment Exp
@@ -401,15 +401,38 @@ module.exports = (scannerTokens, verbose) => {
     var If = () => {
         log("Matching If");
 
-        let ifStatement = ["if"];
+        let ifStatement = [];
 
         if( at("bareword") && tokens[0].text === "if") {
             match("bareword");
-            ifStatement.push( Exp() );
-            
+
+            let thisIf = ["if"]
+            thisIf.push( Exp() );
+            thisIf.push( ChildBlock() )
+            ifStatement.push(thisIf);
+
+            while( atSequential(["bareword", "bareword"]) 
+                    && tokens[0].text === "else"
+                    && tokens[1].text === "if") {
+                match("bareword");
+                match("bareword");
+
+                let thisIf = [ "else if"];
+                thisIf.push( Exp() );
+                thisIf.push( ChildBlock() )
+                ifStatement.push(thisIf);
+            }
+
+            if( at("bareword") && tokens[0].text === "else" ) {
+                match("bareword");
+
+                let thisIf = [ "else"];
+                thisIf.push( ChildBlock() )
+                ifStatement.push(thisIf);
+            }
         }
         else {
-            let errorStr = "Parse Error: Expecting an if statement, got a " + tokens[0].type;
+            let errorStr = "Parse Error: Expecting an if statement, got " + tokens[0].type;
             return error(errorStr, tokens[0].line, tokens[0].column);           
         }
 
@@ -417,7 +440,17 @@ module.exports = (scannerTokens, verbose) => {
     };          
     var For = () => {
 
-    };         
+    };
+    var While = () => {
+        log("Matching While");
+        if( at("bareword") && tokens[0].text === "while") {
+            return [ "while", Exp(), ChildBlock() ];
+        }
+        else {
+            let errorStr = "Parse Error: Expecting a while statement, got " + tokens[0].type;
+            return error(errorStr, tokens[0].line, tokens[0].column);  
+        }
+    };     
     var ArrayDef = () => {
 
     };       
