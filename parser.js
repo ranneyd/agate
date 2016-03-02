@@ -62,13 +62,18 @@ module.exports = (scannerTokens, verbose) => {
 
     var Program = () => {
         log("Matching the program");
-        let tree = ["program", Block()];
+        let tree = {
+            "type":"program",
+            "body": Block()
+        };
         match("EOF");
         return tree;
     };
     var Block = () => {
         log("Matching block");
-        let block = ["block"];
+        let block = {
+            "type": "block"
+        };
         let statements = [];
 
         // If we get a dedent or an EOF, we have no more block
@@ -88,11 +93,12 @@ module.exports = (scannerTokens, verbose) => {
             }
         }
 
-        block.push(statements);
+        block.body = statements;
         return block;
     };
     var Statement = () => {
         log("Matching a Statement");
+
         if( at("js") ){
             return match("js");
         }
@@ -120,30 +126,34 @@ module.exports = (scannerTokens, verbose) => {
     };
     var Element = () => {
         log("Matching Element");
-        debugger;
-        let element = [ Tag() ];
+
+        let element = {
+            "type": "element",
+            "tag": Tag()
+        };
         if( at("dot") ) {
-            element.push( Class() );
+            element.class = Class();
         }
         if( at("hash") ) {
-            element.push( Id() );
+            element.id = Id();
         }
         if( at("openParen") ) {
-            element.push( Attrs() );
+            element.attrs = Attrs();
         }
 
         if( atSequential(["newline", "indent"]) ) {
-            element.push( ChildBlock() );
+            element.child = ChildBlock();
         }
         else if( at("tilde") ){
-            element.push( [ Event(), ChildBlock() ]);
+            element.event = Event();
+            element.event.child = ChildBlock();
         }
         else if( at(["bareword", "script", "style"]) ) {
-            element.push( Element() );
+            element.child = Element();
         }
         else{
             if( !at("newline") ) {
-                element.push( Exp() );
+                element.child = Exp();
             }
         }
         return element;
@@ -157,13 +167,22 @@ module.exports = (scannerTokens, verbose) => {
 
         do{
             if( at("hash") ){
-                attrs.push( Id() );
+                attrs.push({
+                    "type": "id",
+                    "body": Id()
+                });
             }
             else if( at("dot") ){
-                attrs.push( Class() );
+                attrs.push({
+                    "type": "class",
+                    "body": Class()
+                });
             }
             else if( at("bareword") || at("style") ){
-                attrs.push([Attr(), Exp()]);
+                attrs.push({
+                    "type": Attr(),
+                    "body": Exp()
+                });
             }
             else{
                 return error.expected('some attribute', tokens[0]);
@@ -185,7 +204,7 @@ module.exports = (scannerTokens, verbose) => {
             block = JSBlock();
         }
         else if( at("css") ){
-            block = JSBlock();
+            block = CSSBlock();
         }
         else {
             block = Block();
@@ -198,11 +217,14 @@ module.exports = (scannerTokens, verbose) => {
     var JSBlock = () => {
         log("Matching JS Block");
 
-        let js = [ match("js") ];
+        let js = {
+            "type": "JS Block",
+            "body": [match("js")]
+        };
         while( at("id") ) {
-            js.push( match( "id" ));
+            js.body.push( match( "id" ));
             // TODO: Why can't it end with an id?
-            js.push( match( "js" ));
+            js.body.push( match( "js" ));
         }
 
         return js;
@@ -210,14 +232,17 @@ module.exports = (scannerTokens, verbose) => {
     var CSSBlock = () => {
         log("Matching CSS Block");
 
-        let css = [ match("css") ];
+        let css = {
+            "type": "CSS Block",
+            "body": [match("css")]
+        };
         while( at("id") ) {
-            css.push( match( "id" ));
+            css.body.push( match( "id" ));
             // TODO: Why can't it end with an id?
-            css.push( match( "css" ));
+            css.body.push( match( "css" ));
         }
 
-        return js;
+        return css;
     }
     var Tag = () => {
         log("Matching Tag");
@@ -231,40 +256,56 @@ module.exports = (scannerTokens, verbose) => {
     var Class = () => {
         log("Matching Class");
         match("dot");
-        return { "class": match("bareword") };
+        return { 
+            "type":"class",
+            "body": match("bareword")
+        };
     };   
     var Id = () => {
         log("Matching Id (html kind)");
         match("hash");
-        return { "id": match("bareword") };
+        return { 
+            "type":"id",
+            "body": match("bareword")
+        };    
     };       
     var Attr = () => {
         log("Matching Attr");
-        if( at("style") ){
-            return { "attr": match("style") };
+
+        if( at("style") ) {
+            return match("style");
         }
-        return { "attr": match("bareword") };
+        return match("bareword");
     };
     var Exp = () => {
         log("Matching Exp");
+
         let exp = Exp1();
-        if( at("question") ){
-            let ternary = [ "ternary", [exp, Exp1()] ];
-            if( at("colon") ){
-                ternary[1].push( Exp1() );
-            }
-            else{
-                return error.parse('Ternay operator needs a colon', tokens[0]);
-            }
+        if( at("question") ) {
+            let ternary = {
+                "type": "ternary",
+                "condition": exp,
+                "if": Exp1()
+            };
+            match("colon");
+            ternary.else = Exp1();
+            
             exp = ternary;
         }
         return exp;
     };         
     var Exp1 = () => {
         log("Matching Exp1");
+
         let exp = Exp2();
         while( at("boolop") ) {
-            let boolop = [ match("boolop"), [exp, Exp2()]]
+            let boolop = {
+                "type": "boolop",
+                "op": match("boolop"),
+                "a": exp,
+                "b": Exp2()
+            };
+
             exp = boolop;
         }
         return exp;
@@ -273,7 +314,12 @@ module.exports = (scannerTokens, verbose) => {
         log("Matching Exp2");
         let exp = Exp3();
         while( at("relop") ) {
-            let relop = [ match("relop"), [exp, Exp3()]]
+           let relop = {
+                "type": "relop",
+                "op": match("relop"),
+                "a": exp,
+                "b": Exp3()
+            };
             exp = relop;
         }
         return exp;
@@ -282,7 +328,12 @@ module.exports = (scannerTokens, verbose) => {
         log("Matching Exp3");
         let exp = Exp4();
         while( at("addop") ) {
-            let addop = [ match("addop"), [exp, Exp4()]]
+            let addop = {
+                "type": "addop",
+                "op": match("addop"),
+                "a": exp,
+                "b": Exp4()
+            };
             exp = addop;
         }
         return exp;
@@ -291,45 +342,64 @@ module.exports = (scannerTokens, verbose) => {
         log("Matching Exp4");
         let exp = Exp5();
         while( at("multop") ) {
-            let multop = [ match("multop"), [exp, Exp5()]]
+            let multop = {
+                "type": "multop",
+                "op": match("multop"),
+                "a": exp,
+                "b": Exp5()
+            };
             exp = multop;
         }
         return exp;
     };     
     var Exp5 = () => {
         log("Matching Exp5");
+
         let exp;
-        if ( at("prefixop") ){
-            exp = [ match("prefixop"), Exp6()];
+        if ( at("prefixop") ) {
+            exp = {
+                "type": "prefixop",
+                "op": match("prefixop"),
+                "body": Exp6()
+            };
         }
-        else{
+        else {
             exp = Exp6();
         }
         return exp;
     };     
     var Exp6 = () => {
         log("Matching Exp6");
+
         if ( at("openParen") ) {
+            match("openParen")
+            
             let exp = Exp();
             while( at("newline") ) {
                 match("newline");
             }
-            return Exp();
+
+            match("closeParen");
+            return exp;
         }
         return Val();
     };     
     var Val = () => {
         log("Matching Val");
-        if( at(["dot", "hash", "tilde"]) ){
+
+        if( at(["dot", "hash", "tilde"]) ) {
             return ElemAttr();
         }
-        else if( at(lits) ){
+        else if( at(lits) ) {
             return Lit();
         }
-        else if( at("id") ){
-            return match("id");
+        else if( at("id") ) {
+            return {
+                "type": "identifier",
+                "body": match("id")
+            };
         }
-        else if( at("bareword") ){
+        else if( at("bareword") ) {
             return FuncCall();
         }
         else {
@@ -338,9 +408,13 @@ module.exports = (scannerTokens, verbose) => {
     };      
     var Lit = () => {
         log("Matching Lit");
-        for( let lit in lits){
-            if( at(lits[lit]) ){
-                return match(lits[lit]);
+
+        for( let lit in lits ) {
+            if( at(lits[lit]) ) {
+                return {
+                    "type": lits[lit],
+                    "body": match(lits[lit])
+                };
             }
         }
         return error.expected('some kind of literal', tokens[0]);
@@ -349,21 +423,23 @@ module.exports = (scannerTokens, verbose) => {
     var ElemAttr = () => {
         log("Matching ElemAttr");
 
-        let elemAttr = [];
+        let elemAttr = {
+            "type": "elemattr"
+        };
 
         if( at("dot") ){
-            elemAttr.push( Class() );
+            elemAttr.source = Class();
         }
         else if( at("hash") ){
-            elemAttr.push( Id() );
+            elemAttr.source = Id();
         }
         else{
-            elemAttr.push( "this" );
+            elemAttr.source = "this";
         }
 
         match("tilde");
 
-        elemAttr.push( Attr() );
+        elemAttr.body = Attr();
 
         return elemAttr;
 
@@ -378,24 +454,32 @@ module.exports = (scannerTokens, verbose) => {
 
         match("tilde");
 
-        return match("bareword");
+        return {
+            "type": "event",
+            "body": match("bareword")
+        };
     };       
     var FuncCall = () => {
         log("Matching Function call");
 
-        let funcCall = [ match("bareword") ];
+        let funcCall = {
+            "type": "funcCall",
+            "name" : match("bareword")
+        };
 
         if( at("openParen") ){
             let args = [];
+
             match("openParen");
             while( !at("closeParen") ){
                 args.push( Exp() );
             }
             match("closeParen");
-            funcCall.push(args);
+
+            funcCall.args = args;
         }
         else{
-            funcCall.push( Exp() );
+            funcCall.args = [ Exp() ];
         }
 
         return funcCall;
@@ -425,15 +509,15 @@ module.exports = (scannerTokens, verbose) => {
     var If = () => {
         log("Matching If");
 
-        let ifStatement = [];
+        let ifStatement = {
+            "type": "if"
+        };
 
         if( at("bareword") && tokens[0].text === "if") {
             match("bareword");
 
-            let thisIf = ["if"]
-            thisIf.push( Exp() );
-            thisIf.push( ChildBlock() )
-            ifStatement.push(thisIf);
+            ifStatement.condition = Exp();
+            ifStatement.body = ChildBlock();
 
             while( atSequential(["bareword", "bareword"]) 
                     && tokens[0].text === "else"
@@ -441,18 +525,20 @@ module.exports = (scannerTokens, verbose) => {
                 match("bareword");
                 match("bareword");
 
-                let thisIf = [ "else if"];
-                thisIf.push( Exp() );
-                thisIf.push( ChildBlock() )
-                ifStatement.push(thisIf);
+                let thisIf = {
+                    "condition": Exp(),
+                    "body": ChildBlock()
+                };
+                
+                let elseIfs = ifStatement["else if"] || [];
+                elseIfs.push(thisIf);
+                ifStatement["else if"] = elseIfs;
             }
 
             if( at("bareword") && tokens[0].text === "else" ) {
                 match("bareword");
 
-                let thisIf = [ "else"];
-                thisIf.push( ChildBlock() )
-                ifStatement.push(thisIf);
+                ifStatement.else = ChildBlock()
             }
         }
         else {
@@ -466,8 +552,13 @@ module.exports = (scannerTokens, verbose) => {
     };
     var While = () => {
         log("Matching While");
+
         if( at("bareword") && tokens[0].text === "while") {
-            return [ "while", Exp(), ChildBlock() ];
+            return {
+                "type": "while",
+                "condition": Exp(),
+                "body": ChildBlock()
+            };
         }
         else {
             return error.expected('an while statement', tokens[0]);

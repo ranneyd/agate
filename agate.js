@@ -36,6 +36,9 @@ readFile( function () {
     let parser  = require("./parser.js");
 
     let tokens = scanner(code);
+
+    // console.log(JSON.stringify(tokens, null, 3));
+
     let parseTree = parser(tokens, true);
     
     console.log(JSON.stringify(parseTree, null, 3));
