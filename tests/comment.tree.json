@@ -1,142 +1,162 @@
-[
-   "program",
-   [
-      "block",
-      [
-         [
-            {
+{
+   "type": "program",
+   "body": {
+      "type": "block",
+      "body": [
+         {
+            "type": "element",
+            "tag": {
                "type": "bareword",
                "line": 1,
                "column": 1,
                "text": "body"
             },
-            [
-               "block",
-               [
+            "child": {
+               "type": "block",
+               "body": [
                   {
                      "type": "comment",
                      "line": 2,
                      "column": 5,
                      "text": "// Comment"
                   },
-                  [
-                     {
+                  {
+                     "type": "element",
+                     "tag": {
                         "type": "bareword",
                         "line": 3,
                         "column": 5,
                         "text": "div"
                      },
-                     [
-                        "block",
-                        [
-                           [
-                              {
+                     "child": {
+                        "type": "block",
+                        "body": [
+                           {
+                              "type": "element",
+                              "tag": {
                                  "type": "bareword",
                                  "line": 5,
                                  "column": 9,
                                  "text": "p"
                               },
-                              [
-                                 "block",
-                                 [
-                                    [
-                                       {
+                              "child": {
+                                 "type": "block",
+                                 "body": [
+                                    {
+                                       "type": "element",
+                                       "tag": {
                                           "type": "bareword",
                                           "line": 6,
                                           "column": 13,
                                           "text": "a"
                                        },
-                                       [
-                                          "block",
-                                          [
+                                       "child": {
+                                          "type": "block",
+                                          "body": [
                                              {
                                                 "type": "stringlit",
-                                                "line": 7,
-                                                "column": 17,
-                                                "text": "\"text\""
+                                                "body": {
+                                                   "type": "stringlit",
+                                                   "line": 7,
+                                                   "column": 17,
+                                                   "text": "\"text\""
+                                                }
                                              }
                                           ]
-                                       ]
-                                    ],
-                                    [
-                                       {
+                                       }
+                                    },
+                                    {
+                                       "type": "element",
+                                       "tag": {
                                           "type": "bareword",
                                           "line": 8,
                                           "column": 13,
                                           "text": "span"
                                        },
-                                       [
-                                          "block",
-                                          [
+                                       "child": {
+                                          "type": "block",
+                                          "body": [
                                              {
                                                 "type": "stringlit",
-                                                "line": 9,
-                                                "column": 17,
-                                                "text": "\"other text\""
+                                                "body": {
+                                                   "type": "stringlit",
+                                                   "line": 9,
+                                                   "column": 17,
+                                                   "text": "\"other text\""
+                                                }
                                              }
                                           ]
-                                       ]
-                                    ]
+                                       }
+                                    }
                                  ]
-                              ]
-                           ],
-                           [
-                              {
+                              }
+                           },
+                           {
+                              "type": "element",
+                              "tag": {
                                  "type": "bareword",
                                  "line": 10,
                                  "column": 9,
                                  "text": "p"
                               },
-                              [
-                                 "block",
-                                 [
-                                    [
-                                       {
+                              "child": {
+                                 "type": "block",
+                                 "body": [
+                                    {
+                                       "type": "element",
+                                       "tag": {
                                           "type": "bareword",
                                           "line": 11,
                                           "column": 13,
                                           "text": "i"
                                        },
-                                       [
-                                          "block",
-                                          [
+                                       "child": {
+                                          "type": "block",
+                                          "body": [
                                              {
                                                 "type": "stringlit",
-                                                "line": 12,
-                                                "column": 17,
-                                                "text": "\"another p\""
+                                                "body": {
+                                                   "type": "stringlit",
+                                                   "line": 12,
+                                                   "column": 17,
+                                                   "text": "\"another p\""
+                                                }
                                              }
                                           ]
-                                       ]
-                                    ]
+                                       }
+                                    }
                                  ]
-                              ]
-                           ]
+                              }
+                           }
                         ]
-                     ]
-                  ],
-                  [
-                     {
+                     }
+                  },
+                  {
+                     "type": "element",
+                     "tag": {
                         "type": "bareword",
                         "line": 13,
                         "column": 5,
                         "text": "div"
                      },
-                     [
-                        "block",
-                        [
+                     "child": {
+                        "type": "block",
+                        "body": [
                            {
                               "type": "stringlit",
-                              "line": 14,
-                              "column": 9,
-                              "text": "\"Another div\""
+                              "body": {
+                                 "type": "stringlit",
+                                 "line": 14,
+                                 "column": 9,
+                                 "text": "\"Another div\""
+                              }
                            }
                         ]
-                     ]
-                  ]
+                     }
+                  }
                ]
-            ]
-         ]
+            }
+         }
       ]
-   ]
-]
+   }
+}

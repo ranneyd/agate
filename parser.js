@@ -600,8 +600,8 @@ module.exports = (scannerTokens, verbose) => {
         }
         else if( type === undefined ||  type === tokens[0].type){
             log("Matched '" + type + "'" + (tokens[0].text? " with text '" + tokens[0].text + "'":""));
-            log("Tokens remaining: " + tokens.length);
             lastToken = tokens.shift();
+            log("Tokens remaining: " + tokens.length);
             return lastToken;
         }
         else{

@@ -1,62 +1,72 @@
-[
-   "program",
-   [
-      "block",
-      [
-         [
-            {
+{
+   "type": "program",
+   "body": {
+      "type": "block",
+      "body": [
+         {
+            "type": "element",
+            "tag": {
                "type": "bareword",
                "line": 1,
                "column": 1,
                "text": "head"
             },
-            [
-               "block",
-               [
-                  [
-                     {
+            "child": {
+               "type": "block",
+               "body": [
+                  {
+                     "type": "element",
+                     "tag": {
                         "type": "bareword",
                         "line": 2,
                         "column": 5,
                         "text": "title"
                      },
-                     {
+                     "child": {
                         "type": "stringlit",
-                        "line": 2,
-                        "column": 11,
-                        "text": "\"Hello World\""
+                        "body": {
+                           "type": "stringlit",
+                           "line": 2,
+                           "column": 11,
+                           "text": "\"Hello World\""
+                        }
                      }
-                  ]
+                  }
                ]
-            ]
-         ],
-         [
-            {
+            }
+         },
+         {
+            "type": "element",
+            "tag": {
                "type": "bareword",
                "line": 3,
                "column": 1,
                "text": "body"
             },
-            [
-               "block",
-               [
-                  [
-                     {
+            "child": {
+               "type": "block",
+               "body": [
+                  {
+                     "type": "element",
+                     "tag": {
                         "type": "bareword",
                         "line": 4,
                         "column": 5,
                         "text": "h1"
                      },
-                     {
+                     "child": {
                         "type": "stringlit",
-                        "line": 4,
-                        "column": 8,
-                        "text": "\"Hello World\""
+                        "body": {
+                           "type": "stringlit",
+                           "line": 4,
+                           "column": 8,
+                           "text": "\"Hello World\""
+                        }
                      }
-                  ]
+                  }
                ]
-            ]
-         ]
+            }
+         }
       ]
-   ]
-]
+   }
+}
