@@ -56,7 +56,7 @@ module.exports = (data) => {
     var regexes = [
         {
             "type": "comment",
-            "regex": /^\/\/(?!\!)[^\r\n]*/
+            "regex": /^\/\/(?!!)[^\r\n]*/
         },
         {
             "type": "stringlit",
@@ -64,7 +64,7 @@ module.exports = (data) => {
         },
         {
             "type": "id",
-            "regex": /^@[A-Za-z$_-]+/
+            "regex": /^@[A-Za-z$_]+/
         },
         {
             "type": "question",
@@ -92,11 +92,11 @@ module.exports = (data) => {
         },
         {
             "type": "bareword",
-            "regex": /^[a-zA-Z._-][a-zA-Z0-9._-]*/
+            "regex": /^[a-zA-Z._][a-zA-Z0-9._]*/
         },
         {
             "type": "relop",
-            "regex": /^\<|\>|(\<\=)|(\=\=)|(\!\=)|(\>\=)/
+            "regex": /^<|>|(<\=)|(\=\=)|(!\=)|(>\=)/
         },
         {
             "type": "intlit",
@@ -108,7 +108,7 @@ module.exports = (data) => {
         },
         {
             "type": "label",
-            "regex": /^\{[A-Za-z0-9_-]\}/
+            "regex": /^\{[A-Za-z0-9_]\}/
         },
         {
             "type": "assignment",
@@ -215,7 +215,7 @@ module.exports = (data) => {
             // identifiers, so it may lead to incorrectness. But hey, if the user doesn't want
             // to put the quotes, they don't have to. If there are quotes around it, however,
             // they will be removed.
-            if ( matchData = /^((.(?!'?@|[\n\r]))*.)('?(@[A-Za-z$_-]+)'?)?/.exec( truncData ) ) {
+            if ( matchData = /^((.(?!'?@|[\n\r]))*.)('?(@[A-Za-z$_]+)'?)?/.exec( truncData ) ) {
                 tokens.push( token(jsMode ? "js" : "css", matchData ? matchData[1] : "") );
 
                 column += matchData[0].length;
@@ -247,7 +247,7 @@ module.exports = (data) => {
         // Match the keywords in a special way
         for ( let keyword in keywords ) {
             let keywordRegex = new RegExp('^${keywords[keyword]}');
-            if( notMatched && matchData = keywordRegex.exec( truncData )) {
+            if( notMatched && (matchData = keywordRegex.exec( truncData ))) {
                 // Replace spaces with dashed (else if => else-if)
                 tokens.push( token(matchData.replace(" ", "-"), false) );
                 
