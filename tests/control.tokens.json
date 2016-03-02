@@ -114,10 +114,9 @@
         "column": 1
     },
     {
-        "type": "bareword",
+        "type": "if",
         "line": 5,
         "column": 9,
-        "text": "if"
     },
     {
         "type": "openParen",
@@ -212,10 +211,9 @@
         "column": 1
     },
     {
-        "type": "bareword",
+        "type": "else",
         "line": 7,
         "column": 9,
-        "text": "else"
     },
     {
         "type": "newline",

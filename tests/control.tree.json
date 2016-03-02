@@ -1,0 +1,229 @@
+{
+   "type": "program",
+   "body": {
+      "type": "block",
+      "body": [
+         {
+            "type": "element",
+            "tag": {
+               "type": "bareword",
+               "line": 1,
+               "column": 1,
+               "text": "head"
+            },
+            "child": {
+               "type": "block",
+               "body": [
+                  {
+                     "type": "element",
+                     "tag": {
+                        "type": "bareword",
+                        "line": 2,
+                        "column": 5,
+                        "text": "title"
+                     },
+                     "child": {
+                        "type": "stringlit",
+                        "body": {
+                           "type": "stringlit",
+                           "line": 2,
+                           "column": 11,
+                           "text": "\"Password Demo\""
+                        }
+                     }
+                  }
+               ]
+            }
+         },
+         {
+            "type": "element",
+            "tag": {
+               "type": "bareword",
+               "line": 3,
+               "column": 1,
+               "text": "body"
+            },
+            "child": {
+               "type": "block",
+               "body": [
+                  {
+                     "type": "element",
+                     "tag": {
+                        "type": "bareword",
+                        "line": 4,
+                        "column": 5,
+                        "text": "input"
+                     },
+                     "attrs": [
+                        {
+                           "type": "id",
+                           "body": {
+                              "type": "id",
+                              "body": {
+                                 "type": "bareword",
+                                 "line": 4,
+                                 "column": 12,
+                                 "text": "pass"
+                              }
+                           }
+                        },
+                        {
+                           "type": {
+                              "type": "bareword",
+                              "line": 4,
+                              "column": 17,
+                              "text": "type"
+                           },
+                           "body": {
+                              "type": "stringlit",
+                              "body": {
+                                 "type": "stringlit",
+                                 "line": 4,
+                                 "column": 22,
+                                 "text": "\"password\""
+                              }
+                           }
+                        }
+                     ],
+                     "event": {
+                        "type": "event",
+                        "body": {
+                           "type": "bareword",
+                           "line": 4,
+                           "column": 34,
+                           "text": "submit"
+                        },
+                        "child": {
+                           "type": "block",
+                           "body": [
+                              {
+                                 "type": "element",
+                                 "tag": {
+                                    "type": "bareword",
+                                    "line": 5,
+                                    "column": 9,
+                                    "text": "if"
+                                 },
+                                 "attrs": [
+                                    {
+                                       "type": {
+                                          "type": "bareword",
+                                          "line": 5,
+                                          "column": 12,
+                                          "text": "length"
+                                       },
+                                       "body": {
+                                          "type": "relop",
+                                          "op": {
+                                             "type": "relop",
+                                             "line": 5,
+                                             "column": 26,
+                                             "text": "<"
+                                          },
+                                          "a": {
+                                             "type": "elemattr",
+                                             "source": "this",
+                                             "body": {
+                                                "type": "bareword",
+                                                "line": 5,
+                                                "column": 20,
+                                                "text": "value"
+                                             }
+                                          },
+                                          "b": {
+                                             "type": "intlit",
+                                             "body": {
+                                                "type": "intlit",
+                                                "line": 5,
+                                                "column": 28,
+                                                "text": "8"
+                                             }
+                                          }
+                                       }
+                                    }
+                                 ],
+                                 "child": {
+                                    "type": "block",
+                                    "body": [
+                                       {
+                                          "type": "element",
+                                          "tag": {
+                                             "type": "bareword",
+                                             "line": 6,
+                                             "column": 13,
+                                             "text": "p"
+                                          },
+                                          "attrs": [
+                                             {
+                                                "type": {
+                                                   "type": "style",
+                                                   "line": 6,
+                                                   "column": 15
+                                                },
+                                                "body": {
+                                                   "type": "stringlit",
+                                                   "body": {
+                                                      "type": "stringlit",
+                                                      "line": 6,
+                                                      "column": 21,
+                                                      "text": "\"color:red; background-color:cyan\""
+                                                   }
+                                                }
+                                             }
+                                          ],
+                                          "child": {
+                                             "type": "stringlit",
+                                             "body": {
+                                                "type": "stringlit",
+                                                "line": 6,
+                                                "column": 57,
+                                                "text": "\"Your password sucks\""
+                                             }
+                                          }
+                                       }
+                                    ]
+                                 }
+                              },
+                              {
+                                 "type": "element",
+                                 "tag": {
+                                    "type": "bareword",
+                                    "line": 7,
+                                    "column": 9,
+                                    "text": "else"
+                                 },
+                                 "child": {
+                                    "type": "block",
+                                    "body": [
+                                       {
+                                          "type": "element",
+                                          "tag": {
+                                             "type": "script",
+                                             "line": 8,
+                                             "column": 13
+                                          },
+                                          "child": {
+                                             "type": "JS Block",
+                                             "body": [
+                                                {
+                                                   "type": "js",
+                                                   "line": 9,
+                                                   "column": 17,
+                                                   "text": "alert(\"Hooray!\");"
+                                                }
+                                             ]
+                                          }
+                                       }
+                                    ]
+                                 }
+                              }
+                           ]
+                        }
+                     }
+                  }
+               ]
+            }
+         }
+      ]
+   }
+}
