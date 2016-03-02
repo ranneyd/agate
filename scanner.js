@@ -52,6 +52,7 @@ var error = new Error();
 
 module.exports = (data) => {
 
+    var keywords = ["def", "if", "else if", "else", "for", "in", "while"];
     var regexes = [
         {
             "type": "comment",
@@ -64,11 +65,6 @@ module.exports = (data) => {
         {
             "type": "id",
             "regex": /^@[A-Za-z$_-]+/
-        },
-        {
-            "type": "def",
-            "regex": /^def/,
-            "notext": true
         },
         {
             "type": "question",
@@ -248,7 +244,17 @@ module.exports = (data) => {
             jsMode = matchData[0] === "script";
             cssMode = !jsMode;
         }
-
+        // Match the keywords in a special way
+        for ( let keyword in keywords) {
+            let keywordRegex = new RegExp('^${keywords[keyword]}');
+            if( notMatched && matchData = keywordRegex.exec( truncData )) {
+                tokens.push( token(matchData, false) );
+                
+                column += matchData[0].length;
+                position += matchData[0].length;
+                notMatched = false;
+            }
+        }
         // Simples cases handled here. If we match something, notMatched will be false so we won't
         // do the stuff down there
         for ( var type in regexes ) {
