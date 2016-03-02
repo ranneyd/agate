@@ -6,10 +6,10 @@
     ---------------------------------
     Program     | Block
     Block       | (Statement ((?<!ChildBlock)newline)?)+
-    Statement   | Element
-                | Exp
-                | Control
+    Statement   | Control
                 | Assignment
+                | Exp
+                | Element
                 | comment
                 | newline
     Element     | Tag(Class)?(Id)?Attrs?(Exp|Element|ChildBlock|Event ChildBlock)?
@@ -33,13 +33,14 @@
     ElemAttr    | (Id|Class)?tilde Attr
     Event       | tilde Attr
     FuncCall    | bareword(Exp|openParen(Exp)*closeParen)
-    Control*    | If | For | While         
-    If          | "if" Exp ChildBlock ("else" "if" Exp ChildBlock)*("else" ChildBlock)?
-    For         | "for" id "in" (Array|stringlit|Range) ChildBlock
-    While       | "while" Exp ChildBlock
+    Control     | If | For | While         
+    If          | if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?
+    For         | for id in (Array|stringlit|Range) ChildBlock
+    While       | while Exp ChildBlock
     Array       | openSquare (Lit+|Range) closeSquare
     Range       | intLit range intLit
     Assignment  | id assignment Exp
+    TODO: function def
 */
 
 Error = require("./error.js");
@@ -99,25 +100,18 @@ module.exports = (scannerTokens, verbose) => {
     var Statement = () => {
         log("Matching a Statement");
 
-        if( at("js") ){
-            return match("js");
+        if ( at(['if', 'for', 'while']) ) {
+            return Control();
         }
-        if ( at("css") ){
-            return match("css");
-        }
-        if ( at("comment") ){
-            return match("comment");
-        }
-        if ( at(tags) ) {
-            if ( at(['if', 'for', 'while']) ) {
-                return Control();
-            }
             else {
                 return Element();
             }
         }
         if ( at("id") ) {
             return Assignment();
+        }
+        if ( at("comment") ){
+            return match("comment");
         }
         if ( at("newline") ){
             return "blank";
