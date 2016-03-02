@@ -245,10 +245,11 @@ module.exports = (data) => {
             cssMode = !jsMode;
         }
         // Match the keywords in a special way
-        for ( let keyword in keywords) {
+        for ( let keyword in keywords ) {
             let keywordRegex = new RegExp('^${keywords[keyword]}');
             if( notMatched && matchData = keywordRegex.exec( truncData )) {
-                tokens.push( token(matchData, false) );
+                // Replace spaces with dashed (else if => else-if)
+                tokens.push( token(matchData.replace(" ", "-"), false) );
                 
                 column += matchData[0].length;
                 position += matchData[0].length;
