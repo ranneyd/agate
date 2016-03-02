@@ -8,10 +8,10 @@
     Block       | (Statement ((?<!ChildBlock)newline)?)+
     Statement   | Control
                 | Assignment
-                | Exp
-                | Element
                 | comment
                 | newline
+                | Element
+                | Exp
     Element     | Tag(Class)?(Id)?Attrs?(Exp|Element|ChildBlock|Event ChildBlock)?
     Attrs       | openParen ((Attr Exp)|Class|Id)+ closeParen
     ChildBlock  | newline indent (Block|JSBlock|CSSBlock) newline dedent
@@ -33,7 +33,7 @@
     ElemAttr    | (Id|Class)?tilde Attr
     Event       | tilde Attr
     FuncCall    | bareword(Exp|openParen(Exp)*closeParen)
-    Control     | If | For | While         
+    Control     | If | For | While
     If          | if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?
     For         | for id in (Array|stringlit|Range) ChildBlock
     While       | while Exp ChildBlock
@@ -55,11 +55,11 @@ module.exports = (scannerTokens, verbose) => {
     var tokens = scannerTokens;
     var lastToken;
 
-    var log = function(message){
-        if(verbose){
+    var log = (message) => {
+        if(verbose) {
             console.log(message);
         }
-    }
+    };
 
     var Program = () => {
         log("Matching the program");
@@ -103,18 +103,18 @@ module.exports = (scannerTokens, verbose) => {
         if ( at(['if', 'for', 'while']) ) {
             return Control();
         }
-            else {
-                return Element();
-            }
-        }
         if ( at("id") ) {
             return Assignment();
         }
-        if ( at("comment") ){
+        
+        if ( at("comment") ) {
             return match("comment");
         }
-        if ( at("newline") ){
+        if ( at("newline") ) {
             return "blank";
+        }
+        if( at("bareword") ) {
+            return Element();
         }
         return Exp();
     };
@@ -412,7 +412,6 @@ module.exports = (scannerTokens, verbose) => {
             }
         }
         return error.expected('some kind of literal', tokens[0]);
-
     };  
     var ElemAttr = () => {
         log("Matching ElemAttr");
@@ -421,13 +420,13 @@ module.exports = (scannerTokens, verbose) => {
             "type": "elemattr"
         };
 
-        if( at("dot") ){
+        if( at("dot") ) {
             elemAttr.source = Class();
         }
-        else if( at("hash") ){
+        else if( at("hash") ) {
             elemAttr.source = Id();
         }
-        else{
+        else {
             elemAttr.source = "this";
         }
 
@@ -436,7 +435,6 @@ module.exports = (scannerTokens, verbose) => {
         elemAttr.body = Attr();
 
         return elemAttr;
-
     };
     // Note that this is very similar to ElemAttr. I considered merging the
     // two somehow, but they really have different meanings. At the end of an
@@ -498,7 +496,6 @@ module.exports = (scannerTokens, verbose) => {
         else {
             return error.expected('some kind of control statement', tokens[0]);
         }
-
     };   
     var If = () => {
         log("Matching If");
@@ -577,10 +574,10 @@ module.exports = (scannerTokens, verbose) => {
     };
     // Like at except if type is an array, it checks one after the other.
     var atSequential = ( type ) => {
-        for(let i = 0; i < type.length; ++i){
+        for(let i = 0; i < type.length; ++i) {
             // If we don't have enough tokens or the token we're at doesn't
             // match, no sale
-            if(tokens.length <= i || type[i] !== tokens[i].type){
+            if(tokens.length <= i || type[i] !== tokens[i].type) {
                 return false;
             }
         }
@@ -592,17 +589,17 @@ module.exports = (scannerTokens, verbose) => {
         if( !tokens.length ) {
             return error.parse('Expected ${type}, got end of program');
         }
-        else if( type === undefined ||  type === tokens[0].type){
-            log("Matched '" + type + "'" + (tokens[0].text? " with text '" + tokens[0].text + "'":""));
+        else if( type === undefined ||  type === tokens[0].type) {
+            log('Matched "${type}"' + (tokens[0].text ? 'with text "${tokens[0].text}"' : ""));
             lastToken = tokens.shift();
-            log("Tokens remaining: " + tokens.length);
+            log('Tokens remaining: ${tokens.length}');
             return lastToken;
         }
-        else{
+        else {
             tokens.shift();
             return error.expected(type, tokens[0]);
         }
     };
 
     return Program();
-}
+};
