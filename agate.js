@@ -5,6 +5,10 @@ var code;
 var verbose = false;
 var fs = require("fs");
 
+Error = require("./error.js");
+
+var error = new Error();
+
 var processArguments = function(){
     // First two elements are "node" and "analyzer.js"
     process.argv.slice(2).forEach(function (arg, index) {
@@ -48,11 +52,13 @@ readFile( function () {
     let scanner = require("./scanner.js");
     let parser  = require("./parser.js");
 
-    let tokens = scanner(code);
 
-    // console.log(JSON.stringify(tokens, null, 3));
 
-    let parseTree = parser(tokens, verbose);
+    let tokens = scanner(code, error);
+
+    if(!error.count){
+        let parseTree = parser(tokens, error, verbose);
+    }
     
     console.log(JSON.stringify(parseTree, null, 3));
 
