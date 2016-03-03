@@ -195,5 +195,10 @@
         "line": 12,
         "column": 9,
         "text": "\"Another div\""
+    },
+    {
+        "column": 22,
+        "line": 12,
+        "type": "EOF"
     }
 ]

@@ -116,7 +116,7 @@
     {
         "type": "if",
         "line": 5,
-        "column": 9,
+        "column": 9
     },
     {
         "type": "openParen",
@@ -213,7 +213,7 @@
     {
         "type": "else",
         "line": 7,
-        "column": 9,
+        "column": 9
     },
     {
         "type": "newline",
@@ -245,5 +245,10 @@
         "line": 9,
         "column": 17,
         "text": "alert(\"Hooray!\");"
+    },
+    {
+        "column": 34,
+        "line": 9,
+        "type": "EOF"
     }
 ]
