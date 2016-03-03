@@ -1,3 +1,9 @@
+'use strict';
+
+if ( global.v8debug) {
+    global.v8debug.Debug.setBreakOnException(); // enable it, global.v8debug is only defined when the --debug or --debug-brk flag is set
+}
+
 /* My glorious testing script
  * 
  * This script goes through the folder "tests" and looks at every file that ends in .agate. It then
@@ -5,14 +11,38 @@
  * and the JSON.
  */
 
-var scanner = require( "./scanner.js" ),
-    parser = require("./parser.js"),
-    fs = require( 'fs' ),
-    dir = "./tests";
+var scanner = require( "./scanner.js" );
+var parser = require("./parser.js");
+var fs = require( 'fs' );
+var dir = "./tests";
+
+Error = require("./error.js");
+
+require('colors');
+var jsdiff = require('diff');
+
+var diff = (expected, produced) =>{
+    let ourDiff = jsdiff.diffJson(expected, produced);
+
+    if(ourDiff.length > 1){
+        ourDiff.forEach(function(part){
+            // green for additions, red for deletions 
+            // grey for common parts 
+            var color = part.added ? 'green' :
+                part.removed ? 'red' : 'grey';
+            process.stdout.write(part.value[color]);
+        });
+
+        process.stdout.write("\n");
+
+        return false;
+    }
+    return true;
+}
 
 // http://stackoverflow.com/questions/7041638/walking-a-directory-with-node-js
 // Read the directory
-fs.readdir( dir, function ( dir_err, list ) {
+fs.readdir( dir, ( dir_err, list ) => {
     // Return the error if something went wrong
     if ( dir_err ) {
         console.log( dir_err );
@@ -20,60 +50,48 @@ fs.readdir( dir, function ( dir_err, list ) {
     }
 
     // For every file in the list
-    list.forEach( function ( file ) {
+    list.forEach( ( file ) => {
         // only get the agate files
-        var fileParts = /^(.+).agate$/g.exec(file);
+        let fileParts = /^(.+).agate$/g.exec(file);
         // if it matches something, this will have two elements, the first is the whole string and
         // the second is the first matching group. If regex didn't match, it's null
         if ( fileParts ){
-            var testee = fs.readFileSync( dir + "/" + file, 'utf8');
+            console.log(`Testing ${fileParts[1]}`);
+            let testee = fs.readFileSync( `${dir}/${file}`, 'utf8');
             // For every agate file there should be a corresponding json with the expected
             // lexical analysis
-            var expected = require( dir + "/" + fileParts[1] + ".json" );
-            var analysis = scanner( testee );
-            if ( analysis.status === "error" && !expected.status ) {
-                console.log("Error in Test " + fileParts[1]);
-                console.log(analysis);
+            let expectedTokens = require( `${dir}/${fileParts[1]}.tokens.json` );
+            let error = new Error();
+            let tokens = scanner( testee, error );
+            if ( error.count && !expectedTokens.status ) {
+                console.log(`\tError`);
+                console.log(tokens);
             }
-            else if ( expected ){
-                if ( JSON.stringify( expected ) === JSON.stringify( analysis ) ) {
-                    console.log( "Analysis for Test " + fileParts[1] + " passed!" );
-                    var parseResults = parser(analysis);
-                    if (parseResults.status === "success") {
-                        console.log( "Parsing for Test " + fileParts[1] + " passed!" );
-                    }
-                    else {
-                        console.log( "Parsing for Test " + fileParts[1] + " FAILED!" );
+            else if ( expectedTokens ){
+                if (diff(expectedTokens, tokens) ) {
+                    console.log( `\tScanning passed!` );
+                    if (!error.count){
+                        let tree = parser(tokens, error);
+                        let expectedTree = require( `${dir}/${fileParts[1]}.tree.json` );
+                        if (expectedTree) {
+                            if (diff(expectedTree, tree)) {
+                                console.log( `\tParsing passed!` );
+                            }
+                            else {
+                                console.log( `\tParsing FAILED!` );
+                            }
+                        }
+                        else {
+                            console.log( `\tERROR. ${file} found but no corresponding tree.json found.` );
+                        } 
                     }
                 }
                 else {
-                    console.log( "Analysis for Test " + fileParts[1] + " FAILED!" );
-
-                    var i;
-                    for(i = 0; i < expected.length; ++i) {
-                        if (JSON.stringify(expected[i]) !== JSON.stringify(analysis[i])){
-                            console.log("Item " + (i + 1))
-                            console.log("Expected:");
-                            console.log(expected[i]);
-                            console.log("Produced:");
-                            console.log(analysis[i]);
-                        }
-                    }
-                    if (expected.length < analysis.length ){
-                        console.log("Test produced additional tokens: ")
-                        for(; i < analysis.length; ++i){
-                            console.log(analysis[i]);
-                        }
-                    }
-
-                    console.log( "Expected: " );
-                    console.log( expected );
-                    console.log( "Produced: " );
-                    console.log(analysis);
+                    console.log( `\tScanning FAILED!` );
                 }
             }
             else {
-                console.log( "ERROR. " + file + " found but no corresponding JSON found." );
+                console.log( `\tERROR. ${file} found but no corresponding token.json found.` );
             }
         }
     });
