@@ -43,15 +43,11 @@
     TODO: function def
 */
 
-Error = require("./error.js");
-
-var error = new Error();
-
 var lits = ["stringlit", "intlit", "floatlit", "boollit"];
 var tags = ["bareword", "script", "style"];
 
 
-module.exports = (scannerTokens, verbose) => {
+module.exports = (scannerTokens, error, verbose) => {
     var tokens = scannerTokens;
     var lastToken;
 
@@ -179,6 +175,7 @@ module.exports = (scannerTokens, verbose) => {
                 });
             }
             else{
+                tokens.shift();
                 return error.expected('some attribute', tokens[0]);
             }
         } while( !at("closeParen") );
@@ -245,6 +242,7 @@ module.exports = (scannerTokens, verbose) => {
                 return match(tags[tag]);
             }
         }
+        tokens.shift();
         return error.expected('some kind of tag', tokens[0]);
     };         
     var Class = () => {
@@ -397,6 +395,8 @@ module.exports = (scannerTokens, verbose) => {
             return FuncCall();
         }
         else {
+            debugger;
+            tokens.shift();
             return error.expected('some kind of value', tokens[0]);
         }
     };      
@@ -411,6 +411,7 @@ module.exports = (scannerTokens, verbose) => {
                 };
             }
         }
+        tokens.shift();
         return error.expected('some kind of literal', tokens[0]);
     };  
     var ElemAttr = () => {
@@ -479,22 +480,18 @@ module.exports = (scannerTokens, verbose) => {
     var Control = () => {
         log("Matching Control block");
 
-        if( at("bareword") ) {
-            if( tokens[0].text === "if" ) {
-                return If();
-            }
-            else if( tokens[0].text === "for" ) {
-                return For();
-            }
-            else if( tokens[0].text === "while" ) {
-                return While();
-            }
-            else {
-                return error.parse('${tokens[0].text} is not a recognized control statement', tokens[0]);
-            }
+        if( at("if")) {
+            return If();
+        }
+        else if( at("for") ) {
+            return For();
+        }
+        else if( at("while") ) {
+            return While();
         }
         else {
-            return error.expected('some kind of control statement', tokens[0]);
+            tokens.shift();
+            return error.parse(`${tokens[0].text} is not a recognized control statement`, tokens[0]);
         }
     };   
     var If = () => {
@@ -504,35 +501,33 @@ module.exports = (scannerTokens, verbose) => {
             "type": "if"
         };
 
-        if( at("bareword") && tokens[0].text === "if") {
-            match("bareword");
+        if( at("if") ) {
+            match("if");
 
             ifStatement.condition = Exp();
             ifStatement.body = ChildBlock();
 
-            while( atSequential(["bareword", "bareword"]) 
-                    && tokens[0].text === "else"
-                    && tokens[1].text === "if") {
-                match("bareword");
-                match("bareword");
+            while( at("else-if") ) {
+                match("else-if");
 
                 let thisIf = {
                     "condition": Exp(),
                     "body": ChildBlock()
                 };
                 
-                let elseIfs = ifStatement["else if"] || [];
+                let elseIfs = ifStatement["else-if"] || [];
                 elseIfs.push(thisIf);
-                ifStatement["else if"] = elseIfs;
+                ifStatement["else-if"] = elseIfs;
             }
 
-            if( at("bareword") && tokens[0].text === "else" ) {
-                match("bareword");
+            if( at("else") ) {
+                match("else");
 
                 ifStatement.else = ChildBlock()
             }
         }
         else {
+            tokens.shift();
             return error.expected('an if statement', tokens[0]);          
         }
 
@@ -544,7 +539,7 @@ module.exports = (scannerTokens, verbose) => {
     var While = () => {
         log("Matching While");
 
-        if( at("bareword") && tokens[0].text === "while") {
+        if( at("while") ) {
             return {
                 "type": "while",
                 "condition": Exp(),
@@ -552,6 +547,7 @@ module.exports = (scannerTokens, verbose) => {
             };
         }
         else {
+            tokens.shift();
             return error.expected('an while statement', tokens[0]);
         }
     };     
@@ -587,12 +583,13 @@ module.exports = (scannerTokens, verbose) => {
     // Pops off the top token if its type matches 'type', returns an error otherwise
     var match = ( type ) => {
         if( !tokens.length ) {
-            return error.parse('Expected ${type}, got end of program');
+            tokens.shift();
+            return error.parse(`Expected ${type}, got end of program`);
         }
         else if( type === undefined ||  type === tokens[0].type) {
-            log('Matched "${type}"' + (tokens[0].text ? 'with text "${tokens[0].text}"' : ""));
+            log(`Matched "${type}"` + (tokens[0].text ? `with text "${tokens[0].text}"` : ""));
             lastToken = tokens.shift();
-            log('Tokens remaining: ${tokens.length}');
+            log(`Tokens remaining: ${tokens.length}`);
             return lastToken;
         }
         else {
