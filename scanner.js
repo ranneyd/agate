@@ -46,11 +46,7 @@
     range      | \.\.
 */
 
-Error = require("./error.js");
-
-var error = new Error();
-
-module.exports = (data) => {
+module.exports = (data, error) => {
 
     var keywords = ["def", "if", "else if", "else", "for", "in", "while"];
     var regexes = [
@@ -246,10 +242,10 @@ module.exports = (data) => {
         }
         // Match the keywords in a special way
         for ( let keyword in keywords ) {
-            let keywordRegex = new RegExp('^${keywords[keyword]}');
+            let keywordRegex = new RegExp(`^${keywords[keyword]}(?![A-Za-z$_])`);
             if( notMatched && (matchData = keywordRegex.exec( truncData ))) {
                 // Replace spaces with dashed (else if => else-if)
-                tokens.push( token(matchData.replace(" ", "-"), false) );
+                tokens.push( token(matchData[0].replace(" ", "-"), false) );
                 
                 column += matchData[0].length;
                 position += matchData[0].length;
@@ -316,7 +312,7 @@ module.exports = (data) => {
 
                     // If this number is negative, we have a dedent
                     if( specialIndentSize < 0 ) {
-                        var error = dedentDetect(indentSize);
+                        let error = dedentDetect(indentSize);
                         if( error ){
                             return error;
                         }
@@ -356,7 +352,7 @@ module.exports = (data) => {
                     }
                     // In the other case, we have returned to a previous indent level
                     if ( indent.peek() > indentSize ) {
-                        var error = dedentDetect(indentSize);
+                        let error = dedentDetect(indentSize);
                         if( error ){
                             return error;
                         }
