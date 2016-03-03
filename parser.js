@@ -15,8 +15,9 @@
     Element     | Tag(Class)?(Id)?Attrs?(Exp|Element|ChildBlock|Event ChildBlock)?
     Attrs       | openParen ((Attr Exp)|Class|Id)+ closeParen
     ChildBlock  | newline indent (Block|JSBlock|CSSBlock) newline dedent
-    JSBlock     | js (id js)*
-    CSSBlock    | css (id css)*
+    JSBlock     | (js id? js? newline?)+
+    CSSBlock    | (css id? css
+    ? newline?)+
     Tag         | bareword|script|style
     Class       | dot bareword
     Id          | hash bareword
@@ -28,19 +29,21 @@
     Exp4        | Exp5 (multop Exp5)*
     Exp5        | prefixop? Exp6
     Exp6        | Val | openParen Exp newline? closeParen
-    Val         | ElemAttr | Lit+ | id | FuncCall
+    Val         | NonConcat+ 
+    NonConcat   | ElemAttr | id | FuncCall | Lit
     Lit         | stringlit | intlit | floatlit | boollit
     ElemAttr    | (Id|Class)?tilde Attr
     Event       | tilde Attr
     FuncCall    | bareword(Exp|openParen(Exp)*closeParen)
     Control     | If | For | While
     If          | if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?
-    For         | for id in (Array|stringlit|Range) ChildBlock
+    For         | for id in (Array|stringlit|id) ChildBlock
     While       | while Exp ChildBlock
-    Array       | openSquare (Lit+|Range) closeSquare
+    Array       | openSquare ((openParen Exp closeParen|NonConcat)+|Range) closeSquare
     Range       | intLit range intLit
     Assignment  | id assignment Exp
     TODO: function def
+    TODO: import/template
 */
 
 var lits = ["stringlit", "intlit", "floatlit", "boollit"];
@@ -109,7 +112,7 @@ module.exports = (scannerTokens, error, verbose) => {
         if ( at("newline") ) {
             return "blank";
         }
-        if( at("bareword") ) {
+        if( at(tags) ) {
             return Element();
         }
         return Exp();
@@ -157,16 +160,10 @@ module.exports = (scannerTokens, error, verbose) => {
 
         do{
             if( at("hash") ){
-                attrs.push({
-                    "type": "id",
-                    "body": Id()
-                });
+                attrs.push( Id() );
             }
             else if( at("dot") ){
-                attrs.push({
-                    "type": "class",
-                    "body": Class()
-                });
+                attrs.push( Class() );
             }
             else if( at("bareword") || at("style") ){
                 attrs.push({
@@ -379,6 +376,24 @@ module.exports = (scannerTokens, error, verbose) => {
     var Val = () => {
         log("Matching Val");
 
+        let val = NonConcat();
+        let valTypes = ["dot", "hash", "tilde", "id", "bareword", ...lits];
+        if( at(valTypes) ) {
+            val = {
+                "type": "concat",
+                "elems": [
+                    val
+                ]
+            };
+            do {
+                val.elems.push(NonConcat());
+            } while(at(valTypes));
+        }
+        return val;    
+    };
+    var NonConcat = () => {
+        log("Matching NonConcat");
+
         if( at(["dot", "hash", "tilde"]) ) {
             return ElemAttr();
         }
@@ -395,11 +410,10 @@ module.exports = (scannerTokens, error, verbose) => {
             return FuncCall();
         }
         else {
-            debugger;
             tokens.shift();
             return error.expected('some kind of value', tokens[0]);
         }
-    };      
+    };           
     var Lit = () => {
         log("Matching Lit");
 
@@ -534,7 +548,34 @@ module.exports = (scannerTokens, error, verbose) => {
         return ifStatement;
     };          
     var For = () => {
+        log("Matching For");
 
+        match('for');
+
+        let forStatement = {
+            "type": "for",
+            "condition": {
+                "type": "in",
+                "a": match("id")
+            }
+        };
+
+        match("in");
+
+        if( at("openSquare") ) {
+            forStatement.condition.b = ArrayDef();
+        }
+        else if( at("stringlit") ){
+            forStatement.condition.b = match( "stringlit" );   
+        }
+        else if( at("id") ) {
+            forStatement.condition.b = match( "id" );   
+        }
+        else{
+            tokens.shift();
+            return error.expected('something you can loop over', tokens[0]); 
+        }
+        forStatement.body = ChildBlock();
     };
     var While = () => {
         log("Matching While");
@@ -552,13 +593,56 @@ module.exports = (scannerTokens, error, verbose) => {
         }
     };     
     var ArrayDef = () => {
+        log("Matching Array");
 
+        match("openSquare");
+
+        let arrayDef = {
+            "type": "array",
+        };
+
+        if(atSequential(["intlit", "range"])) {
+            arrayDef.elems = Range();
+        }
+        else{
+            arrayDef.elems = [];
+            do {
+                if(at("openParen")){
+                    match("openParen");
+                    arrayDef.elems.push(Exp());
+                    match("closeParen");
+                }
+                else{
+                    arrayDef.push(NonConcat());
+                }
+            } while( !at("closeSquare"));
+        }
+        match("closeSquare");
+
+        return arrayDef;
     };       
     var Range = () => {
+        log("Matching Range");
 
+        let range = {
+            "type": "range",
+            "a": match("intLit")
+        };
+        match("range");
+        range.b = match("intLit");
+        return range;
     };
     var Assignment = () => {
+        log("Matching Assignment");
 
+        let assignment = {
+            "type": "assignment",
+            "id": match("id")
+        };
+        match("assignment");
+        assignment.value = Exp();
+
+        return assignment;
     };
 
     // Returns true if the next token has type "type", or a type in "type" if
