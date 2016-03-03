@@ -36,7 +36,7 @@
         "type": "id",
         "line": 3,
         "column": 5,
-        "text": "@color"
+        "text": "color"
     },
     {
         "type": "assignment",
@@ -299,5 +299,10 @@
            "line": 21,
            "column": 9,
            "text": "alert(\"Should be fine right?\");"
+    },
+    {
+        "column": 40,
+        "line": 21,
+        "type": "EOF"
     }
 ]

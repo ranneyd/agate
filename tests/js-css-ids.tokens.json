@@ -36,7 +36,7 @@
         "type": "id",
         "line": 3,
         "column": 5,
-        "text": "@color"
+        "text": color"
     },
     {
         "type": "assignment",
@@ -123,7 +123,7 @@
         "type": "id",
         "line": 9,
         "column": 26,
-        "text": "@color"
+        "text": "color"
     },
     {
         "type": "css",
@@ -253,7 +253,7 @@
         "type": "id",
         "line": 17,
         "column": 32,
-        "text": "@color"
+        "text": "color"
     },
     {
         "type": "js",
@@ -323,5 +323,10 @@
            "line": 21,
            "column": 9,
            "text": "alert(\"Should be fine right?\");"
+    },
+    {
+        "column": 40,
+        "line": 21,
+        "type": "EOF"
     }
 ]

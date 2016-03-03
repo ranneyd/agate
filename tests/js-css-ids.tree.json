@@ -1,0 +1,212 @@
+Parse Error: Expected newline, got assignment
+at line 3 and column 12
+Parse Error: Expected some kind of value, got stringlit
+at line 3 and column 14
+Parse Error: Expected newline, got newline
+at line 3 and column 20
+Parse Error: Expected dedent, got css
+at line 6 and column 9
+Parse Error: Expected newline, got newline
+at line 6 and column 35
+Parse Error: Expected some kind of value, got newline
+at line 7 and column 10
+Parse Error: Expected some kind of value, got newline
+at line 8 and column 21
+Parse Error: Expected some kind of value, got id
+at line 9 and column 26
+Parse Error: Expected newline, got css
+at line 9 and column 26
+Parse Error: Expected some kind of value, got newline
+at line 9 and column 27
+Parse Error: Expected some kind of value, got newline
+at line 10 and column 10
+Parse Error: Expected dedent, got js
+at line 14 and column 9
+Parse Error: Expected newline, got newline
+at line 14 and column 40
+Parse Error: Expected some kind of value, got newline
+at line 15 and column 35
+Parse Error: Expected some kind of value, got newline
+at line 16 and column 42
+Parse Error: Expected some kind of value, got id
+at line 17 and column 32
+Parse Error: Expected newline, got js
+at line 17 and column 32
+Parse Error: Expected some kind of value, got newline
+at line 17 and column 33
+Parse Error: Expected some kind of value, got newline
+at line 18 and column 10
+Parse Error: Expected EOF, got dedent
+at line 19 and column 1
+{
+   "type": "program",
+   "body": {
+      "type": "block",
+      "body": [
+         {
+            "type": "element",
+            "tag": {
+               "type": "bareword",
+               "line": 1,
+               "column": 1,
+               "text": "head"
+            },
+            "child": {
+               "type": "block",
+               "body": [
+                  {
+                     "type": "element",
+                     "tag": {
+                        "type": "bareword",
+                        "line": 2,
+                        "column": 5,
+                        "text": "title"
+                     },
+                     "child": {
+                        "type": "stringlit",
+                        "body": {
+                           "type": "stringlit",
+                           "line": 2,
+                           "column": 11,
+                           "text": "\"JS and CSS test\""
+                        }
+                     }
+                  },
+                  null,
+                  {
+                     "status": "error",
+                     "line": 3,
+                     "column": 14,
+                     "message": "Parse Error: Expected some kind of value, got stringlit"
+                  },
+                  {
+                     "type": "element",
+                     "tag": {
+                        "type": "style",
+                        "line": 4,
+                        "column": 5
+                     },
+                     "child": {
+                        "type": "CSS Block",
+                        "body": [
+                           {
+                              "type": "css",
+                              "line": 5,
+                              "column": 9,
+                              "text": "p {"
+                           }
+                        ]
+                     }
+                  },
+                  {
+                     "status": "error",
+                     "line": 7,
+                     "column": 10,
+                     "message": "Parse Error: Expected some kind of value, got newline"
+                  },
+                  {
+                     "status": "error",
+                     "line": 8,
+                     "column": 21,
+                     "message": "Parse Error: Expected some kind of value, got newline"
+                  },
+                  {
+                     "status": "error",
+                     "line": 9,
+                     "column": 26,
+                     "message": "Parse Error: Expected some kind of value, got id"
+                  },
+                  {
+                     "status": "error",
+                     "line": 9,
+                     "column": 27,
+                     "message": "Parse Error: Expected some kind of value, got newline"
+                  },
+                  {
+                     "status": "error",
+                     "line": 10,
+                     "column": 10,
+                     "message": "Parse Error: Expected some kind of value, got newline"
+                  }
+               ]
+            }
+         },
+         {
+            "type": "element",
+            "tag": {
+               "type": "script",
+               "line": 11,
+               "column": 5
+            },
+            "attrs": [
+               {
+                  "type": {
+                     "type": "bareword",
+                     "line": 11,
+                     "column": 12,
+                     "text": "src"
+                  },
+                  "body": {
+                     "type": "stringlit",
+                     "body": {
+                        "type": "stringlit",
+                        "line": 11,
+                        "column": 16,
+                        "text": "\"/js/main.js\""
+                     }
+                  }
+               }
+            ]
+         },
+         {
+            "type": "element",
+            "tag": {
+               "type": "script",
+               "line": 12,
+               "column": 5
+            },
+            "child": {
+               "type": "JS Block",
+               "body": [
+                  {
+                     "type": "js",
+                     "line": 13,
+                     "column": 9,
+                     "text": "alert(\"This is an alert\");"
+                  }
+               ]
+            }
+         },
+         {
+            "status": "error",
+            "line": 15,
+            "column": 35,
+            "message": "Parse Error: Expected some kind of value, got newline"
+         },
+         {
+            "status": "error",
+            "line": 16,
+            "column": 42,
+            "message": "Parse Error: Expected some kind of value, got newline"
+         },
+         {
+            "status": "error",
+            "line": 17,
+            "column": 32,
+            "message": "Parse Error: Expected some kind of value, got id"
+         },
+         {
+            "status": "error",
+            "line": 17,
+            "column": 33,
+            "message": "Parse Error: Expected some kind of value, got newline"
+         },
+         {
+            "status": "error",
+            "line": 18,
+            "column": 10,
+            "message": "Parse Error: Expected some kind of value, got newline"
+         }
+      ]
+   }
+}

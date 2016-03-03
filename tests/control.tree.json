@@ -58,13 +58,10 @@
                         {
                            "type": "id",
                            "body": {
-                              "type": "id",
-                              "body": {
-                                 "type": "bareword",
-                                 "line": 4,
-                                 "column": 12,
-                                 "text": "pass"
-                              }
+                              "type": "bareword",
+                              "line": 4,
+                              "column": 12,
+                              "text": "pass"
                            }
                         },
                         {
@@ -97,22 +94,17 @@
                            "type": "block",
                            "body": [
                               {
-                                 "type": "element",
-                                 "tag": {
-                                    "type": "bareword",
-                                    "line": 5,
-                                    "column": 9,
-                                    "text": "if"
-                                 },
-                                 "attrs": [
-                                    {
-                                       "type": {
-                                          "type": "bareword",
-                                          "line": 5,
-                                          "column": 12,
-                                          "text": "length"
-                                       },
-                                       "body": {
+                                 "type": "if",
+                                 "condition": {
+                                    "type": "funcCall",
+                                    "name": {
+                                       "type": "bareword",
+                                       "line": 5,
+                                       "column": 12,
+                                       "text": "length"
+                                    },
+                                    "args": [
+                                       {
                                           "type": "relop",
                                           "op": {
                                              "type": "relop",
@@ -140,9 +132,9 @@
                                              }
                                           }
                                        }
-                                    }
-                                 ],
-                                 "child": {
+                                    ]
+                                 },
+                                 "body": {
                                     "type": "block",
                                     "body": [
                                        {
@@ -182,17 +174,8 @@
                                           }
                                        }
                                     ]
-                                 }
-                              },
-                              {
-                                 "type": "element",
-                                 "tag": {
-                                    "type": "bareword",
-                                    "line": 7,
-                                    "column": 9,
-                                    "text": "else"
                                  },
-                                 "child": {
+                                 "else": {
                                     "type": "block",
                                     "body": [
                                        {
