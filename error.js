@@ -2,11 +2,22 @@
 module.exports = class Error {
     constructor() {
         this.count = 0;
+        this.log = true;
+    }
+    // Stops logging errors. Still counts
+    suspend() {
+        this.log = false;
+    }
+    // Resumes logging errors
+    resume() {
+        this.log = true;
     }
     generic(message, line, col) {
         this.count++;
-        console.log(message);
-        if(line){
+        if(this.log){
+            console.log(message);
+        }
+        if(line && this.log){
             console.log(`at line ${line} and column ${col}`);
         }
         return {
