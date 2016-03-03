@@ -56,10 +56,10 @@ readFile( function () {
 
     let tokens = scanner(code, error);
 
-    if(!error.count){
-        let parseTree = parser(tokens, error, verbose);
-    }
-    
-    console.log(JSON.stringify(parseTree, null, 3));
+    console.log(JSON.stringify(tokens, null, 3));
 
+    // if(!error.count){
+    //     let parseTree = parser(tokens, error, verbose);
+    //     console.log(JSON.stringify(parseTree, null, 3));
+    // }
 });
