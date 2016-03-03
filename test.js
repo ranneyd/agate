@@ -62,8 +62,15 @@ fs.readdir( dir, ( dir_err, list ) => {
             // lexical analysis
             let expectedTokens = require( `${dir}/${fileParts[1]}.tokens.json` );
             let error = new Error();
+            // If the test has "fail" in the name, it's testing that things properly fail. So we
+            // should not log errors
+            let failTest = /fail/g.exec(fileParts[1]);
+            if( failTest ){
+                error.suspend();
+            }
             let tokens = scanner( testee, error );
-            if ( error.count && !expectedTokens.status ) {
+
+            if ( error.count && !failTest ) {
                 console.log(`\tError`);
                 console.log(tokens);
             }
