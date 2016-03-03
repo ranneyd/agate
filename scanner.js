@@ -29,6 +29,7 @@
     closeSquare| \]
     question   | \?
     colon      | \:
+    comma      | ,
     hash       | #
     dot        | \.
     def        | def
@@ -44,6 +45,7 @@
     comment    | \/\/[^\r\n]*
     unbuffered | \/\/![^\r\n]*
     range      | \.\.
+    TODO: increment/decrement ?
 */
 
 module.exports = (data, error) => {
@@ -59,10 +61,6 @@ module.exports = (data, error) => {
             "regex": /^('([^'\\]|(\\'')|(\\\\))*'|"([^"\\]|(\\")|(\\\\))*")/
         },
         {
-            "type": "id",
-            "regex": /^@[A-Za-z$_]+/
-        },
-        {
             "type": "question",
             "regex": /^\?/,
             "notext": true
@@ -70,6 +68,11 @@ module.exports = (data, error) => {
         {
             "type": "colon",
             "regex": /^:/,
+            "notext": true
+        },
+        {
+            "type": "comma",
+            "regex": /^,/,
             "notext": true
         },
         {
@@ -267,8 +270,14 @@ module.exports = (data, error) => {
 
         // More complicated ones
         if( notMatched ) {
+            if( matchData =/^@([A-Za-z$_]+)/.exec( truncData )) {
+                tokens.push( token("id", matchData[matchData.length - 1]) );
+
+                column += matchData[0].length;
+                position += matchData[0].length;
+            }
             // newline and indentation
-            if ( matchData = /^(\r\n|\r|\n)([\t ]*)/.exec( truncData ) ) {
+            else if ( matchData = /^(\r\n|\r|\n)([\t ]*)/.exec( truncData ) ) {
                 // This is inspired heavily by Python
                 // https://docs.python.org/3/reference/lexical_analysis.html
                 tokens.push( token("newline") );
