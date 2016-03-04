@@ -22,15 +22,14 @@
                         "column": 5,
                         "text": "title"
                      },
-                     "child": {
-                        "type": "stringlit",
-                        "body": {
+                     "child": [
+                        {
                            "type": "stringlit",
                            "line": 2,
                            "column": 11,
                            "text": "\"Hello World\""
                         }
-                     }
+                     ]
                   }
                ]
             }
@@ -54,15 +53,14 @@
                         "column": 5,
                         "text": "h1"
                      },
-                     "child": {
-                        "type": "stringlit",
-                        "body": {
+                     "child": [
+                        {
                            "type": "stringlit",
                            "line": 4,
                            "column": 8,
                            "text": "\"Hello World\""
                         }
-                     }
+                     ]
                   }
                ]
             }
