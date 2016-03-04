@@ -12,7 +12,7 @@
                 | newline
                 | Element
                 | Concatable
-    Element     | Tag(Class)?(Id)?Attrs?(Concatable|Element|ChildBlock|Event ChildBlock)?
+    Element     | Tag(Class)?(Id)?Attrs?(Element (Element|Exp)+|Exp|ChildBlock|Event ChildBlock)?
     Attrs       | openParen ((Attr Exp)|Class|Id)+ closeParen
     ChildBlock  | newline indent (Block|JSBlock|CSSBlock) newline dedent
     JSBlock     | id? (js id? newline?)+
@@ -33,7 +33,7 @@
     Lit         | stringlit | intlit | floatlit | boollit
     ElemAttr    | (Id|Class|id)?tilde Attr ChildBlock?
     Event       | tilde Attr
-    FuncCall    | bareword(Exp|openParen(Exp)*closeParen)
+    FuncCall    | bareword(Exp|openParen(Exp)*closeParen)?
     Control     | If | For | While
     If          | if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?
     For         | for id in (Array|stringlit|id) ChildBlock
@@ -145,12 +145,24 @@ module.exports = (scannerTokens, error, verbose) => {
             element.event = Event();
             element.event.child = ChildBlock();
         }
-        else if( at(tags) ) {
-            element.child = Element();
-        }
-        else{
-            if( !at("newline") ) {
-                element.child = Concatable();
+        // So some function calls and some elements have the same syntax. The
+        // way we determine what we're dealing with is context: if there is a
+        // function with that name, use it. Otherwise, it's an element. This
+        // is beyond the scope of the parser. So, for the time being, we will
+        // label things but they will potentially be incorrect, i.e. we will
+        // label things as function calls that are really elements. Fortunately, however, 
+        else if( at() ){
+
+
+            while( !at("newline") ) {
+                let elemOrExp;
+                if( at(tags) ){
+                    elemOrExp = Element();
+                }
+                else {
+                    elemOrExp = Exp();
+                }
+                element.child = [...(element.child || []), elemOrExp];
             }
         }
         return element;
@@ -501,7 +513,9 @@ module.exports = (scannerTokens, error, verbose) => {
             funcCall.args = args;
         }
         else{
-            funcCall.args = [ Exp() ];
+            if( at( expBeginings )){
+                funcCall.args = [ Exp() ];
+            }
         }
 
         return funcCall;

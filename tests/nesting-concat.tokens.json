@@ -1,256 +1,256 @@
 [
-    {
-        "type": "bareword",
-        "line": 1,
-        "column": 1,
-        "text": "html"
-    },
-    {
-        "type": "newline",
-        "line": 1,
-        "column": 5
-    },
-    {
-        "type": "indent",
-        "line": 2,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 2,
-        "column": 5,
-        "text": "title"
-    },
-    {
-        "type": "stringlit",
-           "line": 2,
-           "column": 11,
-           "text": "\"Nesting and Concatenation Example\""
-    },
-    {
-        "type": "newline",
-        "line": 2,
-        "column": 46
-    },
-    {
-        "type": "dedent",
-        "line": 3,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 3,
-        "column": 1,
-        "text": "body"
-    },
-    {
-        "type": "newline",
-        "line": 3,
-        "column": 5
-    },
-    {
-        "type": "indent",
-        "line": 4,
-        "column": 1
-    },
-    {
-        "type": "id",
-        "line": 4,
-        "column": 5,
-        "text": "file"
-    },
-    {
-        "type": "assignment",
-        "line": 4,
-        "column": 11
-    },
-    {
-        "type": "stringlit",
-        "line": 4,
-        "column": 13,
-        "text": "\"thing\""
-    },
-    {
-        "type": "newline",
-        "line": 4,
-        "column": 20
-    },
-    {
-        "type": "bareword",
-        "line": 5,
-        "column": 5,
-        "text": "p"
-    },
-    {
-        "type": "stringlit",
-        "line": 5,
-        "column": 7,
-        "text": "\"A \""
-    },
-    {
-        "type": "bareword",
-        "line": 5,
-        "column": 12,
-        "text": "a"
-    },
-    {
-        "type": "openParen",
-        "line": 5,
-        "column": 13
-    },
-    {
-        "type": "bareword",
-        "line": 5,
-        "column": 14,
-        "text": "href"
-    },
-    {
-        "type": "stringlit",
-        "line": 5,
-        "column": 19,
-        "text": "\"\\\\\""
-    },
-    {
-        "type": "id",
-        "line": 5,
-        "column": 24,
-        "text": "file"
-    },
-    {
-        "type": "stringlit",
-        "line": 5,
-        "column": 30,
-        "text": "\".html\""
-    },
-    {
-        "type": "closeParen",
-        "line": 5,
-        "column": 37
-    },
-    {
-        "type": "bareword",
-        "line": 5,
-        "column": 39,
-        "text": "strong"
-    },
-    {
-        "type": "stringlit",
-        "line": 5,
-        "column": 46,
-        "text": "\"bold\""
-    },
-    {
-        "type": "stringlit",
-        "line": 5,
-        "column": 53,
-        "text": "\" link\""
-    },
-    {
-        "type": "stringlit",
-        "line": 5,
-        "column": 61,
-        "text": "\" for you\""
-    },
-    {
-        "type": "newline",
-        "line": 5,
-        "column": 71
-    },
-    {
-        "type": "bareword",
-        "line": 6,
-        "column": 5,
-        "text": "p"
-    },
-    {
-        "type": "stringlit",
-        "line": 6,
-        "column": 7,
-        "text": "\"An \""
-    },
-    {
-        "type": "bareword",
-        "line": 6,
-        "column": 13,
-        "text": "a"
-    },
-    {
-        "type": "openParen",
-        "line": 6,
-        "column": 14
-    },
-    {
-        "type": "bareword",
-        "line": 6,
-        "column": 15,
-        "text": "href"
-    },
-    {
-        "type": "stringlit",
-        "line": 6,
-        "column": 20,
-        "text": "\"\\\\\""
-    },
-    {
-        "type": "id",
-        "line": 6,
-        "column": 25,
-        "text": "file"
-    },
-    {
-        "type": "stringlit",
-        "line": 6,
-        "column": 31,
-        "text": "\".html\""
-    },
-    {
-        "type": "closeParen",
-        "line": 6,
-        "column": 38
-    },
-    {
-        "type": "openCurly",
-        "line": 6,
-        "column": 39
-    },
-    {
-        "type": "bareword",
-        "line": 6,
-        "column": 40,
-        "text": "em"
-    },
-    {
-        "type": "stringlit",
-        "line": 6,
-        "column": 43,
-        "text": "\"italicized\""
-    },
-    {
-        "type": "stringlit",
-           "line": 6,
-           "column": 56,
-           "text": "\" link to \\\\\""
-    },
-    {
-        "type": "id",
-        "line": 6,
-        "column": 70,
-        "text": "file"
-    },
-    {
-        "type": "stringlit",
-        "line": 6,
-        "column": 76,
-        "text": "\".html\""
-    },
-    {
-        "type": "closeCurly",
-        "line": 6,
-        "column": 83
-    },
-    {
-        "column": 84,
-        "line": 6,
-        "type": "EOF"
-    }
+   {
+      "type": "bareword",
+      "line": 1,
+      "column": 1,
+      "text": "html"
+   },
+   {
+      "type": "newline",
+      "line": 1,
+      "column": 5
+   },
+   {
+      "type": "indent",
+      "line": 2,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 2,
+      "column": 5,
+      "text": "title"
+   },
+   {
+      "type": "stringlit",
+      "line": 2,
+      "column": 11,
+      "text": "\"Nesting and Concatenation Example\""
+   },
+   {
+      "type": "newline",
+      "line": 2,
+      "column": 46
+   },
+   {
+      "type": "dedent",
+      "line": 3,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 3,
+      "column": 1,
+      "text": "body"
+   },
+   {
+      "type": "newline",
+      "line": 3,
+      "column": 5
+   },
+   {
+      "type": "indent",
+      "line": 4,
+      "column": 1
+   },
+   {
+      "type": "id",
+      "line": 4,
+      "column": 5,
+      "text": "file"
+   },
+   {
+      "type": "assignment",
+      "line": 4,
+      "column": 11
+   },
+   {
+      "type": "stringlit",
+      "line": 4,
+      "column": 13,
+      "text": "\"thing\""
+   },
+   {
+      "type": "newline",
+      "line": 4,
+      "column": 20
+   },
+   {
+      "type": "bareword",
+      "line": 5,
+      "column": 5,
+      "text": "p"
+   },
+   {
+      "type": "stringlit",
+      "line": 5,
+      "column": 7,
+      "text": "\"A \""
+   },
+   {
+      "type": "bareword",
+      "line": 5,
+      "column": 12,
+      "text": "a"
+   },
+   {
+      "type": "openParen",
+      "line": 5,
+      "column": 13
+   },
+   {
+      "type": "bareword",
+      "line": 5,
+      "column": 14,
+      "text": "href"
+   },
+   {
+      "type": "stringlit",
+      "line": 5,
+      "column": 19,
+      "text": "\"\\\\\""
+   },
+   {
+      "type": "id",
+      "line": 5,
+      "column": 24,
+      "text": "file"
+   },
+   {
+      "type": "stringlit",
+      "line": 5,
+      "column": 30,
+      "text": "\".html\""
+   },
+   {
+      "type": "closeParen",
+      "line": 5,
+      "column": 37
+   },
+   {
+      "type": "bareword",
+      "line": 5,
+      "column": 39,
+      "text": "strong"
+   },
+   {
+      "type": "stringlit",
+      "line": 5,
+      "column": 46,
+      "text": "\"bold\""
+   },
+   {
+      "type": "stringlit",
+      "line": 5,
+      "column": 53,
+      "text": "\" link\""
+   },
+   {
+      "type": "stringlit",
+      "line": 5,
+      "column": 61,
+      "text": "\" for you\""
+   },
+   {
+      "type": "newline",
+      "line": 5,
+      "column": 71
+   },
+   {
+      "type": "bareword",
+      "line": 6,
+      "column": 5,
+      "text": "p"
+   },
+   {
+      "type": "stringlit",
+      "line": 6,
+      "column": 7,
+      "text": "\"An \""
+   },
+   {
+      "type": "bareword",
+      "line": 6,
+      "column": 13,
+      "text": "a"
+   },
+   {
+      "type": "openParen",
+      "line": 6,
+      "column": 14
+   },
+   {
+      "type": "bareword",
+      "line": 6,
+      "column": 15,
+      "text": "href"
+   },
+   {
+      "type": "stringlit",
+      "line": 6,
+      "column": 20,
+      "text": "\"\\\\\""
+   },
+   {
+      "type": "id",
+      "line": 6,
+      "column": 25,
+      "text": "file"
+   },
+   {
+      "type": "stringlit",
+      "line": 6,
+      "column": 31,
+      "text": "\".html\""
+   },
+   {
+      "type": "closeParen",
+      "line": 6,
+      "column": 38
+   },
+   {
+      "type": "openCurly",
+      "line": 6,
+      "column": 39
+   },
+   {
+      "type": "bareword",
+      "line": 6,
+      "column": 40,
+      "text": "em"
+   },
+   {
+      "type": "stringlit",
+      "line": 6,
+      "column": 43,
+      "text": "\"italicized\""
+   },
+   {
+      "type": "stringlit",
+      "line": 6,
+      "column": 56,
+      "text": "\" link to \\\\\""
+   },
+   {
+      "type": "id",
+      "line": 6,
+      "column": 70,
+      "text": "file"
+   },
+   {
+      "type": "stringlit",
+      "line": 6,
+      "column": 76,
+      "text": "\".html\""
+   },
+   {
+      "type": "closeCurly",
+      "line": 6,
+      "column": 83
+   },
+   {
+      "type": "EOF",
+      "line": 6,
+      "column": 84
+   }
 ]

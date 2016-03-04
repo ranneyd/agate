@@ -1,0 +1,273 @@
+{
+   "type": "program",
+   "body": {
+      "type": "block",
+      "body": [
+         {
+            "type": "element",
+            "tag": {
+               "type": "bareword",
+               "line": 1,
+               "column": 1,
+               "text": "head"
+            },
+            "child": {
+               "type": "block",
+               "body": [
+                  {
+                     "type": "element",
+                     "tag": {
+                        "type": "bareword",
+                        "line": 2,
+                        "column": 5,
+                        "text": "title"
+                     },
+                     "child": [
+                        {
+                           "type": "stringlit",
+                           "line": 2,
+                           "column": 11,
+                           "text": "\"JS and CSS test\""
+                        }
+                     ]
+                  },
+                  {
+                     "type": "assignment",
+                     "id": {
+                        "type": "id",
+                        "line": 3,
+                        "column": 5,
+                        "text": "color"
+                     },
+                     "value": [
+                        {
+                           "type": "stringlit",
+                           "line": 3,
+                           "column": 14,
+                           "text": "\"cyan\""
+                        }
+                     ]
+                  },
+                  {
+                     "type": "element",
+                     "tag": {
+                        "type": "style",
+                        "line": 4,
+                        "column": 5
+                     },
+                     "child": {
+                        "type": "CSS Block",
+                        "body": [
+                           {
+                              "type": "css",
+                              "line": 5,
+                              "column": 9,
+                              "text": "p {"
+                           },
+                           {
+                              "type": "newline",
+                              "line": 5,
+                              "column": 12
+                           },
+                           {
+                              "type": "css",
+                              "line": 6,
+                              "column": 9,
+                              "text": "    background-color: red;"
+                           },
+                           {
+                              "type": "newline",
+                              "line": 6,
+                              "column": 35
+                           },
+                           {
+                              "type": "css",
+                              "line": 7,
+                              "column": 9,
+                              "text": "}"
+                           },
+                           {
+                              "type": "newline",
+                              "line": 7,
+                              "column": 10
+                           },
+                           {
+                              "type": "css",
+                              "line": 8,
+                              "column": 9,
+                              "text": "a.specialA {"
+                           },
+                           {
+                              "type": "newline",
+                              "line": 8,
+                              "column": 21
+                           },
+                           {
+                              "type": "css",
+                              "line": 9,
+                              "column": 9,
+                              "text": "    color: blue;"
+                           },
+                           {
+                              "type": "newline",
+                              "line": 9,
+                              "column": 25
+                           },
+                           {
+                              "type": "css",
+                              "line": 10,
+                              "column": 9,
+                              "text": "}"
+                           },
+                           {
+                              "type": "newline",
+                              "line": 10,
+                              "column": 10
+                           }
+                        ]
+                     }
+                  },
+                  {
+                     "type": "element",
+                     "tag": {
+                        "type": "script",
+                        "line": 11,
+                        "column": 5
+                     },
+                     "attrs": [
+                        [
+                           {
+                              "type": {
+                                 "type": "bareword",
+                                 "line": 11,
+                                 "column": 12,
+                                 "text": "src"
+                              },
+                              "body": {
+                                 "type": "stringlit",
+                                 "line": 11,
+                                 "column": 16,
+                                 "text": "\"/js/main.js\""
+                              }
+                           }
+                        ]
+                     ]
+                  },
+                  {
+                     "type": "element",
+                     "tag": {
+                        "type": "script",
+                        "line": 12,
+                        "column": 5
+                     },
+                     "child": {
+                        "type": "JS Block",
+                        "body": [
+                           {
+                              "type": "js",
+                              "line": 13,
+                              "column": 9,
+                              "text": "alert(\"This is an alert\");"
+                           },
+                           {
+                              "type": "newline",
+                              "line": 13,
+                              "column": 35
+                           },
+                           {
+                              "type": "js",
+                              "line": 14,
+                              "column": 9,
+                              "text": "console.log(\"Print statement\");"
+                           },
+                           {
+                              "type": "newline",
+                              "line": 14,
+                              "column": 40
+                           },
+                           {
+                              "type": "js",
+                              "line": 15,
+                              "column": 9,
+                              "text": "if( testingIndentation ) {"
+                           },
+                           {
+                              "type": "newline",
+                              "line": 15,
+                              "column": 35
+                           },
+                           {
+                              "type": "js",
+                              "line": 16,
+                              "column": 9,
+                              "text": "    var lets = \"hope this works\";"
+                           },
+                           {
+                              "type": "newline",
+                              "line": 16,
+                              "column": 42
+                           },
+                           {
+                              "type": "js",
+                              "line": 17,
+                              "column": 9,
+                              "text": "    var test = 'notdoingidsyet';"
+                           },
+                           {
+                              "type": "newline",
+                              "line": 17,
+                              "column": 41
+                           },
+                           {
+                              "type": "js",
+                              "line": 18,
+                              "column": 9,
+                              "text": "}"
+                           },
+                           {
+                              "type": "newline",
+                              "line": 18,
+                              "column": 10
+                           }
+                        ]
+                     }
+                  }
+               ]
+            }
+         },
+         {
+            "type": "element",
+            "tag": {
+               "type": "bareword",
+               "line": 19,
+               "column": 1,
+               "text": "body"
+            },
+            "child": {
+               "type": "block",
+               "body": [
+                  {
+                     "type": "element",
+                     "tag": {
+                        "type": "script",
+                        "line": 20,
+                        "column": 5
+                     },
+                     "child": {
+                        "type": "JS Block",
+                        "body": [
+                           {
+                              "type": "js",
+                              "line": 21,
+                              "column": 9,
+                              "text": "alert(\"Should be fine right?\");"
+                           }
+                        ]
+                     }
+                  }
+               ]
+            }
+         }
+      ]
+   }
+}
