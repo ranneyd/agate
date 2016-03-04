@@ -3,7 +3,7 @@ body
         button#populate "Populate"
         #populate~click
             @results = get("./getData" {
-                "key":"value",
+                "key":"value"
                 "if": "this will probably break"
             })
             for @result in @results
