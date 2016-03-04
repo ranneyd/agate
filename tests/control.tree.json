@@ -22,15 +22,14 @@
                         "column": 5,
                         "text": "title"
                      },
-                     "child": {
-                        "type": "stringlit",
-                        "body": {
+                     "child": [
+                        {
                            "type": "stringlit",
                            "line": 2,
                            "column": 11,
                            "text": "\"Password Demo\""
                         }
-                     }
+                     ]
                   }
                ]
             }
@@ -55,24 +54,23 @@
                         "text": "input"
                      },
                      "attrs": [
-                        {
-                           "type": "id",
-                           "body": {
-                              "type": "bareword",
-                              "line": 4,
-                              "column": 12,
-                              "text": "pass"
-                           }
-                        },
-                        {
-                           "type": {
-                              "type": "bareword",
-                              "line": 4,
-                              "column": 17,
-                              "text": "type"
+                        [
+                           {
+                              "type": "id",
+                              "body": {
+                                 "type": "bareword",
+                                 "line": 4,
+                                 "column": 12,
+                                 "text": "pass"
+                              }
                            },
-                           "body": {
-                              "type": "stringlit",
+                           {
+                              "type": {
+                                 "type": "bareword",
+                                 "line": 4,
+                                 "column": 17,
+                                 "text": "type"
+                              },
                               "body": {
                                  "type": "stringlit",
                                  "line": 4,
@@ -80,7 +78,7 @@
                                  "text": "\"password\""
                               }
                            }
-                        }
+                        ]
                      ],
                      "event": {
                         "type": "event",
@@ -95,45 +93,44 @@
                            "body": [
                               {
                                  "type": "if",
-                                 "condition": {
-                                    "type": "funcCall",
-                                    "name": {
-                                       "type": "bareword",
-                                       "line": 5,
-                                       "column": 12,
-                                       "text": "length"
-                                    },
-                                    "args": [
-                                       {
-                                          "type": "relop",
-                                          "op": {
+                                 "condition": [
+                                    {
+                                       "type": "funcCall",
+                                       "name": {
+                                          "type": "bareword",
+                                          "line": 5,
+                                          "column": 12,
+                                          "text": "length"
+                                       },
+                                       "args": [
+                                          {
                                              "type": "relop",
-                                             "line": 5,
-                                             "column": 26,
-                                             "text": "<"
-                                          },
-                                          "a": {
-                                             "type": "elemattr",
-                                             "source": "this",
-                                             "body": {
-                                                "type": "bareword",
+                                             "op": {
+                                                "type": "relop",
                                                 "line": 5,
-                                                "column": 20,
-                                                "text": "value"
-                                             }
-                                          },
-                                          "b": {
-                                             "type": "intlit",
-                                             "body": {
+                                                "column": 26,
+                                                "text": "<"
+                                             },
+                                             "a": {
+                                                "type": "elemattr",
+                                                "source": "this",
+                                                "attr": {
+                                                   "type": "bareword",
+                                                   "line": 5,
+                                                   "column": 20,
+                                                   "text": "value"
+                                                }
+                                             },
+                                             "b": {
                                                 "type": "intlit",
                                                 "line": 5,
                                                 "column": 28,
                                                 "text": "8"
                                              }
                                           }
-                                       }
-                                    ]
-                                 },
+                                       ]
+                                    }
+                                 ],
                                  "body": {
                                     "type": "block",
                                     "body": [
@@ -146,14 +143,13 @@
                                              "text": "p"
                                           },
                                           "attrs": [
-                                             {
-                                                "type": {
-                                                   "type": "style",
-                                                   "line": 6,
-                                                   "column": 15
-                                                },
-                                                "body": {
-                                                   "type": "stringlit",
+                                             [
+                                                {
+                                                   "type": {
+                                                      "type": "style",
+                                                      "line": 6,
+                                                      "column": 15
+                                                   },
                                                    "body": {
                                                       "type": "stringlit",
                                                       "line": 6,
@@ -161,17 +157,16 @@
                                                       "text": "\"color:red; background-color:cyan\""
                                                    }
                                                 }
-                                             }
+                                             ]
                                           ],
-                                          "child": {
-                                             "type": "stringlit",
-                                             "body": {
+                                          "child": [
+                                             {
                                                 "type": "stringlit",
                                                 "line": 6,
                                                 "column": 57,
                                                 "text": "\"Your password sucks\""
                                              }
-                                          }
+                                          ]
                                        }
                                     ]
                                  },

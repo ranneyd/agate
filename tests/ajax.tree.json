@@ -58,12 +58,9 @@
                               "child": [
                                  {
                                     "type": "stringlit",
-                                    "body": {
-                                       "type": "stringlit",
-                                       "line": 3,
-                                       "column": 25,
-                                       "text": "\"Populate\""
-                                    }
+                                    "line": 3,
+                                    "column": 25,
+                                    "text": "\"Populate\""
                                  }
                               ]
                            },
@@ -108,12 +105,9 @@
                                                 "args": [
                                                    {
                                                       "type": "stringlit",
-                                                      "body": {
-                                                         "type": "stringlit",
-                                                         "line": 5,
-                                                         "column": 28,
-                                                         "text": "\"./getData\""
-                                                      }
+                                                      "line": 5,
+                                                      "column": 28,
+                                                      "text": "\"./getData\""
                                                    },
                                                    {
                                                       "type": "hashmap",
@@ -127,12 +121,9 @@
                                                             },
                                                             "value": {
                                                                "type": "stringlit",
-                                                               "body": {
-                                                                  "type": "stringlit",
-                                                                  "line": 6,
-                                                                  "column": 23,
-                                                                  "text": "\"value\""
-                                                               }
+                                                               "line": 6,
+                                                               "column": 23,
+                                                               "text": "\"value\""
                                                             }
                                                          },
                                                          {
@@ -144,12 +135,9 @@
                                                             },
                                                             "value": {
                                                                "type": "stringlit",
-                                                               "body": {
-                                                                  "type": "stringlit",
-                                                                  "line": 7,
-                                                                  "column": 23,
-                                                                  "text": "\"this will probably break\""
-                                                               }
+                                                               "line": 7,
+                                                               "column": 23,
+                                                               "text": "\"this will probably break\""
                                                             }
                                                          }
                                                       ]

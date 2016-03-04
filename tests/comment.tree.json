@@ -53,15 +53,14 @@
                                        "child": {
                                           "type": "block",
                                           "body": [
-                                             {
-                                                "type": "stringlit",
-                                                "body": {
+                                             [
+                                                {
                                                    "type": "stringlit",
                                                    "line": 7,
                                                    "column": 17,
                                                    "text": "\"text\""
                                                 }
-                                             }
+                                             ]
                                           ]
                                        }
                                     },
@@ -76,15 +75,14 @@
                                        "child": {
                                           "type": "block",
                                           "body": [
-                                             {
-                                                "type": "stringlit",
-                                                "body": {
+                                             [
+                                                {
                                                    "type": "stringlit",
                                                    "line": 9,
                                                    "column": 17,
                                                    "text": "\"other text\""
                                                 }
-                                             }
+                                             ]
                                           ]
                                        }
                                     }
@@ -113,15 +111,14 @@
                                        "child": {
                                           "type": "block",
                                           "body": [
-                                             {
-                                                "type": "stringlit",
-                                                "body": {
+                                             [
+                                                {
                                                    "type": "stringlit",
                                                    "line": 12,
                                                    "column": 17,
                                                    "text": "\"another p\""
                                                 }
-                                             }
+                                             ]
                                           ]
                                        }
                                     }
@@ -142,15 +139,14 @@
                      "child": {
                         "type": "block",
                         "body": [
-                           {
-                              "type": "stringlit",
-                              "body": {
+                           [
+                              {
                                  "type": "stringlit",
                                  "line": 14,
                                  "column": 9,
                                  "text": "\"Another div\""
                               }
-                           }
+                           ]
                         ]
                      }
                   }
