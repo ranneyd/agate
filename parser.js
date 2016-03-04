@@ -11,8 +11,8 @@
                 | comment
                 | newline
                 | Element
-                | Exp
-    Element     | Tag(Class)?(Id)?Attrs?(Exp|Element|ChildBlock|Event ChildBlock)?
+                | Concatable
+    Element     | Tag(Class)?(Id)?Attrs?(Concatable|Element|ChildBlock|Event ChildBlock)?
     Attrs       | openParen ((Attr Exp)|Class|Id)+ closeParen
     ChildBlock  | newline indent (Block|JSBlock|CSSBlock) newline dedent
     JSBlock     | (js id? js? newline?)+
@@ -22,32 +22,37 @@
     Class       | dot bareword
     Id          | hash bareword
     Attr        | bareword
+    Concatable  | Exp+
     Exp         | Exp1 ( question Exp1 colon Exp1)?
     Exp1        | Exp2 (boolop Exp2)*
     Exp2        | Exp3 (relop Exp3)*
     Exp3        | Exp4 (addop Exp4)*
     Exp4        | Exp5 (multop Exp5)*
     Exp5        | prefixop? Exp6
-    Exp6        | Val | openParen Exp newline? closeParen
-    Val         | NonConcat+ 
-    NonConcat   | ElemAttr | id | FuncCall | Lit
+    Exp6        | Val | openParen Concatable newline? closeParen
+    Val         | ElemAttr | id | FuncCall | Lit | Array | HashMap
     Lit         | stringlit | intlit | floatlit | boollit
-    ElemAttr    | (Id|Class)?tilde Attr
+    ElemAttr    | (Id|Class)?tilde Attr ChildBlock?
     Event       | tilde Attr
     FuncCall    | bareword(Exp|openParen(Exp)*closeParen)
     Control     | If | For | While
     If          | if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?
     For         | for id in (Array|stringlit|id) ChildBlock
     While       | while Exp ChildBlock
-    Array       | openSquare ((openParen Exp closeParen|NonConcat)+|Range) closeSquare
+    Array*      | openSquare ((newline? indent? Exp+ newline? dedent?)|Range) closeSquare
+    HashMap*    | openCurly newline? indent? ( stringlit colon Exp newline?)* dedent? closeCurly
     Range       | intLit range intLit
-    Assignment  | id assignment Exp
+    Assignment  | id assignment Concatable
     TODO: function def
     TODO: import/template
+
+    * Only match the optional dedent if there was an indent
 */
 
 var lits = ["stringlit", "intlit", "floatlit", "boollit"];
 var tags = ["bareword", "script", "style"];
+var elemAttrStarts = ["dot", "hash", "tilde"];
+var expBeginings = ["prefixop", "id", ...elemAttrStarts, "id", ...lits, "bareword", "openSquare", "openCurly", "openParen"];
 
 
 module.exports = (scannerTokens, error, verbose) => {
@@ -115,7 +120,7 @@ module.exports = (scannerTokens, error, verbose) => {
         if( at(tags) ) {
             return Element();
         }
-        return Exp();
+        return Concatable();
     };
     var Element = () => {
         log("Matching Element");
@@ -125,13 +130,13 @@ module.exports = (scannerTokens, error, verbose) => {
             "tag": Tag()
         };
         if( at("dot") ) {
-            element.class = Class();
+            element.attrs = [Class()];
         }
         if( at("hash") ) {
-            element.id = Id();
+            element.attrs = [Id()];
         }
         if( at("openParen") ) {
-            element.attrs = Attrs();
+            element.attrs = [...(element.attrs||[]), Attrs()];
         }
 
         if( atSequential(["newline", "indent"]) ) {
@@ -141,12 +146,12 @@ module.exports = (scannerTokens, error, verbose) => {
             element.event = Event();
             element.event.child = ChildBlock();
         }
-        else if( at(["bareword", "script", "style"]) ) {
+        else if( at(tags) ) {
             element.child = Element();
         }
         else{
             if( !at("newline") ) {
-                element.child = Exp();
+                element.child = Concatable();
             }
         }
         return element;
@@ -266,6 +271,17 @@ module.exports = (scannerTokens, error, verbose) => {
         }
         return match("bareword");
     };
+    var Concatable = () => {
+        log("Matching Concatable");
+
+        var exp = [Exp()];
+
+        while( at(expBeginings) ) {
+            exp = [...exp, Exp()];
+        }
+
+        return exp;
+    }
     var Exp = () => {
         log("Matching Exp");
 
@@ -363,7 +379,7 @@ module.exports = (scannerTokens, error, verbose) => {
         if ( at("openParen") ) {
             match("openParen")
             
-            let exp = Exp();
+            let exp = Concatable();
             while( at("newline") ) {
                 match("newline");
             }
@@ -376,25 +392,7 @@ module.exports = (scannerTokens, error, verbose) => {
     var Val = () => {
         log("Matching Val");
 
-        let val = NonConcat();
-        let valTypes = ["dot", "hash", "tilde", "id", "bareword", ...lits];
-        if( at(valTypes) ) {
-            val = {
-                "type": "concat",
-                "elems": [
-                    val
-                ]
-            };
-            do {
-                val.elems.push(NonConcat());
-            } while(at(valTypes));
-        }
-        return val;    
-    };
-    var NonConcat = () => {
-        log("Matching NonConcat");
-
-        if( at(["dot", "hash", "tilde"]) ) {
+        if( at(elemAttrStarts) ) {
             return ElemAttr();
         }
         else if( at(lits) ) {
@@ -408,6 +406,12 @@ module.exports = (scannerTokens, error, verbose) => {
         }
         else if( at("bareword") ) {
             return FuncCall();
+        }
+        else if( at("openSquare") ) {
+            return ArrayDef();
+        }
+        else if( at("openCurly") ) {
+            return HashMap();
         }
         else {
             tokens.shift();
@@ -447,7 +451,11 @@ module.exports = (scannerTokens, error, verbose) => {
 
         match("tilde");
 
-        elemAttr.body = Attr();
+        elemAttr.attr = Attr();
+
+        if( atSequential(["newline", "indent"]) ) {  
+            elemAttr.child = ChildBlock();
+        }
 
         return elemAttr;
     };
@@ -605,22 +613,69 @@ module.exports = (scannerTokens, error, verbose) => {
             arrayDef.elems = Range();
         }
         else{
+            if( at("newline") ) {
+                match("newline");
+            }
+
+            let indented = false;
+            if( at("indent") ){
+                match("indent");
+                indented = true;
+            }
             arrayDef.elems = [];
             do {
-                if(at("openParen")){
-                    match("openParen");
-                    arrayDef.elems.push(Exp());
-                    match("closeParen");
+                arrayDef.push(Exp());
+                if( at("newline") ) {
+                    match("newline");
                 }
-                else{
-                    arrayDef.push(NonConcat());
-                }
-            } while( !at("closeSquare"));
+            } while( !(at("closeSquare") || at("dedent")) );
+
+            if( indented ) {
+                match("dedent");
+            }
         }
         match("closeSquare");
 
         return arrayDef;
-    };       
+    };
+    var HashMap = () => {
+        log("Matching HashMap");
+
+        let hashMap = {
+            "type": "hashmap",
+            "props": []
+        };
+
+        match("openCurly");
+
+        if( at("newline") ){
+            match("newline");
+        }
+
+        let indented = false;
+        if( at("indent") ){
+            match("indent");
+            indented = true;
+        }
+
+        while( at("stringlit") ){
+            let prop = {
+                "key": match("stringlit")
+            };
+            match("colon");
+            prop.value = Exp();
+            if( at("newline") ) {
+                match("newline");
+            }
+            hashMap.props.push(prop);
+        }
+        if(indented){
+            match("dedent");
+        }
+        match("closeCurly");
+
+        return hashMap;
+    };
     var Range = () => {
         log("Matching Range");
 
@@ -640,7 +695,7 @@ module.exports = (scannerTokens, error, verbose) => {
             "id": match("id")
         };
         match("assignment");
-        assignment.value = Exp();
+        assignment.value = Concatable();
 
         return assignment;
     };
@@ -671,7 +726,7 @@ module.exports = (scannerTokens, error, verbose) => {
             return error.parse(`Expected ${type}, got end of program`);
         }
         else if( type === undefined ||  type === tokens[0].type) {
-            log(`Matched "${type}"` + (tokens[0].text ? `with text "${tokens[0].text}"` : ""));
+            log(`Matched "${type}"` + (tokens[0].text ? ` with text "${tokens[0].text}"` : ""));
             lastToken = tokens.shift();
             log(`Tokens remaining: ${tokens.length}`);
             return lastToken;
