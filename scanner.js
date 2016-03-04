@@ -34,7 +34,7 @@
     dot        | \.
     def        | def
     return     | return
-    bareword   | [a-zA-Z._-][a-zA-Z0-9._-]+
+    bareword   | [a-zA-Z_-][a-zA-Z0-9_-]+
     script     | script + complicated
     js         | [^\n\r].+?(?=(\r\n|\r|\n)|('@))
     style      | style + complicated
@@ -91,7 +91,7 @@ module.exports = (data, error) => {
         },
         {
             "type": "bareword",
-            "regex": /^[a-zA-Z._][a-zA-Z0-9._]*/
+            "regex": /^[a-zA-Z_][a-zA-Z0-9_]*/
         },
         {
             "type": "relop",
