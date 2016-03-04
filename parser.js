@@ -417,10 +417,7 @@ module.exports = (scannerTokens, error, verbose) => {
 
         for( let lit in lits ) {
             if( at(lits[lit]) ) {
-                return {
-                    "type": lits[lit],
-                    "body": match(lits[lit])
-                };
+                return match(lits[lit]);
             }
         }
         return error.expected('some kind of literal', tokens.shift());
