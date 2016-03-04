@@ -223,7 +223,8 @@ module.exports = (data, error) => {
                 // If the last group is matched, this is it. Otherwise this is undefined. :D
                 var potentialID = matchData[matchData.length - 1]
                 if ( potentialID ) {
-                    tokens.push( token("id", potentialID) );
+                    // Slice to chop off the @ symbol
+                    tokens.push( token("id", potentialID.slice(1)) );
                 }
             }
             // If this is null, we didn't get a match, meaning we have a newline or an id, meaning
