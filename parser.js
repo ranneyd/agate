@@ -32,7 +32,7 @@
     Exp6        | Val | openParen Concatable newline? closeParen
     Val         | ElemAttr | id | FuncCall | Lit | Array | HashMap
     Lit         | stringlit | intlit | floatlit | boollit
-    ElemAttr    | (Id|Class)?tilde Attr ChildBlock?
+    ElemAttr    | (Id|Class|id)?tilde Attr ChildBlock?
     Event       | tilde Attr
     FuncCall    | bareword(Exp|openParen(Exp)*closeParen)
     Control     | If | For | While
@@ -177,8 +177,7 @@ module.exports = (scannerTokens, error, verbose) => {
                 });
             }
             else{
-                tokens.shift();
-                return error.expected('some attribute', tokens[0]);
+                return error.expected('some attribute', tokens.shift());
             }
         } while( !at("closeParen") );
 
@@ -244,8 +243,7 @@ module.exports = (scannerTokens, error, verbose) => {
                 return match(tags[tag]);
             }
         }
-        tokens.shift();
-        return error.expected('some kind of tag', tokens[0]);
+        return error.expected('some kind of tag', tokens.shift());
     };         
     var Class = () => {
         log("Matching Class");
@@ -392,17 +390,14 @@ module.exports = (scannerTokens, error, verbose) => {
     var Val = () => {
         log("Matching Val");
 
-        if( at(elemAttrStarts) ) {
+        if( at(elemAttrStarts) || atSequential(["id", "tilde"]) ) {
             return ElemAttr();
         }
         else if( at(lits) ) {
             return Lit();
         }
         else if( at("id") ) {
-            return {
-                "type": "identifier",
-                "body": match("id")
-            };
+            return match("id");
         }
         else if( at("bareword") ) {
             return FuncCall();
@@ -414,8 +409,7 @@ module.exports = (scannerTokens, error, verbose) => {
             return HashMap();
         }
         else {
-            tokens.shift();
-            return error.expected('some kind of value', tokens[0]);
+            return error.expected('some kind of value', tokens.shift());
         }
     };           
     var Lit = () => {
@@ -429,8 +423,7 @@ module.exports = (scannerTokens, error, verbose) => {
                 };
             }
         }
-        tokens.shift();
-        return error.expected('some kind of literal', tokens[0]);
+        return error.expected('some kind of literal', tokens.shift());
     };  
     var ElemAttr = () => {
         log("Matching ElemAttr");
@@ -438,8 +431,10 @@ module.exports = (scannerTokens, error, verbose) => {
         let elemAttr = {
             "type": "elemattr"
         };
-
-        if( at("dot") ) {
+        if( at("id") ) {
+            elemAttr.source = match("id");
+        }
+        else if( at("dot") ) {
             elemAttr.source = Class();
         }
         else if( at("hash") ) {
@@ -512,8 +507,7 @@ module.exports = (scannerTokens, error, verbose) => {
             return While();
         }
         else {
-            tokens.shift();
-            return error.parse(`${tokens[0].text} is not a recognized control statement`, tokens[0]);
+            return error.parse(`${tokens[0].text} is not a recognized control statement`, tokens.shift());
         }
     };   
     var If = () => {
@@ -549,8 +543,7 @@ module.exports = (scannerTokens, error, verbose) => {
             }
         }
         else {
-            tokens.shift();
-            return error.expected('an if statement', tokens[0]);          
+            return error.expected('an if statement', tokens.shift());          
         }
 
         return ifStatement;
@@ -580,10 +573,11 @@ module.exports = (scannerTokens, error, verbose) => {
             forStatement.condition.b = match( "id" );   
         }
         else{
-            tokens.shift();
-            return error.expected('something you can loop over', tokens[0]); 
+            return error.expected('something you can loop over', tokens.shift()); 
         }
         forStatement.body = ChildBlock();
+
+        return forStatement;
     };
     var While = () => {
         log("Matching While");
@@ -596,8 +590,7 @@ module.exports = (scannerTokens, error, verbose) => {
             };
         }
         else {
-            tokens.shift();
-            return error.expected('an while statement', tokens[0]);
+            return error.expected('an while statement', tokens.shift());
         }
     };     
     var ArrayDef = () => {
@@ -722,7 +715,6 @@ module.exports = (scannerTokens, error, verbose) => {
     // Pops off the top token if its type matches 'type', returns an error otherwise
     var match = ( type ) => {
         if( !tokens.length ) {
-            tokens.shift();
             return error.parse(`Expected ${type}, got end of program`);
         }
         else if( type === undefined ||  type === tokens[0].type) {
@@ -732,8 +724,7 @@ module.exports = (scannerTokens, error, verbose) => {
             return lastToken;
         }
         else {
-            tokens.shift();
-            return error.expected(type, tokens[0]);
+            return error.expected(type, tokens.shift());
         }
     };
 
