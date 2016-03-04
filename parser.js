@@ -15,9 +15,8 @@
     Element     | Tag(Class)?(Id)?Attrs?(Concatable|Element|ChildBlock|Event ChildBlock)?
     Attrs       | openParen ((Attr Exp)|Class|Id)+ closeParen
     ChildBlock  | newline indent (Block|JSBlock|CSSBlock) newline dedent
-    JSBlock     | (js id? js? newline?)+
-    CSSBlock    | (css id? css
-    ? newline?)+
+    JSBlock     | id? (js id? newline?)+
+    CSSBlock    | id? (css id? newline?)+
     Tag         | bareword|script|style
     Class       | dot bareword
     Id          | hash bareword
@@ -211,13 +210,21 @@ module.exports = (scannerTokens, error, verbose) => {
 
         let js = {
             "type": "JS Block",
-            "body": [match("js")]
+            "body": []
         };
-        while( at("id") ) {
-            js.body.push( match( "id" ));
-            // TODO: Why can't it end with an id?
-            js.body.push( match( "js" ));
+        if( at("id") ){
+            js.body.push( match("id") );
         }
+        do {
+            js.body.push( match("js") );
+            if( at("id") ){
+                js.body.push( match("id") );
+            }
+            // If they put newlines in their JS, more power to them
+            if( at("newline") ){
+                js.body.push( match("newline") );
+            }
+        } while( at("js") );
 
         return js;
     }
@@ -226,13 +233,21 @@ module.exports = (scannerTokens, error, verbose) => {
 
         let css = {
             "type": "CSS Block",
-            "body": [match("css")]
+            "body": []
         };
-        while( at("id") ) {
-            css.body.push( match( "id" ));
-            // TODO: Why can't it end with an id?
-            css.body.push( match( "css" ));
+        if( at("id") ){
+            css.body.push( match("id") );
         }
+        do {
+            css.body.push( match("css") );
+            if( at("id") ){
+                css.body.push( match("id") );
+            }
+            // If they put newlines in their CSS, more power to them
+            if( at("newline") ){
+                css.body.push( match("newline") );
+            }
+        } while( at("css") );
 
         return css;
     }
