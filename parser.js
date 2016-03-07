@@ -11,8 +11,7 @@
                 | comment
                 | newline
                 | Element
-                | Concatable
-    Element     | Tag(Class)?(Id)?Attrs?(Element (Element|Exp)+|Exp|ChildBlock|Event ChildBlock)?
+    Element     | Tag(Class)?(Id)?Attrs?(Element|Exp|ChildBlock|Event ChildBlock)?
     Attrs       | openParen ((Attr Exp)|Class|Id)+ closeParen
     ChildBlock  | newline indent (Block|JSBlock|CSSBlock) newline dedent
     JSBlock     | id? (js id? newline?)+
@@ -21,7 +20,6 @@
     Class       | dot bareword
     Id          | hash bareword
     Attr        | bareword
-    Concatable  | Exp+
     Exp         | Exp1 ( question Exp1 colon Exp1)?
     Exp1        | Exp2 (boolop Exp2)*
     Exp2        | Exp3 (relop Exp3)*
@@ -166,7 +164,7 @@ module.exports = (scannerTokens, error, verbose) => {
             }
         }
         return element;
-    };     
+    };
     var Attrs = () => {
         log("Matching Attrs");
         
@@ -736,6 +734,11 @@ module.exports = (scannerTokens, error, verbose) => {
             }
         }
         return true;
+    };
+
+    var atElement = () => {
+        let i = 0;
+        if(["bareword", "script", "style"].some( type => tokens[i].type === type) )
     };
 
     // Pops off the top token if its type matches 'type', returns an error otherwise
