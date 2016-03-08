@@ -6,7 +6,7 @@
 
 Agate is a template/scripting/markup hybrid language that aims to fix various problems with the basic web development experience. Agate aims to simply, integrate, and expand HTML, CSS, and JavaScript. Agate allows the programmer to layout a web document with a much more terse and sensible language than HTML. It adds much-needed features to CSS (inspired by LESS) and implements common JavaScript components in a way that makes sense. It allows for templating and variables to be used across markup, scripts, and styles. But the best part is it compiles directly into HTML, CSS, and JavaScript. No libraries are required; code output by the Agate compiler is indistinguishable from code made without it.
 ##Macrosyntax
-
+<center>
 |Name          | Def                                                           |
 |--------------|---------------------------------------------------------------|
 |Program       |`Block`                                                        |
@@ -46,8 +46,10 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |ChildBlock    |`newline indent (Block|JSBlock|CSSBlock) newline dedent`       |
 |JSBlock       |`id? (js id? newline?)+`                                       |
 |CSSBlock      |`id? (css id? newline?)+`                                      |
-
+</center>
 \*Statements end in newlines. However, a dedent will always follow a newline. So for ChildBlock to work properly, it has to gobble the newline. Thus, the negative lookbehind
+
+
 \*\*Both appops are also prefixops
 ##Features (Overview)
 
