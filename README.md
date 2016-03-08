@@ -15,9 +15,19 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |              |`Exp                                                           |
 |Control       |`If | For | While`                                             |
 |If            |`if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?`|
-|For           ||
-|While         ||
-|Exp           ||
+|For           |`for id in (Array|stringlit|id) ChildBlock`                    |
+|Array         |`openSquare ArgList closeSquare`                               |
+|ArgList       |`Arg+ | newline indent (Arg newline)+ dedent`                  |
+|Arg           |`Exp`                                                          |
+|While         |`while Exp ChildBlock`                                         |
+|Exp           |`Literal`                                                      |
+|              |`openParen Exp closeParen`                                     |
+|              |`Exp (question Exp colon Exp)?                                 |
+|              |`Exp (boolop Exp)*`                                            |
+|              |`Exp (relop Exp)*`                                             |
+|              |`Exp (addop Exp)*`                                             |
+|              |`Exp (multop Exp)*`                                            |
+|              |`prefixop? Exp`                                                |
 |ChildBlock    ||
 
 *Statements end in newlines. However, a dedent will always follow a newline. So for ChildBlock to work properly, it has to gobble the newline. Thus, the negative lookbehind
