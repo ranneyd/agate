@@ -255,6 +255,22 @@ module.exports = (data, error) => {
             jsMode = matchData[0] === "script";
             cssMode = !jsMode;
         }
+        // Include
+        if (matchData = /^> *(.+?)(?=[\n\r])/.exec( truncData )) {
+            tokens.push( token("include", matchData[1]) );
+            column += matchData[0].length;
+            position += matchData[0].length;
+
+            notMatched = false;
+        }
+        // Template
+        if (matchData = /^\| *(.+?)(?=[\n\r])/.exec( truncData )) {
+            tokens.push( token("template", matchData[1]) );
+            column += matchData[0].length;
+            position += matchData[0].length;
+
+            notMatched = false;
+        }
         // Match the keywords in a special way
         for ( let keyword in keywords ) {
             let keywordRegex = new RegExp(`^${keywords[keyword]}(?![A-Za-z$_])`);
@@ -389,18 +405,6 @@ module.exports = (data, error) => {
 
                     column += indentSize;
                 }
-            }
-            // Include
-            else if (matchData = /^> *(.+?)(?=[\n\r])/.exec( truncData )) {
-                tokens.push( token("include", matchData[1]) );
-                column += matchData[0].length;
-                position += matchData[0].length;
-            }
-            // Template
-            else if (matchData = /^\| *(.+?)(?=[\n\r])/.exec( truncData )) {
-                tokens.push( token("template", matchData[1]) );
-                column += matchData[0].length;
-                position += matchData[0].length;
             }
             // Whitespace (for ignoring)
             else if ( matchData = /^[\s]+/.exec( truncData ) ) {

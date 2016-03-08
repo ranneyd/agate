@@ -6,49 +6,50 @@
 
 Agate is a template/scripting/markup hybrid language that aims to fix various problems with the basic web development experience. Agate aims to simply, integrate, and expand HTML, CSS, and JavaScript. Agate allows the programmer to layout a web document with a much more terse and sensible language than HTML. It adds much-needed features to CSS (inspired by LESS) and implements common JavaScript components in a way that makes sense. It allows for templating and variables to be used across markup, scripts, and styles. But the best part is it compiles directly into HTML, CSS, and JavaScript. No libraries are required; code output by the Agate compiler is indistinguishable from code made without it.
 ##Macrosyntax
-<center>
 
-|Name          | Def                                                           |
-|--------------|---------------------------------------------------------------|
-|Program       |`Block`                                                        |
-|Block*        |`Statement ((?<!ChildBlock)newline)?)+`                        |
-|Statement     |`Control`                                                      |
-|              |`Assignment`                                                   |
-|              |`Definition`                                                   |
-|              |`Exp                                                           |
-|Control       |`If | For | While`                                             |
-|If            |`if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?`|
-|For           |`for id in (Array|stringlit|id) ChildBlock`                    |
-|Array         |`openSquare (Exp+|ArgBlock)? closeSquare`                      |
-|ArgBlock      |`newline indent (Arg newline)+ dedent`                         |
-|Arg           |`Exp`                                                          |
-|While         |`while Exp ChildBlock`                                         |
-|Assignment    |`id equals Exp`                                                |
-|Definition    |`def bareword openParen id* closeParen ChildBlock`             |
-|Exp           |`Literal|Array|HashMap|id`                                     |
-|              |`openParen Exp closeParen`                                     |
-|              |`Exp (question Exp colon Exp)?                                 |
-|              |`Exp (boolop Exp)*`                                            |
-|              |`Exp (relop Exp)*`                                             |
-|              |`Exp (addop Exp)*`                                             |
-|              |`Exp (multop Exp)*`                                            |
-|\*\*          |`(prefixop|addop)? Exp`                                        |
-|              |`Exp postfixop?`                                               |
-|              |`Call`                                                         |
-|              |`Exp tilde bareword (ArgBlock|Args)?`                          |
-|Literal       |`stringlit|intlit|floatlit|boollit`                            |
-|Call          |`bareword(dot bareword)*(hash bareword)?Attrs?Args`            |
-|Attrs         |`openSquare (Attr+|AttrBlock)? closeSquare`                    |
-|AttrBlock     |`newline indent (Attr newline)+ dedent`                        |
-|Attr          |`bareword equals Exp`                                          |
-|Args          |`openParen (Arg+|ArgBlock)? closeParen`                        |
-|              |`Arg`                                                          |
-|HashMap       |`openCurly (Attr+|AttrBlock)? closeCurly`                      |
-|ChildBlock    |`newline indent (Block|JSBlock|CSSBlock) newline dedent`       |
-|JSBlock       |`id? (js id? newline?)+`                                       |
-|CSSBlock      |`id? (css id? newline?)+`                                      |
+|Name           | Def                                                           |
+|---------------|---------------------------------------------------------------|
+|Program        |`Block`                                                        |
+|Block*         |`Statement ((?<!ChildBlock)newline)?)+`                        |
+|Statement      |`widget`                                                       |
+|               |`Template`                                                     |
+|               |`Control`                                                      |
+|               |`Assignment`                                                   |
+|               |`Definition`                                                   |
+|               |`Exp`                                                          |
+|Template       |`template (newline indent (label ChildBlock)+ dedent)?`        |
+|Control        |`If | For | While`                                             |
+|If             |`if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?`|
+|For            |`for id in (Array|stringLit|id) ChildBlock`                    |
+|Array          |`openSquare (Exp+|ArgBlock|intLit range intLit)? closeSquare`  |
+|ArgBlock       |`newline indent (Arg newline)+ dedent`                         |
+|Arg            |`Exp`                                                          |
+|While          |`while Exp ChildBlock`                                         |
+|Assignment     |`id equals Exp`                                                |
+|Definition     |`def bareword openParen id* closeParen ChildBlock`             |
+|Exp            |`Literal|Array|HashMap|id`                                     |
+|               |`openParen Exp closeParen`                                     |
+|               |`Exp (question Exp colon Exp)?                                 |
+|               |`Exp (boolop Exp)*`                                            |
+|               |`Exp (relop Exp)*`                                             |
+|               |`Exp (addop Exp)*`                                             |
+|               |`Exp (multop Exp)*`                                            |
+|\*\*           |`(prefixop|addop)? Exp`                                        |
+|               |`Exp postfixop?`                                               |
+|               |`Call`                                                         |
+|               |`Exp tilde bareword (ArgBlock|Args)?`                          |
+|Literal        |`stringLit|intLit|floatLit|boolLit`                            |
+|Call           |`bareword(dot bareword)*(hash bareword)?Attrs?Args`            |
+|Attrs          |`openSquare (Attr+|AttrBlock)? closeSquare`                    |
+|AttrBlock      |`newline indent (Attr newline)+ dedent`                        |
+|Attr           |`bareword equals Exp`                                          |
+|Args           |`openParen (Arg+|ArgBlock)? closeParen`                        |
+|               |`Arg`                                                          |
+|HashMap        |`openCurly (Attr+|AttrBlock)? closeCurly`                      |
+|ChildBlock     |`newline indent (Block|JSBlock|CSSBlock) newline dedent`       |
+|JSBlock        |`id? (js id? newline?)+`                                       |
+|CSSBlock       |`id? (css id? newline?)+`                                      |
 
-</center>
 \*Statements end in newlines. However, a dedent will always follow a newline. So for ChildBlock to work properly, it has to gobble the newline. Thus, the negative lookbehind
 
 
