@@ -31,7 +31,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |              |`Exp (relop Exp)*`                                             |
 |              |`Exp (addop Exp)*`                                             |
 |              |`Exp (multop Exp)*`                                            |
-|* *           |`(prefixop|addop)? Exp`                                        |
+|\*\*          |`(prefixop|addop)? Exp`                                        |
 |              |`Exp postfixop?`                                               |
 |              |`Call`                                                         |
 |              |`Exp tilde bareword (ArgBlock|Args)?`                          |
@@ -47,8 +47,8 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |JSBlock       |`id? (js id? newline?)+`                                       |
 |CSSBlock      |`id? (css id? newline?)+`                                      |
 
-*Statements end in newlines. However, a dedent will always follow a newline. So for ChildBlock to work properly, it has to gobble the newline. Thus, the negative lookbehind
-* *Both appops are also prefixops
+\*Statements end in newlines. However, a dedent will always follow a newline. So for ChildBlock to work properly, it has to gobble the newline. Thus, the negative lookbehind
+\*\*Both appops are also prefixops
 ##Features (Overview)
 
 - Terse, JavaScript-like markup
