@@ -10,9 +10,10 @@
     boollit    | (true)|(false)
     id         | @[A-Za-z0-9$_-]+
     relop      | \<|\>|(\<\=)|(\=\=)|(\!\=)|(\>\=)
+    prefixop   | \!|\+\+|--
+    postfixop  | \+\+|--
     addop      | \+|-
     multop     | \*|\/
-    prefixop   | \!|-
     boolop     | (and)|(or)|(xor)
     newline    | (\r\n|\r|\n)+
     indent     | complicated
@@ -20,7 +21,7 @@
     widget     | >.+?[\r\n]+
     template   | \|.+?[\r\n]+
     label      | \{[A-Za-z0-9_-]\}
-    assignment | =
+    equals     | =
     openParen  | \(
     closeParen | \)
     openCurly  | \{
@@ -50,7 +51,7 @@
 
 module.exports = (data, error) => {
 
-    var keywords = ["def", "if", "else if", "else", "for", "in", "while"];
+    var keywords = ["def", "if", "else if", "else", "for", "in", "while", "return"];
     var regexes = [
         {
             "type": "comment",
@@ -85,11 +86,6 @@ module.exports = (data, error) => {
             "regex": /^((and)|(or)|(xor))/
         },
         {
-            "type": "return",
-            "regex": /^return/,
-            "notext": true
-        },
-        {
             "type": "bareword",
             "regex": /^[a-zA-Z_][a-zA-Z0-9_]*/
         },
@@ -110,7 +106,7 @@ module.exports = (data, error) => {
             "regex": /^\{[A-Za-z0-9_]\}/
         },
         {
-            "type": "assignment",
+            "type": "equals",
             "regex": /^=/,
             "notext": true
         },
@@ -158,7 +154,7 @@ module.exports = (data, error) => {
             "type": "tilde",
             "regex": /^~/,
             "notext": true
-        },
+        }
     ];
 
     var tokens = [],

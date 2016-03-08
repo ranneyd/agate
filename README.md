@@ -12,26 +12,43 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Program       |`Block`                                                        |
 |Block*        |`Statement ((?<!ChildBlock)newline)?)+`                        |
 |Statement     |`Control`                                                      |
+|              |`Assignment`                                                   |
+|              |`Definition`                                                   |
 |              |`Exp                                                           |
 |Control       |`If | For | While`                                             |
 |If            |`if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?`|
 |For           |`for id in (Array|stringlit|id) ChildBlock`                    |
-|Array         |`openSquare ArgList closeSquare`                               |
-|ArgList       |`Arg+ | newline indent (Arg newline)+ dedent`                  |
+|Array         |`openSquare (Exp+|ArgBlock)? closeSquare`                      |
+|ArgBlock      |`newline indent (Arg newline)+ dedent`                         |
 |Arg           |`Exp`                                                          |
 |While         |`while Exp ChildBlock`                                         |
-|Exp           |`Literal`                                                      |
+|Assignment    |`id equals Exp`                                                |
+|Definition    |`def bareword openParen id* closeParen ChildBlock`             |
+|Exp           |`Literal|Array|HashMap|id`                                     |
 |              |`openParen Exp closeParen`                                     |
 |              |`Exp (question Exp colon Exp)?                                 |
 |              |`Exp (boolop Exp)*`                                            |
 |              |`Exp (relop Exp)*`                                             |
 |              |`Exp (addop Exp)*`                                             |
 |              |`Exp (multop Exp)*`                                            |
-|              |`prefixop? Exp`                                                |
-|ChildBlock    ||
+|**            |`(prefixop|addop)? Exp`                                        |
+|              |`Exp postfixop?`                                               |
+|              |`Call`                                                         |
+|              |`Exp tilde bareword (ArgBlock|Args)?`                          |
+|Literal       |`stringlit|intlit|floatlit|boollit`                            |
+|Call          |`bareword(dot bareword)*(hash bareword)?Attrs?Args`            |
+|Attrs         |`openSquare (Attr+|AttrBlock)? closeSquare`                    |
+|AttrBlock     |`newline indent (Attr newline)+ dedent`                        |
+|Attr          |`bareword equals Exp`                                          |
+|Args          |`openParen (Arg+|ArgBlock)? closeParen`                        |
+|              |`Arg`                                                          |
+|HashMap       |`openCurly (Attr+|AttrBlock)? closeCurly`                      |
+|ChildBlock    |`newline indent (Block|JSBlock|CSSBlock) newline dedent`       |
+|JSBlock       |`id? (js id? newline?)+`                                       |
+|CSSBlock      |`id? (css id? newline?)+`                                      |
 
 *Statements end in newlines. However, a dedent will always follow a newline. So for ChildBlock to work properly, it has to gobble the newline. Thus, the negative lookbehind
-
+**Both appops are also prefixops
 ##Features (Overview)
 
 - Terse, JavaScript-like markup
