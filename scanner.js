@@ -14,7 +14,7 @@
     postfixop  | \+\+|--
     addop      | \+|-
     multop     | \*|\/
-    boolop     | (and)|(or)|(xor)
+    boolop     | and|or|xor
     newline    | (\r\n|\r|\n)+
     indent     | complicated
     dedent     | also complicated
@@ -46,7 +46,6 @@
     comment    | \/\/[^\r\n]*
     unbuffered | \/\/![^\r\n]*
     range      | \.\.
-    TODO: increment/decrement ?
 */
 
 module.exports = (data, error) => {
@@ -82,8 +81,24 @@ module.exports = (data, error) => {
             "notext": true
         },
         {
+            "type": "prefixop",
+            "regex": /^(!|\+\+|--)/
+        },
+        {
+            "type": "postfixop",
+            "regex": /^(\+\+|--)/
+        },
+        {
+            "type": "addop",
+            "regex": /^(\+|-)/
+        },
+        {
+            "type": "multop",
+            "regex": /^(\*|\/)/
+        },
+        {
             "type": "boolop",
-            "regex": /^((and)|(or)|(xor))/
+            "regex": /^(and|or|xor)/
         },
         {
             "type": "bareword",
