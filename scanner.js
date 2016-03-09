@@ -244,7 +244,12 @@ module.exports = (data, error) => {
                 notMatched = false;
             }
         } 
-
+        // Comments for ignoring
+        if ( matchData = /^\/\/![^\r\n]*/.exec( truncData ) ) {
+            column += matchData[0].length;
+            position += matchData[0].length;
+            notMatched = false;
+        }
         if (matchData = /^(script|style)/.exec( truncData )) {
 
             tokens.push( token(matchData[0]) );
@@ -408,11 +413,6 @@ module.exports = (data, error) => {
             }
             // Whitespace (for ignoring)
             else if ( matchData = /^[\s]+/.exec( truncData ) ) {
-                column += matchData[0].length;
-                position += matchData[0].length;
-            }
-            // Comments for ignoring
-            else if ( matchData = /^\/\/![^\r\n]*/.exec( truncData ) ) {
                 column += matchData[0].length;
                 position += matchData[0].length;
             }
