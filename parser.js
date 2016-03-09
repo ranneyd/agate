@@ -30,6 +30,10 @@ module.exports = (scannerTokens, error, verbose) => {
         };
         let statements = [];
 
+        while( at("newline") ) {
+            match("newline");
+        }
+
         // If we get a dedent or an EOF, we have no more block
         while(!at("dedent") && !at("EOF")){
             let statement = Statement();
@@ -43,7 +47,9 @@ module.exports = (scannerTokens, error, verbose) => {
             // child blocks are special cases. Since dedents come after the
             // newlines, the ChildBlock pattern needs to consume the newline.
             if(lastToken.type !== "dedent" && !at("EOF")){
-                match("newline");
+                do{
+                    match("newline");
+                } while( at("newline") );
             }
         }
 
@@ -59,14 +65,17 @@ module.exports = (scannerTokens, error, verbose) => {
         else if ( at('template') ) {
             return Template();
         }
-        else if( at(controlTypes) ){
+        else if( at(controlTypes) ) {
             return Control();
         }
-        else if( atSequential(["id", "equals"]) ){
+        else if( atSequential(["id", "equals"]) ) {
             return Assignment();
         }
-        else if( at("def") ){
+        else if( at("def") ) {
             return Definition();
+        }
+        else if( at("comment") ) {
+            return match("comment");
         }
         else{
             return Exp();
@@ -541,7 +550,6 @@ module.exports = (scannerTokens, error, verbose) => {
         log("Matching Attr");
         
         let attr = {
-            "type": "attr",
             "name": match("stringlit")
         };
         match("equals");
@@ -562,11 +570,12 @@ module.exports = (scannerTokens, error, verbose) => {
             return args;
         }
         else if( atBlock() ){
-            return ChildBlock();
+            // ooooo I'm cheating, but this makes the tree look a lot nicer and make more sense
+            return ChildBlock().statements;
         }
         else{
             error.hint = "Are you calling a function with no parameters, but missing parentheses (i.e. @elem~foo instead of @elem~foo())?";
-            let arg = Arg();
+            let arg = [Arg()];
             error.hint = "";
             return arg;
         }
