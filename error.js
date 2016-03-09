@@ -3,6 +3,7 @@ module.exports = class Error {
     constructor() {
         this.count = 0;
         this.log = true;
+        this.hint = "";
     }
     // Stops logging errors. Still counts
     suspend() {
@@ -18,7 +19,10 @@ module.exports = class Error {
             console.log(message);
         }
         if(line && this.log){
-            console.log(`at line ${line} and column ${col}`);
+            console.log(`\tat line ${line} and column ${col}`);
+        }
+        if(this.hint) {
+            console.log(`Hint: ${this.hint}`);
         }
         return {
             status: "error",
