@@ -33,18 +33,21 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Exp3           |`Exp4 (addop Exp4)*`                                           |
 |Exp4           |`Exp5 (multop Exp5)*`                                          |
 |Exp5           |`Exp6 postfixop?`                                              |
-|Exp6           |`Exp7 | Exp7? tilde bareword (ArgBlock|Args)?`                 |
-|Exp7           |`Literal|Array|HashMap|id`                                     |
+|Exp6           |`Exp7 | Exp7? tilde bareword Args?`                            |
+|Exp7           |`Literal|Array|HashMap|id|HtmlId|HtmlClass`                    |
 |               |`openParen Exp closeParen`                                     |
 |\*\*           |`(prefixop|addop)? Exp`                                        |
 |               |`Call`                                                         |
 |Literal        |`stringlit|intlit|floatlit|boollit`                            |
-|Call           |`(BuiltIn|bareword)(dot bareword)*(hash bareword)?Attrs?Args`  |
+|Call           |`(BuiltIn|bareword)(HtmlClass)*(HtmlId)?Attrs?Args`            |
 |BuiltIn        |`script|style`                                                 |
+|HtmlClass      |`dot bareword`                                                 |
+|HtmlId         |`hash bareword`                                                |
 |Attrs          |`openSquare (Attr+|AttrBlock)? closeSquare`                    |
 |AttrBlock      |`newline indent (Attr newline)+ dedent`                        |
-|Attr           |`bareword equals Exp`                                          |
-|Args           |`openParen (Arg+|ArgBlock)? closeParen`                        |
+|Attr           |`stringlit equals Exp`                                         |
+|Args           |`openParen Arg* closeParen                                     |
+|               |`ChildBlock`                                                   |
 |               |`Arg`                                                          |
 |HashMap        |`openCurly (Attr+|AttrBlock)? closeCurly`                      |
 |ChildBlock     |`newline indent (Block|JSBlock|CSSBlock) newline dedent`       |

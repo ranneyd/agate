@@ -3,11 +3,11 @@ body
         button#populate "Populate"
         #populate~click
             @results = get("./getData" {
-                "key":"value"
-                "if": "this will probably break"
+                "key" = "value"
+                "if" = "this will probably break"
             })
             for @result in @results
                 #holder~append
                     div.object
-                        h1 @result~title
-                        p @result~body
+                        h1 @result~title()
+                        p @result~body()
