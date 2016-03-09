@@ -9,7 +9,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 
 |Name           | Def                                                           |
 |---------------|---------------------------------------------------------------|
-|Program        |`Block`                                                        |
+|Program        |`Block EOF`                                                    |
 |Block*         |`Statement ((?<!ChildBlock)newline)?)+`                        |
 |Statement      |`widget`                                                       |
 |               |`Template`                                                     |
@@ -20,26 +20,27 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Template       |`template (newline indent (label ChildBlock)+ dedent)?`        |
 |Control        |`If | For | While`                                             |
 |If             |`if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?`|
-|For            |`for id in (Array|stringLit|id) ChildBlock`                    |
-|Array          |`openSquare (Exp+|ArgBlock|intLit range intLit)? closeSquare`  |
+|For            |`for id in (Array|stringlit|id) ChildBlock`                    |
+|Array          |`openSquare (Arg+|ArgBlock|intlit range intlit)? closeSquare`  |
 |ArgBlock       |`newline indent (Arg newline)+ dedent`                         |
 |Arg            |`Exp`                                                          |
 |While          |`while Exp ChildBlock`                                         |
 |Assignment     |`id equals Exp`                                                |
 |Definition     |`def bareword openParen id* closeParen ChildBlock`             |
-|Exp            |`Literal|Array|HashMap|id`                                     |
+|Exp            |`Exp1 (question Exp1 colon Exp1)?`                             |
+|Exp1           |`Exp2 (boolop Exp2)*`                                          |
+|Exp2           |`Exp3 (relop Exp3)*`                                           |
+|Exp3           |`Exp4 (addop Exp4)*`                                           |
+|Exp4           |`Exp5 (multop Exp5)*`                                          |
+|Exp5           |`Exp6 postfixop?`                                              |
+|Exp6           |`Exp7 tilde bareword (ArgBlock|Args)?`                         |
+|Exp7           |`Literal|Array|HashMap|id`                                     |
 |               |`openParen Exp closeParen`                                     |
-|               |`Exp (question Exp colon Exp)?                                 |
-|               |`Exp (boolop Exp)*`                                            |
-|               |`Exp (relop Exp)*`                                             |
-|               |`Exp (addop Exp)*`                                             |
-|               |`Exp (multop Exp)*`                                            |
 |\*\*           |`(prefixop|addop)? Exp`                                        |
-|               |`Exp postfixop?`                                               |
 |               |`Call`                                                         |
-|               |`Exp tilde bareword (ArgBlock|Args)?`                          |
-|Literal        |`stringLit|intLit|floatLit|boolLit`                            |
-|Call           |`bareword(dot bareword)*(hash bareword)?Attrs?Args`            |
+|Literal        |`stringlit|intlit|floatlit|boollit`                            |
+|Call           |`(BuiltIn|bareword)(dot bareword)*(hash bareword)?Attrs?Args`  |
+|BuiltIn        |`script|style`                                                 |
 |Attrs          |`openSquare (Attr+|AttrBlock)? closeSquare`                    |
 |AttrBlock      |`newline indent (Attr newline)+ dedent`                        |
 |Attr           |`bareword equals Exp`                                          |

@@ -245,7 +245,7 @@ module.exports = (data, error) => {
             }
         } 
 
-        if (matchData = /^((script)|(style))/.exec( truncData )) {
+        if (matchData = /^(script|style)/.exec( truncData )) {
 
             tokens.push( token(matchData[0]) );
 

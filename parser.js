@@ -1,56 +1,8 @@
 "use strict";
 
-/*
-    Macrosyntax
-    name        | def
-    ---------------------------------
-    Program     | Block
-    Block       | (Statement ((?<!ChildBlock)newline)?)+
-    Statement   | Control
-                | Assignment
-                | comment
-                | newline
-                | Element
-    Element     | Tag(Class)?(Id)?Attrs?(Element|Exp|ChildBlock|Event ChildBlock)?
-    Attrs       | openParen ((Attr Exp)|Class|Id)+ closeParen
-    ChildBlock  | newline indent (Block|JSBlock|CSSBlock) newline dedent
-    JSBlock     | id? (js id? newline?)+
-    CSSBlock    | id? (css id? newline?)+
-    Tag         | bareword|script|style
-    Class       | dot bareword
-    Id          | hash bareword
-    Attr        | bareword
-    Exp         | Exp1 ( question Exp1 colon Exp1)?
-    Exp1        | Exp2 (boolop Exp2)*
-    Exp2        | Exp3 (relop Exp3)*
-    Exp3        | Exp4 (addop Exp4)*
-    Exp4        | Exp5 (multop Exp5)*
-    Exp5        | prefixop? Exp6
-    Exp6        | Val | openParen Concatable newline? closeParen
-    Val         | ElemAttr | id | FuncCall | Lit | Array | HashMap
-    Lit         | stringlit | intlit | floatlit | boollit
-    ElemAttr    | (Id|Class|id)?tilde Attr ChildBlock?
-    Event       | tilde Attr
-    FuncCall    | bareword(Exp|openParen(Exp)*closeParen)?
-    Control     | If | For | While
-    If          | if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?
-    For         | for id in (Array|stringlit|id) ChildBlock
-    While       | while Exp ChildBlock
-    Array*      | openSquare ((newline? indent? Exp+ newline? dedent?)|Range) closeSquare
-    HashMap*    | openCurly newline? indent? ( stringlit colon Exp newline?)* dedent? closeCurly
-    Range       | intLit range intLit
-    Assignment  | id assignment Concatable
-    TODO: function def
-    TODO: import/template
-
-    * Only match the optional dedent if there was an indent
-*/
-
 var lits = ["stringlit", "intlit", "floatlit", "boollit"];
-var tags = ["bareword", "script", "style"];
-var elemAttrStarts = ["dot", "hash", "tilde"];
-var expBeginings = ["prefixop", "id", ...elemAttrStarts, "id", ...lits, "bareword", "openSquare", "openCurly", "openParen"];
-
+var builtins = ['script', 'style'];
+var controlTypes = ['if', 'for', 'while'];
 
 module.exports = (scannerTokens, error, verbose) => {
     var tokens = scannerTokens;
@@ -66,7 +18,7 @@ module.exports = (scannerTokens, error, verbose) => {
         log("Matching the program");
         let tree = {
             "type":"program",
-            "body": Block()
+            "block": Block()
         };
         match("EOF");
         return tree;
@@ -95,29 +47,254 @@ module.exports = (scannerTokens, error, verbose) => {
             }
         }
 
-        block.body = statements;
+        block.statements = statements;
         return block;
     };
     var Statement = () => {
         log("Matching a Statement");
 
-        if ( at(['if', 'for', 'while']) ) {
+        if ( at('widget') ) {
+            return match('widget');
+        }
+        else if ( at('template') ) {
+            return Template();
+        }
+        else if( at(controlTypes) ){
             return Control();
         }
-        if ( at("id") ) {
+        else if( atSequential(["id", "equals"]) ){
             return Assignment();
         }
+        else if( at("def") ){
+            return Definition();
+        }
+        else{
+            return Exp();
+        }
+    };
+    var Template = () => {
+        log('Matching Template');
+
+        let template = {
+            "type": "template",
+            "template": match("template")
+        };
+        if( at("newline") ) {
+            match("newline");
+            match("indent");
+            let labels = [];
+            do{
+                labels.push({
+                    "label": match("label"),
+                    "body": ChildBlock()
+                });
+            } while ( !at("dedent") );
+
+            template.labels = labels;
+            match("dedent");
+        }
+        return template;
+    };
+    var Control = () => {
+        log("Matching Control block");
+
+        if( at("if")) {
+            return If();
+        }
+        else if( at("for") ) {
+            return For();
+        }
+        else if( at("while") ) {
+            return While();
+        }
+        else {
+            return error.parse(`${tokens[0].text} is not a recognized control statement`, tokens.shift());
+        }
+    };   
+    var If = () => {
+        log("Matching If");
+
+        let ifStatement = {
+            "type": "if"
+        };
+
+        if( at("if") ) {
+            match("if");
+
+            ifStatement.condition = Exp();
+            ifStatement.body = ChildBlock();
+
+            while( at("else-if") ) {
+                match("else-if");
+
+                let thisIf = {
+                    "condition": Exp(),
+                    "body": ChildBlock()
+                };
+                
+                let elseIfs = ifStatement["else-if"] || [];
+                elseIfs.push(thisIf);
+                ifStatement["else-if"] = elseIfs;
+            }
+
+            if( at("else") ) {
+                match("else");
+
+                ifStatement.else = ChildBlock()
+            }
+        }
+        else {
+            return error.expected('an if statement', tokens.shift());          
+        }
+
+        return ifStatement;
+    };          
+    var For = () => {
+        log("Matching For");
+
+        match('for');
+
+        let forStatement = {
+            "type": "for",
+            "id": match("id")
+        };
+
+        match("in");
+
+        if( at("openSquare") ) {
+            forStatement.interable = ArrayDef();
+        }
+        else if( at("stringlit") ){
+            forStatement.interable = match( "stringlit" );   
+        }
+        else if( at("id") ) {
+            forStatement.iterable = match( "id" );   
+        }
+        else{
+            return error.expected('something you can loop over', tokens.shift()); 
+        }
+        forStatement.body = ChildBlock();
+
+        return forStatement;
+    };
+    var ArrayDef = () => {
+        log("Matching Array");
+
+        match("openSquare");
+
+        let arrayDef = {
+            "type": "array",
+        };
+        if( !at("closeSquare") ){
+            if(at("intlit")) {
+                arrayDef.elems = {
+                    "type": "range",
+                    "a": match("intlit");
+                }
+                match("range");
+                arrayDefs.elems.b = match("intlit");
+            }
+            else if( at("newline") ) {
+                arrayDef.elems = ArgBlock();
+            }
+            else {
+                arrayDef.elems = [];
+                do{
+                    arrayDef.elems.push(Arg());
+                } while( !at("closeSquare") );
+            }
+        }
+        match("closeSquare");
+
+        return arrayDef;
+    };
+    var ArgBlock = () => {
+        log("Matching ArgBlock");
+        match("newline");
+        match("indent");
+        let args = [];
+        do {
+            args.push(Arg());
+            match("newline");
+        } while( !at("dedent") );
+
+        match("dedent");
+
+        return args;
+    };
+    var Arg = () => {
+        log("Matching Arg");
+        return Exp();
+    };
+    var While = () => {
+        log("Matching While");
+
+        if( at("while") ) {
+            return {
+                "type": "while",
+                "condition": Exp(),
+                "body": ChildBlock()
+            };
+        }
+        else {
+            return error.expected('a while statement', tokens.shift());
+        }
+    };
+    var Assignment = () => {
+        log("Matching Assignment");
+
+        let assignment = {
+            "type": "assignment",
+            "id": match("id")
+        };
+        match("equals");
+        assignment.value = Exp();
+
+        return assignment;
+    };
+    var Definition = () => {
+        match("def");
+        let func = {
+            "type": "definition",
+            "name": match("bareword"),
+        };
         
-        if ( at("comment") ) {
-            return match("comment");
+        match("openParen");
+        
+        let params = [];
+        while( at("id") ) {
+            params.push( at("id") );
         }
-        if ( at("newline") ) {
-            return "blank";
+        if(params.length > 0){
+            func.params = params;
         }
-        if( at(tags) ) {
-            return Element();
+        
+        match("closeParen");
+        
+        func.body = ChildBlock();
+
+        return func;
+    };
+    var Exp = () =>{
+        log("Matching Exp");
+        if( at(lits) ) {
+            return Literal();
         }
-        return Concatable();
+        else if( at("openSquare") ) {
+            return ArrayDef();
+        }
+        else if( at("openCurly") ) {
+            return HashMap();
+        }
+        else if( at("id") ) {
+            return match("id");
+        }
+        else if( at("openParen")) {
+            match("openParen");
+            let exp = match("Exp");
+            match("closeParen");
+            return exp;
+        }
     };
     var Element = () => {
         log("Matching Element");
@@ -518,143 +695,8 @@ module.exports = (scannerTokens, error, verbose) => {
 
         return funcCall;
     };    
-    var Control = () => {
-        log("Matching Control block");
-
-        if( at("if")) {
-            return If();
-        }
-        else if( at("for") ) {
-            return For();
-        }
-        else if( at("while") ) {
-            return While();
-        }
-        else {
-            return error.parse(`${tokens[0].text} is not a recognized control statement`, tokens.shift());
-        }
-    };   
-    var If = () => {
-        log("Matching If");
-
-        let ifStatement = {
-            "type": "if"
-        };
-
-        if( at("if") ) {
-            match("if");
-
-            ifStatement.condition = Exp();
-            ifStatement.body = ChildBlock();
-
-            while( at("else-if") ) {
-                match("else-if");
-
-                let thisIf = {
-                    "condition": Exp(),
-                    "body": ChildBlock()
-                };
-                
-                let elseIfs = ifStatement["else-if"] || [];
-                elseIfs.push(thisIf);
-                ifStatement["else-if"] = elseIfs;
-            }
-
-            if( at("else") ) {
-                match("else");
-
-                ifStatement.else = ChildBlock()
-            }
-        }
-        else {
-            return error.expected('an if statement', tokens.shift());          
-        }
-
-        return ifStatement;
-    };          
-    var For = () => {
-        log("Matching For");
-
-        match('for');
-
-        let forStatement = {
-            "type": "for",
-            "condition": {
-                "type": "in",
-                "a": match("id")
-            }
-        };
-
-        match("in");
-
-        if( at("openSquare") ) {
-            forStatement.condition.b = ArrayDef();
-        }
-        else if( at("stringlit") ){
-            forStatement.condition.b = match( "stringlit" );   
-        }
-        else if( at("id") ) {
-            forStatement.condition.b = match( "id" );   
-        }
-        else{
-            return error.expected('something you can loop over', tokens.shift()); 
-        }
-        forStatement.body = ChildBlock();
-
-        return forStatement;
-    };
-    var While = () => {
-        log("Matching While");
-
-        if( at("while") ) {
-            return {
-                "type": "while",
-                "condition": Exp(),
-                "body": ChildBlock()
-            };
-        }
-        else {
-            return error.expected('an while statement', tokens.shift());
-        }
-    };     
-    var ArrayDef = () => {
-        log("Matching Array");
-
-        match("openSquare");
-
-        let arrayDef = {
-            "type": "array",
-        };
-
-        if(atSequential(["intlit", "range"])) {
-            arrayDef.elems = Range();
-        }
-        else{
-            if( at("newline") ) {
-                match("newline");
-            }
-
-            let indented = false;
-            if( at("indent") ){
-                match("indent");
-                indented = true;
-            }
-            arrayDef.elems = [];
-            do {
-                arrayDef.push(Exp());
-                if( at("newline") ) {
-                    match("newline");
-                }
-            } while( !(at("closeSquare") || at("dedent")) );
-
-            if( indented ) {
-                match("dedent");
-            }
-        }
-        match("closeSquare");
-
-        return arrayDef;
-    };
+      
+    
     var HashMap = () => {
         log("Matching HashMap");
 
@@ -698,23 +740,11 @@ module.exports = (scannerTokens, error, verbose) => {
 
         let range = {
             "type": "range",
-            "a": match("intLit")
+            "a": match("intlit")
         };
         match("range");
-        range.b = match("intLit");
+        range.b = match("intlit");
         return range;
-    };
-    var Assignment = () => {
-        log("Matching Assignment");
-
-        let assignment = {
-            "type": "assignment",
-            "id": match("id")
-        };
-        match("assignment");
-        assignment.value = Concatable();
-
-        return assignment;
     };
 
     // Returns true if the next token has type "type", or a type in "type" if
