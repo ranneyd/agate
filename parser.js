@@ -275,8 +275,8 @@ module.exports = (scannerTokens, error, verbose) => {
 
         return func;
     };
-    var Exp = () =>{
-        log("Matching Exp");
+    var Exps = () =>{
+        log("Matching Exps");
         if( at(lits) ) {
             return Literal();
         }
@@ -295,6 +295,7 @@ module.exports = (scannerTokens, error, verbose) => {
             match("closeParen");
             return exp;
         }
+        else if( at())
     };
     var Element = () => {
         log("Matching Element");
