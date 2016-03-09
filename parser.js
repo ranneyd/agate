@@ -275,12 +275,125 @@ module.exports = (scannerTokens, error, verbose) => {
 
         return func;
     };
-    var Exps = () =>{
-        log("Matching Exps");
+    var Exp = () => {
+        log("Matching Exp");
+
+        let exp = Exp1();
+        if( at("question") ) {
+            let ternary = {
+                "type": "ternary",
+                "condition": exp,
+                "if": Exp1()
+            };
+            match("colon");
+            ternary.else = Exp1();
+            
+            exp = ternary;
+        }
+        return exp;
+    };         
+    var Exp1 = () => {
+        log("Matching Exp1");
+
+        let exp = Exp2();
+        while( at("boolop") ) {
+            let boolop = {
+                "type": "boolop",
+                "op": match("boolop"),
+                "a": exp,
+                "b": Exp2()
+            };
+
+            exp = boolop;
+        }
+        return exp;
+    };     
+    var Exp2 = () => {
+        log("Matching Exp2");
+        let exp = Exp3();
+        while( at("relop") ) {
+           let relop = {
+                "type": "relop",
+                "op": match("relop"),
+                "a": exp,
+                "b": Exp3()
+            };
+            exp = relop;
+        }
+        return exp;
+    };    
+    var Exp3 = () => {
+        log("Matching Exp3");
+        let exp = Exp4();
+        while( at("addop") ) {
+            let addop = {
+                "type": "addop",
+                "op": match("addop"),
+                "a": exp,
+                "b": Exp4()
+            };
+            exp = addop;
+        }
+        return exp;
+    };    
+    var Exp4 = () => {
+        log("Matching Exp4");
+        let exp = Exp5();
+        while( at("multop") ) {
+            let multop = {
+                "type": "multop",
+                "op": match("multop"),
+                "a": exp,
+                "b": Exp5()
+            };
+            exp = multop;
+        }
+        return exp;
+    };     
+    var Exp5 = () => {
+        log("Matching Exp5");
+
+        let exp = Exp6();
+        if ( at("postfixop") ) {
+            return {
+                "type": "postfixop",
+                "op": match("postfixop"),
+                "body": exp
+            };
+        }
+        return exp;
+    };     
+    var Exp6 = () => {
+        log("Matching Exp6");
+
+        let exp = Exp7();
+
+        if ( at("tilde") ) {
+            match("tilde")
+            
+            exp = {
+                "type": "elemattr",
+                "elem": exp,
+                "attr": match("bareword")
+            };
+            if( at("openParen") ){
+                exp.args = Args();
+            }
+            else{
+                if( atBlock() ) {
+                    exp.args = ArgBlock();
+                }
+            }
+        }
+        return exp;
+    };     
+    var Exp7 = () => {
+        log("Matching Exp7");
+
         if( at(lits) ) {
             return Literal();
         }
-        else if( at("openSquare") ) {
+        else if( at("openSquare") ){
             return ArrayDef();
         }
         else if( at("openCurly") ) {
@@ -289,59 +402,75 @@ module.exports = (scannerTokens, error, verbose) => {
         else if( at("id") ) {
             return match("id");
         }
-        else if( at("openParen")) {
+        else if( at("openParen") ) {
             match("openParen");
-            let exp = match("Exp");
+            let exp = Exp();
             match("closeParen");
             return exp;
         }
-        else if( at())
-    };
-    var Element = () => {
-        log("Matching Element");
+        else if( at(["prefixop", "addop"]) ) {
+            let exp = {
+                "type":"prefixop"
+            };
+            if( at("prefixop") ){
+                exp.op = match("prefixop");
+            }
+            else{
+                exp.op = match("addop");
+            }
+            exp.body = Exp();
 
-        let element = {
-            "type": "element",
-            "tag": Tag()
-        };
-        if( at("dot") ) {
-            element.attrs = [Class()];
+            return exp;
         }
-        if( at("hash") ) {
-            element.attrs = [Id()];
+        else if( at(["bareword", ...builtins])){
+            return Call();
         }
-        if( at("openParen") ) {
-            element.attrs = [...(element.attrs||[]), Attrs()];
+        else{
+            return error.expected('some kind of expression', tokens.shift());
         }
+    };           
+    var Literal = () => {
+        log("Matching Literal");
 
-        if( atSequential(["newline", "indent"]) ) {
-            element.child = ChildBlock();
-        }
-        else if( at("tilde") ){
-            element.event = Event();
-            element.event.child = ChildBlock();
-        }
-        // So some function calls and some elements have the same syntax. The
-        // way we determine what we're dealing with is context: if there is a
-        // function with that name, use it. Otherwise, it's an element. This
-        // is beyond the scope of the parser. So, for the time being, we will
-        // label things but they will potentially be incorrect, i.e. we will
-        // label things as function calls that are really elements. Fortunately, however, 
-        else if( at() ){
-
-
-            while( !at("newline") ) {
-                let elemOrExp;
-                if( at(tags) ){
-                    elemOrExp = Element();
-                }
-                else {
-                    elemOrExp = Exp();
-                }
-                element.child = [...(element.child || []), elemOrExp];
+        for( let lit in lits ) {
+            if( at(lits[lit]) ) {
+                return match(lits[lit]);
             }
         }
-        return element;
+        return error.expected('some kind of literal', tokens.shift());
+    };
+    var Call = () => {
+        log("Matching Call");
+        let call = {
+            "type": "call"
+        };
+
+        if( at(builtins) ){
+            call.callee = BuiltIn();
+        }
+        else {
+            call.callee = match("bareword");
+        }
+
+        let classes = [];
+        while( at("dot") ){
+            match("dot");
+            classes.push(match("bareword"));
+        }
+        if(classes.length > 0){
+            call.classes = classes;
+        }
+
+        if( at("hash") ) {
+            match("hash");
+            call.id = match("bareword");
+        }
+
+        if( at("openSquare") ) {
+            call.attrs = Attrs();
+        }
+        call.args = Args();
+        return call;
     };
     var Attrs = () => {
         log("Matching Attrs");
@@ -483,148 +612,7 @@ module.exports = (scannerTokens, error, verbose) => {
 
         return exp;
     }
-    var Exp = () => {
-        log("Matching Exp");
-
-        let exp = Exp1();
-        if( at("question") ) {
-            let ternary = {
-                "type": "ternary",
-                "condition": exp,
-                "if": Exp1()
-            };
-            match("colon");
-            ternary.else = Exp1();
-            
-            exp = ternary;
-        }
-        return exp;
-    };         
-    var Exp1 = () => {
-        log("Matching Exp1");
-
-        let exp = Exp2();
-        while( at("boolop") ) {
-            let boolop = {
-                "type": "boolop",
-                "op": match("boolop"),
-                "a": exp,
-                "b": Exp2()
-            };
-
-            exp = boolop;
-        }
-        return exp;
-    };     
-    var Exp2 = () => {
-        log("Matching Exp2");
-        let exp = Exp3();
-        while( at("relop") ) {
-           let relop = {
-                "type": "relop",
-                "op": match("relop"),
-                "a": exp,
-                "b": Exp3()
-            };
-            exp = relop;
-        }
-        return exp;
-    };    
-    var Exp3 = () => {
-        log("Matching Exp3");
-        let exp = Exp4();
-        while( at("addop") ) {
-            let addop = {
-                "type": "addop",
-                "op": match("addop"),
-                "a": exp,
-                "b": Exp4()
-            };
-            exp = addop;
-        }
-        return exp;
-    };    
-    var Exp4 = () => {
-        log("Matching Exp4");
-        let exp = Exp5();
-        while( at("multop") ) {
-            let multop = {
-                "type": "multop",
-                "op": match("multop"),
-                "a": exp,
-                "b": Exp5()
-            };
-            exp = multop;
-        }
-        return exp;
-    };     
-    var Exp5 = () => {
-        log("Matching Exp5");
-
-        let exp;
-        if ( at("prefixop") ) {
-            exp = {
-                "type": "prefixop",
-                "op": match("prefixop"),
-                "body": Exp6()
-            };
-        }
-        else {
-            exp = Exp6();
-        }
-        return exp;
-    };     
-    var Exp6 = () => {
-        log("Matching Exp6");
-
-        if ( at("openParen") ) {
-            match("openParen")
-            
-            let exp = Concatable();
-            while( at("newline") ) {
-                match("newline");
-            }
-
-            match("closeParen");
-            return exp;
-        }
-        return Val();
-    };     
-    var Val = () => {
-        log("Matching Val");
-
-        if( at(elemAttrStarts) || atSequential(["id", "tilde"]) ) {
-            return ElemAttr();
-        }
-        else if( at(lits) ) {
-            return Lit();
-        }
-        else if( at("id") ) {
-            return match("id");
-        }
-        else if( at("bareword") ) {
-            return FuncCall();
-        }
-        else if( at("openSquare") ) {
-            return ArrayDef();
-        }
-        else if( at("openCurly") ) {
-            return HashMap();
-        }
-        else {
-            return error.expected('some kind of value', tokens.shift());
-        }
-    };           
-    var Lit = () => {
-        log("Matching Lit");
-
-        for( let lit in lits ) {
-            if( at(lits[lit]) ) {
-                return match(lits[lit]);
-            }
-        }
-        return error.expected('some kind of literal', tokens.shift());
-    };  
+      
     var ElemAttr = () => {
         log("Matching ElemAttr");
 
@@ -766,6 +754,10 @@ module.exports = (scannerTokens, error, verbose) => {
         }
         return true;
     };
+
+    var atBlock = () =>{
+        return atSequential(["newline", "indent"]);
+    }
 
     var atElement = () => {
         let i = 0;
