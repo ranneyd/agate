@@ -3,6 +3,7 @@
 var file;
 var code;
 var verbose = false;
+var dumpTokens = false;
 var fs = require("fs");
 
 Error = require("./error.js");
@@ -16,6 +17,9 @@ var processArguments = function(){
             switch(arg.slice(1)){
                 case 'v':
                     verbose = true;
+                    break;
+                case 't':
+                    dumpTokens = true;
                     break;
                 default:
                     console.log("Help")
@@ -56,7 +60,9 @@ readFile( function () {
 
     let tokens = scanner(code, error);
 
-    // console.log(JSON.stringify(tokens, null, 3));
+    if(dumpTokens) {
+        console.log(JSON.stringify(tokens, null, 3));
+    }
 
     if(!error.count){
         let parseTree = parser(tokens, error, verbose);
