@@ -10,12 +10,13 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Name           | Def                                                           |
 |---------------|---------------------------------------------------------------|
 |Program        |`Block EOF`                                                    |
-|Block*         |`Statement ((?<!ChildBlock)newline)?)+`                        |
+|Block*         |`newline+ (Statement ((?<!ChildBlock)newline+)?)+`             |
 |Statement      |`widget`                                                       |
 |               |`Template`                                                     |
 |               |`Control`                                                      |
 |               |`Assignment`                                                   |
 |               |`Definition`                                                   |
+|               |`comment`                                                      |
 |               |`Exp`                                                          |
 |Template       |`template (newline indent (label ChildBlock)+ dedent)?`        |
 |Control        |`If | For | While`                                             |
