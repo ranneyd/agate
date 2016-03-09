@@ -366,8 +366,15 @@ module.exports = (scannerTokens, error, verbose) => {
     var Exp6 = () => {
         log("Matching Exp6");
 
-        let exp = Exp7();
+        let exp;
 
+        // If we're not at a tilde, we def have an Exp7
+        if(!at("tilde")){
+            exp = Exp7();
+        }
+
+        // We could have an Exp7 or not have an Exp7. Either way, if we have a
+        // tilde here, it's game time
         if ( at("tilde") ) {
             match("tilde")
             

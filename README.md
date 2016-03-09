@@ -33,7 +33,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Exp3           |`Exp4 (addop Exp4)*`                                           |
 |Exp4           |`Exp5 (multop Exp5)*`                                          |
 |Exp5           |`Exp6 postfixop?`                                              |
-|Exp6           |`Exp7 (tilde bareword (ArgBlock|Args)?)?`                      |
+|Exp6           |`Exp7 | Exp7? tilde bareword (ArgBlock|Args)?`                 |
 |Exp7           |`Literal|Array|HashMap|id`                                     |
 |               |`openParen Exp closeParen`                                     |
 |\*\*           |`(prefixop|addop)? Exp`                                        |
