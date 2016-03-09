@@ -189,7 +189,7 @@ module.exports = (scannerTokens, error, verbose) => {
             if(at("intlit")) {
                 arrayDef.elems = {
                     "type": "range",
-                    "a": match("intlit");
+                    "a": match("intlit")
                 }
                 match("range");
                 arrayDefs.elems.b = match("intlit");
@@ -383,13 +383,8 @@ module.exports = (scannerTokens, error, verbose) => {
                 "elem": exp,
                 "attr": match("bareword")
             };
-            if( at("openParen") ){
+            if( at(["openParen", "bareword", "newline"])){
                 exp.args = Args();
-            }
-            else{
-                if( atBlock() ) {
-                    exp.args = ArgBlock();
-                }
             }
         }
         return exp;
@@ -408,6 +403,12 @@ module.exports = (scannerTokens, error, verbose) => {
         }
         else if( at("id") ) {
             return match("id");
+        }
+        else if( at("dot") ) {
+            return HtmlClass();
+        }
+        else if( at("hash") ) {
+            return HtmlId();
         }
         else if( at("openParen") ) {
             match("openParen");
@@ -461,16 +462,14 @@ module.exports = (scannerTokens, error, verbose) => {
 
         let classes = [];
         while( at("dot") ){
-            match("dot");
-            classes.push(match("bareword"));
+            classes.push(HtmlClass());
         }
         if(classes.length > 0){
             call.classes = classes;
         }
 
         if( at("hash") ) {
-            match("hash");
-            call.id = match("bareword");
+            call.id = HtmlId();
         }
 
         if( at("openSquare") ) {
@@ -489,6 +488,18 @@ module.exports = (scannerTokens, error, verbose) => {
         }
         return error.expected('some kind of built in function', tokens.shift());
     };
+    var HtmlClass = () => {
+        log("Matching HtmlClass");
+
+        match("dot");
+        return match("bareword");
+    }
+    var HtmlId = () => {
+        log("Matching HtmlId");
+
+        match("hash");
+        return match("bareword");
+    }
     var Attrs = () => {
         log("Matching Attrs");
         
@@ -530,8 +541,8 @@ module.exports = (scannerTokens, error, verbose) => {
         log("Matching Attr");
         
         let attr = {
-            "type", "attr",
-            "name": match("bareword")
+            "type": "attr",
+            "name": match("stringlit")
         };
         match("equals");
         attr.value = Exp();
@@ -541,25 +552,24 @@ module.exports = (scannerTokens, error, verbose) => {
     var Args = () => {
         log("Matching Args");
         
-        if(!at("openParen")){
-            return Arg();
+        if( at("openParen") ){
+            match("openParen");
+            let args = [];
+            while(!at("closeParen")) {
+                args.push(Arg());
+            }
+            match("closeParen");
+            return args;
         }
-
-        match("openParen")
-
-        if( atBlock() ) {
-            return ArgBlock();
+        else if( atBlock() ){
+            return ChildBlock();
         }
-
-        let args = [];
-
-        while( !at("closeParen") ) {
-            attrs.push(arg());
-        } 
-
-        match("closeParen");
-
-        return args;
+        else{
+            error.hint = "Are you calling a function with no parameters, but missing parentheses (i.e. @elem~foo instead of @elem~foo())?";
+            let arg = Arg();
+            error.hint = "";
+            return arg;
+        }
     };
     var HashMap = () => {
         log("Matching HashMap");
@@ -583,7 +593,7 @@ module.exports = (scannerTokens, error, verbose) => {
             }
         }
 
-        match("closeParen");
+        match("closeCurly");
 
         return hash;
     };
@@ -679,11 +689,6 @@ module.exports = (scannerTokens, error, verbose) => {
     var atBlock = () =>{
         return atSequential(["newline", "indent"]);
     }
-
-    var atElement = () => {
-        let i = 0;
-        if(["bareword", "script", "style"].some( type => tokens[i].type === type) )
-    };
 
     // Pops off the top token if its type matches 'type', returns an error otherwise
     var match = ( type ) => {
