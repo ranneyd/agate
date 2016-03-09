@@ -1,285 +1,244 @@
 {
    "type": "program",
-   "body": {
+   "block": {
       "type": "block",
-      "body": [
+      "statements": [
          {
-            "type": "element",
-            "tag": {
+            "type": "call",
+            "callee": {
                "type": "bareword",
                "line": 1,
                "column": 1,
                "text": "body"
             },
-            "child": {
-               "type": "block",
-               "body": [
-                  {
-                     "type": "element",
-                     "tag": {
-                        "type": "bareword",
-                        "line": 2,
-                        "column": 5,
-                        "text": "div"
-                     },
-                     "attrs": [
-                        {
-                           "type": "id",
-                           "body": {
-                              "type": "bareword",
-                              "line": 2,
-                              "column": 9,
-                              "text": "holder"
-                           }
-                        }
-                     ],
-                     "child": {
-                        "type": "block",
-                        "body": [
+            "args": [
+               {
+                  "type": "call",
+                  "callee": {
+                     "type": "bareword",
+                     "line": 2,
+                     "column": 5,
+                     "text": "div"
+                  },
+                  "id": {
+                     "type": "bareword",
+                     "line": 2,
+                     "column": 9,
+                     "text": "holder"
+                  },
+                  "args": [
+                     {
+                        "type": "call",
+                        "callee": {
+                           "type": "bareword",
+                           "line": 3,
+                           "column": 9,
+                           "text": "button"
+                        },
+                        "id": {
+                           "type": "bareword",
+                           "line": 3,
+                           "column": 16,
+                           "text": "populate"
+                        },
+                        "args": [
                            {
-                              "type": "element",
-                              "tag": {
-                                 "type": "bareword",
-                                 "line": 3,
-                                 "column": 9,
-                                 "text": "button"
+                              "type": "stringlit",
+                              "line": 3,
+                              "column": 25,
+                              "text": "\"Populate\""
+                           }
+                        ]
+                     },
+                     {
+                        "type": "elemattr",
+                        "elem": {
+                           "type": "bareword",
+                           "line": 4,
+                           "column": 10,
+                           "text": "populate"
+                        },
+                        "attr": {
+                           "type": "bareword",
+                           "line": 4,
+                           "column": 19,
+                           "text": "click"
+                        },
+                        "args": [
+                           {
+                              "type": "assignment",
+                              "id": {
+                                 "type": "id",
+                                 "line": 5,
+                                 "column": 13,
+                                 "text": "results"
                               },
-                              "attrs": [
-                                 {
-                                    "type": "id",
-                                    "body": {
-                                       "type": "bareword",
-                                       "line": 3,
-                                       "column": 16,
-                                       "text": "populate"
-                                    }
-                                 }
-                              ],
-                              "child": [
-                                 {
-                                    "type": "stringlit",
-                                    "line": 3,
-                                    "column": 25,
-                                    "text": "\"Populate\""
-                                 }
-                              ]
-                           },
-                           [
-                              {
-                                 "type": "elemattr",
-                                 "source": {
-                                    "type": "id",
-                                    "body": {
-                                       "type": "bareword",
-                                       "line": 4,
-                                       "column": 10,
-                                       "text": "populate"
-                                    }
-                                 },
-                                 "attr": {
+                              "value": {
+                                 "type": "call",
+                                 "callee": {
                                     "type": "bareword",
-                                    "line": 4,
-                                    "column": 19,
-                                    "text": "click"
+                                    "line": 5,
+                                    "column": 24,
+                                    "text": "get"
                                  },
-                                 "child": {
-                                    "type": "block",
-                                    "body": [
-                                       {
-                                          "type": "assignment",
-                                          "id": {
-                                             "type": "id",
-                                             "line": 5,
-                                             "column": 13,
-                                             "text": "results"
-                                          },
-                                          "value": [
-                                             {
-                                                "type": "funcCall",
-                                                "name": {
-                                                   "type": "bareword",
-                                                   "line": 5,
-                                                   "column": 24,
-                                                   "text": "get"
-                                                },
-                                                "args": [
-                                                   {
-                                                      "type": "stringlit",
-                                                      "line": 5,
-                                                      "column": 28,
-                                                      "text": "\"./getData\""
-                                                   },
-                                                   {
-                                                      "type": "hashmap",
-                                                      "props": [
-                                                         {
-                                                            "key": {
-                                                               "type": "stringlit",
-                                                               "line": 6,
-                                                               "column": 17,
-                                                               "text": "\"key\""
-                                                            },
-                                                            "value": {
-                                                               "type": "stringlit",
-                                                               "line": 6,
-                                                               "column": 23,
-                                                               "text": "\"value\""
-                                                            }
-                                                         },
-                                                         {
-                                                            "key": {
-                                                               "type": "stringlit",
-                                                               "line": 7,
-                                                               "column": 17,
-                                                               "text": "\"if\""
-                                                            },
-                                                            "value": {
-                                                               "type": "stringlit",
-                                                               "line": 7,
-                                                               "column": 23,
-                                                               "text": "\"this will probably break\""
-                                                            }
-                                                         }
-                                                      ]
-                                                   }
-                                                ]
-                                             }
-                                          ]
-                                       },
-                                       {
-                                          "type": "for",
-                                          "condition": {
-                                             "type": "in",
-                                             "a": {
-                                                "type": "id",
-                                                "line": 9,
+                                 "args": [
+                                    {
+                                       "type": "stringlit",
+                                       "line": 5,
+                                       "column": 28,
+                                       "text": "\"./getData\""
+                                    },
+                                    {
+                                       "type": "hashmap",
+                                       "pairs": [
+                                          {
+                                             "name": {
+                                                "type": "stringlit",
+                                                "line": 6,
                                                 "column": 17,
-                                                "text": "result"
+                                                "text": "\"key\""
                                              },
-                                             "b": {
-                                                "type": "id",
-                                                "line": 9,
-                                                "column": 28,
-                                                "text": "results"
+                                             "value": {
+                                                "type": "stringlit",
+                                                "line": 6,
+                                                "column": 25,
+                                                "text": "\"value\""
                                              }
                                           },
-                                          "body": {
-                                             "type": "block",
-                                             "body": [
-                                                [
-                                                   {
-                                                      "type": "elemattr",
-                                                      "source": {
-                                                         "type": "id",
-                                                         "body": {
+                                          {
+                                             "name": {
+                                                "type": "stringlit",
+                                                "line": 7,
+                                                "column": 17,
+                                                "text": "\"if\""
+                                             },
+                                             "value": {
+                                                "type": "stringlit",
+                                                "line": 7,
+                                                "column": 24,
+                                                "text": "\"this will probably break\""
+                                             }
+                                          }
+                                       ]
+                                    }
+                                 ]
+                              }
+                           },
+                           {
+                              "type": "for",
+                              "id": {
+                                 "type": "id",
+                                 "line": 9,
+                                 "column": 17,
+                                 "text": "result"
+                              },
+                              "iterable": {
+                                 "type": "id",
+                                 "line": 9,
+                                 "column": 28,
+                                 "text": "results"
+                              },
+                              "body": {
+                                 "type": "block",
+                                 "statements": [
+                                    {
+                                       "type": "elemattr",
+                                       "elem": {
+                                          "type": "bareword",
+                                          "line": 10,
+                                          "column": 18,
+                                          "text": "holder"
+                                       },
+                                       "attr": {
+                                          "type": "bareword",
+                                          "line": 10,
+                                          "column": 25,
+                                          "text": "append"
+                                       },
+                                       "args": [
+                                          {
+                                             "type": "call",
+                                             "callee": {
+                                                "type": "bareword",
+                                                "line": 11,
+                                                "column": 21,
+                                                "text": "div"
+                                             },
+                                             "classes": [
+                                                {
+                                                   "type": "bareword",
+                                                   "line": 11,
+                                                   "column": 25,
+                                                   "text": "object"
+                                                }
+                                             ],
+                                             "args": [
+                                                {
+                                                   "type": "call",
+                                                   "callee": {
+                                                      "type": "bareword",
+                                                      "line": 12,
+                                                      "column": 25,
+                                                      "text": "h1"
+                                                   },
+                                                   "args": [
+                                                      {
+                                                         "type": "elemattr",
+                                                         "elem": {
+                                                            "type": "id",
+                                                            "line": 12,
+                                                            "column": 28,
+                                                            "text": "result"
+                                                         },
+                                                         "attr": {
                                                             "type": "bareword",
-                                                            "line": 10,
-                                                            "column": 18,
-                                                            "text": "holder"
-                                                         }
-                                                      },
-                                                      "attr": {
-                                                         "type": "bareword",
-                                                         "line": 10,
-                                                         "column": 25,
-                                                         "text": "append"
-                                                      },
-                                                      "child": {
-                                                         "type": "block",
-                                                         "body": [
-                                                            {
-                                                               "type": "element",
-                                                               "tag": {
-                                                                  "type": "bareword",
-                                                                  "line": 11,
-                                                                  "column": 21,
-                                                                  "text": "div"
-                                                               },
-                                                               "attrs": [
-                                                                  {
-                                                                     "type": "class",
-                                                                     "body": {
-                                                                        "type": "bareword",
-                                                                        "line": 11,
-                                                                        "column": 25,
-                                                                        "text": "object"
-                                                                     }
-                                                                  }
-                                                               ],
-                                                               "child": {
-                                                                  "type": "block",
-                                                                  "body": [
-                                                                     {
-                                                                        "type": "element",
-                                                                        "tag": {
-                                                                           "type": "bareword",
-                                                                           "line": 12,
-                                                                           "column": 25,
-                                                                           "text": "h1"
-                                                                        },
-                                                                        "child": [
-                                                                           {
-                                                                              "type": "elemattr",
-                                                                              "source": {
-                                                                                 "type": "id",
-                                                                                 "line": 12,
-                                                                                 "column": 28,
-                                                                                 "text": "result"
-                                                                              },
-                                                                              "attr": {
-                                                                                 "type": "bareword",
-                                                                                 "line": 12,
-                                                                                 "column": 36,
-                                                                                 "text": "title"
-                                                                              }
-                                                                           }
-                                                                        ]
-                                                                     },
-                                                                     {
-                                                                        "type": "element",
-                                                                        "tag": {
-                                                                           "type": "bareword",
-                                                                           "line": 13,
-                                                                           "column": 25,
-                                                                           "text": "p"
-                                                                        },
-                                                                        "child": [
-                                                                           {
-                                                                              "type": "elemattr",
-                                                                              "source": {
-                                                                                 "type": "id",
-                                                                                 "line": 13,
-                                                                                 "column": 27,
-                                                                                 "text": "result"
-                                                                              },
-                                                                              "attr": {
-                                                                                 "type": "bareword",
-                                                                                 "line": 13,
-                                                                                 "column": 35,
-                                                                                 "text": "body"
-                                                                              }
-                                                                           }
-                                                                        ]
-                                                                     }
-                                                                  ]
-                                                               }
-                                                            }
-                                                         ]
+                                                            "line": 12,
+                                                            "column": 36,
+                                                            "text": "title"
+                                                         },
+                                                         "args": []
                                                       }
-                                                   }
-                                                ]
+                                                   ]
+                                                },
+                                                {
+                                                   "type": "call",
+                                                   "callee": {
+                                                      "type": "bareword",
+                                                      "line": 13,
+                                                      "column": 25,
+                                                      "text": "p"
+                                                   },
+                                                   "args": [
+                                                      {
+                                                         "type": "elemattr",
+                                                         "elem": {
+                                                            "type": "id",
+                                                            "line": 13,
+                                                            "column": 27,
+                                                            "text": "result"
+                                                         },
+                                                         "attr": {
+                                                            "type": "bareword",
+                                                            "line": 13,
+                                                            "column": 35,
+                                                            "text": "body"
+                                                         },
+                                                         "args": []
+                                                      }
+                                                   ]
+                                                }
                                              ]
                                           }
-                                       }
-                                    ]
-                                 }
+                                       ]
+                                    }
+                                 ]
                               }
-                           ]
+                           }
                         ]
                      }
-                  }
-               ]
-            }
+                  ]
+               }
+            ]
          }
       ]
    }
