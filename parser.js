@@ -472,35 +472,114 @@ module.exports = (scannerTokens, error, verbose) => {
         call.args = Args();
         return call;
     };
+    var BuiltIn = () => {
+        log("Matching BuiltIn");
+
+        for( let builtin in builtins ) {
+            if( at(builtins[builtin]) ) {
+                return match(builtins[builtin]);
+            }
+        }
+        return error.expected('some kind of built in function', tokens.shift());
+    };
     var Attrs = () => {
         log("Matching Attrs");
         
-        var attrs = [];
+        match("openSquare")
+
+        if( atBlock() ) {
+            return AttrBlock();
+        }
+
+        let attrs = [];
+
+        while( !at("closeSquare") ) {
+            attrs.push(Attr());
+        } 
+
+        match("closeSquare");
+
+        return attrs;
+    };
+    var AttrBlock = () => {
+        log("Matching AttrBlock");
+        
+        match("newline");
+        match("indent");
+
+
+        let attrs = [];
+
+        while( !at("dedent") ) {
+            attrs.push(Attr());
+            match("newline");
+        } 
+
+        match("dedent");
+
+        return attrs;
+    };
+    var Attr = () => {
+        log("Matching Attr");
+        
+        let attr = {
+            "type", "attr",
+            "name": match("bareword")
+        };
+        match("equals");
+        attr.value = Exp();
+
+        return attr;
+    };
+    var Args = () => {
+        log("Matching Args");
+        
+        if(!at("openParen")){
+            return Arg();
+        }
 
         match("openParen")
 
-        do{
-            if( at("hash") ){
-                attrs.push( Id() );
-            }
-            else if( at("dot") ){
-                attrs.push( Class() );
-            }
-            else if( at("bareword") || at("style") ){
-                attrs.push({
-                    "type": Attr(),
-                    "body": Exp()
-                });
-            }
-            else{
-                return error.expected('some attribute', tokens.shift());
-            }
-        } while( !at("closeParen") );
+        if( atBlock() ) {
+            return ArgBlock();
+        }
+
+        let args = [];
+
+        while( !at("closeParen") ) {
+            attrs.push(arg());
+        } 
 
         match("closeParen");
 
-        return attrs;
-    };       
+        return args;
+    };
+    var HashMap = () => {
+        log("Matching HashMap");
+
+        match("openCurly");
+
+        let hash = {
+            "type": "hashmap"
+        };
+
+        if( atBlock() ) {
+            hash.pairs = AttrBlock();
+        }
+        else {
+            if( at("bareword") ) {
+                hash.pairs = [];
+
+                while( !at("closeCurly") ) {
+                    hash.pairs.push(Attr());
+                } 
+            }
+        }
+
+        match("closeParen");
+
+        return hash;
+    };
     var ChildBlock = () => {
         log("Matching ChildBlock");
         match("newline");
@@ -517,6 +596,8 @@ module.exports = (scannerTokens, error, verbose) => {
         else {
             block = Block();
         }
+
+
         if( !at("EOF")){
             match("dedent");
         }
@@ -568,174 +649,7 @@ module.exports = (scannerTokens, error, verbose) => {
 
         return css;
     }
-    var Tag = () => {
-        log("Matching Tag");
-        for( let tag in tags){
-            if( at(tags[tag]) ){
-                return match(tags[tag]);
-            }
-        }
-        return error.expected('some kind of tag', tokens.shift());
-    };         
-    var Class = () => {
-        log("Matching Class");
-        match("dot");
-        return { 
-            "type":"class",
-            "body": match("bareword")
-        };
-    };   
-    var Id = () => {
-        log("Matching Id (html kind)");
-        match("hash");
-        return { 
-            "type":"id",
-            "body": match("bareword")
-        };    
-    };       
-    var Attr = () => {
-        log("Matching Attr");
-
-        if( at("style") ) {
-            return match("style");
-        }
-        return match("bareword");
-    };
-    var Concatable = () => {
-        log("Matching Concatable");
-
-        var exp = [Exp()];
-
-        while( at(expBeginings) ) {
-            exp = [...exp, Exp()];
-        }
-
-        return exp;
-    }
-      
-    var ElemAttr = () => {
-        log("Matching ElemAttr");
-
-        let elemAttr = {
-            "type": "elemattr"
-        };
-        if( at("id") ) {
-            elemAttr.source = match("id");
-        }
-        else if( at("dot") ) {
-            elemAttr.source = Class();
-        }
-        else if( at("hash") ) {
-            elemAttr.source = Id();
-        }
-        else {
-            elemAttr.source = "this";
-        }
-
-        match("tilde");
-
-        elemAttr.attr = Attr();
-
-        if( atSequential(["newline", "indent"]) ) {  
-            elemAttr.child = ChildBlock();
-        }
-
-        return elemAttr;
-    };
-    // Note that this is very similar to ElemAttr. I considered merging the
-    // two somehow, but they really have different meanings. At the end of an
-    // element you should not be able to access any attribute of that element
-    // (since you can do that in its attributes area). It really is JUST for
-    // events
-    var Event = () => {
-        log("Matching Event");
-
-        match("tilde");
-
-        return {
-            "type": "event",
-            "body": match("bareword")
-        };
-    };       
-    var FuncCall = () => {
-        log("Matching Function call");
-
-        let funcCall = {
-            "type": "funcCall",
-            "name" : match("bareword")
-        };
-
-        if( at("openParen") ){
-            let args = [];
-
-            match("openParen");
-            while( !at("closeParen") ){
-                args.push( Exp() );
-            }
-            match("closeParen");
-
-            funcCall.args = args;
-        }
-        else{
-            if( at( expBeginings )){
-                funcCall.args = [ Exp() ];
-            }
-        }
-
-        return funcCall;
-    };    
-      
     
-    var HashMap = () => {
-        log("Matching HashMap");
-
-        let hashMap = {
-            "type": "hashmap",
-            "props": []
-        };
-
-        match("openCurly");
-
-        if( at("newline") ){
-            match("newline");
-        }
-
-        let indented = false;
-        if( at("indent") ){
-            match("indent");
-            indented = true;
-        }
-
-        while( at("stringlit") ){
-            let prop = {
-                "key": match("stringlit")
-            };
-            match("colon");
-            prop.value = Exp();
-            if( at("newline") ) {
-                match("newline");
-            }
-            hashMap.props.push(prop);
-        }
-        if(indented){
-            match("dedent");
-        }
-        match("closeCurly");
-
-        return hashMap;
-    };
-    var Range = () => {
-        log("Matching Range");
-
-        let range = {
-            "type": "range",
-            "a": match("intlit")
-        };
-        match("range");
-        range.b = match("intlit");
-        return range;
-    };
-
     // Returns true if the next token has type "type", or a type in "type" if
     // type is an array, false otherwise
     var at = ( type ) => {
