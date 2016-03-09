@@ -3,7 +3,7 @@ head
 body
     input.mybutton#pass[type="password"]~submit
         if(length ~value < 8)
-            p[style="color:red; background-color:cyan"] "Your password sucks"
+            p["style"="color:red; background-color:cyan"] "Your password sucks"
         else
             script
                 alert("Hooray!");

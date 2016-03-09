@@ -1,206 +1,187 @@
 {
    "type": "program",
-   "body": {
+   "block": {
       "type": "block",
-      "body": [
+      "statements": [
          {
-            "type": "element",
-            "tag": {
+            "type": "call",
+            "callee": {
                "type": "bareword",
                "line": 1,
                "column": 1,
                "text": "head"
             },
-            "child": {
-               "type": "block",
-               "body": [
-                  {
-                     "type": "element",
-                     "tag": {
-                        "type": "bareword",
+            "args": [
+               {
+                  "type": "call",
+                  "callee": {
+                     "type": "bareword",
+                     "line": 2,
+                     "column": 5,
+                     "text": "title"
+                  },
+                  "args": [
+                     {
+                        "type": "stringlit",
                         "line": 2,
-                        "column": 5,
-                        "text": "title"
-                     },
-                     "child": [
-                        {
-                           "type": "stringlit",
-                           "line": 2,
-                           "column": 11,
-                           "text": "\"Password Demo\""
-                        }
-                     ]
-                  }
-               ]
-            }
+                        "column": 11,
+                        "text": "\"Password Demo\""
+                     }
+                  ]
+               }
+            ]
          },
          {
-            "type": "element",
-            "tag": {
+            "type": "call",
+            "callee": {
                "type": "bareword",
                "line": 3,
                "column": 1,
                "text": "body"
             },
-            "child": {
-               "type": "block",
-               "body": [
-                  {
-                     "type": "element",
-                     "tag": {
+            "args": [
+               {
+                  "type": "call",
+                  "callee": {
+                     "type": "bareword",
+                     "line": 4,
+                     "column": 5,
+                     "text": "input"
+                  },
+                  "classes": [
+                     {
                         "type": "bareword",
                         "line": 4,
-                        "column": 5,
-                        "text": "input"
-                     },
-                     "attrs": [
-                        [
-                           {
-                              "type": "id",
-                              "body": {
-                                 "type": "bareword",
-                                 "line": 4,
-                                 "column": 12,
-                                 "text": "pass"
-                              }
-                           },
-                           {
-                              "type": {
-                                 "type": "bareword",
-                                 "line": 4,
-                                 "column": 17,
-                                 "text": "type"
-                              },
-                              "body": {
-                                 "type": "stringlit",
-                                 "line": 4,
-                                 "column": 22,
-                                 "text": "\"password\""
-                              }
-                           }
-                        ]
-                     ],
-                     "event": {
-                        "type": "event",
-                        "body": {
+                        "column": 11,
+                        "text": "mybutton"
+                     }
+                  ],
+                  "id": {
+                     "type": "bareword",
+                     "line": 4,
+                     "column": 20,
+                     "text": "pass"
+                  },
+                  "attrs": [
+                     {
+                        "name": {
                            "type": "bareword",
                            "line": 4,
-                           "column": 34,
+                           "column": 25,
+                           "text": "type"
+                        },
+                        "value": {
+                           "type": "stringlit",
+                           "line": 4,
+                           "column": 30,
+                           "text": "\"password\""
+                        }
+                     }
+                  ],
+                  "args": [
+                     {
+                        "type": "elemattr",
+                        "attr": {
+                           "type": "bareword",
+                           "line": 4,
+                           "column": 42,
                            "text": "submit"
                         },
-                        "child": {
-                           "type": "block",
-                           "body": [
-                              {
-                                 "type": "if",
-                                 "condition": [
+                        "args": [
+                           {
+                              "type": "if",
+                              "condition": {
+                                 "type": "call",
+                                 "callee": {
+                                    "type": "bareword",
+                                    "line": 5,
+                                    "column": 12,
+                                    "text": "length"
+                                 },
+                                 "args": [
                                     {
-                                       "type": "funcCall",
-                                       "name": {
-                                          "type": "bareword",
+                                       "type": "relop",
+                                       "op": {
+                                          "type": "relop",
                                           "line": 5,
-                                          "column": 12,
-                                          "text": "length"
+                                          "column": 26,
+                                          "text": "<"
                                        },
+                                       "a": {
+                                          "type": "elemattr",
+                                          "attr": {
+                                             "type": "bareword",
+                                             "line": 5,
+                                             "column": 20,
+                                             "text": "value"
+                                          }
+                                       },
+                                       "b": {
+                                          "type": "intlit",
+                                          "line": 5,
+                                          "column": 28,
+                                          "text": "8"
+                                       }
+                                    }
+                                 ]
+                              },
+                              "body": {
+                                 "type": "block",
+                                 "statements": [
+                                    {
+                                       "type": "call",
+                                       "callee": {
+                                          "type": "bareword",
+                                          "line": 6,
+                                          "column": 13,
+                                          "text": "p"
+                                       },
+                                       "attrs": [
+                                          {
+                                             "name": {
+                                                "type": "stringlit",
+                                                "line": 6,
+                                                "column": 15,
+                                                "text": "\"style\""
+                                             },
+                                             "value": {
+                                                "type": "stringlit",
+                                                "line": 6,
+                                                "column": 23,
+                                                "text": "\"color:red; background-color:cyan\""
+                                             }
+                                          }
+                                       ],
                                        "args": [
                                           {
-                                             "type": "relop",
-                                             "op": {
-                                                "type": "relop",
-                                                "line": 5,
-                                                "column": 26,
-                                                "text": "<"
-                                             },
-                                             "a": {
-                                                "type": "elemattr",
-                                                "source": "this",
-                                                "attr": {
-                                                   "type": "bareword",
-                                                   "line": 5,
-                                                   "column": 20,
-                                                   "text": "value"
-                                                }
-                                             },
-                                             "b": {
-                                                "type": "intlit",
-                                                "line": 5,
-                                                "column": 28,
-                                                "text": "8"
-                                             }
+                                             "type": "stringlit",
+                                             "line": 6,
+                                             "column": 59,
+                                             "text": "\"Your password sucks\""
                                           }
                                        ]
                                     }
-                                 ],
-                                 "body": {
-                                    "type": "block",
-                                    "body": [
-                                       {
-                                          "type": "element",
-                                          "tag": {
-                                             "type": "bareword",
-                                             "line": 6,
-                                             "column": 13,
-                                             "text": "p"
-                                          },
-                                          "attrs": [
-                                             [
-                                                {
-                                                   "type": {
-                                                      "type": "style",
-                                                      "line": 6,
-                                                      "column": 15
-                                                   },
-                                                   "body": {
-                                                      "type": "stringlit",
-                                                      "line": 6,
-                                                      "column": 21,
-                                                      "text": "\"color:red; background-color:cyan\""
-                                                   }
-                                                }
-                                             ]
-                                          ],
-                                          "child": [
-                                             {
-                                                "type": "stringlit",
-                                                "line": 6,
-                                                "column": 57,
-                                                "text": "\"Your password sucks\""
-                                             }
-                                          ]
+                                 ]
+                              },
+                              "else": {
+                                 "type": "block",
+                                 "statements": [
+                                    {
+                                       "type": "call",
+                                       "callee": {
+                                          "type": "script",
+                                          "line": 8,
+                                          "column": 13
                                        }
-                                    ]
-                                 },
-                                 "else": {
-                                    "type": "block",
-                                    "body": [
-                                       {
-                                          "type": "element",
-                                          "tag": {
-                                             "type": "script",
-                                             "line": 8,
-                                             "column": 13
-                                          },
-                                          "child": {
-                                             "type": "JS Block",
-                                             "body": [
-                                                {
-                                                   "type": "js",
-                                                   "line": 9,
-                                                   "column": 17,
-                                                   "text": "alert(\"Hooray!\");"
-                                                }
-                                             ]
-                                          }
-                                       }
-                                    ]
-                                 }
+                                    }
+                                 ]
                               }
-                           ]
-                        }
+                           }
+                        ]
                      }
-                  }
-               ]
-            }
+                  ]
+               }
+            ]
          }
       ]
    }

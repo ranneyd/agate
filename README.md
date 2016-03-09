@@ -35,6 +35,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Exp4           |`Exp5 (multop Exp5)*`                                          |
 |Exp5           |`Exp6 postfixop?`                                              |
 |Exp6           |`Exp7 | Exp7? tilde bareword Args?`                            |
+|TODO           | There must be a better way to do Exp6. Current method doesn't work. See test `control.agate`|
 |Exp7           |`Literal|Array|HashMap|id|HtmlId|HtmlClass`                    |
 |               |`openParen Exp closeParen`                                     |
 |\*\*           |`(prefixop|addop)? Exp`                                        |
@@ -46,7 +47,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |HtmlId         |`hash bareword`                                                |
 |Attrs          |`openSquare (Attr+|AttrBlock)? closeSquare`                    |
 |AttrBlock      |`newline indent (Attr newline)+ dedent`                        |
-|Attr           |`stringlit equals Exp`                                         |
+|Attr           |`(stringlit|bareword) (equals|colon) Exp`                      |
 |Args           |`openParen Arg* closeParen                                     |
 |               |`ChildBlock`                                                   |
 |               |`Arg`                                                          |
