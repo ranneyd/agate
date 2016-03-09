@@ -549,10 +549,22 @@ module.exports = (scannerTokens, error, verbose) => {
     var Attr = () => {
         log("Matching Attr");
         
-        let attr = {
-            "name": match("stringlit")
-        };
-        match("equals");
+        let attr = {};
+        error.hint = "HashMap keys can either be string literals or bare words. But be careful; if"
+                   + " you use bare words make sure they aren't reserved words!";
+        if(at("stringlit")) {
+            attr.name = match("stringlit");
+        }
+        else {
+            attr.name = match("bareword");
+        }
+        error.hint = "";
+        if(at("equals")) {
+            match("equals");
+        }
+        else {
+            match("colon");
+        }
         attr.value = Exp();
 
         return attr;
@@ -574,7 +586,8 @@ module.exports = (scannerTokens, error, verbose) => {
             return ChildBlock().statements;
         }
         else{
-            error.hint = "Are you calling a function with no parameters, but missing parentheses (i.e. @elem~foo instead of @elem~foo())?";
+            error.hint = "Are you calling a function with no parameters, but missing parentheses"
+                       + " (i.e. @elem~foo instead of @elem~foo())?";
             let arg = [Arg()];
             error.hint = "";
             return arg;
