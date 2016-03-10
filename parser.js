@@ -447,6 +447,9 @@ module.exports = (scannerTokens, error, verbose) => {
         else if( at("id") ) {
             return match("id");
         }
+        else if( at("this") ) {
+            return match("this");
+        }
         else if( at("dot") ) {
             return HtmlClass();
         }

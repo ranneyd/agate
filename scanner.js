@@ -30,6 +30,7 @@
     closeSquare| \]
     question   | \?
     colon      | \:
+    this       | \^
     comma      | ,
     hash       | #
     dot        | \.
@@ -68,6 +69,11 @@ module.exports = (data, error) => {
         {
             "type": "colon",
             "regex": /^:/,
+            "notext": true
+        },
+        {
+            "type": "this",
+            "regex": /^\^/,
             "notext": true
         },
         {
