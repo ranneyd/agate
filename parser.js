@@ -119,7 +119,7 @@ module.exports = (scannerTokens, error, verbose) => {
         else {
             return error.parse(`${tokens[0].text} is not a recognized control statement`, tokens.shift());
         }
-    };   
+    };
     var If = () => {
         log("Matching If");
 
@@ -157,7 +157,7 @@ module.exports = (scannerTokens, error, verbose) => {
         }
 
         return ifStatement;
-    };          
+    };
     var For = () => {
         log("Matching For");
 
@@ -287,82 +287,87 @@ module.exports = (scannerTokens, error, verbose) => {
     var Exp = () => {
         log("Matching Exp");
 
-        let exp = Exp1();
+        return TernaryIfExp();
+    }
+    var TernaryIfExp = () => {
+        log("Matching TernaryIfExp");
+
+        let exp = BoolExp();
         if( at("question") ) {
             let ternary = {
                 "type": "ternary",
                 "condition": exp,
-                "if": Exp1()
+                "if": BoolExp()
             };
             match("colon");
-            ternary.else = Exp1();
+            ternary.else = BoolExp();
             
             exp = ternary;
         }
         return exp;
-    };         
-    var Exp1 = () => {
-        log("Matching Exp1");
+    };
+    var BoolExp = () => {
+        log("Matching BoolExp");
 
-        let exp = Exp2();
+        let exp = RelExp();
         while( at("boolop") ) {
             let boolop = {
                 "type": "boolop",
                 "op": match("boolop"),
                 "a": exp,
-                "b": Exp2()
+                "b": RelExp()
             };
 
             exp = boolop;
         }
         return exp;
-    };     
-    var Exp2 = () => {
-        log("Matching Exp2");
-        let exp = Exp3();
+    };
+    var RelExp = () => {
+        log("Matching RelExp");
+        let exp = AddExp();
         while( at("relop") ) {
            let relop = {
                 "type": "relop",
                 "op": match("relop"),
                 "a": exp,
-                "b": Exp3()
+                "b": AddExp()
             };
             exp = relop;
         }
         return exp;
-    };    
-    var Exp3 = () => {
-        log("Matching Exp3");
-        let exp = Exp4();
+    };
+    var AddExp = () => {
+        log("Matching AddExp");
+        let exp = MultExp();
         while( at("addop") ) {
             let addop = {
                 "type": "addop",
                 "op": match("addop"),
                 "a": exp,
-                "b": Exp4()
+                "b": MultExp()
             };
             exp = addop;
         }
         return exp;
-    };    
-    var Exp4 = () => {
-        log("Matching Exp4");
-        let exp = Exp5();
+    };
+    var MultExp = () => {
+        log("Matching MultExp");
+        let exp = PostfixExp();
         while( at("multop") ) {
             let multop = {
                 "type": "multop",
                 "op": match("multop"),
                 "a": exp,
-                "b": Exp5()
+                "b": PostfixExp()
             };
             exp = multop;
         }
         return exp;
-    };     
-    var Exp5 = () => {
-        log("Matching Exp5");
+    };
+    var PostfixExp = () => {
+        log("Matching PostfixExp");
 
-        let exp = Exp6();
+        let exp = ElemAttrExp();
         if ( at("postfixop") ) {
             return {
                 "type": "postfixop",
@@ -371,25 +376,25 @@ module.exports = (scannerTokens, error, verbose) => {
             };
         }
         return exp;
-    };     
-    var Exp6 = () => {
-        log("Matching Exp6");
+    };
+    var ElemAttrExp = () => {
+        log("Matching ElemAttrExp");
 
         let exp;
 
-        // If we're not at a tilde, we def have an Exp7
+        // If we're not at a tilde, we def have an ArrayElemExp
         if(!at("tilde")){
-            exp = Exp7();
+            exp = ArrayElemExp();
         }
 
-        // We could have an Exp7 or not have an Exp7. Either way, if we have a
+        // We could have an ArrayElemExp or not have an ArrayElemExp. Either way, if we have a
         // tilde here, it's game time
         if ( at("tilde") ) {
             match("tilde")
             
             exp = {
                 "type": "elemattr",
-                "elem": exp,
+                "elem": exp || "this",
                 "attr": match("bareword")
             };
             if( at(["openParen", "bareword", "newline"])){
@@ -397,9 +402,38 @@ module.exports = (scannerTokens, error, verbose) => {
             }
         }
         return exp;
-    };     
-    var Exp7 = () => {
-        log("Matching Exp7");
+    };
+    var ArrayElemExp = () => {
+        log("Matching ArrayElemExp");
+
+        let exp = MiscExp();
+
+        while( at("openSquare") ) {
+            match("openSquare");
+
+            let index;
+            if( at("intlit") ) {
+                index = match("intlit");
+            }
+            else if ( at("stringlit") ){
+                index = match("stringlit");
+            }
+            else{
+                error.expected("string or int", tokens.shift());
+            }
+
+            exp = {
+                "type": "elemat",
+                "index": index,
+                "of": exp
+            };
+
+            match("closeSquare");
+        }
+        return exp;
+    };
+    var MiscExp = () => {
+        log("Matching MiscExp");
 
         if( at(lits) ) {
             return Literal();
@@ -445,7 +479,7 @@ module.exports = (scannerTokens, error, verbose) => {
         else{
             return error.expected('some kind of expression', tokens.shift());
         }
-    };           
+    };
     var Literal = () => {
         log("Matching Literal");
 

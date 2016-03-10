@@ -28,15 +28,16 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |While          |`while Exp ChildBlock`                                         |
 |Assignment     |`id equals Exp`                                                |
 |Definition     |`def bareword openParen id* closeParen ChildBlock`             |
-|Exp            |`Exp1 (question Exp1 colon Exp1)?`                             |
-|Exp1           |`Exp2 (boolop Exp2)*`                                          |
-|Exp2           |`Exp3 (relop Exp3)*`                                           |
-|Exp3           |`Exp4 (addop Exp4)*`                                           |
-|Exp4           |`Exp5 (multop Exp5)*`                                          |
-|Exp5           |`Exp6 postfixop?`                                              |
-|Exp6           |`Exp7 | Exp7? tilde bareword Args?`                            |
-|TODO           | There must be a better way to do Exp6. Current method doesn't work. See test `control.agate`|
-|Exp7           |`Literal|Array|HashMap|id|HtmlId|HtmlClass`                    |
+|Exp            |`TernaryIfExp`                                                 |
+|TernaryIfExp   |`BoolExp (question BoolExp colon BoolExp)?`                    |
+|BoolExp        |`RelExp (boolop RelExp)*`                                      |
+|RelExp         |`AddExp (relop AddExp)*`                                       |
+|AddExp         |`MultExp (addop MultExp)*`                                     |
+|MultExp        |`PostfixExp (multop PostfixExp)*`                              |
+|PostfixExp     |`ElemAttrExp postfixop?`                                       |
+|ElemAttrExp    |`ArrayElemExp | ArrayElemExp? tilde bareword Args?`            |
+|ArrayElemExp   |`MiscExp (openSquare intlit|stringlit closeSquare)*               |
+|MiscExp        |`Literal|Array|HashMap|id|HtmlId|HtmlClass`                    |
 |               |`openParen Exp closeParen`                                     |
 |\*\*           |`(prefixop|addop)? Exp`                                        |
 |               |`Call`                                                         |
