@@ -1,254 +1,291 @@
 [
-    {
-        "type": "bareword",
-        "line": 1,
-        "column": 1,
-        "text": "head"
-    },
-    {
-        "type": "newline",
-        "line": 1,
-        "column": 5
-    },
-    {
-        "type": "indent",
-        "line": 2,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 2,
-        "column": 5,
-        "text": "title"
-    },
-    {
-        "type": "stringlit",
-           "line": 2,
-           "column": 11,
-           "text": "\"Password Demo\""
-    },
-    {
-        "type": "newline",
-        "line": 2,
-        "column": 26
-    },
-    {
-        "type": "dedent",
-        "line": 3,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 3,
-        "column": 1,
-        "text": "body"
-    },
-    {
-        "type": "newline",
-        "line": 3,
-        "column": 5
-    },
-    {
-        "type": "indent",
-        "line": 4,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 4,
-        "column": 5,
-        "text": "input"
-    },
-    {
-        "type": "openParen",
-        "line": 4,
-        "column": 10
-    },
-    {
-        "type": "hash",
-        "line": 4,
-        "column": 11
-    },
-    {
-        "type": "bareword",
-        "line": 4,
-        "column": 12,
-        "text": "pass"
-    },
-    {
-        "type": "bareword",
-        "line": 4,
-        "column": 17,
-        "text": "type"
-    },
-    {
-        "type": "stringlit",
-        "line": 4,
-        "column": 22,
-        "text": "\"password\""
-    },
-    {
-        "type": "closeParen",
-        "line": 4,
-        "column": 32
-    },
-    {
-        "type": "tilde",
-        "line": 4,
-        "column": 33
-    },
-    {
-        "type": "bareword",
-        "line": 4,
-        "column": 34,
-        "text": "submit"
-    },
-    {
-        "type": "newline",
-        "line": 4,
-        "column": 40
-    },
-    {
-        "type": "indent",
-        "line": 5,
-        "column": 1
-    },
-    {
-        "type": "if",
-        "line": 5,
-        "column": 9
-    },
-    {
-        "type": "openParen",
-        "line": 5,
-        "column": 11
-    },
-    {
-        "type": "bareword",
-        "line": 5,
-        "column": 12,
-        "text": "length"
-    },
-    {
-        "type": "tilde",
-        "line": 5,
-        "column": 19
-    },
-    {
-        "type": "bareword",
-        "line": 5,
-        "column": 20,
-        "text": "value"
-    },
-    {
-        "type": "relop",
-        "line": 5,
-        "column": 26,
-        "text": "<"
-    },
-    {
-        "type": "intlit",
-        "line": 5,
-        "column": 28,
-        "text": "8"
-    },
-    {
-        "type": "closeParen",
-        "line": 5,
-        "column": 29
-    },
-    {
-        "type": "newline",
-        "line": 5,
-        "column": 30
-    },
-    {
-        "type": "indent",
-        "line": 6,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 6,
-        "column": 13,
-        "text": "p"
-    },
-    {
-        "type": "openParen",
-        "line": 6,
-        "column": 14
-    },
-    {
-        "type": "style",
-        "line": 6,
-        "column": 15
-    },
-    {
-        "type": "stringlit",
-           "line": 6,
-           "column": 21,
-           "text": "\"color:red; background-color:cyan\""
-    },
-    {
-        "type": "closeParen",
-        "line": 6,
-        "column": 55
-    },
-    {
-        "type": "stringlit",
-           "line": 6,
-           "column": 57,
-           "text": "\"Your password sucks\""
-    },
-    {
-        "type": "newline",
-        "line": 6,
-        "column": 78
-    },
-    {
-        "type": "dedent",
-        "line": 7,
-        "column": 1
-    },
-    {
-        "type": "else",
-        "line": 7,
-        "column": 9
-    },
-    {
-        "type": "newline",
-        "line": 7,
-        "column": 13
-    },
-    {
-        "type": "indent",
-        "line": 8,
-        "column": 1
-    },
-    {
-        "type": "script",
-        "line": 8,
-        "column": 13
-    },
-    {
-        "type": "newline",
-        "line": 8,
-        "column": 19
-    },
-    {
-        "type": "indent",
-        "line": 9,
-        "column": 1
-    },
-    {
-        "type": "js",
-        "line": 9,
-        "column": 17,
-        "text": "alert(\"Hooray!\");"
-    },
-    {
-        "column": 34,
-        "line": 9,
-        "type": "EOF"
-    }
+   {
+      "type": "bareword",
+      "line": 1,
+      "column": 1,
+      "text": "head"
+   },
+   {
+      "type": "newline",
+      "line": 1,
+      "column": 5
+   },
+   {
+      "type": "indent",
+      "line": 2,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 2,
+      "column": 5,
+      "text": "title"
+   },
+   {
+      "type": "stringlit",
+      "line": 2,
+      "column": 11,
+      "text": "\"Password Demo\""
+   },
+   {
+      "type": "newline",
+      "line": 2,
+      "column": 26
+   },
+   {
+      "type": "dedent",
+      "line": 3,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 3,
+      "column": 1,
+      "text": "body"
+   },
+   {
+      "type": "newline",
+      "line": 3,
+      "column": 5
+   },
+   {
+      "type": "indent",
+      "line": 4,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 4,
+      "column": 5,
+      "text": "input"
+   },
+   {
+      "type": "dot",
+      "line": 4,
+      "column": 10
+   },
+   {
+      "type": "bareword",
+      "line": 4,
+      "column": 11,
+      "text": "mybutton"
+   },
+   {
+      "type": "hash",
+      "line": 4,
+      "column": 19
+   },
+   {
+      "type": "bareword",
+      "line": 4,
+      "column": 20,
+      "text": "pass"
+   },
+   {
+      "type": "openSquare",
+      "line": 4,
+      "column": 24
+   },
+   {
+      "type": "bareword",
+      "line": 4,
+      "column": 25,
+      "text": "type"
+   },
+   {
+      "type": "equals",
+      "line": 4,
+      "column": 29
+   },
+   {
+      "type": "stringlit",
+      "line": 4,
+      "column": 30,
+      "text": "\"password\""
+   },
+   {
+      "type": "closeSquare",
+      "line": 4,
+      "column": 40
+   },
+   {
+      "type": "openParen",
+      "line": 4,
+      "column": 41
+   },
+   {
+      "type": "closeParen",
+      "line": 4,
+      "column": 42
+   },
+   {
+      "type": "tilde",
+      "line": 4,
+      "column": 43
+   },
+   {
+      "type": "bareword",
+      "line": 4,
+      "column": 44,
+      "text": "submit"
+   },
+   {
+      "type": "newline",
+      "line": 4,
+      "column": 50
+   },
+   {
+      "type": "indent",
+      "line": 5,
+      "column": 1
+   },
+   {
+      "type": "if",
+      "line": 5,
+      "column": 9
+   },
+   {
+      "type": "this",
+      "line": 5,
+      "column": 12
+   },
+   {
+      "type": "openSquare",
+      "line": 5,
+      "column": 13
+   },
+   {
+      "type": "stringlit",
+      "line": 5,
+      "column": 14,
+      "text": "\"value\""
+   },
+   {
+      "type": "closeSquare",
+      "line": 5,
+      "column": 21
+   },
+   {
+      "type": "tilde",
+      "line": 5,
+      "column": 22
+   },
+   {
+      "type": "bareword",
+      "line": 5,
+      "column": 23,
+      "text": "length"
+   },
+   {
+      "type": "relop",
+      "line": 5,
+      "column": 30,
+      "text": "<"
+   },
+   {
+      "type": "intlit",
+      "line": 5,
+      "column": 32,
+      "text": "8"
+   },
+   {
+      "type": "newline",
+      "line": 5,
+      "column": 33
+   },
+   {
+      "type": "indent",
+      "line": 6,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 6,
+      "column": 13,
+      "text": "p"
+   },
+   {
+      "type": "openSquare",
+      "line": 6,
+      "column": 14
+   },
+   {
+      "type": "stringlit",
+      "line": 6,
+      "column": 15,
+      "text": "\"style\""
+   },
+   {
+      "type": "equals",
+      "line": 6,
+      "column": 22
+   },
+   {
+      "type": "stringlit",
+      "line": 6,
+      "column": 23,
+      "text": "\"color:red; background-color:cyan\""
+   },
+   {
+      "type": "closeSquare",
+      "line": 6,
+      "column": 57
+   },
+   {
+      "type": "stringlit",
+      "line": 6,
+      "column": 59,
+      "text": "\"Your password sucks\""
+   },
+   {
+      "type": "newline",
+      "line": 6,
+      "column": 80
+   },
+   {
+      "type": "dedent",
+      "line": 7,
+      "column": 1
+   },
+   {
+      "type": "else",
+      "line": 7,
+      "column": 9
+   },
+   {
+      "type": "newline",
+      "line": 7,
+      "column": 13
+   },
+   {
+      "type": "indent",
+      "line": 8,
+      "column": 1
+   },
+   {
+      "type": "script",
+      "line": 8,
+      "column": 13
+   },
+   {
+      "type": "newline",
+      "line": 8,
+      "column": 19
+   },
+   {
+      "type": "indent",
+      "line": 9,
+      "column": 1
+   },
+   {
+      "type": "js",
+      "line": 9,
+      "column": 17,
+      "text": "alert(\"Hooray!\");"
+   },
+   {
+      "type": "EOF",
+      "line": 9,
+      "column": 34
+   }
 ]

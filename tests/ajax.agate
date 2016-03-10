@@ -9,5 +9,5 @@ body
             for @result in @results
                 #holder~append
                     div.object
-                        h1 @result~title()
-                        p @result~body()
+                        h1 @result["title"]
+                        p @result["body"]

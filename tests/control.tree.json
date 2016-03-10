@@ -96,32 +96,36 @@
                            "op": {
                               "type": "relop",
                               "line": 5,
-                              "column": 26,
+                              "column": 30,
                               "text": "<"
                            },
                            "a": {
                               "type": "elemattr",
                               "elem": {
-                                 "type": "elemattr",
-                                 "elem": "this",
-                                 "attr": {
-                                    "type": "bareword",
+                                 "type": "elemat",
+                                 "index": {
+                                    "type": "stringlit",
                                     "line": 5,
-                                    "column": 13,
-                                    "text": "value"
+                                    "column": 14,
+                                    "text": "\"value\""
+                                 },
+                                 "of": {
+                                    "type": "this",
+                                    "line": 5,
+                                    "column": 12
                                  }
                               },
                               "attr": {
                                  "type": "bareword",
                                  "line": 5,
-                                 "column": 19,
+                                 "column": 23,
                                  "text": "length"
                               }
                            },
                            "b": {
                               "type": "intlit",
                               "line": 5,
-                              "column": 28,
+                              "column": 32,
                               "text": "8"
                            }
                         },

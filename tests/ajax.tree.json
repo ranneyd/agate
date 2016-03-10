@@ -183,20 +183,19 @@
                                                    },
                                                    "args": [
                                                       {
-                                                         "type": "elemattr",
-                                                         "elem": {
+                                                         "type": "elemat",
+                                                         "index": {
+                                                            "type": "stringlit",
+                                                            "line": 12,
+                                                            "column": 36,
+                                                            "text": "\"title\""
+                                                         },
+                                                         "of": {
                                                             "type": "id",
                                                             "line": 12,
                                                             "column": 28,
                                                             "text": "result"
-                                                         },
-                                                         "attr": {
-                                                            "type": "bareword",
-                                                            "line": 12,
-                                                            "column": 36,
-                                                            "text": "title"
-                                                         },
-                                                         "args": []
+                                                         }
                                                       }
                                                    ]
                                                 },
@@ -210,20 +209,19 @@
                                                    },
                                                    "args": [
                                                       {
-                                                         "type": "elemattr",
-                                                         "elem": {
+                                                         "type": "elemat",
+                                                         "index": {
+                                                            "type": "stringlit",
+                                                            "line": 13,
+                                                            "column": 35,
+                                                            "text": "\"body\""
+                                                         },
+                                                         "of": {
                                                             "type": "id",
                                                             "line": 13,
                                                             "column": 27,
                                                             "text": "result"
-                                                         },
-                                                         "attr": {
-                                                            "type": "bareword",
-                                                            "line": 13,
-                                                            "column": 35,
-                                                            "text": "body"
-                                                         },
-                                                         "args": []
+                                                         }
                                                       }
                                                    ]
                                                 }
