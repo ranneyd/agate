@@ -1,220 +1,220 @@
 [
-    {
-        "type": "bareword",
-        "line": 1,
-        "column": 1,
-        "text": "body"
-    },
-    {
-        "type": "newline",
-        "line": 1,
-        "column": 5
-    },
-    {
-        "type": "indent",
-        "line": 2,
-        "column": 1
-    },
-    {
-        "type": "comment",
-        "line": 2,
-        "column": 5,
-        "text": "// Comment"
-    },
-    {
-        "type": "newline",
-        "line": 2,
-        "column": 15
-    },
-    {
-        "type": "bareword",
-        "line": 3,
-        "column": 5,
-        "text": "div"
-    },
-    {
-        "type": "newline",
-        "line": 3,
-        "column": 8
-    },
-    {
-        "type": "indent",
-        "line": 4,
-        "column": 1
-    },
-    {
-        "type": "newline",
-        "line": 4,
-        "column": 26
-    },
-    {
-        "type": "bareword",
-        "line": 5,
-        "column": 9,
-        "text": "p"
-    },
-    {
-        "type": "newline",
-        "line": 5,
-        "column": 10
-    },
-    {
-        "type": "indent",
-        "line": 6,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 6,
-        "column": 13,
-        "text": "a"
-    },
-    {
-        "type": "newline",
-        "line": 6,
-        "column": 14
-    },
-    {
-        "type": "indent",
-        "line": 7,
-        "column": 1
-    },
-    {
-        "type": "stringlit",
-        "line": 7,
-        "column": 17,
-        "text": "\"text\""
-    },
-    {
-        "type": "newline",
-        "line": 7,
-        "column": 23
-    },
-    {
-        "type": "dedent",
-        "line": 8,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 8,
-        "column": 13,
-        "text": "span"
-    },
-    {
-        "type": "newline",
-        "line": 8,
-        "column": 17
-    },
-    {
-        "type": "indent",
-        "line": 9,
-        "column": 1
-    },
-    {
-        "type": "stringlit",
-        "line": 9,
-        "column": 17,
-        "text": "\"other text\""
-    },
-    {
-        "type": "newline",
-        "line": 9,
-        "column": 29
-    },
-    {
-        "type": "dedent",
-        "line": 10,
-        "column": 1
-    },
-    {
-        "type": "dedent",
-        "line": 10,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 10,
-        "column": 9,
-        "text": "p"
-    },
-    {
-        "type": "newline",
-        "line": 10,
-        "column": 10
-    },
-    {
-        "type": "indent",
-        "line": 11,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 11,
-        "column": 13,
-        "text": "i"
-    },
-    {
-        "type": "newline",
-        "line": 11,
-        "column": 14
-    },
-    {
-        "type": "indent",
-        "line": 12,
-        "column": 1
-    },
-    {
-        "type": "stringlit",
-        "line": 12,
-        "column": 17,
-        "text": "\"another p\""
-    },
-    {
-        "type": "newline",
-        "line": 12,
-        "column": 28
-    },
-    {
-        "type": "dedent",
-        "line": 13,
-        "column": 1
-    },
-    {
-        "type": "dedent",
-        "line": 13,
-        "column": 1
-    },
-    {
-        "type": "dedent",
-        "line": 13,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 13,
-        "column": 5,
-        "text": "div"
-    },
-    {
-        "type": "newline",
-        "line": 13,
-        "column": 8
-    },
-    {
-        "type": "indent",
-        "line": 14,
-        "column": 1
-    },
-    {
-        "type": "stringlit",
-        "line": 14,
-        "column": 9,
-        "text": "\"Another div\""
-    },
-    { 
-        "type": "EOF",
-        "line": 14,
-        "column": 22 
-    }
+   {
+      "type": "bareword",
+      "line": 1,
+      "column": 1,
+      "text": "body"
+   },
+   {
+      "type": "newline",
+      "line": 1,
+      "column": 5
+   },
+   {
+      "type": "indent",
+      "line": 2,
+      "column": 1
+   },
+   {
+      "type": "comment",
+      "line": 2,
+      "column": 5,
+      "text": "// Comment"
+   },
+   {
+      "type": "newline",
+      "line": 2,
+      "column": 15
+   },
+   {
+      "type": "bareword",
+      "line": 3,
+      "column": 5,
+      "text": "div"
+   },
+   {
+      "type": "newline",
+      "line": 3,
+      "column": 8
+   },
+   {
+      "type": "indent",
+      "line": 4,
+      "column": 1
+   },
+   {
+      "type": "newline",
+      "line": 4,
+      "column": 26
+   },
+   {
+      "type": "bareword",
+      "line": 5,
+      "column": 9,
+      "text": "p"
+   },
+   {
+      "type": "newline",
+      "line": 5,
+      "column": 10
+   },
+   {
+      "type": "indent",
+      "line": 6,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 6,
+      "column": 13,
+      "text": "a"
+   },
+   {
+      "type": "newline",
+      "line": 6,
+      "column": 14
+   },
+   {
+      "type": "indent",
+      "line": 7,
+      "column": 1
+   },
+   {
+      "type": "stringlit",
+      "line": 7,
+      "column": 17,
+      "text": "\"text\""
+   },
+   {
+      "type": "newline",
+      "line": 7,
+      "column": 23
+   },
+   {
+      "type": "dedent",
+      "line": 8,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 8,
+      "column": 13,
+      "text": "span"
+   },
+   {
+      "type": "newline",
+      "line": 8,
+      "column": 17
+   },
+   {
+      "type": "indent",
+      "line": 9,
+      "column": 1
+   },
+   {
+      "type": "stringlit",
+      "line": 9,
+      "column": 17,
+      "text": "\"other text\""
+   },
+   {
+      "type": "newline",
+      "line": 9,
+      "column": 29
+   },
+   {
+      "type": "dedent",
+      "line": 10,
+      "column": 1
+   },
+   {
+      "type": "dedent",
+      "line": 10,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 10,
+      "column": 9,
+      "text": "p"
+   },
+   {
+      "type": "newline",
+      "line": 10,
+      "column": 10
+   },
+   {
+      "type": "indent",
+      "line": 11,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 11,
+      "column": 13,
+      "text": "i"
+   },
+   {
+      "type": "newline",
+      "line": 11,
+      "column": 14
+   },
+   {
+      "type": "indent",
+      "line": 12,
+      "column": 1
+   },
+   {
+      "type": "stringlit",
+      "line": 12,
+      "column": 17,
+      "text": "\"another p\""
+   },
+   {
+      "type": "newline",
+      "line": 12,
+      "column": 28
+   },
+   {
+      "type": "dedent",
+      "line": 13,
+      "column": 1
+   },
+   {
+      "type": "dedent",
+      "line": 13,
+      "column": 1
+   },
+   {
+      "type": "dedent",
+      "line": 13,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 13,
+      "column": 5,
+      "text": "div"
+   },
+   {
+      "type": "newline",
+      "line": 13,
+      "column": 8
+   },
+   {
+      "type": "indent",
+      "line": 14,
+      "column": 1
+   },
+   {
+      "type": "stringlit",
+      "line": 14,
+      "column": 9,
+      "text": "\"Another div\""
+   },
+   {
+      "type": "EOF",
+      "line": 14,
+      "column": 22
+   }
 ]

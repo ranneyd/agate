@@ -1,69 +1,63 @@
 {
    "type": "program",
-   "body": {
+   "block": {
       "type": "block",
-      "body": [
+      "statements": [
          {
-            "type": "element",
-            "tag": {
+            "type": "call",
+            "callee": {
                "type": "bareword",
                "line": 1,
                "column": 1,
                "text": "head"
             },
-            "child": {
-               "type": "block",
-               "body": [
-                  {
-                     "type": "element",
-                     "tag": {
-                        "type": "bareword",
+            "args": [
+               {
+                  "type": "call",
+                  "callee": {
+                     "type": "bareword",
+                     "line": 2,
+                     "column": 5,
+                     "text": "title"
+                  },
+                  "args": [
+                     {
+                        "type": "stringlit",
                         "line": 2,
-                        "column": 5,
-                        "text": "title"
-                     },
-                     "child": [
-                        {
-                           "type": "stringlit",
-                           "line": 2,
-                           "column": 11,
-                           "text": "\"Hello World\""
-                        }
-                     ]
-                  }
-               ]
-            }
+                        "column": 11,
+                        "text": "\"Hello World\""
+                     }
+                  ]
+               }
+            ]
          },
          {
-            "type": "element",
-            "tag": {
+            "type": "call",
+            "callee": {
                "type": "bareword",
                "line": 3,
                "column": 1,
                "text": "body"
             },
-            "child": {
-               "type": "block",
-               "body": [
-                  {
-                     "type": "element",
-                     "tag": {
-                        "type": "bareword",
+            "args": [
+               {
+                  "type": "call",
+                  "callee": {
+                     "type": "bareword",
+                     "line": 4,
+                     "column": 5,
+                     "text": "h1"
+                  },
+                  "args": [
+                     {
+                        "type": "stringlit",
                         "line": 4,
-                        "column": 5,
-                        "text": "h1"
-                     },
-                     "child": [
-                        {
-                           "type": "stringlit",
-                           "line": 4,
-                           "column": 8,
-                           "text": "\"Hello World\""
-                        }
-                     ]
-                  }
-               ]
-            }
+                        "column": 8,
+                        "text": "\"Hello World\""
+                     }
+                  ]
+               }
+            ]
          }
       ]
    }
