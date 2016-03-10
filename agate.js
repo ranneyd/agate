@@ -1,18 +1,31 @@
 'use strict';
 
 var file;
-var code;
 var verbose = false;
 var dumpTokens = false;
+var dumpParseTree = false;
+var outName = false;
 var fs = require("fs");
 
 Error = require("./error.js");
 
 var error = new Error();
 
+var scanner = require("./scanner.js");
+var parser  = require("./parser.js");
+
+var help = () =>{
+    console.log("Help")
+    // TODO: make a help thingy
+}
+
 var processArguments = function(){
     // First two elements are "node" and "analyzer.js"
-    process.argv.slice(2).forEach(function (arg, index) {
+    let args = process.argv.slice(2);
+    let noHelp = true;
+    for(var i = 0; i < args.length && noHelp; ++i) {
+        let arg = args[i];
+
         if (arg.charAt(0) === '-') {
             switch(arg.slice(1)){
                 case 'v':
@@ -21,51 +34,77 @@ var processArguments = function(){
                 case 't':
                     dumpTokens = true;
                     break;
+                case 'p':
+                    dumpParseTree = true;
+                    break;
+                case 'o':
+                    outName = arg[++i];
+                    break;
                 default:
-                    console.log("Help")
-                    // TODO: make a help thingy
+                    file = "";
+                    noHelp = false;
             }
         }
         else{
-            file = arg;
+            let fileName = arg.split('.');
+            fileName.pop();
+            file = fileName.join('.');
         }
-    });
+    }
     if ( !file ){
-        throw new Error('No file selected');
+        help();
     }
 };
 
-var readFile = function( callback ){
-    fs.readFile(file, 'utf8', function (err, data) {
+var readFile = name => new Promise( (resolve, reject) => {
+    fs.readFile(name, 'utf8', (err, data) => {
         if (err) {
-            return console.log(err);
+            reject(err);
         }
-        code = data;
-        callback();
+        resolve(data);
     });
-};
+});
+var writeFile = (name, toWrite) => new Promise( (resolve, reject) => {
+    fs.writeFile(name, toWrite, 'utf8', err => {
+        if (err) {
+            reject(err);
+        }
+        resolve();
+    });
+});
 
 
 processArguments();
 
-readFile( function () {
+readFile(`${file}.agate`)
+    .then( code => {
 
-    let util = require("util");
-    let exec = require('child_process').execSync;
+        let tokens = scanner(code, error, verbose);
+        if(dumpTokens) {
+            let prettyTokens = JSON.stringify(tokens, null, 3);
+            writeFile(`${outName || file}.tokens.json`, prettyTokens)
+                .catch( err => {
+                    console.log(err);
+                });
+        }
 
-    let scanner = require("./scanner.js");
-    let parser  = require("./parser.js");
+        if( !error.count ) {
+            let parseTree = parser(tokens, error, verbose);
+            if( dumpParseTree ) {
+                let prettyTree = JSON.stringify(parseTree, null, 3);
+                writeFile(`${outName || file}.tree.json`, prettyTree)
+                    .catch( err => {
+                        console.log(err);
+                    });
+            }
+        }
 
+        // writeFile(`${outName || file}.html`, ---output I guess---)
+        //     .catch( err => {
+        //         console.log(err);
+        //     });
 
-
-    let tokens = scanner(code, error);
-
-    if(dumpTokens) {
-        console.log(JSON.stringify(tokens, null, 3));
-    }
-
-    if(!error.count){
-        let parseTree = parser(tokens, error, verbose);
-        console.log(JSON.stringify(parseTree, null, 3));
-    }
-});
+    })
+    .catch( err => {
+        console.log(err);
+    });
