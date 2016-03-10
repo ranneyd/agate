@@ -389,7 +389,7 @@ module.exports = (scannerTokens, error, verbose) => {
 
         // We could have an ArrayElemExp or not have an ArrayElemExp. Either way, if we have a
         // tilde here, it's game time
-        if ( at("tilde") ) {
+        while ( at("tilde") ) {
             match("tilde")
             
             exp = {

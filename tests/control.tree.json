@@ -92,40 +92,38 @@
                      {
                         "type": "if",
                         "condition": {
-                           "type": "call",
-                           "callee": {
-                              "type": "bareword",
+                           "type": "relop",
+                           "op": {
+                              "type": "relop",
                               "line": 5,
-                              "column": 12,
-                              "text": "length"
+                              "column": 26,
+                              "text": "<"
                            },
-                           "args": [
-                              {
-                                 "type": "relop",
-                                 "op": {
-                                    "type": "relop",
+                           "a": {
+                              "type": "elemattr",
+                              "elem": {
+                                 "type": "elemattr",
+                                 "elem": "this",
+                                 "attr": {
+                                    "type": "bareword",
                                     "line": 5,
-                                    "column": 26,
-                                    "text": "<"
-                                 },
-                                 "a": {
-                                    "type": "elemattr",
-                                    "elem": "this",
-                                    "attr": {
-                                       "type": "bareword",
-                                       "line": 5,
-                                       "column": 20,
-                                       "text": "value"
-                                    }
-                                 },
-                                 "b": {
-                                    "type": "intlit",
-                                    "line": 5,
-                                    "column": 28,
-                                    "text": "8"
+                                    "column": 13,
+                                    "text": "value"
                                  }
+                              },
+                              "attr": {
+                                 "type": "bareword",
+                                 "line": 5,
+                                 "column": 19,
+                                 "text": "length"
                               }
-                           ]
+                           },
+                           "b": {
+                              "type": "intlit",
+                              "line": 5,
+                              "column": 28,
+                              "text": "8"
+                           }
                         },
                         "body": {
                            "type": "block",
