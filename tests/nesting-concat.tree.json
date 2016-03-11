@@ -1,0 +1,207 @@
+{
+   "type": "program",
+   "block": {
+      "type": "block",
+      "statements": [
+         {
+            "type": "call",
+            "callee": {
+               "type": "bareword",
+               "line": 1,
+               "column": 1,
+               "text": "html"
+            },
+            "args": [
+               {
+                  "type": "call",
+                  "callee": {
+                     "type": "bareword",
+                     "line": 2,
+                     "column": 5,
+                     "text": "title"
+                  },
+                  "args": [
+                     {
+                        "type": "stringlit",
+                        "line": 2,
+                        "column": 11,
+                        "text": "\"Nesting and Concatenation Example\""
+                     }
+                  ]
+               }
+            ]
+         },
+         {
+            "type": "call",
+            "callee": {
+               "type": "bareword",
+               "line": 3,
+               "column": 1,
+               "text": "body"
+            },
+            "args": [
+               {
+                  "type": "assignment",
+                  "id": {
+                     "type": "id",
+                     "line": 4,
+                     "column": 5,
+                     "text": "file"
+                  },
+                  "value": {
+                     "type": "stringlit",
+                     "line": 4,
+                     "column": 13,
+                     "text": "\"thing\""
+                  }
+               },
+               {
+                  "type": "call",
+                  "callee": {
+                     "type": "bareword",
+                     "line": 5,
+                     "column": 5,
+                     "text": "p"
+                  },
+                  "args": [
+                     {
+                        "type": "stringlit",
+                        "line": 5,
+                        "column": 7,
+                        "text": "\"A \""
+                     },
+                     {
+                        "type": "call",
+                        "callee": {
+                           "type": "bareword",
+                           "line": 5,
+                           "column": 12,
+                           "text": "a"
+                        },
+                        "attrs": [
+                           {
+                              "name": {
+                                 "type": "bareword",
+                                 "line": 5,
+                                 "column": 14,
+                                 "text": "href"
+                              },
+                              "value": {
+                                 "type": "stringlit",
+                                 "line": 5,
+                                 "column": 19,
+                                 "text": "'\\\\${@file}.html'"
+                              }
+                           }
+                        ],
+                        "args": [
+                           {
+                              "type": "call",
+                              "callee": {
+                                 "type": "bareword",
+                                 "line": 5,
+                                 "column": 38,
+                                 "text": "strong"
+                              },
+                              "args": [
+                                 {
+                                    "type": "stringlit",
+                                    "line": 5,
+                                    "column": 45,
+                                    "text": "\"bold\""
+                                 }
+                              ]
+                           },
+                           {
+                              "type": "stringlit",
+                              "line": 5,
+                              "column": 52,
+                              "text": "\" link\""
+                           }
+                        ]
+                     },
+                     {
+                        "type": "stringlit",
+                        "line": 5,
+                        "column": 62,
+                        "text": "\" for you\""
+                     }
+                  ]
+               },
+               {
+                  "type": "call",
+                  "callee": {
+                     "type": "bareword",
+                     "line": 6,
+                     "column": 5,
+                     "text": "p"
+                  },
+                  "args": [
+                     {
+                        "type": "stringlit",
+                        "line": 6,
+                        "column": 7,
+                        "text": "\"An \""
+                     },
+                     {
+                        "type": "call",
+                        "callee": {
+                           "type": "bareword",
+                           "line": 6,
+                           "column": 13,
+                           "text": "a"
+                        },
+                        "attrs": [
+                           {
+                              "name": {
+                                 "type": "bareword",
+                                 "line": 6,
+                                 "column": 15,
+                                 "text": "href"
+                              },
+                              "value": {
+                                 "type": "stringlit",
+                                 "line": 6,
+                                 "column": 20,
+                                 "text": "'\\\\${@file}.html'"
+                              }
+                           }
+                        ],
+                        "args": [
+                           {
+                              "type": "call",
+                              "callee": {
+                                 "type": "bareword",
+                                 "line": 6,
+                                 "column": 39,
+                                 "text": "em"
+                              },
+                              "args": [
+                                 {
+                                    "type": "call",
+                                    "callee": {
+                                       "type": "bareword",
+                                       "line": 6,
+                                       "column": 42,
+                                       "text": "italicized"
+                                    },
+                                    "args": [
+                                       {
+                                          "type": "stringlit",
+                                          "line": 6,
+                                          "column": 53,
+                                          "text": "'link to \\\\${@file}.html'"
+                                       }
+                                    ]
+                                 }
+                              ]
+                           }
+                        ]
+                     }
+                  ]
+               }
+            ]
+         }
+      ]
+   }
+}
