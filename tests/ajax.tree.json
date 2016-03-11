@@ -2,7 +2,7 @@
    "type": "program",
    "block": {
       "type": "block",
-      "statements": [
+      "body": [
          {
             "type": "call",
             "callee": {
@@ -140,7 +140,7 @@
                               },
                               "body": {
                                  "type": "block",
-                                 "statements": [
+                                 "body": [
                                     {
                                        "type": "elemattr",
                                        "elem": {

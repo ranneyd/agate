@@ -2,7 +2,7 @@
    "type": "program",
    "block": {
       "type": "block",
-      "statements": [
+      "body": [
          {
             "type": "call",
             "callee": {
@@ -178,25 +178,20 @@
                               },
                               "args": [
                                  {
-                                    "type": "call",
-                                    "callee": {
-                                       "type": "bareword",
-                                       "line": 6,
-                                       "column": 42,
-                                       "text": "italicized"
-                                    },
-                                    "args": [
-                                       {
-                                          "type": "stringlit",
-                                          "line": 6,
-                                          "column": 53,
-                                          "text": "'link to \\\\${@file}.html'"
-                                       }
-                                    ]
+                                    "type": "stringlit",
+                                    "line": 6,
+                                    "column": 42,
+                                    "text": "'italicized'"
                                  }
                               ]
                            }
                         ]
+                     },
+                     {
+                        "type": "stringlit",
+                        "line": 6,
+                        "column": 55,
+                        "text": "'link to \\\\${@file}.html'"
                      }
                   ]
                }

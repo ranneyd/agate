@@ -53,7 +53,7 @@ module.exports = (scannerTokens, error, verbose) => {
             }
         }
 
-        block.statements = statements;
+        block.body = statements;
         return block;
     };
     var Statement = () => {
@@ -620,11 +620,7 @@ module.exports = (scannerTokens, error, verbose) => {
         }
         else if( atBlock() ){
             // ooooo I'm cheating, but this makes the tree look a lot nicer and make more sense
-            return ChildBlock().statements;
-        }
-        else if( at("multop") && tokens[0].text === "/" ) {
-            match("multop");
-            return [];
+            return ChildBlock().body;
         }
         else{
             error.hint = "Are you calling a function (or making a self-closing tag) with no parameters, but missing parentheses?\n"
@@ -701,8 +697,8 @@ module.exports = (scannerTokens, error, verbose) => {
                 js.body.push( match("id") );
             }
             // If they put newlines in their JS, more power to them
-            if( at("newline") ){
-                js.body.push( match("newline") );
+            while( at("newline") ){
+                match("newline");
             }
         } while( at("js") );
 
@@ -724,8 +720,8 @@ module.exports = (scannerTokens, error, verbose) => {
                 css.body.push( match("id") );
             }
             // If they put newlines in their CSS, more power to them
-            if( at("newline") ){
-                css.body.push( match("newline") );
+            while( at("newline") ){
+                match("newline");
             }
         } while( at("css") );
 

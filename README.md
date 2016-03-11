@@ -51,12 +51,11 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Attr           |`(stringlit|bareword) (equals|colon) Exp`                      |
 |Args           |`openParen Arg* closeParen                                     |
 |               |`ChildBlock`                                                   |
-|\*\*\*         |`'/'`                                                          |
 |               |`Arg`                                                          |
 |HashMap        |`openCurly (Attr+|AttrBlock)? closeCurly`                      |
 |ChildBlock     |`newline indent (JSBlock|CSSBlock|Block) newline dedent`       |
-|JSBlock        |`id? (js id? newline?)+`                                       |
-|CSSBlock       |`id? (css id? newline?)+`                                      |
+|JSBlock        |`id? (js id? newline*)+`                                       |
+|CSSBlock       |`id? (css id? newline*)+`                                      |
 
 \*Statements end in newlines. However, a dedent will always follow a newline. So for ChildBlock to work properly, it has to gobble the newline. Thus, the negative lookbehind
 
@@ -64,7 +63,6 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 \*\*Both appops are also prefixops
 
 
-\*\*\* Using `multop` token in parser and looking at value to confirm it's `/`
 ##Features (Overview)
 
 - Terse, JavaScript-like markup

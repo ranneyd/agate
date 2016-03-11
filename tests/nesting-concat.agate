@@ -3,4 +3,4 @@ html
 body
     @file = "thing"
     p("A " a[href='\\${@file}.html'](strong "bold" " link")  " for you")
-    p("An " a[href='\\${@file}.html'] em italicized 'link to \\${@file}.html')
+    p("An " a[href='\\${@file}.html'] em 'italicized' 'link to \\${@file}.html')

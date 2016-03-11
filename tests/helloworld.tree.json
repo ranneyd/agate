@@ -2,7 +2,7 @@
    "type": "program",
    "block": {
       "type": "block",
-      "statements": [
+      "body": [
          {
             "type": "call",
             "callee": {

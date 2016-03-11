@@ -2,7 +2,7 @@
    "type": "program",
    "block": {
       "type": "block",
-      "statements": [
+      "body": [
          {
             "type": "call",
             "callee": {
@@ -85,7 +85,7 @@
                   "attr": {
                      "type": "bareword",
                      "line": 4,
-                     "column": 43,
+                     "column": 44,
                      "text": "submit"
                   },
                   "args": [
@@ -96,7 +96,7 @@
                            "op": {
                               "type": "relop",
                               "line": 5,
-                              "column": 31,
+                              "column": 32,
                               "text": "<"
                            },
                            "a": {
@@ -126,13 +126,13 @@
                            "b": {
                               "type": "intlit",
                               "line": 5,
-                              "column": 33,
+                              "column": 34,
                               "text": "8"
                            }
                         },
                         "body": {
                            "type": "block",
-                           "statements": [
+                           "body": [
                               {
                                  "type": "call",
                                  "callee": {
@@ -170,14 +170,22 @@
                         },
                         "else": {
                            "type": "block",
-                           "statements": [
+                           "body": [
                               {
                                  "type": "call",
                                  "callee": {
                                     "type": "script",
                                     "line": 8,
                                     "column": 13
-                                 }
+                                 },
+                                 "args": [
+                                    {
+                                       "type": "js",
+                                       "line": 9,
+                                       "column": 17,
+                                       "text": "alert(\"Hooray!\");"
+                                    }
+                                 ]
                               }
                            ]
                         }

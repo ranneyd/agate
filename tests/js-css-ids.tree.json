@@ -2,7 +2,7 @@
    "type": "program",
    "block": {
       "type": "block",
-      "statements": [
+      "body": [
          {
             "type": "call",
             "callee": {
@@ -50,7 +50,57 @@
                      "type": "style",
                      "line": 4,
                      "column": 5
-                  }
+                  },
+                  "args": [
+                     {
+                        "type": "css",
+                        "line": 5,
+                        "column": 9,
+                        "text": "p {"
+                     },
+                     {
+                        "type": "css",
+                        "line": 6,
+                        "column": 9,
+                        "text": "    background-color: red;"
+                     },
+                     {
+                        "type": "css",
+                        "line": 7,
+                        "column": 9,
+                        "text": "}"
+                     },
+                     {
+                        "type": "css",
+                        "line": 8,
+                        "column": 9,
+                        "text": "a.specialA {"
+                     },
+                     {
+                        "type": "css",
+                        "line": 9,
+                        "column": 9,
+                        "text": "    color: "
+                     },
+                     {
+                        "type": "id",
+                        "line": 9,
+                        "column": 26,
+                        "text": "color"
+                     },
+                     {
+                        "type": "css",
+                        "line": 9,
+                        "column": 26,
+                        "text": ";"
+                     },
+                     {
+                        "type": "css",
+                        "line": 10,
+                        "column": 9,
+                        "text": "}"
+                     }
+                  ]
                },
                {
                   "type": "call",
@@ -83,7 +133,57 @@
                      "type": "script",
                      "line": 12,
                      "column": 5
-                  }
+                  },
+                  "args": [
+                     {
+                        "type": "js",
+                        "line": 13,
+                        "column": 9,
+                        "text": "alert(\"This is an alert\");"
+                     },
+                     {
+                        "type": "js",
+                        "line": 14,
+                        "column": 9,
+                        "text": "console.log(\"Print statement\");"
+                     },
+                     {
+                        "type": "js",
+                        "line": 15,
+                        "column": 9,
+                        "text": "if( testingIndentation ) {"
+                     },
+                     {
+                        "type": "js",
+                        "line": 16,
+                        "column": 9,
+                        "text": "    var lets = \"hope this works\";"
+                     },
+                     {
+                        "type": "js",
+                        "line": 17,
+                        "column": 9,
+                        "text": "    var test = "
+                     },
+                     {
+                        "type": "id",
+                        "line": 17,
+                        "column": 32,
+                        "text": "color"
+                     },
+                     {
+                        "type": "js",
+                        "line": 17,
+                        "column": 32,
+                        "text": ";"
+                     },
+                     {
+                        "type": "js",
+                        "line": 18,
+                        "column": 9,
+                        "text": "}"
+                     }
+                  ]
                }
             ]
          },
@@ -102,7 +202,15 @@
                      "type": "script",
                      "line": 20,
                      "column": 5
-                  }
+                  },
+                  "args": [
+                     {
+                        "type": "js",
+                        "line": 21,
+                        "column": 9,
+                        "text": "alert(\"Should be fine right?\");"
+                     }
+                  ]
                }
             ]
          }
