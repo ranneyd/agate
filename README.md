@@ -34,8 +34,8 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |RelExp         |`AddExp (relop AddExp)*`                                       |
 |AddExp         |`MultExp (addop MultExp)*`                                     |
 |MultExp        |`PostfixExp (multop PostfixExp)*`                              |
-|PostfixExp     |`ElemAttrExp postfixop?`                                       |
-|ElemAttrExp    |`ArrayElemExp | ArrayElemExp? (tilde bareword Args?)+`         |
+|PostfixExp     |`ElemFuncExp postfixop?`                                       |
+|ElemFuncExp    |`ArrayElemExp | ArrayElemExp? (tilde bareword Args)+`          |
 |ArrayElemExp   |`MiscExp (openSquare intlit|stringlit closeSquare)*            |
 |MiscExp        |`Literal|Array|HashMap|id|this|HtmlId|HtmlClass`               |
 |               |`openParen Exp closeParen`                                     |
@@ -51,6 +51,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Attr           |`(stringlit|bareword) (equals|colon) Exp`                      |
 |Args           |`openParen Arg* closeParen                                     |
 |               |`ChildBlock`                                                   |
+|\*\*\*         |`'/'`                                                          |
 |               |`Arg`                                                          |
 |HashMap        |`openCurly (Attr+|AttrBlock)? closeCurly`                      |
 |ChildBlock     |`newline indent (Block|JSBlock|CSSBlock) newline dedent`       |
@@ -61,6 +62,9 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 
 
 \*\*Both appops are also prefixops
+
+
+\*\*\* Using `multop` token in parser and looking at value to confirm it's `/`
 ##Features (Overview)
 
 - Terse, JavaScript-like markup

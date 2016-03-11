@@ -367,7 +367,7 @@ module.exports = (scannerTokens, error, verbose) => {
     var PostfixExp = () => {
         log("Matching PostfixExp");
 
-        let exp = ElemAttrExp();
+        let exp = ElemFuncExp();
         if ( at("postfixop") ) {
             return {
                 "type": "postfixop",
@@ -377,8 +377,8 @@ module.exports = (scannerTokens, error, verbose) => {
         }
         return exp;
     };
-    var ElemAttrExp = () => {
-        log("Matching ElemAttrExp");
+    var ElemFuncExp = () => {
+        log("Matching ElemFuncExp");
 
         let exp;
 
@@ -397,9 +397,9 @@ module.exports = (scannerTokens, error, verbose) => {
                 "elem": exp || "this",
                 "attr": match("bareword")
             };
-            if( at(["openParen", "bareword", "newline"])){
-                exp.args = Args();
-            }
+            error.hint = "The ~ operator is for member functions only. Since it's a function, it needs open and closed parens UNLESS it only takes one element.";
+            exp.args = Args();
+            error.hint = "";
         }
         return exp;
     };
@@ -622,9 +622,15 @@ module.exports = (scannerTokens, error, verbose) => {
             // ooooo I'm cheating, but this makes the tree look a lot nicer and make more sense
             return ChildBlock().statements;
         }
+        else if( at("multop") && tokens[0].text === "/" ) {
+            match("multop");
+            return [];
+        }
         else{
-            error.hint = "Are you calling a function with no parameters, but missing parentheses"
-                       + " (i.e. @elem~foo instead of @elem~foo())?";
+            error.hint = "Are you calling a function (or making a self-closing tag) with no parameters, but missing parentheses?\n"
+                       + "Examples:\n" 
+                       + "\t@elem~foo instead of @elem~foo()\n"
+                       + '\tinput[type="text"] instead of input[type="text"]()';
             let arg = [Arg()];
             error.hint = "";
             return arg;
