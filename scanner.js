@@ -8,6 +8,7 @@
     floatlit   | (\.\d+|\d+(\.\d+)?)([Ee]\d+)?
     stringlit  | ('([^'\\]|(\\''))*'|"([^"\\]|(\\"))*")
     boollit    | (true)|(false)
+    comment    | \/\/[^\r\n]*
     id         | @[A-Za-z0-9$_-]+
     relop      | \<|\>|(\<\=)|(\=\=)|(\!\=)|(\>\=)
     prefixop   | \!|\+\+|--
@@ -44,7 +45,6 @@
     include    | > *(.+?)(?=[\n\r])
     template   | \| *(.+?)(?=[\n\r])
     label      | \[.+?\]
-    comment    | \/\/[^\r\n]*
     unbuffered | \/\/![^\r\n]*
     range      | \.\.
 */
@@ -54,12 +54,12 @@ module.exports = (data, error) => {
     var keywords = ["def", "if", "else if", "else", "for", "in", "while", "return"];
     var regexes = [
         {
-            "type": "comment",
-            "regex": /^\/\/(?!!)[^\r\n]*/
-        },
-        {
             "type": "stringlit",
             "regex": /^('([^'\\]|(\\'')|(\\\\))*'|"([^"\\]|(\\")|(\\\\))*")/
+        },
+        {
+            "type": "comment",
+            "regex": /^\/\/(?!!)[^\r\n]*/
         },
         {
             "type": "question",
