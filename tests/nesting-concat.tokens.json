@@ -60,7 +60,7 @@
       "text": "file"
    },
    {
-      "type": "assignment",
+      "type": "equals",
       "line": 4,
       "column": 11
    },
@@ -82,6 +82,11 @@
       "text": "p"
    },
    {
+      "type": "openParen",
+      "line": 5,
+      "column": 6
+   },
+   {
       "type": "stringlit",
       "line": 5,
       "column": 7,
@@ -94,7 +99,7 @@
       "text": "a"
    },
    {
-      "type": "openParen",
+      "type": "openSquare",
       "line": 5,
       "column": 13
    },
@@ -105,62 +110,75 @@
       "text": "href"
    },
    {
+      "type": "equals",
+      "line": 5,
+      "column": 18
+   },
+   {
       "type": "stringlit",
       "line": 5,
       "column": 19,
-      "text": "\"\\\\\""
+      "text": "'\\\\${@file}.html'"
    },
    {
-      "type": "id",
+      "type": "closeSquare",
       "line": 5,
-      "column": 24,
-      "text": "file"
+      "column": 36
    },
    {
-      "type": "stringlit",
-      "line": 5,
-      "column": 30,
-      "text": "\".html\""
-   },
-   {
-      "type": "closeParen",
+      "type": "openParen",
       "line": 5,
       "column": 37
    },
    {
       "type": "bareword",
       "line": 5,
-      "column": 39,
+      "column": 38,
       "text": "strong"
    },
    {
       "type": "stringlit",
       "line": 5,
-      "column": 46,
+      "column": 45,
       "text": "\"bold\""
    },
    {
       "type": "stringlit",
       "line": 5,
-      "column": 53,
+      "column": 52,
       "text": "\" link\""
+   },
+   {
+      "type": "closeParen",
+      "line": 5,
+      "column": 59
    },
    {
       "type": "stringlit",
       "line": 5,
-      "column": 61,
+      "column": 62,
       "text": "\" for you\""
+   },
+   {
+      "type": "closeParen",
+      "line": 5,
+      "column": 72
    },
    {
       "type": "newline",
       "line": 5,
-      "column": 71
+      "column": 73
    },
    {
       "type": "bareword",
       "line": 6,
       "column": 5,
       "text": "p"
+   },
+   {
+      "type": "openParen",
+      "line": 6,
+      "column": 6
    },
    {
       "type": "stringlit",
@@ -175,7 +193,7 @@
       "text": "a"
    },
    {
-      "type": "openParen",
+      "type": "openSquare",
       "line": 6,
       "column": 14
    },
@@ -186,71 +204,47 @@
       "text": "href"
    },
    {
+      "type": "equals",
+      "line": 6,
+      "column": 19
+   },
+   {
       "type": "stringlit",
       "line": 6,
       "column": 20,
-      "text": "\"\\\\\""
+      "text": "'\\\\${@file}.html'"
    },
    {
-      "type": "id",
+      "type": "closeSquare",
       "line": 6,
-      "column": 25,
-      "text": "file"
-   },
-   {
-      "type": "stringlit",
-      "line": 6,
-      "column": 31,
-      "text": "\".html\""
-   },
-   {
-      "type": "closeParen",
-      "line": 6,
-      "column": 38
-   },
-   {
-      "type": "openCurly",
-      "line": 6,
-      "column": 39
+      "column": 37
    },
    {
       "type": "bareword",
       "line": 6,
-      "column": 40,
+      "column": 39,
       "text": "em"
    },
    {
-      "type": "stringlit",
+      "type": "bareword",
       "line": 6,
-      "column": 43,
-      "text": "\"italicized\""
+      "column": 42,
+      "text": "italicized"
    },
    {
       "type": "stringlit",
       "line": 6,
-      "column": 56,
-      "text": "\" link to \\\\\""
+      "column": 53,
+      "text": "'link to \\\\${@file}.html'"
    },
    {
-      "type": "id",
+      "type": "closeParen",
       "line": 6,
-      "column": 70,
-      "text": "file"
-   },
-   {
-      "type": "stringlit",
-      "line": 6,
-      "column": 76,
-      "text": "\".html\""
-   },
-   {
-      "type": "closeCurly",
-      "line": 6,
-      "column": 83
+      "column": 78
    },
    {
       "type": "EOF",
       "line": 6,
-      "column": 84
+      "column": 79
    }
 ]

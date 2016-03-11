@@ -1,8 +1,8 @@
 head
     title "Password Demo"
 body
-    input.mybutton#pass[type="password"]()~submit
-        if ^["value"]~length < 8
+    input.mybutton#pass[type="password"]/~submit
+        if ^["value"]~length() < 8
             p["style"="color:red; background-color:cyan"] "Your password sucks"
         else
             script

@@ -85,7 +85,7 @@
                   "attr": {
                      "type": "bareword",
                      "line": 4,
-                     "column": 44,
+                     "column": 43,
                      "text": "submit"
                   },
                   "args": [
@@ -96,7 +96,7 @@
                            "op": {
                               "type": "relop",
                               "line": 5,
-                              "column": 30,
+                              "column": 31,
                               "text": "<"
                            },
                            "a": {
@@ -120,12 +120,13 @@
                                  "line": 5,
                                  "column": 23,
                                  "text": "length"
-                              }
+                              },
+                              "args": []
                            },
                            "b": {
                               "type": "intlit",
                               "line": 5,
-                              "column": 32,
+                              "column": 33,
                               "text": "8"
                            }
                         },

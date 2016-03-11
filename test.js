@@ -1,9 +1,5 @@
 'use strict';
 
-if ( global.v8debug) {
-    global.v8debug.Debug.setBreakOnException(); // enable it, global.v8debug is only defined when the --debug or --debug-brk flag is set
-}
-
 /* My glorious testing script
  * 
  * This script goes through the folder "tests" and looks at every file that ends in .agate. It then

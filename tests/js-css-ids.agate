@@ -8,7 +8,7 @@ head
         a.specialA {
             color: @color;
         }
-    script[src="/js/main.js"]()
+    script[src="/js/main.js"]/
     script
         alert("This is an alert");
         console.log("Print statement");

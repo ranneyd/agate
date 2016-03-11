@@ -109,7 +109,7 @@
       "text": "results"
    },
    {
-      "type": "assignment",
+      "type": "equals",
       "line": 5,
       "column": 22
    },
@@ -152,20 +152,20 @@
       "text": "\"key\""
    },
    {
-      "type": "colon",
+      "type": "equals",
       "line": 6,
-      "column": 22
+      "column": 23
    },
    {
       "type": "stringlit",
       "line": 6,
-      "column": 23,
+      "column": 25,
       "text": "\"value\""
    },
    {
       "type": "newline",
       "line": 6,
-      "column": 30
+      "column": 32
    },
    {
       "type": "stringlit",
@@ -174,20 +174,20 @@
       "text": "\"if\""
    },
    {
-      "type": "colon",
+      "type": "equals",
       "line": 7,
-      "column": 21
+      "column": 22
    },
    {
       "type": "stringlit",
       "line": 7,
-      "column": 23,
+      "column": 24,
       "text": "\"this will probably break\""
    },
    {
       "type": "newline",
       "line": 7,
-      "column": 49
+      "column": 50
    },
    {
       "type": "dedent",
@@ -313,20 +313,25 @@
       "text": "result"
    },
    {
-      "type": "tilde",
+      "type": "openSquare",
       "line": 12,
       "column": 35
    },
    {
-      "type": "bareword",
+      "type": "stringlit",
       "line": 12,
       "column": 36,
-      "text": "title"
+      "text": "\"title\""
+   },
+   {
+      "type": "closeSquare",
+      "line": 12,
+      "column": 43
    },
    {
       "type": "newline",
       "line": 12,
-      "column": 41
+      "column": 44
    },
    {
       "type": "bareword",
@@ -341,19 +346,24 @@
       "text": "result"
    },
    {
-      "type": "tilde",
+      "type": "openSquare",
       "line": 13,
       "column": 34
    },
    {
-      "type": "bareword",
+      "type": "stringlit",
       "line": 13,
       "column": 35,
-      "text": "body"
+      "text": "\"body\""
+   },
+   {
+      "type": "closeSquare",
+      "line": 13,
+      "column": 41
    },
    {
       "type": "EOF",
       "line": 13,
-      "column": 39
+      "column": 42
    }
 ]

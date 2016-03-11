@@ -109,30 +109,26 @@
       "column": 40
    },
    {
-      "type": "openParen",
+      "type": "multop",
       "line": 4,
-      "column": 41
-   },
-   {
-      "type": "closeParen",
-      "line": 4,
-      "column": 42
+      "column": 41,
+      "text": "/"
    },
    {
       "type": "tilde",
       "line": 4,
-      "column": 43
+      "column": 42
    },
    {
       "type": "bareword",
       "line": 4,
-      "column": 44,
+      "column": 43,
       "text": "submit"
    },
    {
       "type": "newline",
       "line": 4,
-      "column": 50
+      "column": 49
    },
    {
       "type": "indent",
@@ -177,21 +173,27 @@
       "text": "length"
    },
    {
+      "type": "multop",
+      "line": 5,
+      "column": 29,
+      "text": "/"
+   },
+   {
       "type": "relop",
       "line": 5,
-      "column": 30,
+      "column": 31,
       "text": "<"
    },
    {
       "type": "intlit",
       "line": 5,
-      "column": 32,
+      "column": 33,
       "text": "8"
    },
    {
       "type": "newline",
       "line": 5,
-      "column": 33
+      "column": 34
    },
    {
       "type": "indent",

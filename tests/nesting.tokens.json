@@ -1,204 +1,204 @@
 [
-    {
-        "type": "bareword",
-        "line": 1,
-        "column": 1,
-        "text": "body"
-    },
-    {
-        "type": "newline",
-        "line": 1,
-        "column": 5
-    },
-    {
-        "type": "indent",
-        "line": 2,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 2,
-        "column": 5,
-        "text": "div"
-    },
-    {
-        "type": "newline",
-        "line": 2,
-        "column": 8
-    },
-    {
-        "type": "indent",
-        "line": 3,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 3,
-        "column": 9,
-        "text": "p"
-    },
-    {
-        "type": "newline",
-        "line": 3,
-        "column": 10
-    },
-    {
-        "type": "indent",
-        "line": 4,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 4,
-        "column": 13,
-        "text": "a"
-    },
-    {
-        "type": "newline",
-        "line": 4,
-        "column": 14
-    },
-    {
-        "type": "indent",
-        "line": 5,
-        "column": 1
-    },
-    {
-        "type": "stringlit",
-        "line": 5,
-        "column": 17,
-        "text": "\"text\""
-    },
-    {
-        "type": "newline",
-        "line": 5,
-        "column": 23
-    },
-    {
-        "type": "dedent",
-        "line": 6,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 6,
-        "column": 13,
-        "text": "span"
-    },
-    {
-        "type": "newline",
-        "line": 6,
-        "column": 17
-    },
-    {
-        "type": "indent",
-        "line": 7,
-        "column": 1
-    },
-    {
-        "type": "stringlit",
-        "line": 7,
-        "column": 17,
-        "text": "\"other text\""
-    },
-    {
-        "type": "newline",
-        "line": 7,
-        "column": 29
-    },
-    {
-        "type": "dedent",
-        "line": 8,
-        "column": 1
-    },
-    {
-        "type": "dedent",
-        "line": 8,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 8,
-        "column": 9,
-        "text": "p"
-    },
-    {
-        "type": "newline",
-        "line": 8,
-        "column": 10
-    },
-    {
-        "type": "indent",
-        "line": 9,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 9,
-        "column": 13,
-        "text": "i"
-    },
-    {
-        "type": "newline",
-        "line": 9,
-        "column": 14
-    },
-    {
-        "type": "indent",
-        "line": 10,
-        "column": 1
-    },
-    {
-        "type": "stringlit",
-        "line": 10,
-        "column": 17,
-        "text": "\"another p\""
-    },
-    {
-        "type": "newline",
-        "line": 10,
-        "column": 28
-    },
-    {
-        "type": "dedent",
-        "line": 11,
-        "column": 1
-    },
-    {
-        "type": "dedent",
-        "line": 11,
-        "column": 1
-    },
-    {
-        "type": "dedent",
-        "line": 11,
-        "column": 1
-    },
-    {
-        "type": "bareword",
-        "line": 11,
-        "column": 5,
-        "text": "div"
-    },
-    {
-        "type": "newline",
-        "line": 11,
-        "column": 8
-    },
-    {
-        "type": "indent",
-        "line": 12,
-        "column": 1
-    },
-    {
-        "type": "stringlit",
-        "line": 12,
-        "column": 9,
-        "text": "\"Another div\""
-    },
-    {
-        "column": 22,
-        "line": 12,
-        "type": "EOF"
-    }
+   {
+      "type": "bareword",
+      "line": 1,
+      "column": 1,
+      "text": "body"
+   },
+   {
+      "type": "newline",
+      "line": 1,
+      "column": 5
+   },
+   {
+      "type": "indent",
+      "line": 2,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 2,
+      "column": 5,
+      "text": "div"
+   },
+   {
+      "type": "newline",
+      "line": 2,
+      "column": 8
+   },
+   {
+      "type": "indent",
+      "line": 3,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 3,
+      "column": 9,
+      "text": "p"
+   },
+   {
+      "type": "newline",
+      "line": 3,
+      "column": 10
+   },
+   {
+      "type": "indent",
+      "line": 4,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 4,
+      "column": 13,
+      "text": "a"
+   },
+   {
+      "type": "newline",
+      "line": 4,
+      "column": 14
+   },
+   {
+      "type": "indent",
+      "line": 5,
+      "column": 1
+   },
+   {
+      "type": "stringlit",
+      "line": 5,
+      "column": 17,
+      "text": "\"text\""
+   },
+   {
+      "type": "newline",
+      "line": 5,
+      "column": 23
+   },
+   {
+      "type": "dedent",
+      "line": 6,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 6,
+      "column": 13,
+      "text": "span"
+   },
+   {
+      "type": "newline",
+      "line": 6,
+      "column": 17
+   },
+   {
+      "type": "indent",
+      "line": 7,
+      "column": 1
+   },
+   {
+      "type": "stringlit",
+      "line": 7,
+      "column": 17,
+      "text": "\"other text\""
+   },
+   {
+      "type": "newline",
+      "line": 7,
+      "column": 29
+   },
+   {
+      "type": "dedent",
+      "line": 8,
+      "column": 1
+   },
+   {
+      "type": "dedent",
+      "line": 8,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 8,
+      "column": 9,
+      "text": "p"
+   },
+   {
+      "type": "newline",
+      "line": 8,
+      "column": 10
+   },
+   {
+      "type": "indent",
+      "line": 9,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 9,
+      "column": 13,
+      "text": "i"
+   },
+   {
+      "type": "newline",
+      "line": 9,
+      "column": 14
+   },
+   {
+      "type": "indent",
+      "line": 10,
+      "column": 1
+   },
+   {
+      "type": "stringlit",
+      "line": 10,
+      "column": 17,
+      "text": "\"another p\""
+   },
+   {
+      "type": "newline",
+      "line": 10,
+      "column": 28
+   },
+   {
+      "type": "dedent",
+      "line": 11,
+      "column": 1
+   },
+   {
+      "type": "dedent",
+      "line": 11,
+      "column": 1
+   },
+   {
+      "type": "dedent",
+      "line": 11,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 11,
+      "column": 5,
+      "text": "div"
+   },
+   {
+      "type": "newline",
+      "line": 11,
+      "column": 8
+   },
+   {
+      "type": "indent",
+      "line": 12,
+      "column": 1
+   },
+   {
+      "type": "stringlit",
+      "line": 12,
+      "column": 9,
+      "text": "\"Another div\""
+   },
+   {
+      "type": "EOF",
+      "line": 12,
+      "column": 22
+   }
 ]
