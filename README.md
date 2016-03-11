@@ -54,7 +54,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |\*\*\*         |`'/'`                                                          |
 |               |`Arg`                                                          |
 |HashMap        |`openCurly (Attr+|AttrBlock)? closeCurly`                      |
-|ChildBlock     |`newline indent (Block|JSBlock|CSSBlock) newline dedent`       |
+|ChildBlock     |`newline indent (JSBlock|CSSBlock|Block) newline dedent`       |
 |JSBlock        |`id? (js id? newline?)+`                                       |
 |CSSBlock       |`id? (css id? newline?)+`                                      |
 
