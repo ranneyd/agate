@@ -2,10 +2,10 @@ body
     div#holder
         button#populate "Populate"
         #populate~click
-            @results = get("./getData" {
+            @results = get "./getData", {
                 "key" = "value"
                 "if" = "this will probably break"
-            })
+            }
             for @result in @results
                 #holder~append
                     div.object
