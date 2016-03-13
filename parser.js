@@ -195,7 +195,7 @@ module.exports = (scannerTokens, error, verbose) => {
             "type": "array",
         };
         if( !at("closeSquare") ){
-            if(at("intlit")) {
+            if(atSequential(["intlit", "range", "intlit"])) {
                 arrayDef.elems = {
                     "type": "range",
                     "a": match("intlit")

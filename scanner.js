@@ -9,7 +9,7 @@
     stringlit  | ('([^'\\]|(\\''))*'|"([^"\\]|(\\"))*")
     boollit    | (true)|(false)
     comment    | \/\/[^\r\n]*
-    id         | @[A-Za-z0-9$_-]+
+    id         | @[A-Za-z0-9_-]+
     relop      | \<|\>|(\<\=)|(\=\=)|(\!\=)|(\>\=)
     prefixop   | \!|\+\+|--
     postfixop  | \+\+|--
@@ -122,12 +122,12 @@ module.exports = (data, error) => {
             "regex": /^<|>|(<\=)|(\=\=)|(!\=)|(>\=)/
         },
         {
-            "type": "intlit",
-            "regex": /^\d+/
+            "type": "floatlit",
+            "regex": /^(\.\d+([Ee]\d+)?|\d+(\.\d+([Ee]\d+)?|\d+([Ee]\d+)))/
         },
         {
-            "type": "floatlit",
-            "regex": /^(\.\d+|\d+(\.\d+)?)([Ee]\d+)?/
+            "type": "intlit",
+            "regex": /^\d+/
         },
         {
             "type": "label",
@@ -316,7 +316,7 @@ module.exports = (data, error) => {
 
         // More complicated ones
         if( notMatched ) {
-            if( matchData =/^@([A-Za-z$_]+)/.exec( truncData )) {
+            if( matchData =/^@([A-Za-z0-9_]+)/.exec( truncData )) {
                 tokens.push( token("id", matchData[matchData.length - 1]) );
 
                 column += matchData[0].length;
