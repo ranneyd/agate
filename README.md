@@ -39,7 +39,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |ArrayElemExp   |`MiscExp (openSquare intlit|stringlit closeSquare)*`           |
 |MiscExp        |`Literal|Array|HashMap|id|this|HtmlId|HtmlClass`               |
 |               |`openParen Exp closeParen`                                     |
-|\*\*           |`(prefixop|minus)? Exp`                                        |
+|\*\*           |`(prefixop|minus)? id`                                         |
 |               |`Call`                                                         |
 |Literal        |`stringlit|intlit|floatlit|boollit`                            |
 |Call           |`(BuiltIn|bareword)(HtmlClass)*(HtmlId)?Attrs?Args?`           |

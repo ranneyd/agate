@@ -19,33 +19,34 @@ body
     @bool5 = @testbool and @teststring
     @bool6 = @testbool and @teststringalt
     
-
+    
     @int1 = @testint + @testint
     @int2 = @testint - @testint
     @int3 = @testint + - @testint
     @int4 = @testint + @testintalt
     @int5 = @testint + @testint + @testint - @testint - @testintalt
-    @int6 = --------@testintalt
-    @int7 = @testint -----------@testint
+    @int6 = - - - - - - - - @testintalt
+    @int7 = @testint - - - - - - - - - - - @testint
     @int8 = @testint + @testfloat
     @int8 = @testintalt + @testint
     @int9 = @testintalt - @testint
-
+    @int10 = @testintalt * @testintalt
+    
     @float1 = @testfloat + @testfloat
     @float2 = @testfloat - @testfloat
     @float3 = @testfloat + - @testfloat
     @float4 = @testfloat + @testfloatalt
     @float5 = @testfloat + @testfloat + @testfloat - @testfloat - @testfloatalt
-    @float6 = --------@testfloatalt
-    @float7 = @testfloat -----------@testfloat
+    @float6 = - - - - - - - - @testfloatalt
+    @float7 = @testfloat - - - - - - - - - - - @testfloat
     @float8 = @testfloat + @testint
     @float8 = @testfloatalt + @testfloat
     @float9 = @testfloatalt - @testfloat
-
+    
     @string1 = @teststring + @teststringalt
     @string2 = @teststring + @teststring
     @string3 = @teststringalt * 3
-
+    
     @array1 = @testarray + @testarrayalt
     @array2 = @testarray + @testarrayalt2
     @array3 = @testarray * 3

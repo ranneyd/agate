@@ -601,19 +601,9 @@
       "column": 5
    },
    {
-      "type": "dedent",
-      "line": 22,
-      "column": 1
-   },
-   {
       "type": "newline",
       "line": 22,
-      "column": 1
-   },
-   {
-      "type": "indent",
-      "line": 23,
-      "column": 1
+      "column": 5
    },
    {
       "type": "id",
@@ -830,39 +820,55 @@
       "column": 11
    },
    {
-      "type": "prefixop",
+      "type": "minus",
       "line": 28,
-      "column": 13,
-      "text": "--"
+      "column": 13
    },
    {
-      "type": "prefixop",
+      "type": "minus",
       "line": 28,
-      "column": 15,
-      "text": "--"
+      "column": 15
    },
    {
-      "type": "prefixop",
+      "type": "minus",
       "line": 28,
-      "column": 17,
-      "text": "--"
+      "column": 17
    },
    {
-      "type": "prefixop",
+      "type": "minus",
       "line": 28,
-      "column": 19,
-      "text": "--"
+      "column": 19
+   },
+   {
+      "type": "minus",
+      "line": 28,
+      "column": 21
+   },
+   {
+      "type": "minus",
+      "line": 28,
+      "column": 23
+   },
+   {
+      "type": "minus",
+      "line": 28,
+      "column": 25
+   },
+   {
+      "type": "minus",
+      "line": 28,
+      "column": 27
    },
    {
       "type": "id",
       "line": 28,
-      "column": 21,
+      "column": 29,
       "text": "testintalt"
    },
    {
       "type": "newline",
       "line": 28,
-      "column": 32
+      "column": 40
    },
    {
       "type": "id",
@@ -882,34 +888,29 @@
       "text": "testint"
    },
    {
-      "type": "prefixop",
+      "type": "minus",
       "line": 29,
-      "column": 22,
-      "text": "--"
+      "column": 22
    },
    {
-      "type": "prefixop",
+      "type": "minus",
       "line": 29,
-      "column": 24,
-      "text": "--"
+      "column": 24
    },
    {
-      "type": "prefixop",
+      "type": "minus",
       "line": 29,
-      "column": 26,
-      "text": "--"
+      "column": 26
    },
    {
-      "type": "prefixop",
+      "type": "minus",
       "line": 29,
-      "column": 28,
-      "text": "--"
+      "column": 28
    },
    {
-      "type": "prefixop",
+      "type": "minus",
       "line": 29,
-      "column": 30,
-      "text": "--"
+      "column": 30
    },
    {
       "type": "minus",
@@ -917,15 +918,40 @@
       "column": 32
    },
    {
+      "type": "minus",
+      "line": 29,
+      "column": 34
+   },
+   {
+      "type": "minus",
+      "line": 29,
+      "column": 36
+   },
+   {
+      "type": "minus",
+      "line": 29,
+      "column": 38
+   },
+   {
+      "type": "minus",
+      "line": 29,
+      "column": 40
+   },
+   {
+      "type": "minus",
+      "line": 29,
+      "column": 42
+   },
+   {
       "type": "id",
       "line": 29,
-      "column": 33,
+      "column": 44,
       "text": "testint"
    },
    {
       "type": "newline",
       "line": 29,
-      "column": 41
+      "column": 52
    },
    {
       "type": "id",
@@ -1027,659 +1053,699 @@
       "column": 35
    },
    {
-      "type": "dedent",
+      "type": "id",
       "line": 33,
-      "column": 1
+      "column": 5,
+      "text": "int10"
+   },
+   {
+      "type": "equals",
+      "line": 33,
+      "column": 12
+   },
+   {
+      "type": "id",
+      "line": 33,
+      "column": 14,
+      "text": "testintalt"
+   },
+   {
+      "type": "multop",
+      "line": 33,
+      "column": 26,
+      "text": "*"
+   },
+   {
+      "type": "id",
+      "line": 33,
+      "column": 28,
+      "text": "testintalt"
    },
    {
       "type": "newline",
       "line": 33,
-      "column": 1
+      "column": 39
    },
    {
-      "type": "indent",
+      "type": "newline",
       "line": 34,
-      "column": 1
+      "column": 5
    },
    {
       "type": "id",
-      "line": 34,
+      "line": 35,
       "column": 5,
       "text": "float1"
    },
    {
       "type": "equals",
-      "line": 34,
+      "line": 35,
       "column": 13
    },
    {
       "type": "id",
-      "line": 34,
+      "line": 35,
       "column": 15,
       "text": "testfloat"
    },
    {
       "type": "plus",
-      "line": 34,
+      "line": 35,
       "column": 26
    },
    {
       "type": "id",
-      "line": 34,
+      "line": 35,
       "column": 28,
       "text": "testfloat"
    },
    {
       "type": "newline",
-      "line": 34,
+      "line": 35,
       "column": 38
    },
    {
       "type": "id",
-      "line": 35,
+      "line": 36,
       "column": 5,
       "text": "float2"
    },
    {
       "type": "equals",
-      "line": 35,
+      "line": 36,
       "column": 13
    },
    {
       "type": "id",
-      "line": 35,
+      "line": 36,
       "column": 15,
       "text": "testfloat"
    },
    {
       "type": "minus",
-      "line": 35,
+      "line": 36,
       "column": 26
    },
    {
       "type": "id",
-      "line": 35,
+      "line": 36,
       "column": 28,
       "text": "testfloat"
    },
    {
       "type": "newline",
-      "line": 35,
+      "line": 36,
       "column": 38
    },
    {
       "type": "id",
-      "line": 36,
+      "line": 37,
       "column": 5,
       "text": "float3"
    },
    {
       "type": "equals",
-      "line": 36,
+      "line": 37,
       "column": 13
    },
    {
       "type": "id",
-      "line": 36,
+      "line": 37,
       "column": 15,
       "text": "testfloat"
    },
    {
       "type": "plus",
-      "line": 36,
+      "line": 37,
       "column": 26
    },
    {
       "type": "minus",
-      "line": 36,
+      "line": 37,
       "column": 28
    },
    {
       "type": "id",
-      "line": 36,
+      "line": 37,
       "column": 30,
       "text": "testfloat"
    },
    {
       "type": "newline",
-      "line": 36,
+      "line": 37,
       "column": 40
    },
    {
       "type": "id",
-      "line": 37,
+      "line": 38,
       "column": 5,
       "text": "float4"
    },
    {
       "type": "equals",
-      "line": 37,
+      "line": 38,
       "column": 13
    },
    {
       "type": "id",
-      "line": 37,
+      "line": 38,
       "column": 15,
       "text": "testfloat"
    },
    {
       "type": "plus",
-      "line": 37,
+      "line": 38,
       "column": 26
    },
    {
       "type": "id",
-      "line": 37,
+      "line": 38,
       "column": 28,
       "text": "testfloatalt"
    },
    {
       "type": "newline",
-      "line": 37,
+      "line": 38,
       "column": 41
    },
    {
       "type": "id",
-      "line": 38,
+      "line": 39,
       "column": 5,
       "text": "float5"
    },
    {
       "type": "equals",
-      "line": 38,
+      "line": 39,
       "column": 13
    },
    {
       "type": "id",
-      "line": 38,
+      "line": 39,
       "column": 15,
       "text": "testfloat"
    },
    {
       "type": "plus",
-      "line": 38,
+      "line": 39,
       "column": 26
    },
    {
       "type": "id",
-      "line": 38,
+      "line": 39,
       "column": 28,
       "text": "testfloat"
    },
    {
       "type": "plus",
-      "line": 38,
+      "line": 39,
       "column": 39
    },
    {
       "type": "id",
-      "line": 38,
+      "line": 39,
       "column": 41,
       "text": "testfloat"
    },
    {
       "type": "minus",
-      "line": 38,
+      "line": 39,
       "column": 52
    },
    {
       "type": "id",
-      "line": 38,
+      "line": 39,
       "column": 54,
       "text": "testfloat"
    },
    {
       "type": "minus",
-      "line": 38,
+      "line": 39,
       "column": 65
    },
    {
       "type": "id",
-      "line": 38,
+      "line": 39,
       "column": 67,
       "text": "testfloatalt"
    },
    {
       "type": "newline",
-      "line": 38,
+      "line": 39,
       "column": 80
    },
    {
       "type": "id",
-      "line": 39,
+      "line": 40,
       "column": 5,
       "text": "float6"
    },
    {
       "type": "equals",
-      "line": 39,
+      "line": 40,
       "column": 13
    },
    {
-      "type": "prefixop",
-      "line": 39,
-      "column": 15,
-      "text": "--"
+      "type": "minus",
+      "line": 40,
+      "column": 15
    },
    {
-      "type": "prefixop",
-      "line": 39,
-      "column": 17,
-      "text": "--"
+      "type": "minus",
+      "line": 40,
+      "column": 17
    },
    {
-      "type": "prefixop",
-      "line": 39,
-      "column": 19,
-      "text": "--"
+      "type": "minus",
+      "line": 40,
+      "column": 19
    },
    {
-      "type": "prefixop",
-      "line": 39,
-      "column": 21,
-      "text": "--"
+      "type": "minus",
+      "line": 40,
+      "column": 21
    },
    {
-      "type": "id",
-      "line": 39,
-      "column": 23,
-      "text": "testfloatalt"
+      "type": "minus",
+      "line": 40,
+      "column": 23
    },
    {
-      "type": "newline",
-      "line": 39,
-      "column": 36
+      "type": "minus",
+      "line": 40,
+      "column": 25
+   },
+   {
+      "type": "minus",
+      "line": 40,
+      "column": 27
+   },
+   {
+      "type": "minus",
+      "line": 40,
+      "column": 29
    },
    {
       "type": "id",
       "line": 40,
+      "column": 31,
+      "text": "testfloatalt"
+   },
+   {
+      "type": "newline",
+      "line": 40,
+      "column": 44
+   },
+   {
+      "type": "id",
+      "line": 41,
       "column": 5,
       "text": "float7"
    },
    {
       "type": "equals",
-      "line": 40,
+      "line": 41,
       "column": 13
    },
    {
       "type": "id",
-      "line": 40,
+      "line": 41,
       "column": 15,
       "text": "testfloat"
    },
    {
-      "type": "prefixop",
-      "line": 40,
-      "column": 26,
-      "text": "--"
-   },
-   {
-      "type": "prefixop",
-      "line": 40,
-      "column": 28,
-      "text": "--"
-   },
-   {
-      "type": "prefixop",
-      "line": 40,
-      "column": 30,
-      "text": "--"
-   },
-   {
-      "type": "prefixop",
-      "line": 40,
-      "column": 32,
-      "text": "--"
-   },
-   {
-      "type": "prefixop",
-      "line": 40,
-      "column": 34,
-      "text": "--"
+      "type": "minus",
+      "line": 41,
+      "column": 26
    },
    {
       "type": "minus",
-      "line": 40,
+      "line": 41,
+      "column": 28
+   },
+   {
+      "type": "minus",
+      "line": 41,
+      "column": 30
+   },
+   {
+      "type": "minus",
+      "line": 41,
+      "column": 32
+   },
+   {
+      "type": "minus",
+      "line": 41,
+      "column": 34
+   },
+   {
+      "type": "minus",
+      "line": 41,
       "column": 36
    },
    {
-      "type": "id",
-      "line": 40,
-      "column": 37,
-      "text": "testfloat"
+      "type": "minus",
+      "line": 41,
+      "column": 38
    },
    {
-      "type": "newline",
-      "line": 40,
-      "column": 47
+      "type": "minus",
+      "line": 41,
+      "column": 40
+   },
+   {
+      "type": "minus",
+      "line": 41,
+      "column": 42
+   },
+   {
+      "type": "minus",
+      "line": 41,
+      "column": 44
+   },
+   {
+      "type": "minus",
+      "line": 41,
+      "column": 46
    },
    {
       "type": "id",
       "line": 41,
+      "column": 48,
+      "text": "testfloat"
+   },
+   {
+      "type": "newline",
+      "line": 41,
+      "column": 58
+   },
+   {
+      "type": "id",
+      "line": 42,
       "column": 5,
       "text": "float8"
    },
    {
       "type": "equals",
-      "line": 41,
+      "line": 42,
       "column": 13
    },
    {
       "type": "id",
-      "line": 41,
+      "line": 42,
       "column": 15,
       "text": "testfloat"
    },
    {
       "type": "plus",
-      "line": 41,
+      "line": 42,
       "column": 26
    },
    {
       "type": "id",
-      "line": 41,
+      "line": 42,
       "column": 28,
       "text": "testint"
    },
    {
       "type": "newline",
-      "line": 41,
+      "line": 42,
       "column": 36
    },
    {
       "type": "id",
-      "line": 42,
+      "line": 43,
       "column": 5,
       "text": "float8"
    },
    {
       "type": "equals",
-      "line": 42,
+      "line": 43,
       "column": 13
    },
    {
       "type": "id",
-      "line": 42,
+      "line": 43,
       "column": 15,
       "text": "testfloatalt"
    },
    {
       "type": "plus",
-      "line": 42,
+      "line": 43,
       "column": 29
    },
    {
       "type": "id",
-      "line": 42,
+      "line": 43,
       "column": 31,
       "text": "testfloat"
    },
    {
       "type": "newline",
-      "line": 42,
+      "line": 43,
       "column": 41
    },
    {
       "type": "id",
-      "line": 43,
+      "line": 44,
       "column": 5,
       "text": "float9"
    },
    {
       "type": "equals",
-      "line": 43,
+      "line": 44,
       "column": 13
    },
    {
       "type": "id",
-      "line": 43,
+      "line": 44,
       "column": 15,
       "text": "testfloatalt"
    },
    {
       "type": "minus",
-      "line": 43,
+      "line": 44,
       "column": 29
    },
    {
       "type": "id",
-      "line": 43,
+      "line": 44,
       "column": 31,
       "text": "testfloat"
    },
    {
       "type": "newline",
-      "line": 43,
+      "line": 44,
       "column": 41
    },
    {
-      "type": "dedent",
-      "line": 44,
-      "column": 1
-   },
-   {
       "type": "newline",
-      "line": 44,
-      "column": 1
-   },
-   {
-      "type": "indent",
       "line": 45,
-      "column": 1
+      "column": 5
    },
    {
       "type": "id",
-      "line": 45,
+      "line": 46,
       "column": 5,
       "text": "string1"
    },
    {
       "type": "equals",
-      "line": 45,
+      "line": 46,
       "column": 14
    },
    {
       "type": "id",
-      "line": 45,
+      "line": 46,
       "column": 16,
       "text": "teststring"
    },
    {
       "type": "plus",
-      "line": 45,
+      "line": 46,
       "column": 28
    },
    {
       "type": "id",
-      "line": 45,
+      "line": 46,
       "column": 30,
       "text": "teststringalt"
    },
    {
       "type": "newline",
-      "line": 45,
+      "line": 46,
       "column": 44
    },
    {
       "type": "id",
-      "line": 46,
+      "line": 47,
       "column": 5,
       "text": "string2"
    },
    {
       "type": "equals",
-      "line": 46,
+      "line": 47,
       "column": 14
    },
    {
       "type": "id",
-      "line": 46,
+      "line": 47,
       "column": 16,
       "text": "teststring"
    },
    {
       "type": "plus",
-      "line": 46,
+      "line": 47,
       "column": 28
    },
    {
       "type": "id",
-      "line": 46,
+      "line": 47,
       "column": 30,
       "text": "teststring"
    },
    {
       "type": "newline",
-      "line": 46,
+      "line": 47,
       "column": 41
    },
    {
       "type": "id",
-      "line": 47,
+      "line": 48,
       "column": 5,
       "text": "string3"
    },
    {
       "type": "equals",
-      "line": 47,
+      "line": 48,
       "column": 14
    },
    {
       "type": "id",
-      "line": 47,
+      "line": 48,
       "column": 16,
       "text": "teststringalt"
    },
    {
       "type": "multop",
-      "line": 47,
+      "line": 48,
       "column": 31,
       "text": "*"
    },
    {
       "type": "intlit",
-      "line": 47,
+      "line": 48,
       "column": 33,
       "text": "3"
    },
    {
       "type": "newline",
-      "line": 47,
+      "line": 48,
       "column": 34
    },
    {
-      "type": "dedent",
-      "line": 48,
-      "column": 1
-   },
-   {
       "type": "newline",
-      "line": 48,
-      "column": 1
-   },
-   {
-      "type": "indent",
       "line": 49,
-      "column": 1
+      "column": 5
    },
    {
       "type": "id",
-      "line": 49,
+      "line": 50,
       "column": 5,
       "text": "array1"
    },
    {
       "type": "equals",
-      "line": 49,
+      "line": 50,
       "column": 13
    },
    {
       "type": "id",
-      "line": 49,
+      "line": 50,
       "column": 15,
       "text": "testarray"
    },
    {
       "type": "plus",
-      "line": 49,
+      "line": 50,
       "column": 26
    },
    {
       "type": "id",
-      "line": 49,
+      "line": 50,
       "column": 28,
       "text": "testarrayalt"
    },
    {
       "type": "newline",
-      "line": 49,
+      "line": 50,
       "column": 41
    },
    {
       "type": "id",
-      "line": 50,
+      "line": 51,
       "column": 5,
       "text": "array2"
    },
    {
       "type": "equals",
-      "line": 50,
+      "line": 51,
       "column": 13
    },
    {
       "type": "id",
-      "line": 50,
+      "line": 51,
       "column": 15,
       "text": "testarray"
    },
    {
       "type": "plus",
-      "line": 50,
+      "line": 51,
       "column": 26
    },
    {
       "type": "id",
-      "line": 50,
+      "line": 51,
       "column": 28,
       "text": "testarrayalt2"
    },
    {
       "type": "newline",
-      "line": 50,
+      "line": 51,
       "column": 42
    },
    {
       "type": "id",
-      "line": 51,
+      "line": 52,
       "column": 5,
       "text": "array3"
    },
    {
       "type": "equals",
-      "line": 51,
+      "line": 52,
       "column": 13
    },
    {
       "type": "id",
-      "line": 51,
+      "line": 52,
       "column": 15,
       "text": "testarray"
    },
    {
       "type": "multop",
-      "line": 51,
+      "line": 52,
       "column": 26,
       "text": "*"
    },
    {
       "type": "intlit",
-      "line": 51,
+      "line": 52,
       "column": 28,
       "text": "3"
    },
    {
       "type": "EOF",
-      "line": 51,
+      "line": 52,
       "column": 29
    }
 ]

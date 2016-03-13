@@ -77,9 +77,15 @@ module.exports = (scannerTokens, error, verbose) => {
         else if( at("comment") ) {
             return match("comment");
         }
-        else{
+        else if( atExp() ){
             return Exp();
         }
+        else {
+            error.hint = "Did you put a blank line without indentation?";
+            error.expected("some kind of statement", tokens.shift());
+            error.hint = "";
+        }
+
     };
     var Template = () => {
         log('Matching Template');
