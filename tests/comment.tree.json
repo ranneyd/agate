@@ -40,15 +40,15 @@
                               "type": "call",
                               "callee": {
                                  "type": "bareword",
-                                 "line": 6,
-                                 "column": 13,
+                                 "line": 5,
+                                 "column": 11,
                                  "text": "a"
                               },
                               "args": [
                                  {
                                     "type": "stringlit",
-                                    "line": 7,
-                                    "column": 17,
+                                    "line": 5,
+                                    "column": 13,
                                     "text": "\"text\""
                                  }
                               ]
@@ -57,15 +57,15 @@
                               "type": "call",
                               "callee": {
                                  "type": "bareword",
-                                 "line": 8,
-                                 "column": 13,
+                                 "line": 5,
+                                 "column": 22,
                                  "text": "span"
                               },
                               "args": [
                                  {
                                     "type": "stringlit",
-                                    "line": 9,
-                                    "column": 17,
+                                    "line": 5,
+                                    "column": 27,
                                     "text": "\"other text\""
                                  }
                               ]
@@ -76,7 +76,7 @@
                         "type": "call",
                         "callee": {
                            "type": "bareword",
-                           "line": 10,
+                           "line": 6,
                            "column": 9,
                            "text": "p"
                         },
@@ -85,15 +85,15 @@
                               "type": "call",
                               "callee": {
                                  "type": "bareword",
-                                 "line": 11,
-                                 "column": 13,
+                                 "line": 6,
+                                 "column": 11,
                                  "text": "i"
                               },
                               "args": [
                                  {
                                     "type": "stringlit",
-                                    "line": 12,
-                                    "column": 17,
+                                    "line": 6,
+                                    "column": 13,
                                     "text": "\"another p\""
                                  }
                               ]
@@ -106,14 +106,14 @@
                   "type": "call",
                   "callee": {
                      "type": "bareword",
-                     "line": 13,
+                     "line": 7,
                      "column": 5,
                      "text": "div"
                   },
                   "args": [
                      {
                         "type": "stringlit",
-                        "line": 14,
+                        "line": 7,
                         "column": 9,
                         "text": "\"Another div\""
                      }

@@ -79,13 +79,12 @@
                               "text": "\"password\""
                            }
                         }
-                     ],
-                     "args": []
+                     ]
                   },
                   "attr": {
                      "type": "bareword",
                      "line": 4,
-                     "column": 44,
+                     "column": 42,
                      "text": "submit"
                   },
                   "args": [
@@ -96,7 +95,7 @@
                            "op": {
                               "type": "relop",
                               "line": 5,
-                              "column": 32,
+                              "column": 30,
                               "text": "<"
                            },
                            "a": {
@@ -120,13 +119,12 @@
                                  "line": 5,
                                  "column": 23,
                                  "text": "length"
-                              },
-                              "args": []
+                              }
                            },
                            "b": {
                               "type": "intlit",
                               "line": 5,
-                              "column": 34,
+                              "column": 32,
                               "text": "8"
                            }
                         },

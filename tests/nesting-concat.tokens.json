@@ -82,11 +82,6 @@
       "text": "p"
    },
    {
-      "type": "openParen",
-      "line": 5,
-      "column": 6
-   },
-   {
       "type": "stringlit",
       "line": 5,
       "column": 7,
@@ -137,48 +132,53 @@
       "text": "strong"
    },
    {
+      "type": "openParen",
+      "line": 5,
+      "column": 44
+   },
+   {
       "type": "stringlit",
       "line": 5,
       "column": 45,
       "text": "\"bold\""
    },
    {
+      "type": "closeParen",
+      "line": 5,
+      "column": 51
+   },
+   {
       "type": "stringlit",
       "line": 5,
-      "column": 52,
+      "column": 53,
       "text": "\" link\""
    },
    {
       "type": "closeParen",
       "line": 5,
-      "column": 59
+      "column": 60
+   },
+   {
+      "type": "comma",
+      "line": 5,
+      "column": 61
    },
    {
       "type": "stringlit",
       "line": 5,
-      "column": 62,
+      "column": 64,
       "text": "\" for you\""
-   },
-   {
-      "type": "closeParen",
-      "line": 5,
-      "column": 72
    },
    {
       "type": "newline",
       "line": 5,
-      "column": 73
+      "column": 74
    },
    {
       "type": "bareword",
       "line": 6,
       "column": 5,
       "text": "p"
-   },
-   {
-      "type": "openParen",
-      "line": 6,
-      "column": 6
    },
    {
       "type": "stringlit",
@@ -220,31 +220,36 @@
       "column": 37
    },
    {
+      "type": "openParen",
+      "line": 6,
+      "column": 39
+   },
+   {
       "type": "bareword",
       "line": 6,
-      "column": 39,
+      "column": 40,
       "text": "em"
    },
    {
       "type": "stringlit",
       "line": 6,
-      "column": 42,
+      "column": 43,
       "text": "'italicized'"
-   },
-   {
-      "type": "stringlit",
-      "line": 6,
-      "column": 55,
-      "text": "'link to \\\\${@file}.html'"
    },
    {
       "type": "closeParen",
       "line": 6,
-      "column": 80
+      "column": 55
+   },
+   {
+      "type": "stringlit",
+      "line": 6,
+      "column": 57,
+      "text": "'link to \\\\${@file}.html'"
    },
    {
       "type": "EOF",
       "line": 6,
-      "column": 81
+      "column": 82
    }
 ]

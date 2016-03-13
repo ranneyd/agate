@@ -13,7 +13,8 @@
     relop      | \<|\>|(\<\=)|(\=\=)|(\!\=)|(\>\=)
     prefixop   | \!|\+\+|--
     postfixop  | \+\+|--
-    addop      | \+|-
+    plus       | \+
+    minus      | -
     multop     | \*|\/
     boolop     | and|or|xor
     newline    | (\r\n|\r|\n)+
@@ -95,8 +96,14 @@ module.exports = (data, error) => {
             "regex": /^(\+\+|--)/
         },
         {
-            "type": "addop",
-            "regex": /^(\+|-)/
+            "type": "plus",
+            "regex": /^\+/,
+            "notext": true
+        },
+        {
+            "type": "minus",
+            "regex": /^-/,
+            "notext": true
         },
         {
             "type": "multop",

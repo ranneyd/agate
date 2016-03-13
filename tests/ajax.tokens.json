@@ -120,25 +120,25 @@
       "text": "get"
    },
    {
-      "type": "openParen",
-      "line": 5,
-      "column": 27
-   },
-   {
       "type": "stringlit",
       "line": 5,
       "column": 28,
       "text": "\"./getData\""
    },
    {
+      "type": "comma",
+      "line": 5,
+      "column": 39
+   },
+   {
       "type": "openCurly",
       "line": 5,
-      "column": 40
+      "column": 41
    },
    {
       "type": "newline",
       "line": 5,
-      "column": 41
+      "column": 42
    },
    {
       "type": "indent",
@@ -200,14 +200,9 @@
       "column": 13
    },
    {
-      "type": "closeParen",
-      "line": 8,
-      "column": 14
-   },
-   {
       "type": "newline",
       "line": 8,
-      "column": 15
+      "column": 14
    },
    {
       "type": "for",

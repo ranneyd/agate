@@ -115,7 +115,7 @@
                            {
                               "type": "stringlit",
                               "line": 5,
-                              "column": 52,
+                              "column": 53,
                               "text": "\" link\""
                            }
                         ]
@@ -123,7 +123,7 @@
                      {
                         "type": "stringlit",
                         "line": 5,
-                        "column": 62,
+                        "column": 64,
                         "text": "\" for you\""
                      }
                   ]
@@ -173,14 +173,14 @@
                               "callee": {
                                  "type": "bareword",
                                  "line": 6,
-                                 "column": 39,
+                                 "column": 40,
                                  "text": "em"
                               },
                               "args": [
                                  {
                                     "type": "stringlit",
                                     "line": 6,
-                                    "column": 42,
+                                    "column": 43,
                                     "text": "'italicized'"
                                  }
                               ]
@@ -190,7 +190,7 @@
                      {
                         "type": "stringlit",
                         "line": 6,
-                        "column": 55,
+                        "column": 57,
                         "text": "'link to \\\\${@file}.html'"
                      }
                   ]

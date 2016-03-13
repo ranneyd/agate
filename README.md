@@ -32,26 +32,26 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |TernaryIfExp   |`BoolExp (question BoolExp colon BoolExp)?`                    |
 |BoolExp        |`RelExp (boolop RelExp)*`                                      |
 |RelExp         |`AddExp (relop AddExp)*`                                       |
-|AddExp         |`MultExp (addop MultExp)*`                                     |
+|AddExp         |`MultExp ((plus|minus)) MultExp)*`                             |
 |MultExp        |`PostfixExp (multop PostfixExp)*`                              |
 |PostfixExp     |`ElemFuncExp postfixop?`                                       |
-|ElemFuncExp    |`ArrayElemExp | ArrayElemExp? (tilde bareword Args)+`          |
+|ElemFuncExp    |`ArrayElemExp (tilde bareword Args?)*`                         |
 |ArrayElemExp   |`MiscExp (openSquare intlit|stringlit closeSquare)*            |
 |MiscExp        |`Literal|Array|HashMap|id|this|HtmlId|HtmlClass`               |
 |               |`openParen Exp closeParen`                                     |
-|\*\*           |`(prefixop|addop)? Exp`                                        |
+|\*\*           |`(prefixop|minus)? Exp`                                        |
 |               |`Call`                                                         |
 |Literal        |`stringlit|intlit|floatlit|boollit`                            |
-|Call           |`(BuiltIn|bareword)(HtmlClass)*(HtmlId)?Attrs?Args`            |
+|Call           |`(BuiltIn|bareword)(HtmlClass)*(HtmlId)?Attrs?Args?`           |
 |BuiltIn        |`script|style`                                                 |
 |HtmlClass      |`dot bareword`                                                 |
 |HtmlId         |`hash bareword`                                                |
 |Attrs          |`openSquare (Attr+|AttrBlock)? closeSquare`                    |
 |AttrBlock      |`newline indent (Attr newline)+ dedent`                        |
 |Attr           |`(stringlit|bareword) (equals|colon) Exp`                      |
-|Args           |`openParen Arg* closeParen                                     |
+|Args           |`openParen (Arg (comma? Arg)*)? closeParen                     |
 |               |`ChildBlock`                                                   |
-|               |`Arg`                                                          |
+|               |`Arg (comma? Arg)*`                                            |
 |HashMap        |`openCurly (Attr+|AttrBlock)? closeCurly`                      |
 |ChildBlock     |`newline indent (JSBlock|CSSBlock|Block) newline dedent`       |
 |JSBlock        |`id? (js id? newline*)+`                                       |

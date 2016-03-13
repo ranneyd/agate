@@ -339,10 +339,10 @@ module.exports = (scannerTokens, error, verbose) => {
     var AddExp = () => {
         log("Matching AddExp");
         let exp = MultExp();
-        while( at("addop") ) {
+        while( at(["plus", "minus"]) ) {
             let addop = {
                 "type": "addop",
-                "op": match("addop"),
+                "op": at("plus") ? match("plus") : match("minus"),
                 "a": exp,
                 "b": MultExp()
             };
@@ -380,25 +380,20 @@ module.exports = (scannerTokens, error, verbose) => {
     var ElemFuncExp = () => {
         log("Matching ElemFuncExp");
 
-        let exp;
+        let exp = ArrayElemExp();
 
-        // If we're not at a tilde, we def have an ArrayElemExp
-        if(!at("tilde")){
-            exp = ArrayElemExp();
-        }
-
-        // We could have an ArrayElemExp or not have an ArrayElemExp. Either way, if we have a
-        // tilde here, it's game time
         while ( at("tilde") ) {
             match("tilde")
             
             exp = {
                 "type": "elemattr",
-                "elem": exp || "this",
+                "elem": exp,
                 "attr": match("bareword")
             };
-            error.hint = "The ~ operator is for member functions only. Since it's a function, it needs open and closed parens UNLESS it only takes one element.";
-            exp.args = Args();
+            error.hint = "The ~ operator is for member functions only. Thus, if you don't put parens after, we're going to gobble up as many potential arguments as we can";
+            if( atArgs() ) {
+                exp.args = Args();
+            }
             error.hint = "";
         }
         return exp;
@@ -462,17 +457,12 @@ module.exports = (scannerTokens, error, verbose) => {
             match("closeParen");
             return exp;
         }
-        else if( at(["prefixop", "addop"]) ) {
+        else if( at(["prefixop", "minus"]) ) {
             let exp = {
-                "type":"prefixop"
+                "type":"prefixop",
+                "op": at("prefixop") ? match("prefixop") : match("minus"),
+                "body": Exp()
             };
-            if( at("prefixop") ){
-                exp.op = match("prefixop");
-            }
-            else{
-                exp.op = match("addop");
-            }
-            exp.body = Exp();
 
             return exp;
         }
@@ -521,7 +511,9 @@ module.exports = (scannerTokens, error, verbose) => {
         if( at("openSquare") ) {
             call.attrs = Attrs();
         }
-        call.args = Args();
+        if( atArgs() ){
+            call.args = Args();
+        }
         return call;
     };
     var BuiltIn = () => {
@@ -612,7 +604,13 @@ module.exports = (scannerTokens, error, verbose) => {
         if( at("openParen") ){
             match("openParen");
             let args = [];
-            while(!at("closeParen")) {
+            if( !at("closeParen") ) {
+                args.push(Arg());
+            }
+            while( !at("closeParen") ) {
+                if( at("comma") ) {
+                    match("comma");
+                }
                 args.push(Arg());
             }
             match("closeParen");
@@ -623,13 +621,16 @@ module.exports = (scannerTokens, error, verbose) => {
             return ChildBlock().body;
         }
         else{
-            error.hint = "Are you calling a function (or making a self-closing tag) with no parameters, but missing parentheses?\n"
-                       + "Examples:\n" 
-                       + "\t@elem~foo instead of @elem~foo()\n"
-                       + '\tinput[type="text"] instead of input[type="text"]()';
-            let arg = [Arg()];
+            error.hint = "If you don't use parens or commas, we're going to try to gobble up as many expressions as we can as arguments.";
+            let args = [Arg()];
+            while( at("comma") || atExp() ) {
+                if( at("comma") ) {
+                    match("comma");
+                }
+                args.push(Arg());
+            }
             error.hint = "";
-            return arg;
+            return args;
         }
     };
     var HashMap = () => {
@@ -749,6 +750,23 @@ module.exports = (scannerTokens, error, verbose) => {
 
     var atBlock = () =>{
         return atSequential(["newline", "indent"]);
+    }
+
+    var atArgs = () =>{
+        return at("openParen") || atBlock() || atExp();
+    }
+
+    var atExp = () =>{
+        return at(["openSquare", 
+                   "openCurly", 
+                   "id", 
+                   "this", 
+                   "dot", 
+                   "hash",
+                   "openParen",
+                   "prefixop",
+                   "minus",
+                   "bareword"]) || at(lits) || at(builtins);
     }
 
     // Pops off the top token if its type matches 'type', returns an error otherwise
