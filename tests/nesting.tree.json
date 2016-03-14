@@ -1,120 +1,117 @@
 {
    "type": "program",
-   "block": {
-      "type": "block",
-      "body": [
-         {
-            "type": "call",
-            "callee": {
-               "type": "bareword",
-               "line": 1,
-               "column": 1,
-               "text": "body"
-            },
-            "args": [
-               {
-                  "type": "call",
-                  "callee": {
-                     "type": "bareword",
-                     "line": 2,
-                     "column": 5,
-                     "text": "div"
-                  },
-                  "args": [
-                     {
-                        "type": "call",
-                        "callee": {
-                           "type": "bareword",
-                           "line": 3,
-                           "column": 9,
-                           "text": "p"
-                        },
-                        "args": [
-                           {
-                              "type": "call",
-                              "callee": {
-                                 "type": "bareword",
-                                 "line": 4,
-                                 "column": 13,
-                                 "text": "a"
-                              },
-                              "args": [
-                                 {
-                                    "type": "stringlit",
-                                    "line": 5,
-                                    "column": 17,
-                                    "text": "\"text\""
-                                 }
-                              ]
-                           },
-                           {
-                              "type": "call",
-                              "callee": {
-                                 "type": "bareword",
-                                 "line": 6,
-                                 "column": 13,
-                                 "text": "span"
-                              },
-                              "args": [
-                                 {
-                                    "type": "stringlit",
-                                    "line": 7,
-                                    "column": 17,
-                                    "text": "\"other text\""
-                                 }
-                              ]
-                           }
-                        ]
-                     },
-                     {
-                        "type": "call",
-                        "callee": {
-                           "type": "bareword",
-                           "line": 8,
-                           "column": 9,
-                           "text": "p"
-                        },
-                        "args": [
-                           {
-                              "type": "call",
-                              "callee": {
-                                 "type": "bareword",
-                                 "line": 9,
-                                 "column": 13,
-                                 "text": "i"
-                              },
-                              "args": [
-                                 {
-                                    "type": "stringlit",
-                                    "line": 10,
-                                    "column": 17,
-                                    "text": "\"another p\""
-                                 }
-                              ]
-                           }
-                        ]
-                     }
-                  ]
+   "block": [
+      {
+         "type": "call",
+         "callee": {
+            "type": "bareword",
+            "line": 1,
+            "column": 1,
+            "text": "body"
+         },
+         "args": [
+            {
+               "type": "call",
+               "callee": {
+                  "type": "bareword",
+                  "line": 2,
+                  "column": 5,
+                  "text": "div"
                },
-               {
-                  "type": "call",
-                  "callee": {
-                     "type": "bareword",
-                     "line": 11,
-                     "column": 5,
-                     "text": "div"
-                  },
-                  "args": [
-                     {
-                        "type": "stringlit",
-                        "line": 12,
+               "args": [
+                  {
+                     "type": "call",
+                     "callee": {
+                        "type": "bareword",
+                        "line": 3,
                         "column": 9,
-                        "text": "\"Another div\""
-                     }
-                  ]
-               }
-            ]
-         }
-      ]
-   }
+                        "text": "p"
+                     },
+                     "args": [
+                        {
+                           "type": "call",
+                           "callee": {
+                              "type": "bareword",
+                              "line": 4,
+                              "column": 13,
+                              "text": "a"
+                           },
+                           "args": [
+                              {
+                                 "type": "stringlit",
+                                 "line": 5,
+                                 "column": 17,
+                                 "text": "\"text\""
+                              }
+                           ]
+                        },
+                        {
+                           "type": "call",
+                           "callee": {
+                              "type": "bareword",
+                              "line": 6,
+                              "column": 13,
+                              "text": "span"
+                           },
+                           "args": [
+                              {
+                                 "type": "stringlit",
+                                 "line": 7,
+                                 "column": 17,
+                                 "text": "\"other text\""
+                              }
+                           ]
+                        }
+                     ]
+                  },
+                  {
+                     "type": "call",
+                     "callee": {
+                        "type": "bareword",
+                        "line": 8,
+                        "column": 9,
+                        "text": "p"
+                     },
+                     "args": [
+                        {
+                           "type": "call",
+                           "callee": {
+                              "type": "bareword",
+                              "line": 9,
+                              "column": 13,
+                              "text": "i"
+                           },
+                           "args": [
+                              {
+                                 "type": "stringlit",
+                                 "line": 10,
+                                 "column": 17,
+                                 "text": "\"another p\""
+                              }
+                           ]
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "type": "call",
+               "callee": {
+                  "type": "bareword",
+                  "line": 11,
+                  "column": 5,
+                  "text": "div"
+               },
+               "args": [
+                  {
+                     "type": "stringlit",
+                     "line": 12,
+                     "column": 9,
+                     "text": "\"Another div\""
+                  }
+               ]
+            }
+         ]
+      }
+   ]
 }

@@ -28,7 +28,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Arg            |`Exp`                                                          |
 |While          |`while Exp ChildBlock`                                         |
 |Assignment     |`id equals Exp`                                                |
-|Definition     |`def bareword openParen id* closeParen ChildBlock`             |
+|Definition     |`def bareword openParen (id comma?)* closeParen ChildBlock`    |
 |Exp            |`TernaryIfExp`                                                 |
 |TernaryIfExp   |`BoolExp (question BoolExp colon BoolExp)?`                    |
 |BoolExp        |`RelExp (boolop RelExp)*`                                      |

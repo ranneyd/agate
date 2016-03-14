@@ -25,9 +25,6 @@ module.exports = (scannerTokens, error, verbose) => {
     };
     var Block = () => {
         log("Matching Block");
-        let block = {
-            "type": "block"
-        };
         let statements = [];
 
         // If we get a dedent or an EOF, we have no more block
@@ -52,8 +49,7 @@ module.exports = (scannerTokens, error, verbose) => {
             }
         }
 
-        block.body = statements;
-        return block;
+        return statements;
     };
     var Statement = () => {
         log("Matching a Statement");
@@ -286,6 +282,9 @@ module.exports = (scannerTokens, error, verbose) => {
         let params = [];
         while( at("id") ) {
             params.push( match("id") );
+            if( at("comma") ) {
+                match("comma");
+            }
         }
         if(params.length > 0){
             func.params = params;
@@ -633,8 +632,7 @@ module.exports = (scannerTokens, error, verbose) => {
             return args;
         }
         else if( atBlock() ){
-            // ooooo I'm cheating, but this makes the tree look a lot nicer and make more sense
-            return ChildBlock().body;
+            return ChildBlock();
         }
         else{
             error.hint = "If you don't use parens or commas, we're going to try to gobble up as many expressions as we can as arguments.";

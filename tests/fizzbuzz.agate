@@ -1,0 +1,14 @@
+def fizzbuzz(@i)
+    if @i <= 1
+        return "1"
+    @str = ""
+    if @i % 3
+        @str = @str + "Fizz"
+    if @i % 5
+        @str = @str + "Buzz"
+    if @str == ""
+        return fizzbuzz(@i - 1) + @i
+    else
+        return fizzbuzz(@i - 1) + @str
+
+fizzbuzz 100

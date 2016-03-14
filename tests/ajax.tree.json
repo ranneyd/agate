@@ -1,229 +1,223 @@
 {
    "type": "program",
-   "block": {
-      "type": "block",
-      "body": [
-         {
-            "type": "call",
-            "callee": {
-               "type": "bareword",
-               "line": 1,
-               "column": 1,
-               "text": "body"
-            },
-            "args": [
-               {
-                  "type": "call",
-                  "callee": {
-                     "type": "bareword",
-                     "line": 2,
-                     "column": 5,
-                     "text": "div"
-                  },
-                  "id": {
-                     "type": "bareword",
-                     "line": 2,
-                     "column": 9,
-                     "text": "holder"
-                  },
-                  "args": [
-                     {
-                        "type": "call",
-                        "callee": {
-                           "type": "bareword",
-                           "line": 3,
-                           "column": 9,
-                           "text": "button"
-                        },
-                        "id": {
-                           "type": "bareword",
-                           "line": 3,
-                           "column": 16,
-                           "text": "populate"
-                        },
-                        "args": [
-                           {
-                              "type": "stringlit",
-                              "line": 3,
-                              "column": 25,
-                              "text": "\"Populate\""
-                           }
-                        ]
+   "block": [
+      {
+         "type": "call",
+         "callee": {
+            "type": "bareword",
+            "line": 1,
+            "column": 1,
+            "text": "body"
+         },
+         "args": [
+            {
+               "type": "call",
+               "callee": {
+                  "type": "bareword",
+                  "line": 2,
+                  "column": 5,
+                  "text": "div"
+               },
+               "id": {
+                  "type": "bareword",
+                  "line": 2,
+                  "column": 9,
+                  "text": "holder"
+               },
+               "args": [
+                  {
+                     "type": "call",
+                     "callee": {
+                        "type": "bareword",
+                        "line": 3,
+                        "column": 9,
+                        "text": "button"
                      },
-                     {
-                        "type": "elemattr",
-                        "elem": {
-                           "type": "bareword",
-                           "line": 4,
-                           "column": 10,
-                           "text": "populate"
-                        },
-                        "attr": {
-                           "type": "bareword",
-                           "line": 4,
-                           "column": 19,
-                           "text": "click"
-                        },
-                        "args": [
-                           {
-                              "type": "assignment",
-                              "id": {
-                                 "type": "id",
+                     "id": {
+                        "type": "bareword",
+                        "line": 3,
+                        "column": 16,
+                        "text": "populate"
+                     },
+                     "args": [
+                        {
+                           "type": "stringlit",
+                           "line": 3,
+                           "column": 25,
+                           "text": "\"Populate\""
+                        }
+                     ]
+                  },
+                  {
+                     "type": "elemattr",
+                     "elem": {
+                        "type": "bareword",
+                        "line": 4,
+                        "column": 10,
+                        "text": "populate"
+                     },
+                     "attr": {
+                        "type": "bareword",
+                        "line": 4,
+                        "column": 19,
+                        "text": "click"
+                     },
+                     "args": [
+                        {
+                           "type": "assignment",
+                           "id": {
+                              "type": "id",
+                              "line": 5,
+                              "column": 13,
+                              "text": "results"
+                           },
+                           "value": {
+                              "type": "call",
+                              "callee": {
+                                 "type": "bareword",
                                  "line": 5,
-                                 "column": 13,
-                                 "text": "results"
+                                 "column": 24,
+                                 "text": "get"
                               },
-                              "value": {
-                                 "type": "call",
-                                 "callee": {
-                                    "type": "bareword",
+                              "args": [
+                                 {
+                                    "type": "stringlit",
                                     "line": 5,
-                                    "column": 24,
-                                    "text": "get"
+                                    "column": 28,
+                                    "text": "\"./getData\""
+                                 },
+                                 {
+                                    "type": "hashmap",
+                                    "pairs": [
+                                       {
+                                          "name": {
+                                             "type": "stringlit",
+                                             "line": 6,
+                                             "column": 17,
+                                             "text": "\"key\""
+                                          },
+                                          "value": {
+                                             "type": "stringlit",
+                                             "line": 6,
+                                             "column": 25,
+                                             "text": "\"value\""
+                                          }
+                                       },
+                                       {
+                                          "name": {
+                                             "type": "stringlit",
+                                             "line": 7,
+                                             "column": 17,
+                                             "text": "\"if\""
+                                          },
+                                          "value": {
+                                             "type": "stringlit",
+                                             "line": 7,
+                                             "column": 24,
+                                             "text": "\"this will probably break\""
+                                          }
+                                       }
+                                    ]
+                                 }
+                              ]
+                           }
+                        },
+                        {
+                           "type": "for",
+                           "id": {
+                              "type": "id",
+                              "line": 9,
+                              "column": 17,
+                              "text": "result"
+                           },
+                           "iterable": {
+                              "type": "id",
+                              "line": 9,
+                              "column": 28,
+                              "text": "results"
+                           },
+                           "body": [
+                              {
+                                 "type": "elemattr",
+                                 "elem": {
+                                    "type": "bareword",
+                                    "line": 10,
+                                    "column": 18,
+                                    "text": "holder"
+                                 },
+                                 "attr": {
+                                    "type": "bareword",
+                                    "line": 10,
+                                    "column": 25,
+                                    "text": "append"
                                  },
                                  "args": [
                                     {
-                                       "type": "stringlit",
-                                       "line": 5,
-                                       "column": 28,
-                                       "text": "\"./getData\""
-                                    },
-                                    {
-                                       "type": "hashmap",
-                                       "pairs": [
+                                       "type": "call",
+                                       "callee": {
+                                          "type": "bareword",
+                                          "line": 11,
+                                          "column": 21,
+                                          "text": "div"
+                                       },
+                                       "classes": [
                                           {
-                                             "name": {
-                                                "type": "stringlit",
-                                                "line": 6,
-                                                "column": 17,
-                                                "text": "\"key\""
-                                             },
-                                             "value": {
-                                                "type": "stringlit",
-                                                "line": 6,
-                                                "column": 25,
-                                                "text": "\"value\""
-                                             }
-                                          },
-                                          {
-                                             "name": {
-                                                "type": "stringlit",
-                                                "line": 7,
-                                                "column": 17,
-                                                "text": "\"if\""
-                                             },
-                                             "value": {
-                                                "type": "stringlit",
-                                                "line": 7,
-                                                "column": 24,
-                                                "text": "\"this will probably break\""
-                                             }
+                                             "type": "bareword",
+                                             "line": 11,
+                                             "column": 25,
+                                             "text": "object"
                                           }
-                                       ]
-                                    }
-                                 ]
-                              }
-                           },
-                           {
-                              "type": "for",
-                              "id": {
-                                 "type": "id",
-                                 "line": 9,
-                                 "column": 17,
-                                 "text": "result"
-                              },
-                              "iterable": {
-                                 "type": "id",
-                                 "line": 9,
-                                 "column": 28,
-                                 "text": "results"
-                              },
-                              "body": {
-                                 "type": "block",
-                                 "body": [
-                                    {
-                                       "type": "elemattr",
-                                       "elem": {
-                                          "type": "bareword",
-                                          "line": 10,
-                                          "column": 18,
-                                          "text": "holder"
-                                       },
-                                       "attr": {
-                                          "type": "bareword",
-                                          "line": 10,
-                                          "column": 25,
-                                          "text": "append"
-                                       },
+                                       ],
                                        "args": [
                                           {
                                              "type": "call",
                                              "callee": {
                                                 "type": "bareword",
-                                                "line": 11,
-                                                "column": 21,
-                                                "text": "div"
+                                                "line": 12,
+                                                "column": 25,
+                                                "text": "h1"
                                              },
-                                             "classes": [
-                                                {
-                                                   "type": "bareword",
-                                                   "line": 11,
-                                                   "column": 25,
-                                                   "text": "object"
-                                                }
-                                             ],
                                              "args": [
                                                 {
-                                                   "type": "call",
-                                                   "callee": {
-                                                      "type": "bareword",
+                                                   "type": "elemat",
+                                                   "index": {
+                                                      "type": "stringlit",
                                                       "line": 12,
-                                                      "column": 25,
-                                                      "text": "h1"
+                                                      "column": 36,
+                                                      "text": "\"title\""
                                                    },
-                                                   "args": [
-                                                      {
-                                                         "type": "elemat",
-                                                         "index": {
-                                                            "type": "stringlit",
-                                                            "line": 12,
-                                                            "column": 36,
-                                                            "text": "\"title\""
-                                                         },
-                                                         "of": {
-                                                            "type": "id",
-                                                            "line": 12,
-                                                            "column": 28,
-                                                            "text": "result"
-                                                         }
-                                                      }
-                                                   ]
-                                                },
+                                                   "of": {
+                                                      "type": "id",
+                                                      "line": 12,
+                                                      "column": 28,
+                                                      "text": "result"
+                                                   }
+                                                }
+                                             ]
+                                          },
+                                          {
+                                             "type": "call",
+                                             "callee": {
+                                                "type": "bareword",
+                                                "line": 13,
+                                                "column": 25,
+                                                "text": "p"
+                                             },
+                                             "args": [
                                                 {
-                                                   "type": "call",
-                                                   "callee": {
-                                                      "type": "bareword",
+                                                   "type": "elemat",
+                                                   "index": {
+                                                      "type": "stringlit",
                                                       "line": 13,
-                                                      "column": 25,
-                                                      "text": "p"
+                                                      "column": 35,
+                                                      "text": "\"body\""
                                                    },
-                                                   "args": [
-                                                      {
-                                                         "type": "elemat",
-                                                         "index": {
-                                                            "type": "stringlit",
-                                                            "line": 13,
-                                                            "column": 35,
-                                                            "text": "\"body\""
-                                                         },
-                                                         "of": {
-                                                            "type": "id",
-                                                            "line": 13,
-                                                            "column": 27,
-                                                            "text": "result"
-                                                         }
-                                                      }
-                                                   ]
+                                                   "of": {
+                                                      "type": "id",
+                                                      "line": 13,
+                                                      "column": 27,
+                                                      "text": "result"
+                                                   }
                                                 }
                                              ]
                                           }
@@ -231,13 +225,13 @@
                                     }
                                  ]
                               }
-                           }
-                        ]
-                     }
-                  ]
-               }
-            ]
-         }
-      ]
-   }
+                           ]
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      }
+   ]
 }

@@ -1,197 +1,191 @@
 {
    "type": "program",
-   "block": {
-      "type": "block",
-      "body": [
-         {
-            "type": "call",
-            "callee": {
-               "type": "bareword",
-               "line": 1,
-               "column": 1,
-               "text": "head"
-            },
-            "args": [
-               {
+   "block": [
+      {
+         "type": "call",
+         "callee": {
+            "type": "bareword",
+            "line": 1,
+            "column": 1,
+            "text": "head"
+         },
+         "args": [
+            {
+               "type": "call",
+               "callee": {
+                  "type": "bareword",
+                  "line": 2,
+                  "column": 5,
+                  "text": "title"
+               },
+               "args": [
+                  {
+                     "type": "stringlit",
+                     "line": 2,
+                     "column": 11,
+                     "text": "\"Password Demo\""
+                  }
+               ]
+            }
+         ]
+      },
+      {
+         "type": "call",
+         "callee": {
+            "type": "bareword",
+            "line": 3,
+            "column": 1,
+            "text": "body"
+         },
+         "args": [
+            {
+               "type": "elemattr",
+               "elem": {
                   "type": "call",
                   "callee": {
                      "type": "bareword",
-                     "line": 2,
+                     "line": 4,
                      "column": 5,
-                     "text": "title"
+                     "text": "input"
                   },
-                  "args": [
+                  "classes": [
                      {
-                        "type": "stringlit",
-                        "line": 2,
-                        "column": 11,
-                        "text": "\"Password Demo\""
-                     }
-                  ]
-               }
-            ]
-         },
-         {
-            "type": "call",
-            "callee": {
-               "type": "bareword",
-               "line": 3,
-               "column": 1,
-               "text": "body"
-            },
-            "args": [
-               {
-                  "type": "elemattr",
-                  "elem": {
-                     "type": "call",
-                     "callee": {
                         "type": "bareword",
                         "line": 4,
-                        "column": 5,
-                        "text": "input"
-                     },
-                     "classes": [
-                        {
+                        "column": 11,
+                        "text": "mybutton"
+                     }
+                  ],
+                  "id": {
+                     "type": "bareword",
+                     "line": 4,
+                     "column": 20,
+                     "text": "pass"
+                  },
+                  "attrs": [
+                     {
+                        "name": {
                            "type": "bareword",
                            "line": 4,
-                           "column": 11,
-                           "text": "mybutton"
+                           "column": 25,
+                           "text": "type"
+                        },
+                        "value": {
+                           "type": "stringlit",
+                           "line": 4,
+                           "column": 30,
+                           "text": "\"password\""
+                        }
+                     }
+                  ]
+               },
+               "attr": {
+                  "type": "bareword",
+                  "line": 4,
+                  "column": 42,
+                  "text": "submit"
+               },
+               "args": [
+                  {
+                     "type": "if",
+                     "condition": {
+                        "type": "relop",
+                        "op": {
+                           "type": "relop",
+                           "line": 5,
+                           "column": 30,
+                           "text": "<"
+                        },
+                        "a": {
+                           "type": "elemattr",
+                           "elem": {
+                              "type": "elemat",
+                              "index": {
+                                 "type": "stringlit",
+                                 "line": 5,
+                                 "column": 14,
+                                 "text": "\"value\""
+                              },
+                              "of": {
+                                 "type": "this",
+                                 "line": 5,
+                                 "column": 12
+                              }
+                           },
+                           "attr": {
+                              "type": "bareword",
+                              "line": 5,
+                              "column": 23,
+                              "text": "length"
+                           }
+                        },
+                        "b": {
+                           "type": "intlit",
+                           "line": 5,
+                           "column": 32,
+                           "text": "8"
+                        }
+                     },
+                     "body": [
+                        {
+                           "type": "call",
+                           "callee": {
+                              "type": "bareword",
+                              "line": 6,
+                              "column": 13,
+                              "text": "p"
+                           },
+                           "attrs": [
+                              {
+                                 "name": {
+                                    "type": "stringlit",
+                                    "line": 6,
+                                    "column": 15,
+                                    "text": "\"style\""
+                                 },
+                                 "value": {
+                                    "type": "stringlit",
+                                    "line": 6,
+                                    "column": 23,
+                                    "text": "\"color:red; background-color:cyan\""
+                                 }
+                              }
+                           ],
+                           "args": [
+                              {
+                                 "type": "stringlit",
+                                 "line": 6,
+                                 "column": 59,
+                                 "text": "\"Your password sucks\""
+                              }
+                           ]
                         }
                      ],
-                     "id": {
-                        "type": "bareword",
-                        "line": 4,
-                        "column": 20,
-                        "text": "pass"
-                     },
-                     "attrs": [
+                     "else": [
                         {
-                           "name": {
-                              "type": "bareword",
-                              "line": 4,
-                              "column": 25,
-                              "text": "type"
+                           "type": "call",
+                           "callee": {
+                              "type": "script",
+                              "line": 8,
+                              "column": 13
                            },
-                           "value": {
-                              "type": "stringlit",
-                              "line": 4,
-                              "column": 30,
-                              "text": "\"password\""
+                           "args": {
+                              "type": "JS Block",
+                              "body": [
+                                 {
+                                    "type": "js",
+                                    "line": 9,
+                                    "column": 17,
+                                    "text": "alert(\"Hooray!\");"
+                                 }
+                              ]
                            }
                         }
                      ]
-                  },
-                  "attr": {
-                     "type": "bareword",
-                     "line": 4,
-                     "column": 42,
-                     "text": "submit"
-                  },
-                  "args": [
-                     {
-                        "type": "if",
-                        "condition": {
-                           "type": "relop",
-                           "op": {
-                              "type": "relop",
-                              "line": 5,
-                              "column": 30,
-                              "text": "<"
-                           },
-                           "a": {
-                              "type": "elemattr",
-                              "elem": {
-                                 "type": "elemat",
-                                 "index": {
-                                    "type": "stringlit",
-                                    "line": 5,
-                                    "column": 14,
-                                    "text": "\"value\""
-                                 },
-                                 "of": {
-                                    "type": "this",
-                                    "line": 5,
-                                    "column": 12
-                                 }
-                              },
-                              "attr": {
-                                 "type": "bareword",
-                                 "line": 5,
-                                 "column": 23,
-                                 "text": "length"
-                              }
-                           },
-                           "b": {
-                              "type": "intlit",
-                              "line": 5,
-                              "column": 32,
-                              "text": "8"
-                           }
-                        },
-                        "body": {
-                           "type": "block",
-                           "body": [
-                              {
-                                 "type": "call",
-                                 "callee": {
-                                    "type": "bareword",
-                                    "line": 6,
-                                    "column": 13,
-                                    "text": "p"
-                                 },
-                                 "attrs": [
-                                    {
-                                       "name": {
-                                          "type": "stringlit",
-                                          "line": 6,
-                                          "column": 15,
-                                          "text": "\"style\""
-                                       },
-                                       "value": {
-                                          "type": "stringlit",
-                                          "line": 6,
-                                          "column": 23,
-                                          "text": "\"color:red; background-color:cyan\""
-                                       }
-                                    }
-                                 ],
-                                 "args": [
-                                    {
-                                       "type": "stringlit",
-                                       "line": 6,
-                                       "column": 59,
-                                       "text": "\"Your password sucks\""
-                                    }
-                                 ]
-                              }
-                           ]
-                        },
-                        "else": {
-                           "type": "block",
-                           "body": [
-                              {
-                                 "type": "call",
-                                 "callee": {
-                                    "type": "script",
-                                    "line": 8,
-                                    "column": 13
-                                 },
-                                 "args": [
-                                    {
-                                       "type": "js",
-                                       "line": 9,
-                                       "column": 17,
-                                       "text": "alert(\"Hooray!\");"
-                                    }
-                                 ]
-                              }
-                           ]
-                        }
-                     }
-                  ]
-               }
-            ]
-         }
-      ]
-   }
+                  }
+               ]
+            }
+         ]
+      }
+   ]
 }

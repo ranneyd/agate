@@ -15,7 +15,7 @@
     postfixop  | \+\+|--
     plus       | \+
     minus      | -
-    multop     | \*|\/
+    multop     | \*|\/|\%
     boolop     | and|or|xor
     newline    | (\r\n|\r|\n)+
     indent     | complicated
@@ -107,7 +107,7 @@ module.exports = (data, error) => {
         },
         {
             "type": "multop",
-            "regex": /^(\*|\/)/
+            "regex": /^(\*|\/|\%)/
         },
         {
             "type": "boolop",
@@ -275,11 +275,16 @@ module.exports = (data, error) => {
         }
         // Include
         if (matchData = /^> *(.+?)(?=[\n\r])/.exec( truncData )) {
-            tokens.push( token("include", matchData[1]) );
-            column += matchData[0].length;
-            position += matchData[0].length;
+            let lastToken = tokens[token.length - 1];
+            if(lastToken.type === "newline"
+                || lastToken.type === "dedent"
+                || lastToken.type === "indent"){
+                tokens.push( token("include", matchData[1]) );
+                column += matchData[0].length;
+                position += matchData[0].length;
 
-            notMatched = false;
+                notMatched = false;
+            }
         }
         // Template
         if (matchData = /^\| *(.+?)(?=[\n\r])/.exec( truncData )) {

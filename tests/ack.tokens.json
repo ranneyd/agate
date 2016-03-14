@@ -1,0 +1,288 @@
+[
+   {
+      "type": "def",
+      "line": 1,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 1,
+      "column": 5,
+      "text": "ack"
+   },
+   {
+      "type": "openParen",
+      "line": 1,
+      "column": 8
+   },
+   {
+      "type": "id",
+      "line": 1,
+      "column": 9,
+      "text": "m"
+   },
+   {
+      "type": "id",
+      "line": 1,
+      "column": 12,
+      "text": "n"
+   },
+   {
+      "type": "closeParen",
+      "line": 1,
+      "column": 14
+   },
+   {
+      "type": "newline",
+      "line": 1,
+      "column": 15
+   },
+   {
+      "type": "indent",
+      "line": 2,
+      "column": 1
+   },
+   {
+      "type": "if",
+      "line": 2,
+      "column": 5
+   },
+   {
+      "type": "id",
+      "line": 2,
+      "column": 8,
+      "text": "m"
+   },
+   {
+      "type": "relop",
+      "line": 2,
+      "column": 11,
+      "text": "=="
+   },
+   {
+      "type": "intlit",
+      "line": 2,
+      "column": 14,
+      "text": "0"
+   },
+   {
+      "type": "newline",
+      "line": 2,
+      "column": 15
+   },
+   {
+      "type": "indent",
+      "line": 3,
+      "column": 1
+   },
+   {
+      "type": "return",
+      "line": 3,
+      "column": 9
+   },
+   {
+      "type": "id",
+      "line": 3,
+      "column": 16,
+      "text": "n"
+   },
+   {
+      "type": "plus",
+      "line": 3,
+      "column": 19
+   },
+   {
+      "type": "intlit",
+      "line": 3,
+      "column": 21,
+      "text": "1"
+   },
+   {
+      "type": "newline",
+      "line": 3,
+      "column": 22
+   },
+   {
+      "type": "dedent",
+      "line": 4,
+      "column": 1
+   },
+   {
+      "type": "else-if",
+      "line": 4,
+      "column": 5
+   },
+   {
+      "type": "id",
+      "line": 4,
+      "column": 13,
+      "text": "m"
+   },
+   {
+      "type": "relop",
+      "line": 4,
+      "column": 16,
+      "text": ">"
+   },
+   {
+      "type": "intlit",
+      "line": 4,
+      "column": 18,
+      "text": "0"
+   },
+   {
+      "type": "boolop",
+      "line": 4,
+      "column": 20,
+      "text": "and"
+   },
+   {
+      "type": "id",
+      "line": 4,
+      "column": 24,
+      "text": "n"
+   },
+   {
+      "type": "relop",
+      "line": 4,
+      "column": 27,
+      "text": "=="
+   },
+   {
+      "type": "intlit",
+      "line": 4,
+      "column": 30,
+      "text": "0"
+   },
+   {
+      "type": "newline",
+      "line": 4,
+      "column": 31
+   },
+   {
+      "type": "indent",
+      "line": 5,
+      "column": 1
+   },
+   {
+      "type": "return",
+      "line": 5,
+      "column": 9
+   },
+   {
+      "type": "bareword",
+      "line": 5,
+      "column": 16,
+      "text": "ack"
+   },
+   {
+      "type": "id",
+      "line": 5,
+      "column": 20,
+      "text": "m"
+   },
+   {
+      "type": "minus",
+      "line": 5,
+      "column": 23
+   },
+   {
+      "type": "intlit",
+      "line": 5,
+      "column": 25,
+      "text": "1"
+   },
+   {
+      "type": "intlit",
+      "line": 5,
+      "column": 27,
+      "text": "1"
+   },
+   {
+      "type": "newline",
+      "line": 5,
+      "column": 28
+   },
+   {
+      "type": "dedent",
+      "line": 6,
+      "column": 1
+   },
+   {
+      "type": "else",
+      "line": 6,
+      "column": 5
+   },
+   {
+      "type": "newline",
+      "line": 6,
+      "column": 9
+   },
+   {
+      "type": "indent",
+      "line": 7,
+      "column": 1
+   },
+   {
+      "type": "return",
+      "line": 7,
+      "column": 9
+   },
+   {
+      "type": "bareword",
+      "line": 7,
+      "column": 16,
+      "text": "ack"
+   },
+   {
+      "type": "id",
+      "line": 7,
+      "column": 20,
+      "text": "m"
+   },
+   {
+      "type": "minus",
+      "line": 7,
+      "column": 23
+   },
+   {
+      "type": "intlit",
+      "line": 7,
+      "column": 24,
+      "text": "1"
+   },
+   {
+      "type": "bareword",
+      "line": 7,
+      "column": 26,
+      "text": "ack"
+   },
+   {
+      "type": "id",
+      "line": 7,
+      "column": 30,
+      "text": "m"
+   },
+   {
+      "type": "id",
+      "line": 7,
+      "column": 33,
+      "text": "n"
+   },
+   {
+      "type": "minus",
+      "line": 7,
+      "column": 36
+   },
+   {
+      "type": "intlit",
+      "line": 7,
+      "column": 37,
+      "text": "1"
+   },
+   {
+      "type": "EOF",
+      "line": 7,
+      "column": 38
+   }
+]

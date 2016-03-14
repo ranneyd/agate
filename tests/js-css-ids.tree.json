@@ -1,57 +1,57 @@
 {
    "type": "program",
-   "block": {
-      "type": "block",
-      "body": [
-         {
-            "type": "call",
-            "callee": {
-               "type": "bareword",
-               "line": 1,
-               "column": 1,
-               "text": "head"
-            },
-            "args": [
-               {
-                  "type": "call",
-                  "callee": {
-                     "type": "bareword",
-                     "line": 2,
-                     "column": 5,
-                     "text": "title"
-                  },
-                  "args": [
-                     {
-                        "type": "stringlit",
-                        "line": 2,
-                        "column": 11,
-                        "text": "\"JS and CSS test\""
-                     }
-                  ]
+   "block": [
+      {
+         "type": "call",
+         "callee": {
+            "type": "bareword",
+            "line": 1,
+            "column": 1,
+            "text": "head"
+         },
+         "args": [
+            {
+               "type": "call",
+               "callee": {
+                  "type": "bareword",
+                  "line": 2,
+                  "column": 5,
+                  "text": "title"
                },
-               {
-                  "type": "assignment",
-                  "id": {
-                     "type": "id",
-                     "line": 3,
-                     "column": 5,
-                     "text": "color"
-                  },
-                  "value": {
+               "args": [
+                  {
                      "type": "stringlit",
-                     "line": 3,
-                     "column": 14,
-                     "text": "\"cyan\""
+                     "line": 2,
+                     "column": 11,
+                     "text": "\"JS and CSS test\""
                   }
+               ]
+            },
+            {
+               "type": "assignment",
+               "id": {
+                  "type": "id",
+                  "line": 3,
+                  "column": 5,
+                  "text": "color"
                },
-               {
-                  "type": "call",
-                  "callee": {
-                     "type": "style",
-                     "line": 4,
-                     "column": 5
-                  },
-                  "args": [
+               "value": {
+                  "type": "stringlit",
+                  "line": 3,
+                  "column": 14,
+                  "text": "\"cyan\""
+               }
+            },
+            {
+               "type": "call",
+               "callee": {
+                  "type": "style",
+                  "line": 4,
+                  "column": 5
+               },
+               "args": {
+                  "type": "CSS Block",
+                  "body": [
                      {
                         "type": "css",
                         "line": 5,
@@ -101,39 +101,42 @@
                         "text": "}"
                      }
                   ]
+               }
+            },
+            {
+               "type": "call",
+               "callee": {
+                  "type": "script",
+                  "line": 11,
+                  "column": 5
                },
-               {
-                  "type": "call",
-                  "callee": {
-                     "type": "script",
-                     "line": 11,
-                     "column": 5
-                  },
-                  "attrs": [
-                     {
-                        "name": {
-                           "type": "bareword",
-                           "line": 11,
-                           "column": 12,
-                           "text": "src"
-                        },
-                        "value": {
-                           "type": "stringlit",
-                           "line": 11,
-                           "column": 16,
-                           "text": "\"/js/main.js\""
-                        }
+               "attrs": [
+                  {
+                     "name": {
+                        "type": "bareword",
+                        "line": 11,
+                        "column": 12,
+                        "text": "src"
+                     },
+                     "value": {
+                        "type": "stringlit",
+                        "line": 11,
+                        "column": 16,
+                        "text": "\"/js/main.js\""
                      }
-                  ]
+                  }
+               ]
+            },
+            {
+               "type": "call",
+               "callee": {
+                  "type": "script",
+                  "line": 12,
+                  "column": 5
                },
-               {
-                  "type": "call",
-                  "callee": {
-                     "type": "script",
-                     "line": 12,
-                     "column": 5
-                  },
-                  "args": [
+               "args": {
+                  "type": "JS Block",
+                  "body": [
                      {
                         "type": "js",
                         "line": 13,
@@ -184,25 +187,28 @@
                      }
                   ]
                }
-            ]
+            }
+         ]
+      },
+      {
+         "type": "call",
+         "callee": {
+            "type": "bareword",
+            "line": 19,
+            "column": 1,
+            "text": "body"
          },
-         {
-            "type": "call",
-            "callee": {
-               "type": "bareword",
-               "line": 19,
-               "column": 1,
-               "text": "body"
-            },
-            "args": [
-               {
-                  "type": "call",
-                  "callee": {
-                     "type": "script",
-                     "line": 20,
-                     "column": 5
-                  },
-                  "args": [
+         "args": [
+            {
+               "type": "call",
+               "callee": {
+                  "type": "script",
+                  "line": 20,
+                  "column": 5
+               },
+               "args": {
+                  "type": "JS Block",
+                  "body": [
                      {
                         "type": "js",
                         "line": 21,
@@ -211,8 +217,8 @@
                      }
                   ]
                }
-            ]
-         }
-      ]
-   }
+            }
+         ]
+      }
+   ]
 }
