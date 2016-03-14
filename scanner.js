@@ -119,7 +119,7 @@ module.exports = (data, error) => {
         },
         {
             "type": "relop",
-            "regex": /^<|>|(<\=)|(\=\=)|(!\=)|(>\=)/
+            "regex": /^((<\=)|(\=\=)|(!\=)|(>\=)|<|>)/
         },
         {
             "type": "floatlit",
@@ -295,7 +295,6 @@ module.exports = (data, error) => {
             if( notMatched && (matchData = keywordRegex.exec( truncData ))) {
                 // Replace spaces with dashed (else if => else-if)
                 tokens.push( token(matchData[0].replace(" ", "-"), false) );
-                
                 column += matchData[0].length;
                 position += matchData[0].length;
                 notMatched = false;
@@ -345,7 +344,6 @@ module.exports = (data, error) => {
                     tokens.push( token("dedent") );
 
                     var nextIndent = indent.peek();
-
                     if( indentSize > nextIndent ) {
                         return error.scanner("Indentation error", line, column);
                     }
@@ -388,7 +386,6 @@ module.exports = (data, error) => {
                 }
                 else {
                     position += matchData[0].length;
-
                     // If the top indentation level is smaller than what we have, we have a new
                     // indentation block
                     if ( indent.peek() < indentSize ) {

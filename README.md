@@ -17,6 +17,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |               |`Assignment`                                                   |
 |               |`Definition`                                                   |
 |               |`comment`                                                      |
+|               |`return Exp`                                                   |
 |               |`Exp`                                                          |
 |Template       |`template (newline indent (label ChildBlock)+ dedent)?`        |
 |Control        |`If | For | While`                                             |

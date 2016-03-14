@@ -24,18 +24,17 @@ module.exports = (scannerTokens, error, verbose) => {
         return tree;
     };
     var Block = () => {
-        log("Matching block");
+        log("Matching Block");
         let block = {
             "type": "block"
         };
         let statements = [];
 
-        while( at("newline") ) {
-            match("newline");
-        }
-
         // If we get a dedent or an EOF, we have no more block
         while(!at("dedent") && !at("EOF")){
+            while( at("newline") ) {
+                match("newline");
+            }
             let statement = Statement();
 
             // They can put as many blank lines as they'd like, but that
@@ -76,6 +75,13 @@ module.exports = (scannerTokens, error, verbose) => {
         }
         else if( at("comment") ) {
             return match("comment");
+        }
+        else if( at("return") ) {
+            match("return");
+            return {
+                "type": "return",
+                "value": Exp()
+            };
         }
         else if( atExp() ){
             return Exp();
@@ -268,6 +274,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return assignment;
     };
     var Definition = () => {
+        log("Matching Definition");
         match("def");
         let func = {
             "type": "definition",
@@ -278,7 +285,7 @@ module.exports = (scannerTokens, error, verbose) => {
         
         let params = [];
         while( at("id") ) {
-            params.push( at("id") );
+            params.push( match("id") );
         }
         if(params.length > 0){
             func.params = params;
@@ -472,7 +479,7 @@ module.exports = (scannerTokens, error, verbose) => {
 
             return exp;
         }
-        else if( at(["bareword", ...builtins])){
+        else if( at(["bareword", ...builtins, "this"])){
             return Call();
         }
         else{
@@ -497,6 +504,9 @@ module.exports = (scannerTokens, error, verbose) => {
 
         if( at(builtins) ){
             call.callee = BuiltIn();
+        }
+        else if( at("this") ) {
+            call.calle = match("this");
         }
         else {
             call.callee = match("bareword");
@@ -763,7 +773,8 @@ module.exports = (scannerTokens, error, verbose) => {
     }
 
     var atExp = () =>{
-        return at(["openSquare", 
+        return at([...lits,
+                   "openSquare", 
                    "openCurly", 
                    "id", 
                    "this", 
@@ -772,7 +783,8 @@ module.exports = (scannerTokens, error, verbose) => {
                    "openParen",
                    "prefixop",
                    "minus",
-                   "bareword"]) || at(lits) || at(builtins);
+                   ...builtins,
+                   "bareword"]);
     }
 
     // Pops off the top token if its type matches 'type', returns an error otherwise
