@@ -102,7 +102,7 @@ module.exports = (scannerTokens, error, verbose) => {
             let labels = [];
             do{
                 labels.push({
-                    "label": match("label"),
+                    "label": Label(),
                     "body": ChildBlock()
                 });
             } while ( !at("dedent") );
@@ -111,6 +111,82 @@ module.exports = (scannerTokens, error, verbose) => {
             match("dedent");
         }
         return template;
+    };
+    var Label = () =>{
+        log("Matching Label");
+        match("openCurly");
+        let label = match("bareword");
+        match("closeCurly");
+        return label;
+    };
+    var ChildBlock = () => {
+        log("Matching ChildBlock");
+        match("newline");
+        match("indent");
+
+        let block;
+
+        if( at("js") ){
+            block = JSBlock();
+        }
+        else if( at("css") ){
+            block = CSSBlock();
+        }
+        else {
+            block = Block();
+        }
+
+
+        if( !at("EOF")){
+            match("dedent");
+        }
+        return block;
+    };
+    var JSBlock = () => {
+        log("Matching JS Block");
+
+        let js = {
+            "type": "JS Block",
+            "body": []
+        };
+        if( at("id") ){
+            js.body.push( match("id") );
+        }
+        do {
+            js.body.push( match("js") );
+            if( at("id") ){
+                js.body.push( match("id") );
+            }
+            // If they put newlines in their JS, more power to them
+            while( at("newline") ){
+                match("newline");
+            }
+        } while( at("js") );
+
+        return js;
+    };
+    var CSSBlock = () => {
+        log("Matching CSS Block");
+
+        let css = {
+            "type": "CSS Block",
+            "body": []
+        };
+        if( at("id") ){
+            css.body.push( match("id") );
+        }
+        do {
+            css.body.push( match("css") );
+            if( at("id") ){
+                css.body.push( match("id") );
+            }
+            // If they put newlines in their CSS, more power to them
+            while( at("newline") ){
+                match("newline");
+            }
+        } while( at("css") );
+
+        return css;
     };
     var Control = () => {
         log("Matching Control block");
@@ -125,7 +201,7 @@ module.exports = (scannerTokens, error, verbose) => {
             return While();
         }
         else {
-            return error.parse(`${tokens[0].text} is not a recognized control statement`, tokens.shift());
+            error.parse(`${tokens[0].text} is not a recognized control statement`, tokens.shift());
         }
     };
     var If = () => {
@@ -161,7 +237,7 @@ module.exports = (scannerTokens, error, verbose) => {
             }
         }
         else {
-            return error.expected('an if statement', tokens.shift());          
+            error.expected('an if statement', tokens.shift());          
         }
 
         return ifStatement;
@@ -188,7 +264,7 @@ module.exports = (scannerTokens, error, verbose) => {
             forStatement.iterable = match( "id" );   
         }
         else{
-            return error.expected('something you can loop over', tokens.shift()); 
+            error.expected('something you can loop over', tokens.shift()); 
         }
         forStatement.body = ChildBlock();
 
@@ -254,7 +330,7 @@ module.exports = (scannerTokens, error, verbose) => {
             };
         }
         else {
-            return error.expected('a while statement', tokens.shift());
+            error.expected('a while statement', tokens.shift());
         }
     };
     var Assignment = () => {
@@ -306,6 +382,7 @@ module.exports = (scannerTokens, error, verbose) => {
 
         let exp = BoolExp();
         if( at("question") ) {
+            match("question");
             let ternary = {
                 "type": "ternary",
                 "condition": exp,
@@ -445,6 +522,12 @@ module.exports = (scannerTokens, error, verbose) => {
         if( at(lits) ) {
             return Literal();
         }
+        else if( atSequential(["openCurly", "bareword", "closeCurly"]) ) {
+            return Label();
+        }
+        else if( at("include") ) {
+            return match("include");
+        }
         else if( at("openSquare") ){
             return ArrayDef();
         }
@@ -467,6 +550,7 @@ module.exports = (scannerTokens, error, verbose) => {
             match("openParen");
             let exp = Exp();
             match("closeParen");
+            debugger;
             return exp;
         }
         else if( at(["prefixop", "minus"]) ) {
@@ -482,7 +566,7 @@ module.exports = (scannerTokens, error, verbose) => {
             return Call();
         }
         else{
-            return error.expected('some kind of expression', tokens.shift());
+            error.expected('some kind of expression', tokens.shift());
         }
     };
     var Literal = () => {
@@ -493,7 +577,7 @@ module.exports = (scannerTokens, error, verbose) => {
                 return match(lits[lit]);
             }
         }
-        return error.expected('some kind of literal', tokens.shift());
+        error.expected('some kind of literal', tokens.shift());
     };
     var Call = () => {
         log("Matching Call");
@@ -539,7 +623,7 @@ module.exports = (scannerTokens, error, verbose) => {
                 return match(builtins[builtin]);
             }
         }
-        return error.expected('some kind of built in function', tokens.shift());
+        error.expected('some kind of built in function', tokens.shift());
     };
     var HtmlClass = () => {
         log("Matching HtmlClass");
@@ -673,75 +757,7 @@ module.exports = (scannerTokens, error, verbose) => {
 
         return hash;
     };
-    var ChildBlock = () => {
-        log("Matching ChildBlock");
-        match("newline");
-        match("indent");
-
-        let block;
-
-        if( at("js") ){
-            block = JSBlock();
-        }
-        else if( at("css") ){
-            block = CSSBlock();
-        }
-        else {
-            block = Block();
-        }
-
-
-        if( !at("EOF")){
-            match("dedent");
-        }
-        return block;
-    };
-    var JSBlock = () => {
-        log("Matching JS Block");
-
-        let js = {
-            "type": "JS Block",
-            "body": []
-        };
-        if( at("id") ){
-            js.body.push( match("id") );
-        }
-        do {
-            js.body.push( match("js") );
-            if( at("id") ){
-                js.body.push( match("id") );
-            }
-            // If they put newlines in their JS, more power to them
-            while( at("newline") ){
-                match("newline");
-            }
-        } while( at("js") );
-
-        return js;
-    }
-    var CSSBlock = () => {
-        log("Matching CSS Block");
-
-        let css = {
-            "type": "CSS Block",
-            "body": []
-        };
-        if( at("id") ){
-            css.body.push( match("id") );
-        }
-        do {
-            css.body.push( match("css") );
-            if( at("id") ){
-                css.body.push( match("id") );
-            }
-            // If they put newlines in their CSS, more power to them
-            while( at("newline") ){
-                match("newline");
-            }
-        } while( at("css") );
-
-        return css;
-    }
+    
     
     // Returns true if the next token has type "type", or a type in "type" if
     // type is an array, false otherwise
@@ -788,7 +804,7 @@ module.exports = (scannerTokens, error, verbose) => {
     // Pops off the top token if its type matches 'type', returns an error otherwise
     var match = ( type ) => {
         if( !tokens.length ) {
-            return error.parse(`Expected ${type}, got end of program`);
+            error.parse(`Expected ${type}, got end of program`);
         }
         else if( type === undefined ||  type === tokens[0].type) {
             log(`Matched "${type}"` + (tokens[0].text ? ` with text "${tokens[0].text}"` : ""));
@@ -797,7 +813,7 @@ module.exports = (scannerTokens, error, verbose) => {
             return lastToken;
         }
         else {
-            return error.expected(type, tokens.shift());
+            error.expected(type, tokens.shift());
         }
     };
 

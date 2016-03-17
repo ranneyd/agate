@@ -14,6 +14,7 @@ module.exports = class Error {
         this.log = true;
     }
     generic(message, line, col) {
+        debugger;
         this.count++;
         if(this.log){
             console.log(message);
@@ -24,6 +25,7 @@ module.exports = class Error {
         if(this.hint) {
             console.log(`Hint: ${this.hint}`);
         }
+        debugger;
         return {
             status: "error",
             line: line,

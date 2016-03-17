@@ -15,4 +15,4 @@ style
 
 ul
     for @page in @pages
-        li a(href "/" @page ".html", .(@page == "home" ? "home" : "")) @page
+        li a[href='/${@page}html' class=((@page == "home") ? "home" : "")] @page

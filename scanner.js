@@ -22,7 +22,6 @@
     dedent     | also complicated
     widget     | >.+?[\r\n]+
     template   | \|.+?[\r\n]+
-    label      | \{[A-Za-z0-9_-]\}
     equals     | =
     openParen  | \(
     closeParen | \)
@@ -45,7 +44,6 @@
     css        | [^\n\r].+?(?=(\r\n|\r|\n)|(@))
     include    | > *(.+?)(?=[\n\r])
     template   | \| *(.+?)(?=[\n\r])
-    label      | \[.+?\]
     unbuffered | \/\/![^\r\n]*
     range      | \.\.
 */
@@ -128,10 +126,6 @@ module.exports = (data, error) => {
         {
             "type": "intlit",
             "regex": /^\d+/
-        },
-        {
-            "type": "label",
-            "regex": /^\{[A-Za-z0-9_]\}/
         },
         {
             "type": "equals",

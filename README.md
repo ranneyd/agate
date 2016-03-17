@@ -19,7 +19,11 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |               |`comment`                                                      |
 |               |`return Exp`                                                   |
 |               |`Exp`                                                          |
-|Template       |`template (newline indent (label ChildBlock)+ dedent)?`        |
+|Template       |`template (newline indent (Label ChildBlock)+ dedent)?`        |
+|ChildBlock     |`newline indent (JSBlock|CSSBlock|Block) newline dedent`       |
+|Label          |`openCurly bareword closeCurly`                                |
+|JSBlock        |`id? (js id? newline*)+`                                       |
+|CSSBlock       |`id? (css id? newline*)+`                                      |
 |Control        |`If | For | While`                                             |
 |If             |`if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?`|
 |For            |`for id in (Array|stringlit|id) ChildBlock`                    |
@@ -38,7 +42,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |PostfixExp     |`ElemFuncExp postfixop?`                                       |
 |ElemFuncExp    |`ArrayElemExp (tilde bareword Args?)*`                         |
 |ArrayElemExp   |`MiscExp (openSquare intlit|stringlit closeSquare)*`           |
-|MiscExp        |`Literal|Array|HashMap|id|this|HtmlId|HtmlClass`               |
+|MiscExp        |`Literal|Label|include|Array|HashMap|id|this|HtmlId|HtmlClass` |
 |               |`openParen Exp closeParen`                                     |
 |\*\*           |`(prefixop|minus)? id`                                         |
 |               |`Call`                                                         |
@@ -54,9 +58,6 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |               |`ChildBlock`                                                   |
 |               |`Arg (comma? Arg)*`                                            |
 |HashMap        |`openCurly (Attr+|AttrBlock)? closeCurly`                      |
-|ChildBlock     |`newline indent (JSBlock|CSSBlock|Block) newline dedent`       |
-|JSBlock        |`id? (js id? newline*)+`                                       |
-|CSSBlock       |`id? (css id? newline*)+`                                      |
 
 \*Statements end in newlines. However, a dedent will always follow a newline. So for ChildBlock to work properly, it has to gobble the newline. Thus, the negative lookbehind
 

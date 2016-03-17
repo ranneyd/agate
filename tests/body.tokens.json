@@ -1,0 +1,160 @@
+[
+   {
+      "type": "template",
+      "line": 1,
+      "column": 1,
+      "text": "template.agate"
+   },
+   {
+      "type": "newline",
+      "line": 1,
+      "column": 17
+   },
+   {
+      "type": "indent",
+      "line": 2,
+      "column": 1
+   },
+   {
+      "type": "openCurly",
+      "line": 2,
+      "column": 5
+   },
+   {
+      "type": "bareword",
+      "line": 2,
+      "column": 6,
+      "text": "title"
+   },
+   {
+      "type": "closeCurly",
+      "line": 2,
+      "column": 11
+   },
+   {
+      "type": "newline",
+      "line": 2,
+      "column": 12
+   },
+   {
+      "type": "indent",
+      "line": 3,
+      "column": 1
+   },
+   {
+      "type": "stringlit",
+      "line": 3,
+      "column": 9,
+      "text": "\"Templating demo\""
+   },
+   {
+      "type": "newline",
+      "line": 3,
+      "column": 26
+   },
+   {
+      "type": "dedent",
+      "line": 4,
+      "column": 1
+   },
+   {
+      "type": "openCurly",
+      "line": 4,
+      "column": 5
+   },
+   {
+      "type": "bareword",
+      "line": 4,
+      "column": 6,
+      "text": "heading"
+   },
+   {
+      "type": "closeCurly",
+      "line": 4,
+      "column": 13
+   },
+   {
+      "type": "newline",
+      "line": 4,
+      "column": 14
+   },
+   {
+      "type": "indent",
+      "line": 5,
+      "column": 1
+   },
+   {
+      "type": "stringlit",
+      "line": 5,
+      "column": 9,
+      "text": "\"Our header\""
+   },
+   {
+      "type": "newline",
+      "line": 5,
+      "column": 21
+   },
+   {
+      "type": "dedent",
+      "line": 6,
+      "column": 1
+   },
+   {
+      "type": "openCurly",
+      "line": 6,
+      "column": 5
+   },
+   {
+      "type": "bareword",
+      "line": 6,
+      "column": 6,
+      "text": "body"
+   },
+   {
+      "type": "closeCurly",
+      "line": 6,
+      "column": 10
+   },
+   {
+      "type": "newline",
+      "line": 6,
+      "column": 11
+   },
+   {
+      "type": "indent",
+      "line": 7,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 7,
+      "column": 9,
+      "text": "p"
+   },
+   {
+      "type": "stringlit",
+      "line": 7,
+      "column": 11,
+      "text": "\"Our template is generalized so we can fill in all these values in separate modules.\""
+   },
+   {
+      "type": "newline",
+      "line": 7,
+      "column": 96
+   },
+   {
+      "type": "dedent",
+      "line": 8,
+      "column": 1
+   },
+   {
+      "type": "dedent",
+      "line": 8,
+      "column": 1
+   },
+   {
+      "type": "EOF",
+      "line": 8,
+      "column": 1
+   }
+]

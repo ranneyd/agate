@@ -1,0 +1,238 @@
+{
+   "type": "program",
+   "block": [
+      {
+         "type": "assignment",
+         "id": {
+            "type": "id",
+            "line": 1,
+            "column": 1,
+            "text": "pages"
+         },
+         "value": {
+            "type": "array",
+            "elems": [
+               {
+                  "type": "stringlit",
+                  "line": 1,
+                  "column": 11,
+                  "text": "\"home\""
+               },
+               {
+                  "type": "stringlit",
+                  "line": 1,
+                  "column": 18,
+                  "text": "\"news\""
+               },
+               {
+                  "type": "stringlit",
+                  "line": 1,
+                  "column": 25,
+                  "text": "\"about\""
+               },
+               {
+                  "type": "stringlit",
+                  "line": 1,
+                  "column": 33,
+                  "text": "\"contact\""
+               }
+            ]
+         }
+      },
+      {
+         "type": "call",
+         "callee": {
+            "type": "style",
+            "line": 3,
+            "column": 1
+         },
+         "args": {
+            "type": "CSS Block",
+            "body": [
+               {
+                  "type": "css",
+                  "line": 4,
+                  "column": 5,
+                  "text": "a{"
+               },
+               {
+                  "type": "css",
+                  "line": 5,
+                  "column": 5,
+                  "text": "    text-decoration: none;"
+               },
+               {
+                  "type": "css",
+                  "line": 6,
+                  "column": 5,
+                  "text": "}"
+               },
+               {
+                  "type": "css",
+                  "line": 7,
+                  "column": 5,
+                  "text": "ul {"
+               },
+               {
+                  "type": "css",
+                  "line": 8,
+                  "column": 5,
+                  "text": "    list-style-type: none;"
+               },
+               {
+                  "type": "css",
+                  "line": 9,
+                  "column": 5,
+                  "text": "    margin: 0;"
+               },
+               {
+                  "type": "css",
+                  "line": 10,
+                  "column": 5,
+                  "text": "    padding: 0;"
+               },
+               {
+                  "type": "css",
+                  "line": 11,
+                  "column": 5,
+                  "text": "}"
+               },
+               {
+                  "type": "css",
+                  "line": 12,
+                  "column": 5,
+                  "text": "a.home{"
+               },
+               {
+                  "type": "css",
+                  "line": 13,
+                  "column": 5,
+                  "text": "    font-weight:bold;"
+               },
+               {
+                  "type": "css",
+                  "line": 14,
+                  "column": 5,
+                  "text": "}"
+               }
+            ]
+         }
+      },
+      {
+         "type": "call",
+         "callee": {
+            "type": "bareword",
+            "line": 16,
+            "column": 1,
+            "text": "ul"
+         },
+         "args": [
+            {
+               "type": "for",
+               "id": {
+                  "type": "id",
+                  "line": 17,
+                  "column": 9,
+                  "text": "page"
+               },
+               "iterable": {
+                  "type": "id",
+                  "line": 17,
+                  "column": 18,
+                  "text": "pages"
+               },
+               "body": [
+                  {
+                     "type": "call",
+                     "callee": {
+                        "type": "bareword",
+                        "line": 18,
+                        "column": 9,
+                        "text": "li"
+                     },
+                     "args": [
+                        {
+                           "type": "call",
+                           "callee": {
+                              "type": "bareword",
+                              "line": 18,
+                              "column": 12,
+                              "text": "a"
+                           },
+                           "attrs": [
+                              {
+                                 "name": {
+                                    "type": "bareword",
+                                    "line": 18,
+                                    "column": 14,
+                                    "text": "href"
+                                 },
+                                 "value": {
+                                    "type": "stringlit",
+                                    "line": 18,
+                                    "column": 19,
+                                    "text": "'/${@page}html'"
+                                 }
+                              },
+                              {
+                                 "name": {
+                                    "type": "bareword",
+                                    "line": 18,
+                                    "column": 35,
+                                    "text": "class"
+                                 },
+                                 "value": {
+                                    "type": "ternary",
+                                    "condition": {
+                                       "type": "relop",
+                                       "op": {
+                                          "type": "relop",
+                                          "line": 18,
+                                          "column": 49,
+                                          "text": "=="
+                                       },
+                                       "a": {
+                                          "type": "id",
+                                          "line": 18,
+                                          "column": 43,
+                                          "text": "page"
+                                       },
+                                       "b": {
+                                          "type": "stringlit",
+                                          "line": 18,
+                                          "column": 52,
+                                          "text": "\"home\""
+                                       }
+                                    },
+                                    "if": {
+                                       "type": "stringlit",
+                                       "line": 18,
+                                       "column": 62,
+                                       "text": "\"home\""
+                                    },
+                                    "else": {
+                                       "type": "stringlit",
+                                       "line": 18,
+                                       "column": 71,
+                                       "text": "\"\""
+                                    }
+                                 }
+                              }
+                           ],
+                           "args": [
+                              {
+                                 "type": "id",
+                                 "line": 18,
+                                 "column": 76,
+                                 "text": "page"
+                              }
+                           ]
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      }
+   ]
+}
