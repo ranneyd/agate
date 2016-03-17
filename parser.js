@@ -115,7 +115,10 @@ module.exports = (scannerTokens, error, verbose) => {
     var Label = () =>{
         log("Matching Label");
         match("openCurly");
-        let label = match("bareword");
+        let label = { 
+            type: "Label,",
+            label: match("bareword")
+        };
         match("closeCurly");
         return label;
     };
@@ -788,6 +791,7 @@ module.exports = (scannerTokens, error, verbose) => {
 
     var atExp = () =>{
         return at([...lits,
+                   "include",
                    "openSquare", 
                    "openCurly", 
                    "id", 
