@@ -1,0 +1,5 @@
+| simpleadventure.agate
+    {path}
+        "./samplegame"
+    {config}
+        "./samplegame/make.json"

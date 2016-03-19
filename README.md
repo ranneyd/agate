@@ -11,8 +11,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |---------------|---------------------------------------------------------------|
 |Program        |`Block EOF`                                                    |
 |Block*         |`newline+ (Statement ((?<!ChildBlock)newline+)?)+`             |
-|Statement      |`widget`                                                       |
-|               |`Template`                                                     |
+|Statement      |`Template`                                                     |
 |               |`Control`                                                      |
 |               |`Assignment`                                                   |
 |               |`Definition`                                                   |

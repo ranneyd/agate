@@ -20,7 +20,6 @@
     newline    | (\r\n|\r|\n)+
     indent     | complicated
     dedent     | also complicated
-    widget     | >.+?[\r\n]+
     template   | \|.+?[\r\n]+
     equals     | =
     openParen  | \(

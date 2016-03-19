@@ -1,0 +1,165 @@
+{
+    "title": "Sample Kanye Adventure!",
+    "width": 1280,
+    "height": 1024,
+    "music": "kanye.mp3",
+    "scenes": [
+        {
+            "id": "room",
+            "type": "location",
+            "img": "room.jpg",
+            "music": "kanye.mp3",
+            "text": "You are in your home. _Kanye West_ is here. As awesome as that sounds, you have things you need to do today...",
+            "objects": [
+                {
+                    "img": "kanye.gif",
+                    "x": 200,
+                    "y": 250,
+                    "width": 300,
+                    "click": "kanyeBegin"
+                },
+                {
+                    "img": "right.png",
+                    "x": 1050,
+                    "y": 400,
+                    "width": 200,
+                    "click": "beach"
+                }
+            ]
+        },
+        {
+            "id": "kanyeBegin",
+            "type": "convo",
+            "img": "kanye.gif",
+            "height": 543,
+            "width": 402,
+            "music": "skinhead.mp3",
+            "text": "I am Kanye West, the greatest rapper of all time. Do you agree?",
+            "options": [
+                {
+                    "text": "Of course. Haven't you listened to My Beautiful Dark Twisted Fantasy?",
+                    "result": "kanyeAgree"
+                },
+                {
+                    "text":"No",
+                    "result": "kanyeStupid"
+                },
+                {
+                    "if": "pablo",
+                    "text":"Hey, is this your album?",
+                    "result": "kanyePablo"
+                },
+                {
+                    "text":"*Ignore him*",
+                    "result": "room"
+                }
+            ]
+        },
+        {
+            "id": "kanyeAgree",
+            "type": "convo",
+            "img": "kanye.gif",
+            "height": 543,
+            "width": 402,
+            "text": "Finally, someone understands",
+            "options": [
+                {
+                    "text": "Leave",
+                    "result": "room"
+                }
+            ]
+        },
+        {
+            "id": "kanyeStupid",
+            "type": "convo",
+            "img": "kanye.gif",
+            "height": 543,
+            "width": 402,
+            "text": "Are you stupid?!?!?! I'm the greatest rapper _OF ALL TIME_",
+            "options": [
+                {
+                    "text": "ok...",
+                    "result": "kanyeBegin"
+                }
+            ]
+        },
+        {
+            "id": "kanyePablo",
+            "type": "convo",
+            "img": "kanye.gif",
+            "height": 543,
+            "width": 402,
+            "text": "THAT'S MY LATEST ALBUM! ISN'T IT AMAZING?!?!",
+            "options": [
+                {
+                    "text": "Yeah dude it's genius",
+                    "result": "kanyeThanks"
+                },
+                {
+                    "text": "I don't know, man, it's not My Beautiful Dark Twisted Fantasy...",
+                    "result": "kanyeStupid"
+                },
+                {
+                    "text":"*Ignore him*",
+                    "result": "room"
+                }
+            ]
+        },
+        {
+            "id": "kanyeThanks",
+            "type": "convo",
+            "img": "kanye.gif",
+            "height": 543,
+            "width": 402,
+            "text": "Thank you for understanding my processes.",
+            "options": [
+                {
+                    "text":"No problem bro",
+                    "result": "room"
+                }
+            ]
+        },
+        {
+            "id": "beach",
+            "type": "location",
+            "img": "beach.jpg",
+            "text": "You end up in a beach somehow.",
+            "objects": [
+                {
+                    "unless": "pablo",
+                    "img": "pablo.jpg",
+                    "x": 700,
+                    "y": 700,
+                    "width": 200,
+                    "click": "pablo"
+                },
+                {
+                    "img": "left.png",
+                    "x": 30,
+                    "y": 400,
+                    "width": 200,
+                    "click": "room"
+                }
+            ]
+        },
+        {
+            "id": "pablo",
+            "type": "convo",
+            "img": "pablo.jpg",
+            "height": 500,
+            "width": 500,
+            "text": "It's Kanye's new album, \"The Life of Pablo\". What do you do with it?",
+            "options": [
+                {
+                    "text": "Take it",
+                    "setTrue": "pablo",
+                    "result": "beach"
+                },
+                {
+                    "text":"Leave it",
+                    "result": "beach"
+                }  
+            ]
+        }
+    ]
+}

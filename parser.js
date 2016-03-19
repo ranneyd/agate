@@ -54,10 +54,7 @@ module.exports = (scannerTokens, error, verbose) => {
     var Statement = () => {
         log("Matching a Statement");
 
-        if ( at('widget') ) {
-            return match('widget');
-        }
-        else if ( at('template') ) {
+        if ( at('template') ) {
             return Template();
         }
         else if( at(controlTypes) ) {
