@@ -151,13 +151,18 @@
    {
       "type": "include",
       "line": 10,
-      "column": 5,
-      "text": "navbar.agate"
+      "column": 5
+   },
+   {
+      "type": "stringlit",
+      "line": 10,
+      "column": 13,
+      "text": "\"navbar.agate\""
    },
    {
       "type": "newline",
       "line": 10,
-      "column": 19
+      "column": 27
    },
    {
       "type": "newline",
@@ -197,7 +202,7 @@
       "text": "div"
    },
    {
-      "type": "openParen",
+      "type": "openSquare",
       "line": 14,
       "column": 8
    },
@@ -207,50 +212,61 @@
       "column": 9
    },
    {
+      "type": "equals",
+      "line": 14,
+      "column": 14
+   },
+   {
       "type": "stringlit",
       "line": 14,
       "column": 15,
-      "text": "\"position:fixed;\r\n               height:100px;\r\n               bottom:0px;\r\n               width:100%;\""
+      "text": "\"position:fixed;  height:100px;  bottom:0px;  width:100%;\""
    },
    {
-      "type": "closeParen",
-      "line": 14,
-      "column": 118
+      "type": "closeSquare",
+      "line": 17,
+      "column": 28
    },
    {
       "type": "newline",
-      "line": 14,
-      "column": 119
+      "line": 17,
+      "column": 29
    },
    {
       "type": "indent",
-      "line": 15,
+      "line": 18,
       "column": 1
    },
    {
-      "type": "css",
-      "line": 15,
+      "type": "bareword",
+      "line": 18,
       "column": 9,
-      "text": "p \"This is our footer\""
+      "text": "p"
+   },
+   {
+      "type": "stringlit",
+      "line": 18,
+      "column": 11,
+      "text": "\"This is our footer\""
    },
    {
       "type": "newline",
-      "line": 15,
+      "line": 18,
       "column": 31
    },
    {
       "type": "dedent",
-      "line": 16,
+      "line": 19,
       "column": 1
    },
    {
       "type": "dedent",
-      "line": 16,
+      "line": 19,
       "column": 1
    },
    {
       "type": "EOF",
-      "line": 16,
+      "line": 19,
       "column": 1
    }
 ]

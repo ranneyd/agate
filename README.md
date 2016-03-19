@@ -30,7 +30,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |ArgBlock       |`newline indent (Arg newline)+ dedent`                         |
 |Arg            |`Exp`                                                          |
 |While          |`while Exp ChildBlock`                                         |
-|Assignment     |`id (AddExp|MultExp|BoolExp|relop)? equals Exp`                      |
+|Assignment     |`id (AddExp|MultExp|BoolExp)? equals Exp`                      |
 |Definition     |`def bareword openParen (id comma?)* closeParen ChildBlock`    |
 |Exp            |`TernaryIfExp`                                                 |
 |TernaryIfExp   |`BoolExp (question BoolExp colon BoolExp)?`                    |
@@ -41,18 +41,19 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |PostfixExp     |`ElemFuncExp postfixop?`                                       |
 |ElemFuncExp    |`ArrayElemExp (tilde bareword Args?)*`                         |
 |ArrayElemExp   |`MiscExp (openSquare intlit|stringlit closeSquare)*`           |
-|MiscExp        |`Literal|Label|include|Array|HashMap|id|this|HtmlId|HtmlClass` |
+|MiscExp        |`Literal|Label|Include|Array|HashMap|id|this|HtmlId|HtmlClass` |
 |               |`openParen Exp closeParen`                                     |
 |\*\*           |`(prefixop|minus)? id`                                         |
 |               |`Call`                                                         |
 |Literal        |`stringlit|intlit|floatlit|boollit`                            |
+|Include        |`include stringlit`                                            |
 |Call           |`(BuiltIn|bareword)(HtmlClass)*(HtmlId)?Attrs?Args?`           |
 |BuiltIn        |`script|style`                                                 |
 |HtmlClass      |`dot bareword`                                                 |
 |HtmlId         |`hash bareword`                                                |
 |Attrs          |`openSquare (Attr+|AttrBlock)? closeSquare`                    |
 |AttrBlock      |`newline indent (Attr newline)+ dedent`                        |
-|Attr           |`(stringlit|bareword) (equals|colon) Exp`                      |
+|Attr           |`(stringlit|bareword|BuiltIn) (equals|colon) Exp`              |
 |Args           |`openParen (Arg (comma? Arg)*)? closeParen`                    |
 |               |`ChildBlock`                                                   |
 |               |`Arg (comma? Arg)*`                                            |

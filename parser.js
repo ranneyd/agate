@@ -565,7 +565,7 @@ module.exports = (scannerTokens, error, verbose) => {
             return Label();
         }
         else if( at("include") ) {
-            return match("include");
+            return Include();
         }
         else if( at("openSquare") ){
             return ArrayDef();
@@ -617,6 +617,15 @@ module.exports = (scannerTokens, error, verbose) => {
             }
         }
         error.expected('some kind of literal', tokens.shift());
+    };
+    var Include = () => {
+        log("Matching Include");
+
+        match("include");
+        return {
+            "type": "include",
+            "file": match("stringlit")
+        }
     };
     var Call = () => {
         log("Matching Call");
@@ -721,6 +730,9 @@ module.exports = (scannerTokens, error, verbose) => {
                    + " you use bare words make sure they aren't reserved words!";
         if(at("stringlit")) {
             attr.name = match("stringlit");
+        }
+        else if(at(builtins)){
+            attr.name = BuiltIn();
         }
         else {
             attr.name = match("bareword");

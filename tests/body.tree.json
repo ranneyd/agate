@@ -12,10 +12,13 @@
          "labels": [
             {
                "label": {
-                  "type": "bareword",
-                  "line": 2,
-                  "column": 6,
-                  "text": "title"
+                  "type": "Label,",
+                  "label": {
+                     "type": "bareword",
+                     "line": 2,
+                     "column": 6,
+                     "text": "title"
+                  }
                },
                "body": [
                   {
@@ -28,10 +31,13 @@
             },
             {
                "label": {
-                  "type": "bareword",
-                  "line": 4,
-                  "column": 6,
-                  "text": "heading"
+                  "type": "Label,",
+                  "label": {
+                     "type": "bareword",
+                     "line": 4,
+                     "column": 6,
+                     "text": "heading"
+                  }
                },
                "body": [
                   {
@@ -44,10 +50,13 @@
             },
             {
                "label": {
-                  "type": "bareword",
-                  "line": 6,
-                  "column": 6,
-                  "text": "body"
+                  "type": "Label,",
+                  "label": {
+                     "type": "bareword",
+                     "line": 6,
+                     "column": 6,
+                     "text": "body"
+                  }
                },
                "body": [
                   {

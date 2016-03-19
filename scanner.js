@@ -49,12 +49,8 @@
 
 module.exports = (data, error) => {
 
-    var keywords = ["def", "if", "else if", "else", "for", "in", "while", "return"];
+    var keywords = ["def", "if", "else if", "else", "for", "in", "while", "return", "include"];
     var regexes = [
-        {
-            "type": "stringlit",
-            "regex": /^('([^'\\]|(\\'')|(\\\\))*'|"([^"\\]|(\\")|(\\\\))*")/
-        },
         {
             "type": "comment",
             "regex": /^\/\/(?!!)[^\r\n]*/
@@ -127,11 +123,6 @@ module.exports = (data, error) => {
             "regex": /^\d+/
         },
         {
-            "type": "equals",
-            "regex": /^=/,
-            "notext": true
-        },
-        {
             "type": "openParen",
             "regex": /^\(/,
             "notext": true
@@ -174,6 +165,11 @@ module.exports = (data, error) => {
         {
             "type": "tilde",
             "regex": /^~/,
+            "notext": true
+        },
+        {
+            "type": "equals",
+            "regex": /^=/,
             "notext": true
         }
     ];
@@ -256,8 +252,52 @@ module.exports = (data, error) => {
             position += matchData[0].length;
             notMatched = false;
         }
-        if (matchData = /^(script|style)/.exec( truncData )) {
+        // string literals are a little complicated
+        if( matchData = /^"([^"\\\r\n]|(\\")|(\\\\))*("|\r?\n)/.exec( truncData ) ) {
+            let stringToken = token("stringlit", matchData[0].replace(/\r?\n$/, " "))
+            column += matchData[0].length;
+            position += matchData[0].length;
 
+            let lastGroup = matchData[matchData.length - 1];
+
+            // If we end with a newline, not a quote
+            if(lastGroup.charAt(lastGroup.length - 1) === "\n") {
+                debugger;
+                column = 1;
+                line++;
+                truncData = data.slice( position );
+                // Note: no beginning quote
+                while( matchData = /([^"\\\r\n]|(\\")|(\\\\))*("|\r?\n)/.exec( truncData ) ) {
+                    let stringAddon = matchData[0].replace(/(^ +)|\r?\n/g, " ");
+
+                    stringToken.text += stringAddon;
+                    position += matchData[0].length;
+
+                    lastGroup = matchData[matchData.length - 1];
+                    if(lastGroup.charAt(lastGroup.length - 1) === "\n") {
+                        column = 1;
+                        line++;
+                        truncData = data.slice( position );
+                    }
+                    else {
+                        column += matchData[0].length;
+                        break;
+                    }
+                }
+            }
+
+            tokens.push( stringToken );
+            notMatched = false;
+        }
+        if( matchData = /^'([^'\\]|(\\')|(\\\\))*'/.exec( truncData ) ) {
+            let stringToken = token("stringlit", matchData[0])
+            column += matchData[0].length;
+            position += matchData[0].length;
+
+            tokens.push( stringToken );
+            notMatched = false;
+        }
+        if (matchData = /^(script|style)/.exec( truncData ) ) {
             tokens.push( token(matchData[0]) );
 
             column += matchData[0].length;
@@ -266,17 +306,12 @@ module.exports = (data, error) => {
             jsMode = matchData[0] === "script";
             cssMode = !jsMode;
         }
-        // Include
-        if (matchData = /^> *(.+?)(?=[\n\r])/.exec( truncData )) {
-            let lastToken = tokens[token.length - 1];
-            if(lastToken.type === "newline"
-                || lastToken.type === "dedent"
-                || lastToken.type === "indent"){
-                tokens.push( token("include", matchData[1]) );
-                column += matchData[0].length;
-                position += matchData[0].length;
-
-                notMatched = false;
+        if (matchData = /^(=|:)/.exec( truncData ) ) {
+            // If we just matched a style or a script, it's actually an attribute 
+            let lastType = tokens[tokens.length - 1].type;
+            if(lastType === "script" || lastType === "style") {
+                jsMode = false;
+                cssMode = false;
             }
         }
         // Template
