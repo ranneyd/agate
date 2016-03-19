@@ -30,7 +30,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |ArgBlock       |`newline indent (Arg newline)+ dedent`                         |
 |Arg            |`Exp`                                                          |
 |While          |`while Exp ChildBlock`                                         |
-|Assignment     |`id equals Exp`                                                |
+|Assignment     |`id (AddExp|MultExp|BoolExp|relop)? equals Exp`                      |
 |Definition     |`def bareword openParen (id comma?)* closeParen ChildBlock`    |
 |Exp            |`TernaryIfExp`                                                 |
 |TernaryIfExp   |`BoolExp (question BoolExp colon BoolExp)?`                    |

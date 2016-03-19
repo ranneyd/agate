@@ -3,6 +3,7 @@
 var lits = ["stringlit", "intlit", "floatlit", "boollit"];
 var builtins = ['script', 'style'];
 var controlTypes = ['if', 'for', 'while'];
+var binAssignOps = ["plus", "minus", "multop", "boolop"];
 
 module.exports = (scannerTokens, error, verbose) => {
     var tokens = scannerTokens;
@@ -54,13 +55,22 @@ module.exports = (scannerTokens, error, verbose) => {
     var Statement = () => {
         log("Matching a Statement");
 
+        // Assignments are a little complicated because you can a binary
+        // operator before the equals symbol (like +=).
+        let assignmentCheck = () =>{
+            return atSequential(["id", "equals"])
+                || (at("id") 
+                &&  tokens.length > 2
+                &&  binAssignOps.indexOf(tokens[2]) !== -1 );
+        };
+
         if ( at('template') ) {
             return Template();
         }
         else if( at(controlTypes) ) {
             return Control();
         }
-        else if( atSequential(["id", "equals"]) ) {
+        else if( assignmentCheck() ) {
             return Assignment();
         }
         else if( at("def") ) {
@@ -340,8 +350,37 @@ module.exports = (scannerTokens, error, verbose) => {
             "type": "assignment",
             "id": match("id")
         };
-        match("equals");
-        assignment.value = Exp();
+        if( at(binAssignOps) ){
+            if( at("boolop") ) {
+                assignment.value = {
+                    "type": "boolop",
+                    "op": match("boolop"),
+                    "a": assignment.id
+                };
+            }
+            else if( at("multop") ) {
+                assignment.value = {
+                    "type": "multop",
+                    "op": match("multop"),
+                    "a": assignment.id
+                };
+            }
+            else {
+                error.hint = "You have 'id *something*= *stuff*' and we're trying to figure out"
+                           + "what the *something* means. We're looking for stuff like +=, -= etc";
+                assignment.value = {
+                    "type": "addop",
+                    "op": at("minus") ? match("minus") : match("plus"),
+                    "a": assignment.id
+                };
+            }
+            match("equals")
+            assignment.value.b = Exp();
+        }
+        else {
+            match("equals");
+            assignment.value = Exp();
+        }
 
         return assignment;
     };
@@ -770,7 +809,7 @@ module.exports = (scannerTokens, error, verbose) => {
     var atSequential = ( type ) => {
         for(let i = 0; i < type.length; ++i) {
             // If we don't have enough tokens or the token we're at doesn't
-            // match, no sale
+            // match, no sale. 
             if(tokens.length <= i || type[i] !== tokens[i].type) {
                 return false;
             }
