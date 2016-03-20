@@ -23,6 +23,7 @@ module.exports = class Error {
         }
         if(this.hint) {
             console.log(`Hint: ${this.hint}`);
+            this.hint = "";
         }
         return {
             status: "error",
@@ -38,6 +39,13 @@ module.exports = class Error {
         return this.generic(`Parse Error: ${message}`, token.line, token.column);
     }
     expected(message, token) {
+        if(message === "newline" && token.type === "equals"
+            || message === "colon" && token.type === "closeSquare") {
+            this.hint = "Did you forget an @ symbol?";
+        }
+        if(message === "newline" && token.type === "dot") {
+            this.hint = "Did you mean @var[attr] or @var~func instead of @var.attr?";
+        }
         return this.parse(`Expected ${message}, got ${token.type}`, token);
     }
 }

@@ -65,7 +65,7 @@
                      "args": [
                         {
                            "type": "assignment",
-                           "id": {
+                           "lhs": {
                               "type": "id",
                               "line": 5,
                               "column": 13,

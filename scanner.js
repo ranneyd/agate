@@ -47,7 +47,13 @@
     range      | \.\.
 */
 
-module.exports = (data, error) => {
+module.exports = (data, error, verbose) => {
+
+    var log = (message) => {
+        if(verbose) {
+            console.log(message);
+        }
+    };
 
     var keywords = ["def", "if", "else if", "else", "for", "in", "while", "return", "include"];
     var regexes = [
@@ -81,6 +87,10 @@ module.exports = (data, error) => {
             "notext": true
         },
         {
+            "type": "relop",
+            "regex": /^((<\=)|(\=\=)|(!\=)|(>\=)|<|>)/
+        },
+        {
             "type": "prefixop",
             "regex": /^(!|\+\+|--)/
         },
@@ -109,10 +119,6 @@ module.exports = (data, error) => {
         {
             "type": "bareword",
             "regex": /^[a-zA-Z_][a-zA-Z0-9_]*/
-        },
-        {
-            "type": "relop",
-            "regex": /^((<\=)|(\=\=)|(!\=)|(>\=)|<|>)/
         },
         {
             "type": "floatlit",
@@ -215,9 +221,11 @@ module.exports = (data, error) => {
         };
 
     while( position < dataLength ) {
-        var truncData = data.slice( position ),
-            matchData,
-            notMatched = true;
+        var truncData = data.slice( position );
+        var matchData;
+        var notMatched = true;
+
+        log(`Scanning at line ${line} col ${column}`);
         // Some complicated ones we need to preempt
 
         // Since JS and CSS are separate token sets, we have to use these flags to determine when
@@ -229,6 +237,7 @@ module.exports = (data, error) => {
             // to put the quotes, they don't have to. If there are quotes around it, however,
             // they will be removed.
             if ( matchData = /^((.(?!'?@|[\n\r]))*.)('?(@[A-Za-z$_]+)'?)?/.exec( truncData ) ) {
+                log(`Scanning ${jsMode ? "js" : "css"}`);
                 tokens.push( token(jsMode ? "js" : "css", matchData ? matchData[1] : "") );
 
                 column += matchData[0].length;
@@ -290,7 +299,6 @@ module.exports = (data, error) => {
             notMatched = false;
         }
         if(interpolating && truncData.charAt(0) === "}"){
-            debugger;
             tokens.push( token("/interpolate") );
             interpolating = false;
             // some 1337 hax here to replace first character, since apparently
@@ -298,7 +306,6 @@ module.exports = (data, error) => {
             truncData = truncData.replace(/^./, "'");
         }
         if( matchData = /^'([^'\\\r\n]|(\\')|(\\\\))*?('|\r?\n|\$\{)/.exec( truncData )) {
-            debugger;
             let stringToken = token("stringlit", matchData[0].replace(/\r?\n$/, " "))
             column += matchData[0].length;
             position += matchData[0].length;
@@ -402,13 +409,20 @@ module.exports = (data, error) => {
                 position += matchData[0].length;
             }
             // newline and indentation
-            else if ( matchData = /^(\r\n|\r|\n)([\t ]*)/.exec( truncData ) ) {
+            else if ( matchData = /^(\r?\n)+([\t ]*)/.exec( truncData ) ) {
                 // This is inspired heavily by Python
                 // https://docs.python.org/3/reference/lexical_analysis.html
-                tokens.push( token("newline") );
-
-                line++;
-                column = 1;
+                // extra newlines can really mess up indentation
+                for( let i = 0; i < matchData[0].length; ++i) {
+                    let character = matchData[0].charAt(i);
+                    // ignore those pesky /r's
+                    if( character === "\n") {
+                        log(`Newline at line ${line} col ${column}`);
+                        tokens.push( token("newline") );
+                        column = 1;
+                        line++;
+                    }
+                }
 
 
                 // Last matching group is the indentation. Note one tab = one space because we don't
@@ -418,17 +432,19 @@ module.exports = (data, error) => {
 
                 // Encapsulating this so I can use it in the js/css mode also
                 var dedentDetect = function(indentSize){
-
-                    indent.pop();
-
+                    log(`looking for an indent size of ${indentSize}`);
+                    log(`Removing indent level ${indent.pop()}`);
+                    error.hint = "";
                     tokens.push( token("dedent") );
 
                     var nextIndent = indent.peek();
+                    log(`Next indent level ${nextIndent}`);
                     if( indentSize > nextIndent ) {
                         return error.scanner("Indentation error", line, column);
                     }
 
                     if ( indentSize === nextIndent) {
+                        log("Indentation level found");
                         return;
                     }
 
@@ -445,9 +461,10 @@ module.exports = (data, error) => {
 
                     // If this number is negative, we have a dedent
                     if( specialIndentSize < 0 ) {
-                        let error = dedentDetect(indentSize);
-                        if( error ){
-                            return error;
+                        error.hint = "Is it possible you have a blank line that isn't indented?"
+                        let returnError = dedentDetect(indentSize);
+                        if( returnError ){
+                            return returnError;
                         }
 
                         // If we're dedenting and we're in JS or CSS mode, we have to turn those off
@@ -469,6 +486,7 @@ module.exports = (data, error) => {
                     // If the top indentation level is smaller than what we have, we have a new
                     // indentation block
                     if ( indent.peek() < indentSize ) {
+                        log(`Indenting to size ${indentSize}`);
                         tokens.push( token("indent") );
 
                         indent.push(indentSize);
@@ -484,9 +502,9 @@ module.exports = (data, error) => {
                     }
                     // In the other case, we have returned to a previous indent level
                     if ( indent.peek() > indentSize ) {
-                        let error = dedentDetect(indentSize);
-                        if( error ){
-                            return error;
+                        let returnError = dedentDetect(indentSize);
+                        if( returnError ){
+                            return returnError;
                         }
                     }
 
@@ -508,8 +526,7 @@ module.exports = (data, error) => {
             }
             // If it doesn't match those we have a problem
             else {
-                debugger;
-                return error.scanner("Could not tokenize", line, column);
+                return error.scanner(`Could not tokenize \n...${data.slice(position - 10, position + 10)}...\n             ^`, line, column);
             }
         }
     }

@@ -78,9 +78,15 @@ processArguments();
 
 readFile(`${file}.agate`)
     .then( code => {
-
+        if(verbose) {
+            console.log("Beginning Scanning...");
+        }
         let tokens = scanner(code, error, verbose);
         if(dumpTokens) {
+            if(verbose) {
+                console.log("-".repeat(80));
+                console.log("Beginning Parsing...");
+            }
             let prettyTokens = JSON.stringify(tokens, null, 3);
             writeFile(`${outName || file}.tokens.json`, prettyTokens)
                 .catch( err => {

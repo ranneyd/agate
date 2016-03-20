@@ -55,13 +55,39 @@ module.exports = (scannerTokens, error, verbose) => {
     var Statement = () => {
         log("Matching a Statement");
 
-        // Assignments are a little complicated because you can a binary
-        // operator before the equals symbol (like +=).
+        // Assignments are a little complicated
         let assignmentCheck = () =>{
-            return atSequential(["id", "equals"])
-                || (at("id") 
-                &&  tokens.length > 2
-                &&  binAssignOps.indexOf(tokens[2]) !== -1 );
+            // Things that can be assigned
+            if( at("id") || at("dot") || at("hash")) {
+                debugger;
+                // Position of the equals we want
+                let pos = 1;
+                // If it's an HtmlSelector
+                if( !at("id") ) {
+                    // HtmlSelectors have two tokens, ids are just one
+                    pos++;
+                }
+                if(tokens.length > pos) {
+                    // check for ArrayAts
+                    while(tokens[pos].type === "openSquare") {
+                        // ArrayAts are always three tokens
+                        if(tokens.length > pos + 3) {
+                            pos += 3;
+                        }
+                        else{
+                            return false;
+                        }
+                    }
+                    if( binAssignOps.indexOf(tokens[pos].type) !== -1 ) {
+                        pos++;
+                    }
+                    return tokens[pos].type === "equals";
+
+                }
+                return false;
+
+            }
+            return false;
         };
 
         if ( at('template') ) {
@@ -264,18 +290,7 @@ module.exports = (scannerTokens, error, verbose) => {
 
         match("in");
 
-        if( at("openSquare") ) {
-            forStatement.interable = ArrayDef();
-        }
-        else if( at("stringlit") ){
-            forStatement.interable = match( "stringlit" );   
-        }
-        else if( at("id") ) {
-            forStatement.iterable = match( "id" );   
-        }
-        else{
-            error.expected('something you can loop over', tokens.shift()); 
-        }
+        forStatement.interable = Exp();
         forStatement.body = ChildBlock();
 
         return forStatement;
@@ -348,8 +363,13 @@ module.exports = (scannerTokens, error, verbose) => {
 
         let assignment = {
             "type": "assignment",
-            "id": match("id")
+            "lhs": at("id") ? match("id") : HtmlSelect()
         };
+        if( at("openSquare") ){
+            let arrAt = ArrayAt();
+            arrAt.of = assignment.lhs;
+            assignment.lhs = arrAt;
+        }
         if( at(binAssignOps) ){
             if( at("boolop") ) {
                 assignment.value = {
@@ -532,27 +552,37 @@ module.exports = (scannerTokens, error, verbose) => {
         let exp = MiscExp();
 
         while( at("openSquare") ) {
-            match("openSquare");
-
-            let index;
-            if( at("intlit") ) {
-                index = match("intlit");
-            }
-            else if ( at("stringlit") ){
-                index = match("stringlit");
-            }
-            else{
-                error.expected("string or int", tokens.shift());
-            }
-
-            exp = {
-                "type": "elemat",
-                "index": index,
-                "of": exp
-            };
-
-            match("closeSquare");
+            let arrAt = ArrayAt();
+            arrAt.of = exp;
+            exp = arrAt;
         }
+        return exp;
+    };
+    var ArrayAt = () => {
+        log("Matching ArrayAt");
+        match("openSquare");
+
+        let index = Exp();
+        // if( at("intlit") ) {
+        //     index = match("intlit");
+        // }
+        // else if ( at("stringlit") ){
+        //     index = match("stringlit");
+        // }
+        // else if ( at("bareword") ){
+        //     index = match("bareword");
+        // }
+        // else{
+        //     error.expected("string, int, or bareword", tokens.shift());
+        // }
+
+        let exp = {
+            "type": "elemat",
+            "index": index,
+        };
+
+        match("closeSquare");
+
         return exp;
     };
     var MiscExp = () => {
@@ -579,11 +609,8 @@ module.exports = (scannerTokens, error, verbose) => {
         else if( at("this") ) {
             return match("this");
         }
-        else if( at("dot") ) {
-            return HtmlClass();
-        }
-        else if( at("hash") ) {
-            return HtmlId();
+        else if( at(["dot", "hash"]) ) {
+            return HtmlSelect();
         }
         else if( at("openParen") ) {
             match("openParen");
@@ -629,17 +656,17 @@ module.exports = (scannerTokens, error, verbose) => {
         while( at("interpolate") ) {
             match("interpolate");
             let stringAndInter = {
-                type:"addop",
-                op: "plus",
-                a: str,
-                b: Exp()
+                "type": "addop",
+                "op": "plus",
+                "a": str,
+                "b": Exp()
             };
             match("/interpolate");
-            let str = {
-                type: "addop",
-                op: "plus",
-                a: stringAndInter,
-                b: match("stringlit")
+            str = {
+                "type": "addop",
+                "op": "plus",
+                "a": stringAndInter,
+                "b": match("stringlit")
             };
         }
         return str;
@@ -699,6 +726,16 @@ module.exports = (scannerTokens, error, verbose) => {
         }
         error.expected('some kind of built in function', tokens.shift());
     };
+    var HtmlSelect = () => {
+        log("Matching HtmlSelect");
+
+        if( at("dot") ){
+            return HtmlClass();
+        }
+        else {
+            return HtmlId();
+        }
+    };
     var HtmlClass = () => {
         log("Matching HtmlClass");
 
@@ -717,7 +754,9 @@ module.exports = (scannerTokens, error, verbose) => {
         match("openSquare")
 
         if( atBlock() ) {
-            return AttrBlock();
+            let block =  AttrBlock();
+            match("closeSquare");
+            return block;
         }
 
         let attrs = [];

@@ -29,7 +29,7 @@
             },
             {
                "type": "assignment",
-               "id": {
+               "lhs": {
                   "type": "id",
                   "line": 3,
                   "column": 5,

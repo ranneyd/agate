@@ -3,7 +3,7 @@
    "block": [
       {
          "type": "assignment",
-         "id": {
+         "lhs": {
             "type": "id",
             "line": 1,
             "column": 1,
@@ -168,53 +168,76 @@
                                     "text": "href"
                                  },
                                  "value": {
-                                    "type": "stringlit",
-                                    "line": 18,
-                                    "column": 19,
-                                    "text": "'/'"
-                                 }
-                              },
-                              {},
-                              {
-                                 "name": {
-                                    "type": "stringlit",
-                                    "line": 18,
-                                    "column": 28,
-                                    "text": "'html'"
-                                 }
-                              },
-                              {
-                                 "value": {
-                                    "type": "relop",
-                                    "op": {
-                                       "type": "relop",
-                                       "line": 18,
-                                       "column": 49,
-                                       "text": "=="
-                                    },
+                                    "type": "addop",
+                                    "op": "plus",
                                     "a": {
-                                       "type": "id",
-                                       "line": 18,
-                                       "column": 43,
-                                       "text": "page"
+                                       "type": "addop",
+                                       "op": "plus",
+                                       "a": {
+                                          "type": "stringlit",
+                                          "line": 18,
+                                          "column": 19,
+                                          "text": "'/'"
+                                       },
+                                       "b": {
+                                          "type": "id",
+                                          "line": 18,
+                                          "column": 23,
+                                          "text": "page"
+                                       }
                                     },
                                     "b": {
                                        "type": "stringlit",
                                        "line": 18,
-                                       "column": 52,
-                                       "text": "\"home\""
+                                       "column": 28,
+                                       "text": "'html'"
                                     }
                                  }
                               },
                               {
-                                 "value": {
-                                    "type": "stringlit",
+                                 "name": {
+                                    "type": "bareword",
                                     "line": 18,
-                                    "column": 62,
-                                    "text": "\"home\""
+                                    "column": 35,
+                                    "text": "class"
+                                 },
+                                 "value": {
+                                    "type": "ternary",
+                                    "condition": {
+                                       "type": "relop",
+                                       "op": {
+                                          "type": "relop",
+                                          "line": 18,
+                                          "column": 49,
+                                          "text": "=="
+                                       },
+                                       "a": {
+                                          "type": "id",
+                                          "line": 18,
+                                          "column": 43,
+                                          "text": "page"
+                                       },
+                                       "b": {
+                                          "type": "stringlit",
+                                          "line": 18,
+                                          "column": 52,
+                                          "text": "\"home\""
+                                       }
+                                    },
+                                    "if": {
+                                       "type": "stringlit",
+                                       "line": 18,
+                                       "column": 62,
+                                       "text": "\"home\""
+                                    },
+                                    "else": {
+                                       "type": "stringlit",
+                                       "line": 18,
+                                       "column": 71,
+                                       "text": "\"\""
+                                    }
                                  }
-                              },
-                              {}
+                              }
                            ],
                            "args": [
                               {

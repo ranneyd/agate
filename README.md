@@ -25,12 +25,12 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |CSSBlock       |`id? (css id? newline*)+`                                      |
 |Control        |`If | For | While`                                             |
 |If             |`if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?`|
-|For            |`for id in (Array|stringlit|id) ChildBlock`                    |
+|For            |`for id in Exp ChildBlock`                                     |
 |Array          |`openSquare (Arg+|ArgBlock|intlit range intlit)? closeSquare`  |
 |ArgBlock       |`newline indent (Arg newline)+ dedent`                         |
 |Arg            |`Exp`                                                          |
 |While          |`while Exp ChildBlock`                                         |
-|Assignment     |`id (AddExp|MultExp|BoolExp)? equals Exp`                      |
+|Assignment     |`(id|HtmlSelect)ArrayAt?(AddExp|MultExp|BoolExp)? equals Exp`  |
 |Definition     |`def bareword openParen (id comma?)* closeParen ChildBlock`    |
 |Exp            |`TernaryIfExp`                                                 |
 |TernaryIfExp   |`BoolExp (question BoolExp colon BoolExp)?`                    |
@@ -40,8 +40,9 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |MultExp        |`PostfixExp (multop PostfixExp)*`                              |
 |PostfixExp     |`ElemFuncExp postfixop?`                                       |
 |ElemFuncExp    |`ArrayElemExp (tilde bareword Args?)*`                         |
-|ArrayElemExp   |`MiscExp (openSquare intlit|stringlit closeSquare)*`           |
-|MiscExp        |`Literal|Label|Include|Array|HashMap|id|this|HtmlId|HtmlClass` |
+|ArrayElemExp   |`MiscExp ArrayAt*`                                             |
+|ArrayAt        |`(openSquare intlit|stringlit|bareword closeSquare)`           |
+|MiscExp        |`Literal|Label|Include|Array|HashMap|id|this|HtmlSelect`       |
 |               |`openParen Exp closeParen`                                     |
 |\*\*           |`(prefixop|minus)? id`                                         |
 |               |`Call`                                                         |
@@ -50,6 +51,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Include        |`include stringlit`                                            |
 |Call           |`(BuiltIn|bareword)(HtmlClass)*(HtmlId)?Attrs?Args?`           |
 |BuiltIn        |`script|style`                                                 |
+|HtmlSelect     |`HtmlClass | HtmlID`                                           |
 |HtmlClass      |`dot bareword`                                                 |
 |HtmlId         |`hash bareword`                                                |
 |Attrs          |`openSquare (Attr+|AttrBlock)? closeSquare`                    |
