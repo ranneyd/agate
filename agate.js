@@ -7,7 +7,7 @@ var dumpParseTree = false;
 var outName = false;
 var fs = require("fs");
 
-Error = require("./error.js");
+require("./error.js");
 
 var error = new Error();
 
