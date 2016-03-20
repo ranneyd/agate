@@ -45,7 +45,8 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |               |`openParen Exp closeParen`                                     |
 |\*\*           |`(prefixop|minus)? id`                                         |
 |               |`Call`                                                         |
-|Literal        |`stringlit|intlit|floatlit|boollit`                            |
+|Literal        |`String|intlit|floatlit|boollit`                               |
+|String         |`stringlit (interpolate Exp() \interpolate stringlit)*`        |
 |Include        |`include stringlit`                                            |
 |Call           |`(BuiltIn|bareword)(HtmlClass)*(HtmlId)?Attrs?Args?`           |
 |BuiltIn        |`script|style`                                                 |

@@ -589,7 +589,6 @@ module.exports = (scannerTokens, error, verbose) => {
             match("openParen");
             let exp = Exp();
             match("closeParen");
-            debugger;
             return exp;
         }
         else if( at(["prefixop", "minus"]) ) {
@@ -613,11 +612,38 @@ module.exports = (scannerTokens, error, verbose) => {
 
         for( let lit in lits ) {
             if( at(lits[lit]) ) {
-                return match(lits[lit]);
+                if( at("stringlit") ) {
+                    return StringDef();
+                }
+                else {
+                    return match(lits[lit]);
+                }
             }
         }
         error.expected('some kind of literal', tokens.shift());
     };
+    var StringDef = () => {
+        log("Matching String");
+
+        let str = match("stringlit");
+        while( at("interpolate") ) {
+            match("interpolate");
+            let stringAndInter = {
+                type:"addop",
+                op: "plus",
+                a: str,
+                b: Exp()
+            };
+            match("/interpolate");
+            let str = {
+                type: "addop",
+                op: "plus",
+                a: stringAndInter,
+                b: match("stringlit")
+            };
+        }
+        return str;
+    }
     var Include = () => {
         log("Matching Include");
 

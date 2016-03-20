@@ -174,34 +174,35 @@ module.exports = (data, error) => {
         }
     ];
 
-    var tokens = [],
-        indent = {
-            elems: [0],
-            pop: function () {
-                return this.elems.pop();
-            },
-            push: function ( elem ) {
-                this.elems.push( elem );
-            },
-            peek: function () {
-                return this.elems[this.elems.length - 1];
-            },
-            isTop: function ( elem ) {
-                return this.peek() === elem;
-            },
-            isEmpty: function () {
-                return !this.elems.length;
-            }
+    var tokens = [];
+    var indent = {
+        elems: [0],
+        pop: function () {
+            return this.elems.pop();
         },
-        line = 1,
-        column = 1,
-        position = 0,
-        jsMode = false,
-        cssMode = false,
-        newModeTrigger = false,
+        push: function ( elem ) {
+            this.elems.push( elem );
+        },
+        peek: function () {
+            return this.elems[this.elems.length - 1];
+        },
+        isTop: function ( elem ) {
+            return this.peek() === elem;
+        },
+        isEmpty: function () {
+            return !this.elems.length;
+        }
+    };
+    var line = 1;
+    var column = 1;
+    var position = 0;
+    var jsMode = false;
+    var cssMode = false;
+    var newModeTrigger = false;
+    var interpolating = false;
         // I don't trust javascript to optimize this and not call length every time
-        dataLength = data.length,
-        token = function(type, text){
+    var dataLength = data.length;
+    var token = function(type, text){
             var ourToken = {
                 "type": type,
                 "line": line,
@@ -262,7 +263,6 @@ module.exports = (data, error) => {
 
             // If we end with a newline, not a quote
             if(lastGroup.charAt(lastGroup.length - 1) === "\n") {
-                debugger;
                 column = 1;
                 line++;
                 truncData = data.slice( position );
@@ -289,12 +289,59 @@ module.exports = (data, error) => {
             tokens.push( stringToken );
             notMatched = false;
         }
-        if( matchData = /^'([^'\\]|(\\')|(\\\\))*'/.exec( truncData ) ) {
-            let stringToken = token("stringlit", matchData[0])
+        if(interpolating && truncData.charAt(0) === "}"){
+            debugger;
+            tokens.push( token("/interpolate") );
+            interpolating = false;
+            // some 1337 hax here to replace first character, since apparently
+            // that isn't a thing in javascript
+            truncData = truncData.replace(/^./, "'");
+        }
+        if( matchData = /^'([^'\\\r\n]|(\\')|(\\\\))*?('|\r?\n|\$\{)/.exec( truncData )) {
+            debugger;
+            let stringToken = token("stringlit", matchData[0].replace(/\r?\n$/, " "))
             column += matchData[0].length;
             position += matchData[0].length;
 
-            tokens.push( stringToken );
+            let lastGroup = matchData[matchData.length - 1];
+
+            // If we end with a newline
+            if(lastGroup.charAt(lastGroup.length - 1) === "\n") {
+                column = 1;
+                line++;
+                truncData = data.slice( position );
+                // Note: no beginning quote
+                while( matchData = /([^'\\\r\n]|(\\")|(\\\\))*("|\r?\n)/.exec( truncData ) ) {
+                    let stringAddon = matchData[0].replace(/(^ +)|\r?\n/g, " ");
+
+                    stringToken.text += stringAddon;
+                    position += matchData[0].length;
+
+                    lastGroup = matchData[matchData.length - 1];
+                    if(lastGroup.charAt(lastGroup.length - 1) === "\n") {
+                        column = 1;
+                        line++;
+                        truncData = data.slice( position );
+                    }
+                    else {
+                        column += matchData[0].length;
+                        break;
+                    }
+                }
+            }
+
+            if(lastGroup === "${") {
+                stringToken.text = stringToken.text.slice(0, -1).replace(/.$/, "'");
+                interpolating = true;
+
+                tokens.push( stringToken );
+
+                tokens.push( token("interpolate") );
+            }
+            else{
+                tokens.push( stringToken );
+            }
+
             notMatched = false;
         }
         if (matchData = /^(script|style)/.exec( truncData ) ) {
@@ -461,6 +508,7 @@ module.exports = (data, error) => {
             }
             // If it doesn't match those we have a problem
             else {
+                debugger;
                 return error.scanner("Could not tokenize", line, column);
             }
         }

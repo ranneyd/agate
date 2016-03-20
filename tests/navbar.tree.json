@@ -171,53 +171,50 @@
                                     "type": "stringlit",
                                     "line": 18,
                                     "column": 19,
-                                    "text": "'/${@page}html'"
+                                    "text": "'/'"
+                                 }
+                              },
+                              {},
+                              {
+                                 "name": {
+                                    "type": "stringlit",
+                                    "line": 18,
+                                    "column": 28,
+                                    "text": "'html'"
                                  }
                               },
                               {
-                                 "name": {
-                                    "type": "bareword",
-                                    "line": 18,
-                                    "column": 35,
-                                    "text": "class"
-                                 },
                                  "value": {
-                                    "type": "ternary",
-                                    "condition": {
+                                    "type": "relop",
+                                    "op": {
                                        "type": "relop",
-                                       "op": {
-                                          "type": "relop",
-                                          "line": 18,
-                                          "column": 49,
-                                          "text": "=="
-                                       },
-                                       "a": {
-                                          "type": "id",
-                                          "line": 18,
-                                          "column": 43,
-                                          "text": "page"
-                                       },
-                                       "b": {
-                                          "type": "stringlit",
-                                          "line": 18,
-                                          "column": 52,
-                                          "text": "\"home\""
-                                       }
+                                       "line": 18,
+                                       "column": 49,
+                                       "text": "=="
                                     },
-                                    "if": {
+                                    "a": {
+                                       "type": "id",
+                                       "line": 18,
+                                       "column": 43,
+                                       "text": "page"
+                                    },
+                                    "b": {
                                        "type": "stringlit",
                                        "line": 18,
-                                       "column": 62,
+                                       "column": 52,
                                        "text": "\"home\""
-                                    },
-                                    "else": {
-                                       "type": "stringlit",
-                                       "line": 18,
-                                       "column": 71,
-                                       "text": "\"\""
                                     }
                                  }
-                              }
+                              },
+                              {
+                                 "value": {
+                                    "type": "stringlit",
+                                    "line": 18,
+                                    "column": 62,
+                                    "text": "\"home\""
+                                 }
+                              },
+                              {}
                            ],
                            "args": [
                               {

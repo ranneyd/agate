@@ -280,7 +280,29 @@
       "type": "stringlit",
       "line": 18,
       "column": 19,
-      "text": "'/${@page}html'"
+      "text": "'/'"
+   },
+   {
+      "type": "interpolate",
+      "line": 18,
+      "column": 23
+   },
+   {
+      "type": "id",
+      "line": 18,
+      "column": 23,
+      "text": "page"
+   },
+   {
+      "type": "/interpolate",
+      "line": 18,
+      "column": 28
+   },
+   {
+      "type": "stringlit",
+      "line": 18,
+      "column": 28,
+      "text": "'html'"
    },
    {
       "type": "bareword",

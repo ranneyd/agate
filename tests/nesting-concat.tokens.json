@@ -113,7 +113,29 @@
       "type": "stringlit",
       "line": 5,
       "column": 19,
-      "text": "'\\\\${@file}.html'"
+      "text": "'\\\\'"
+   },
+   {
+      "type": "interpolate",
+      "line": 5,
+      "column": 24
+   },
+   {
+      "type": "id",
+      "line": 5,
+      "column": 24,
+      "text": "file"
+   },
+   {
+      "type": "/interpolate",
+      "line": 5,
+      "column": 29
+   },
+   {
+      "type": "stringlit",
+      "line": 5,
+      "column": 29,
+      "text": "'.html'"
    },
    {
       "type": "closeSquare",
@@ -212,7 +234,29 @@
       "type": "stringlit",
       "line": 6,
       "column": 20,
-      "text": "'\\\\${@file}.html'"
+      "text": "'\\\\'"
+   },
+   {
+      "type": "interpolate",
+      "line": 6,
+      "column": 25
+   },
+   {
+      "type": "id",
+      "line": 6,
+      "column": 25,
+      "text": "file"
+   },
+   {
+      "type": "/interpolate",
+      "line": 6,
+      "column": 30
+   },
+   {
+      "type": "stringlit",
+      "line": 6,
+      "column": 30,
+      "text": "'.html'"
    },
    {
       "type": "closeSquare",
@@ -245,7 +289,29 @@
       "type": "stringlit",
       "line": 6,
       "column": 57,
-      "text": "'link to \\\\${@file}.html'"
+      "text": "'link to \\\\'"
+   },
+   {
+      "type": "interpolate",
+      "line": 6,
+      "column": 70
+   },
+   {
+      "type": "id",
+      "line": 6,
+      "column": 70,
+      "text": "file"
+   },
+   {
+      "type": "/interpolate",
+      "line": 6,
+      "column": 75
+   },
+   {
+      "type": "stringlit",
+      "line": 6,
+      "column": 75,
+      "text": "'.html'"
    },
    {
       "type": "EOF",
