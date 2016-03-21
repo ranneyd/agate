@@ -789,8 +789,7 @@ module.exports = (scannerTokens, error, verbose) => {
         matchLog("Matching Attr");
         
         let attr = {};
-        error.hint = "HashMap keys can either be string literals or bare words. But be careful; if"
-                   + " you use bare words make sure they aren't reserved words!";
+        error.hint = "Did you use a reserved word as an index, like 'if', or did you forget an @ symbol?";
         if(at("stringlit")) {
             attr.name = match("stringlit");
         }

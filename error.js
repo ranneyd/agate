@@ -46,6 +46,10 @@ module.exports = class Error {
         if(message === "newline" && token.type === "dot") {
             this.hint = "Did you mean @var[attr] or @var~func instead of @var.attr?";
         }
+        if(message === "Expected some kind of expression" 
+            && ["colon", "equals"].indexOf(token.type) !== -1) {
+            this.hint = "Did you use parens instead of square brackets for attributes, like a(href='place.html') instead of a[href='place.html']?"
+        }
         return this.parse(`Expected ${message}, got ${token.type}`, token);
     }
 }
