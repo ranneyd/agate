@@ -232,160 +232,166 @@ module.exports = (data, error, verbose) => {
         if(codeEscape && truncData.slice(0, 2) === "}'") {
             codeEscape = false;
             newModeTrigger = true;
-            column += matchData[0].length;
-            position += matchData[0].length;
+            column += 2;
+            position += 2;
 
             truncData = truncData.slice(2);
         }
         // Since JS and CSS are separate token sets, we have to use these flags to determine when
         // we're looking at them.
         if ( newModeTrigger && !codeEscape) {
-            if ( matchData = /^(.*?)('\$\{|\r?\n)/.exec( truncData ) ) {
-                log(`Scanning ${jsMode ? "js" : "css"}`);
+            if ( matchData = /^(.*?)('\$\{|\r?\n|$)/.exec( truncData ) ) {
 
-                // If the last 3 characters are "'${", we have an interpolation situation
-                if ( matchData[2] === "'${" ) {
-                    codeEscape = true;
-                    newModeTrigger = false;
+                if(matchData[0].match(/^\r?\n/)){
+                    notMatched = true;
                 }
+                else {
+                    tokens.push( token(jsMode ? "js" : "css", matchData[1] || "" ) );
 
-                tokens.push( token(jsMode ? "js" : "css", matchData[1]) );
+                    // If the last 3 characters are "'${", we have an interpolation situation
+                    if ( matchData[2] === "'${" ) {
+                        codeEscape = true;
+                        newModeTrigger = false;
+                        column += 3;
+                        position += 3;
+                        notMatched = false;
+                    }
 
-                column += matchData[1].length;
-                position += matchData[1].length;
-
-                if( matchData[2].slice(-1) === "\n"){
-                    tokens.push( token("newline") );
+                    column += matchData[1].length;
+                    position += matchData[1].length;
+                    notMatched = false;
+                    // EOF
+                    if(matchData[2] === "") {
+                        position++;
+                    }
                 }
             }
-            // If this is null, we didn't get a match, meaning we have a newline or an id, meaning
-            // we need to keep checking. Otherwise, we don't want to keep checking
-            if ( !!matchData ) {
+        }
+        else {
+            // Comments for ignoring
+            if( matchData = /^\/\/(?!!)[^\r\n]*(\r?\n)/.exec( truncData ) ) {
+                log("I see a comment")
+                line++;
+                column = 1;
+                position += matchData[0].length;
                 notMatched = false;
             }
-        } 
-        // Comments for ignoring
-        if ( matchData = /^\/\/(?!!)[^\r\n]*(\r?\n)/.exec( truncData ) ) {
-            log("I see a comment")
-            line++;
-            column = 1;
-            position += matchData[0].length;
-            notMatched = false;
-        }
-        // string literals are a little complicated
-        if( matchData = /^"([^"\\\r\n]|(\\")|(\\\\))*("|\r?\n)/.exec( truncData ) ) {
-            let stringToken = token("stringlit", matchData[0].replace(/\r?\n$/, " "))
-            column += matchData[0].length;
-            position += matchData[0].length;
+            // string literals are a little complicated
+            if( matchData = /^"([^"\\\r\n]|(\\")|(\\\\))*("|\r?\n)/.exec( truncData ) ) {
+                let stringToken = token("stringlit", matchData[0].replace(/\r?\n$/, " "))
+                column += matchData[0].length;
+                position += matchData[0].length;
 
-            let lastGroup = matchData[matchData.length - 1];
+                let lastGroup = matchData[matchData.length - 1];
 
-            // If we end with a newline, not a quote
-            if(lastGroup.charAt(lastGroup.length - 1) === "\n") {
-                column = 1;
-                line++;
-                truncData = data.slice( position );
-                // Note: no beginning quote
-                while( matchData = /([^"\\\r\n]|(\\")|(\\\\))*("|\r?\n)/.exec( truncData ) ) {
-                    let stringAddon = matchData[0].replace(/(^ +)|\r?\n/g, " ");
+                // If we end with a newline, not a quote
+                if(lastGroup.charAt(lastGroup.length - 1) === "\n") {
+                    column = 1;
+                    line++;
+                    truncData = data.slice( position );
+                    // Note: no beginning quote
+                    while( matchData = /([^"\\\r\n]|(\\")|(\\\\))*("|\r?\n)/.exec( truncData ) ) {
+                        let stringAddon = matchData[0].replace(/(^ +)|\r?\n/g, " ");
 
-                    stringToken.text += stringAddon;
-                    position += matchData[0].length;
+                        stringToken.text += stringAddon;
+                        position += matchData[0].length;
 
-                    lastGroup = matchData[matchData.length - 1];
-                    if(lastGroup.charAt(lastGroup.length - 1) === "\n") {
-                        column = 1;
-                        line++;
-                        truncData = data.slice( position );
-                    }
-                    else {
-                        column += matchData[0].length;
-                        break;
+                        lastGroup = matchData[matchData.length - 1];
+                        if(lastGroup.charAt(lastGroup.length - 1) === "\n") {
+                            column = 1;
+                            line++;
+                            truncData = data.slice( position );
+                        }
+                        else {
+                            column += matchData[0].length;
+                            break;
+                        }
                     }
                 }
+
+                tokens.push( stringToken );
+                notMatched = false;
             }
+            if( interpolating && truncData.charAt(0) === "}" ) {
+                tokens.push( token("/interpolate") );
+                interpolating = false;
+                // some 1337 hax here to replace first character, since apparently
+                // that isn't a thing in javascript
+                truncData = truncData.replace(/^./, "'");
+            }
+            if( matchData = /^'([^'\\\r\n]|(\\')|(\\\\))*?('|\r?\n|\$\{)/.exec( truncData )) {
+                let stringToken = token("stringlit", matchData[0].replace(/\r?\n$/, " "))
+                column += matchData[0].length;
+                position += matchData[0].length;
 
-            tokens.push( stringToken );
-            notMatched = false;
-        }
-        if(interpolating && truncData.charAt(0) === "}"){
-            tokens.push( token("/interpolate") );
-            interpolating = false;
-            // some 1337 hax here to replace first character, since apparently
-            // that isn't a thing in javascript
-            truncData = truncData.replace(/^./, "'");
-        }
-        if( matchData = /^'([^'\\\r\n]|(\\')|(\\\\))*?('|\r?\n|\$\{)/.exec( truncData )) {
-            let stringToken = token("stringlit", matchData[0].replace(/\r?\n$/, " "))
-            column += matchData[0].length;
-            position += matchData[0].length;
+                let lastGroup = matchData[matchData.length - 1];
 
-            let lastGroup = matchData[matchData.length - 1];
+                // If we end with a newline
+                if(lastGroup.charAt(lastGroup.length - 1) === "\n") {
+                    column = 1;
+                    line++;
+                    truncData = data.slice( position );
+                    // Note: no beginning quote
+                    while( matchData = /([^'\\\r\n]|(\\")|(\\\\))*("|\r?\n)/.exec( truncData ) ) {
+                        let stringAddon = matchData[0].replace(/(^ +)|\r?\n/g, " ");
 
-            // If we end with a newline
-            if(lastGroup.charAt(lastGroup.length - 1) === "\n") {
-                column = 1;
-                line++;
-                truncData = data.slice( position );
-                // Note: no beginning quote
-                while( matchData = /([^'\\\r\n]|(\\")|(\\\\))*("|\r?\n)/.exec( truncData ) ) {
-                    let stringAddon = matchData[0].replace(/(^ +)|\r?\n/g, " ");
+                        stringToken.text += stringAddon;
+                        position += matchData[0].length;
 
-                    stringToken.text += stringAddon;
-                    position += matchData[0].length;
-
-                    lastGroup = matchData[matchData.length - 1];
-                    if(lastGroup.charAt(lastGroup.length - 1) === "\n") {
-                        column = 1;
-                        line++;
-                        truncData = data.slice( position );
-                    }
-                    else {
-                        column += matchData[0].length;
-                        break;
+                        lastGroup = matchData[matchData.length - 1];
+                        if(lastGroup.charAt(lastGroup.length - 1) === "\n") {
+                            column = 1;
+                            line++;
+                            truncData = data.slice( position );
+                        }
+                        else {
+                            column += matchData[0].length;
+                            break;
+                        }
                     }
                 }
+
+                if(lastGroup === "${") {
+                    stringToken.text = stringToken.text.slice(0, -1).replace(/.$/, "'");
+                    interpolating = true;
+
+                    tokens.push( stringToken );
+
+                    tokens.push( token("interpolate") );
+                }
+                else{
+                    tokens.push( stringToken );
+                }
+
+                notMatched = false;
             }
+            if (matchData = /^(script|style)/.exec( truncData ) ) {
+                tokens.push( token(matchData[0]) );
 
-            if(lastGroup === "${") {
-                stringToken.text = stringToken.text.slice(0, -1).replace(/.$/, "'");
-                interpolating = true;
-
-                tokens.push( stringToken );
-
-                tokens.push( token("interpolate") );
+                column += matchData[0].length;
+                position += matchData[0].length;
+                notMatched = false;
+                jsMode = matchData[0] === "script";
+                cssMode = !jsMode;
             }
-            else{
-                tokens.push( stringToken );
+            if (matchData = /^(=|:)/.exec( truncData ) ) {
+                // If we just matched a style or a script, it's actually an attribute 
+                let lastType = tokens[tokens.length - 1].type;
+                if(lastType === "script" || lastType === "style") {
+                    jsMode = false;
+                    cssMode = false;
+                }
             }
+            // Template
+            if (matchData = /^\| *(.+?)(?=[\n\r])/.exec( truncData )) {
+                tokens.push( token("template", matchData[1]) );
+                column += matchData[0].length;
+                position += matchData[0].length;
 
-            notMatched = false;
-        }
-        if (matchData = /^(script|style)/.exec( truncData ) ) {
-            tokens.push( token(matchData[0]) );
-
-            column += matchData[0].length;
-            position += matchData[0].length;
-            notMatched = false;
-            jsMode = matchData[0] === "script";
-            cssMode = !jsMode;
-        }
-        if (matchData = /^(=|:)/.exec( truncData ) ) {
-            // If we just matched a style or a script, it's actually an attribute 
-            let lastType = tokens[tokens.length - 1].type;
-            if(lastType === "script" || lastType === "style") {
-                jsMode = false;
-                cssMode = false;
+                notMatched = false;
             }
         }
-        // Template
-        if (matchData = /^\| *(.+?)(?=[\n\r])/.exec( truncData )) {
-            tokens.push( token("template", matchData[1]) );
-            column += matchData[0].length;
-            position += matchData[0].length;
-
-            notMatched = false;
-        }
+        
         // Match the keywords in a special way
         for ( let keyword in keywords ) {
             let keywordRegex = new RegExp(`^${keywords[keyword]}(?![A-Za-z$_])`);
