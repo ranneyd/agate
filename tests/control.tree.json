@@ -39,7 +39,7 @@
          },
          "args": [
             {
-               "type": "elemattr",
+               "type": "elemfunc",
                "elem": {
                   "type": "call",
                   "callee": {
@@ -50,16 +50,16 @@
                   },
                   "classes": [
                      {
-                        "type": "bareword",
+                        "type": "htmlclass",
                         "line": 4,
-                        "column": 11,
+                        "column": 10,
                         "text": "mybutton"
                      }
                   ],
                   "id": {
-                     "type": "bareword",
+                     "type": "htmlid",
                      "line": 4,
-                     "column": 20,
+                     "column": 19,
                      "text": "pass"
                   },
                   "attrs": [
@@ -79,7 +79,7 @@
                      }
                   ]
                },
-               "attr": {
+               "func": {
                   "type": "bareword",
                   "line": 4,
                   "column": 42,
@@ -97,7 +97,7 @@
                            "text": "<"
                         },
                         "a": {
-                           "type": "elemattr",
+                           "type": "elemfunc",
                            "elem": {
                               "type": "elemat",
                               "index": {
@@ -112,7 +112,7 @@
                                  "column": 12
                               }
                            },
-                           "attr": {
+                           "func": {
                               "type": "bareword",
                               "line": 5,
                               "column": 23,

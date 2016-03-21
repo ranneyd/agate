@@ -538,9 +538,9 @@ module.exports = (scannerTokens, error, verbose) => {
             match("tilde")
             
             exp = {
-                "type": "elemattr",
+                "type": "elemfunc",
                 "elem": exp,
-                "attr": match("bareword")
+                "func": match("bareword")
             };
             error.hint = "The ~ operator is for member functions only. Thus, if you don't put parens after, we're going to gobble up as many potential arguments as we can";
             if( atArgs() ) {
@@ -738,13 +738,21 @@ module.exports = (scannerTokens, error, verbose) => {
         matchLog("Matching HtmlClass");
 
         match("dot");
-        return match("bareword");
+        let exp = match("bareword");
+        exp.type = "htmlclass";
+        // Because of the .
+        exp.column--;
+        return exp;
     }
     var HtmlId = () => {
         matchLog("Matching HtmlId");
 
         match("hash");
-        return match("bareword");
+        let exp = match("bareword");
+        exp.type = "htmlid";
+        // Because of the #
+        exp.column--;
+        return exp;
     }
     var Attrs = () => {
         matchLog("Matching Attrs");

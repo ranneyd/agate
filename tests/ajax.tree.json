@@ -19,9 +19,9 @@
                   "text": "div"
                },
                "id": {
-                  "type": "bareword",
+                  "type": "htmlid",
                   "line": 2,
-                  "column": 9,
+                  "column": 8,
                   "text": "holder"
                },
                "args": [
@@ -34,9 +34,9 @@
                         "text": "button"
                      },
                      "id": {
-                        "type": "bareword",
+                        "type": "htmlid",
                         "line": 3,
-                        "column": 16,
+                        "column": 15,
                         "text": "populate"
                      },
                      "args": [
@@ -49,14 +49,14 @@
                      ]
                   },
                   {
-                     "type": "elemattr",
+                     "type": "elemfunc",
                      "elem": {
-                        "type": "bareword",
+                        "type": "htmlid",
                         "line": 4,
-                        "column": 10,
+                        "column": 9,
                         "text": "populate"
                      },
-                     "attr": {
+                     "func": {
                         "type": "bareword",
                         "line": 4,
                         "column": 19,
@@ -138,14 +138,14 @@
                            },
                            "body": [
                               {
-                                 "type": "elemattr",
+                                 "type": "elemfunc",
                                  "elem": {
-                                    "type": "bareword",
+                                    "type": "htmlid",
                                     "line": 10,
-                                    "column": 18,
+                                    "column": 17,
                                     "text": "holder"
                                  },
-                                 "attr": {
+                                 "func": {
                                     "type": "bareword",
                                     "line": 10,
                                     "column": 25,
@@ -162,9 +162,9 @@
                                        },
                                        "classes": [
                                           {
-                                             "type": "bareword",
+                                             "type": "htmlclass",
                                              "line": 11,
-                                             "column": 25,
+                                             "column": 24,
                                              "text": "object"
                                           }
                                        ],
