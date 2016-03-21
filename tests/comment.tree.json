@@ -11,12 +11,6 @@
          },
          "args": [
             {
-               "type": "comment",
-               "line": 2,
-               "column": 5,
-               "text": "// Comment"
-            },
-            {
                "type": "call",
                "callee": {
                   "type": "bareword",
@@ -25,6 +19,12 @@
                   "text": "div"
                },
                "args": [
+                  {
+                     "type": "comment",
+                     "line": 4,
+                     "column": 9,
+                     "text": "//! super comment"
+                  },
                   {
                      "type": "call",
                      "callee": {

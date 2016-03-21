@@ -14,9 +14,12 @@ module.exports = (scannerTokens, error, verbose) => {
             console.log(message);
         }
     };
+    var matchLog = (message) => {
+        log(message + ` at line ${tokens[0].line} col ${tokens[0].column}`);
+    };
 
     var Program = () => {
-        log("Matching the program");
+        matchLog("Matching the program");
         let tree = {
             "type":"program",
             "block": Block()
@@ -25,7 +28,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return tree;
     };
     var Block = () => {
-        log("Matching Block");
+        matchLog("Matching Block");
         let statements = [];
 
         // If we get a dedent or an EOF, we have no more block
@@ -53,57 +56,53 @@ module.exports = (scannerTokens, error, verbose) => {
         return statements;
     };
     var Statement = () => {
-        log("Matching a Statement");
+        matchLog("Matching a Statement");
 
-        // Assignments are a little complicated
-        let assignmentCheck = () =>{
-            // Things that can be assigned
-            if( at("id") || at("dot") || at("hash")) {
-                debugger;
-                // Position of the equals we want
-                let pos = 1;
-                // If it's an HtmlSelector
-                if( !at("id") ) {
-                    // HtmlSelectors have two tokens, ids are just one
-                    pos++;
-                }
-                if(tokens.length > pos) {
-                    // check for ArrayAts
-                    while(tokens[pos].type === "openSquare") {
-                        // ArrayAts are always three tokens
-                        if(tokens.length > pos + 3) {
-                            pos += 3;
-                        }
-                        else{
-                            return false;
-                        }
-                    }
-                    if( binAssignOps.indexOf(tokens[pos].type) !== -1 ) {
-                        pos++;
-                    }
-                    return tokens[pos].type === "equals";
+        // // Assignments are a little complicated
+        // let assignmentCheck = () =>{
+        //     // Things that can be assigned
+        //     if( at("id") || at("dot") || at("hash")) {
+        //         debugger;
+        //         // Position of the equals we want
+        //         let pos = 1;
+        //         // If it's an HtmlSelector
+        //         if( !at("id") ) {
+        //             // HtmlSelectors have two tokens, ids are just one
+        //             pos++;
+        //         }
+        //         if(tokens.length > pos) {
+        //             // check for ArrayAts
+        //             while(tokens[pos].type === "openSquare") {
+        //                 // ArrayAts are always three tokens
+        //                 if(tokens.length > pos + 3) {
+        //                     pos += 3;
+        //                 }
+        //                 else{
+        //                     return false;
+        //                 }
+        //             }
+        //             if( binAssignOps.indexOf(tokens[pos].type) !== -1 ) {
+        //                 pos++;
+        //             }
+        //             return tokens[pos].type === "equals";
 
-                }
-                return false;
+        //         }
+        //         return false;
 
-            }
-            return false;
-        };
-
-        if ( at('template') ) {
+        //     }
+        //     return false;
+        // };
+        if( at("comment") ) {
+            return match("comment");
+        }
+        else if ( at('template') ) {
             return Template();
         }
         else if( at(controlTypes) ) {
             return Control();
         }
-        else if( assignmentCheck() ) {
-            return Assignment();
-        }
         else if( at("def") ) {
             return Definition();
-        }
-        else if( at("comment") ) {
-            return match("comment");
         }
         else if( at("return") ) {
             match("return");
@@ -113,7 +112,46 @@ module.exports = (scannerTokens, error, verbose) => {
             };
         }
         else if( atExp() ){
-            return Exp();
+            let exp = Exp();
+            if( at("equals") || at(binAssignOps) ) {
+                let assignment = {
+                    "type": "assignment",
+                    "lhs": exp
+                };
+                if( at(binAssignOps) ){
+                    if( at("boolop") ) {
+                        assignment.value = {
+                            "type": "boolop",
+                            "op": match("boolop"),
+                            "a": assignment.id
+                        };
+                    }
+                    else if( at("multop") ) {
+                        assignment.value = {
+                            "type": "multop",
+                            "op": match("multop"),
+                            "a": assignment.id
+                        };
+                    }
+                    else {
+                        error.hint = "You have 'id *something*= *stuff*' and we're trying to figure out"
+                                   + "what the *something* means. We're looking for stuff like +=, -= etc";
+                        assignment.value = {
+                            "type": "addop",
+                            "op": at("minus") ? match("minus") : match("plus"),
+                            "a": assignment.id
+                        };
+                    }
+                    match("equals")
+                    assignment.value.b = Exp();
+                }
+                else {
+                    match("equals");
+                    assignment.value = Exp();
+                }
+                exp = assignment;
+            }
+            return exp;
         }
         else {
             error.hint = "Did you put a blank line without indentation?";
@@ -146,7 +184,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return template;
     };
     var Label = () =>{
-        log("Matching Label");
+        matchLog("Matching Label");
         match("openCurly");
         let label = { 
             type: "Label,",
@@ -156,7 +194,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return label;
     };
     var ChildBlock = () => {
-        log("Matching ChildBlock");
+        matchLog("Matching ChildBlock");
         match("newline");
         match("indent");
 
@@ -179,19 +217,19 @@ module.exports = (scannerTokens, error, verbose) => {
         return block;
     };
     var JSBlock = () => {
-        log("Matching JS Block");
+        matchLog("Matching JS Block");
 
         let js = {
             "type": "JS Block",
             "body": []
         };
         if( at("id") ){
-            js.body.push( match("id") );
+            js.body.push( IdWithAttr() );
         }
         do {
             js.body.push( match("js") );
             if( at("id") ){
-                js.body.push( match("id") );
+                js.body.push( IdWithAttr() );
             }
             // If they put newlines in their JS, more power to them
             while( at("newline") ){
@@ -202,19 +240,19 @@ module.exports = (scannerTokens, error, verbose) => {
         return js;
     };
     var CSSBlock = () => {
-        log("Matching CSS Block");
+        matchLog("Matching CSS Block");
 
         let css = {
             "type": "CSS Block",
             "body": []
         };
         if( at("id") ){
-            css.body.push( match("id") );
+            css.body.push( IdWithAttr() );
         }
         do {
             css.body.push( match("css") );
             if( at("id") ){
-                css.body.push( match("id") );
+                css.body.push( IdWithAttr() );
             }
             // If they put newlines in their CSS, more power to them
             while( at("newline") ){
@@ -224,8 +262,20 @@ module.exports = (scannerTokens, error, verbose) => {
 
         return css;
     };
+    var IdWithAttr = () => {
+        matchLog("Matching IdWithAttr");
+        let id = match("id");
+
+        while( at("openSquare") ) {
+            let arrAt = ArrayAt();
+            arrAt.of = id;
+            id = arrAt;
+        }
+
+        return id;
+    }
     var Control = () => {
-        log("Matching Control block");
+        matchLog("Matching Control block");
 
         if( at("if")) {
             return If();
@@ -241,7 +291,7 @@ module.exports = (scannerTokens, error, verbose) => {
         }
     };
     var If = () => {
-        log("Matching If");
+        matchLog("Matching If");
 
         let ifStatement = {
             "type": "if"
@@ -279,7 +329,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return ifStatement;
     };
     var For = () => {
-        log("Matching For");
+        matchLog("Matching For");
 
         match('for');
 
@@ -290,13 +340,13 @@ module.exports = (scannerTokens, error, verbose) => {
 
         match("in");
 
-        forStatement.interable = Exp();
+        forStatement.iterable = Exp();
         forStatement.body = ChildBlock();
 
         return forStatement;
     };
     var ArrayDef = () => {
-        log("Matching Array");
+        matchLog("Matching Array");
 
         match("openSquare");
 
@@ -327,7 +377,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return arrayDef;
     };
     var ArgBlock = () => {
-        log("Matching ArgBlock");
+        matchLog("Matching ArgBlock");
         match("newline");
         match("indent");
         let args = [];
@@ -341,11 +391,11 @@ module.exports = (scannerTokens, error, verbose) => {
         return args;
     };
     var Arg = () => {
-        log("Matching Arg");
+        matchLog("Matching Arg");
         return Exp();
     };
     var While = () => {
-        log("Matching While");
+        matchLog("Matching While");
 
         if( at("while") ) {
             return {
@@ -358,54 +408,8 @@ module.exports = (scannerTokens, error, verbose) => {
             error.expected('a while statement', tokens.shift());
         }
     };
-    var Assignment = () => {
-        log("Matching Assignment");
-
-        let assignment = {
-            "type": "assignment",
-            "lhs": at("id") ? match("id") : HtmlSelect()
-        };
-        if( at("openSquare") ){
-            let arrAt = ArrayAt();
-            arrAt.of = assignment.lhs;
-            assignment.lhs = arrAt;
-        }
-        if( at(binAssignOps) ){
-            if( at("boolop") ) {
-                assignment.value = {
-                    "type": "boolop",
-                    "op": match("boolop"),
-                    "a": assignment.id
-                };
-            }
-            else if( at("multop") ) {
-                assignment.value = {
-                    "type": "multop",
-                    "op": match("multop"),
-                    "a": assignment.id
-                };
-            }
-            else {
-                error.hint = "You have 'id *something*= *stuff*' and we're trying to figure out"
-                           + "what the *something* means. We're looking for stuff like +=, -= etc";
-                assignment.value = {
-                    "type": "addop",
-                    "op": at("minus") ? match("minus") : match("plus"),
-                    "a": assignment.id
-                };
-            }
-            match("equals")
-            assignment.value.b = Exp();
-        }
-        else {
-            match("equals");
-            assignment.value = Exp();
-        }
-
-        return assignment;
-    };
     var Definition = () => {
-        log("Matching Definition");
+        matchLog("Matching Definition");
         match("def");
         let func = {
             "type": "definition",
@@ -432,12 +436,12 @@ module.exports = (scannerTokens, error, verbose) => {
         return func;
     };
     var Exp = () => {
-        log("Matching Exp");
+        matchLog("Matching Exp");
 
         return TernaryIfExp();
     }
     var TernaryIfExp = () => {
-        log("Matching TernaryIfExp");
+        matchLog("Matching TernaryIfExp");
 
         let exp = BoolExp();
         if( at("question") ) {
@@ -455,10 +459,10 @@ module.exports = (scannerTokens, error, verbose) => {
         return exp;
     };
     var BoolExp = () => {
-        log("Matching BoolExp");
+        matchLog("Matching BoolExp");
 
         let exp = RelExp();
-        while( at("boolop") ) {
+        while( at("boolop") && !atSequential(["boolop", "equals"])) {
             let boolop = {
                 "type": "boolop",
                 "op": match("boolop"),
@@ -471,7 +475,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return exp;
     };
     var RelExp = () => {
-        log("Matching RelExp");
+        matchLog("Matching RelExp");
         let exp = AddExp();
         while( at("relop") ) {
            let relop = {
@@ -485,9 +489,9 @@ module.exports = (scannerTokens, error, verbose) => {
         return exp;
     };
     var AddExp = () => {
-        log("Matching AddExp");
+        matchLog("Matching AddExp");
         let exp = MultExp();
-        while( at(["plus", "minus"]) ) {
+        while( at(["plus", "minus"])  && !atIndex("equals", 1) ) {
             let addop = {
                 "type": "addop",
                 "op": at("plus") ? match("plus") : match("minus"),
@@ -499,9 +503,9 @@ module.exports = (scannerTokens, error, verbose) => {
         return exp;
     };
     var MultExp = () => {
-        log("Matching MultExp");
+        matchLog("Matching MultExp");
         let exp = PostfixExp();
-        while( at("multop") ) {
+        while( at("multop")  && !atSequential(["multop", "equals"]) ) {
             let multop = {
                 "type": "multop",
                 "op": match("multop"),
@@ -513,7 +517,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return exp;
     };
     var PostfixExp = () => {
-        log("Matching PostfixExp");
+        matchLog("Matching PostfixExp");
 
         let exp = ElemFuncExp();
         if ( at("postfixop") ) {
@@ -526,7 +530,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return exp;
     };
     var ElemFuncExp = () => {
-        log("Matching ElemFuncExp");
+        matchLog("Matching ElemFuncExp");
 
         let exp = ArrayElemExp();
 
@@ -547,7 +551,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return exp;
     };
     var ArrayElemExp = () => {
-        log("Matching ArrayElemExp");
+        matchLog("Matching ArrayElemExp");
 
         let exp = MiscExp();
 
@@ -559,22 +563,16 @@ module.exports = (scannerTokens, error, verbose) => {
         return exp;
     };
     var ArrayAt = () => {
-        log("Matching ArrayAt");
+        matchLog("Matching ArrayAt");
         match("openSquare");
 
-        let index = Exp();
-        // if( at("intlit") ) {
-        //     index = match("intlit");
-        // }
-        // else if ( at("stringlit") ){
-        //     index = match("stringlit");
-        // }
-        // else if ( at("bareword") ){
-        //     index = match("bareword");
-        // }
-        // else{
-        //     error.expected("string, int, or bareword", tokens.shift());
-        // }
+        let index;
+        if( atSequential(["bareword", "closeSquare"]) ) {
+            index = match("bareword");
+        }
+        else {
+            index = Exp();
+        }
 
         let exp = {
             "type": "elemat",
@@ -586,7 +584,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return exp;
     };
     var MiscExp = () => {
-        log("Matching MiscExp");
+        matchLog("Matching MiscExp");
 
         if( at(lits) ) {
             return Literal();
@@ -635,7 +633,7 @@ module.exports = (scannerTokens, error, verbose) => {
         }
     };
     var Literal = () => {
-        log("Matching Literal");
+        matchLog("Matching Literal");
 
         for( let lit in lits ) {
             if( at(lits[lit]) ) {
@@ -650,7 +648,7 @@ module.exports = (scannerTokens, error, verbose) => {
         error.expected('some kind of literal', tokens.shift());
     };
     var StringDef = () => {
-        log("Matching String");
+        matchLog("Matching String");
 
         let str = match("stringlit");
         while( at("interpolate") ) {
@@ -672,7 +670,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return str;
     }
     var Include = () => {
-        log("Matching Include");
+        matchLog("Matching Include");
 
         match("include");
         return {
@@ -681,7 +679,7 @@ module.exports = (scannerTokens, error, verbose) => {
         }
     };
     var Call = () => {
-        log("Matching Call");
+        matchLog("Matching Call");
         let call = {
             "type": "call"
         };
@@ -717,7 +715,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return call;
     };
     var BuiltIn = () => {
-        log("Matching BuiltIn");
+        matchLog("Matching BuiltIn");
 
         for( let builtin in builtins ) {
             if( at(builtins[builtin]) ) {
@@ -727,7 +725,7 @@ module.exports = (scannerTokens, error, verbose) => {
         error.expected('some kind of built in function', tokens.shift());
     };
     var HtmlSelect = () => {
-        log("Matching HtmlSelect");
+        matchLog("Matching HtmlSelect");
 
         if( at("dot") ){
             return HtmlClass();
@@ -737,19 +735,19 @@ module.exports = (scannerTokens, error, verbose) => {
         }
     };
     var HtmlClass = () => {
-        log("Matching HtmlClass");
+        matchLog("Matching HtmlClass");
 
         match("dot");
         return match("bareword");
     }
     var HtmlId = () => {
-        log("Matching HtmlId");
+        matchLog("Matching HtmlId");
 
         match("hash");
         return match("bareword");
     }
     var Attrs = () => {
-        log("Matching Attrs");
+        matchLog("Matching Attrs");
         
         match("openSquare")
 
@@ -770,7 +768,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return attrs;
     };
     var AttrBlock = () => {
-        log("Matching AttrBlock");
+        matchLog("Matching AttrBlock");
         
         match("newline");
         match("indent");
@@ -788,7 +786,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return attrs;
     };
     var Attr = () => {
-        log("Matching Attr");
+        matchLog("Matching Attr");
         
         let attr = {};
         error.hint = "HashMap keys can either be string literals or bare words. But be careful; if"
@@ -814,7 +812,7 @@ module.exports = (scannerTokens, error, verbose) => {
         return attr;
     };
     var Args = () => {
-        log("Matching Args");
+        matchLog("Matching Args");
         
         if( at("openParen") ){
             match("openParen");
@@ -848,7 +846,7 @@ module.exports = (scannerTokens, error, verbose) => {
         }
     };
     var HashMap = () => {
-        log("Matching HashMap");
+        matchLog("Matching HashMap");
 
         match("openCurly");
 
@@ -878,10 +876,22 @@ module.exports = (scannerTokens, error, verbose) => {
     // Returns true if the next token has type "type", or a type in "type" if
     // type is an array, false otherwise
     var at = ( type ) => {
-        return tokens.length && 
-            (Array.isArray( type ) && type.some(at) 
-                || type === tokens[0].type);
+        return atIndex( type, 0 );
     };
+    var atIndex = ( type, i ) => {
+        if(tokens.length <= i) {
+            return false;
+        }
+        if(Array.isArray( type )) {
+            for(let j = 0; j < type.length; ++j) {
+                if( type[j] === tokens[i].type ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return type === tokens[i].type;
+    }
     // Like at except if type is an array, it checks one after the other.
     var atSequential = ( type ) => {
         for(let i = 0; i < type.length; ++i) {

@@ -16,17 +16,6 @@
       "column": 1
    },
    {
-      "type": "comment",
-      "line": 2,
-      "column": 5,
-      "text": "// Comment"
-   },
-   {
-      "type": "newline",
-      "line": 2,
-      "column": 15
-   },
-   {
       "type": "bareword",
       "line": 3,
       "column": 5,
@@ -41,6 +30,12 @@
       "type": "indent",
       "line": 4,
       "column": 1
+   },
+   {
+      "type": "comment",
+      "line": 4,
+      "column": 9,
+      "text": "//! super comment"
    },
    {
       "type": "newline",

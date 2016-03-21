@@ -13,16 +13,17 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Block*         |`newline+ (Statement ((?<!ChildBlock)newline+)?)+`             |
 |Statement      |`Template`                                                     |
 |               |`Control`                                                      |
-|               |`Assignment`                                                   |
 |               |`Definition`                                                   |
 |               |`comment`                                                      |
 |               |`return Exp`                                                   |
 |               |`Exp`                                                          |
+|               |`Assignment`                                                   |
 |Template       |`template (newline indent (Label ChildBlock)+ dedent)?`        |
 |ChildBlock     |`newline indent (JSBlock|CSSBlock|Block) newline dedent`       |
 |Label          |`openCurly bareword closeCurly`                                |
-|JSBlock        |`id? (js id? newline*)+`                                       |
-|CSSBlock       |`id? (css id? newline*)+`                                      |
+|JSBlock        |`IdWithAttr? (js IdWithAttr? newline*)+`                       |
+|CSSBlock       |`IdWithAttr? (css IdWithAttr? newline*)+`                      |
+|IdWithAttr     |`id ArrayAt*`                                                  |
 |Control        |`If | For | While`                                             |
 |If             |`if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?`|
 |For            |`for id in Exp ChildBlock`                                     |
@@ -30,7 +31,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |ArgBlock       |`newline indent (Arg newline)+ dedent`                         |
 |Arg            |`Exp`                                                          |
 |While          |`while Exp ChildBlock`                                         |
-|Assignment     |`(id|HtmlSelect)ArrayAt?(AddExp|MultExp|BoolExp)? equals Exp`  |
+|Assignment     |`Exp (AddExp|MultExp|BoolExp)? equals Exp`                     |
 |Definition     |`def bareword openParen (id comma?)* closeParen ChildBlock`    |
 |Exp            |`TernaryIfExp`                                                 |
 |TernaryIfExp   |`BoolExp (question BoolExp colon BoolExp)?`                    |
@@ -41,7 +42,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |PostfixExp     |`ElemFuncExp postfixop?`                                       |
 |ElemFuncExp    |`ArrayElemExp (tilde bareword Args?)*`                         |
 |ArrayElemExp   |`MiscExp ArrayAt*`                                             |
-|ArrayAt        |`(openSquare intlit|stringlit|bareword closeSquare)`           |
+|ArrayAt        |`(openSquare Exp closeSquare)`                                 |
 |MiscExp        |`Literal|Label|Include|Array|HashMap|id|this|HtmlSelect`       |
 |               |`openParen Exp closeParen`                                     |
 |\*\*           |`(prefixop|minus)? id`                                         |

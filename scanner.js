@@ -59,7 +59,7 @@ module.exports = (data, error, verbose) => {
     var regexes = [
         {
             "type": "comment",
-            "regex": /^\/\/(?!!)[^\r\n]*/
+            "regex": /^\/\/\![^\r\n]*/
         },
         {
             "type": "question",
@@ -206,6 +206,7 @@ module.exports = (data, error, verbose) => {
     var cssMode = false;
     var newModeTrigger = false;
     var interpolating = false;
+    var codeEscape = false;
         // I don't trust javascript to optimize this and not call length every time
     var dataLength = data.length;
     var token = function(type, text){
@@ -228,26 +229,33 @@ module.exports = (data, error, verbose) => {
         log(`Scanning at line ${line} col ${column}`);
         // Some complicated ones we need to preempt
 
+        if(codeEscape && truncData.slice(0, 2) === "}'") {
+            codeEscape = false;
+            newModeTrigger = true;
+            column += matchData[0].length;
+            position += matchData[0].length;
+
+            truncData = truncData.slice(2);
+        }
         // Since JS and CSS are separate token sets, we have to use these flags to determine when
         // we're looking at them.
-        if ( newModeTrigger ) {
-            // Interesting note about this bad boy: it makes the quotes in '@name' optional. The
-            // problem is @ isn't technically illegal JS and I think it can be used in legal JS
-            // identifiers, so it may lead to incorrectness. But hey, if the user doesn't want
-            // to put the quotes, they don't have to. If there are quotes around it, however,
-            // they will be removed.
-            if ( matchData = /^((.(?!'?@|[\n\r]))*.)('?(@[A-Za-z$_]+)'?)?/.exec( truncData ) ) {
+        if ( newModeTrigger && !codeEscape) {
+            if ( matchData = /^(.*?)('\$\{|\r?\n)/.exec( truncData ) ) {
                 log(`Scanning ${jsMode ? "js" : "css"}`);
-                tokens.push( token(jsMode ? "js" : "css", matchData ? matchData[1] : "") );
 
-                column += matchData[0].length;
-                position += matchData[0].length;
+                // If the last 3 characters are "'${", we have an interpolation situation
+                if ( matchData[2] === "'${" ) {
+                    codeEscape = true;
+                    newModeTrigger = false;
+                }
 
-                // If the last group is matched, this is it. Otherwise this is undefined. :D
-                var potentialID = matchData[matchData.length - 1]
-                if ( potentialID ) {
-                    // Slice to chop off the @ symbol
-                    tokens.push( token("id", potentialID.slice(1)) );
+                tokens.push( token(jsMode ? "js" : "css", matchData[1]) );
+
+                column += matchData[1].length;
+                position += matchData[1].length;
+
+                if( matchData[2].slice(-1) === "\n"){
+                    tokens.push( token("newline") );
                 }
             }
             // If this is null, we didn't get a match, meaning we have a newline or an id, meaning
@@ -257,8 +265,10 @@ module.exports = (data, error, verbose) => {
             }
         } 
         // Comments for ignoring
-        if ( matchData = /^\/\/![^\r\n]*/.exec( truncData ) ) {
-            column += matchData[0].length;
+        if ( matchData = /^\/\/(?!!)[^\r\n]*(\r?\n)/.exec( truncData ) ) {
+            log("I see a comment")
+            line++;
+            column = 1;
             position += matchData[0].length;
             notMatched = false;
         }
@@ -390,9 +400,12 @@ module.exports = (data, error, verbose) => {
         // Simples cases handled here. If we match something, notMatched will be false so we won't
         // do the stuff down there
         for ( var type in regexes ) {
-            if ( notMatched && (matchData = regexes[type].regex.exec( truncData ) ) ) {
-
-                tokens.push( token(regexes[type].type, regexes[type].notext ? false : matchData[0] ) );
+            let ourType = regexes[type];
+            if ( notMatched && (matchData = ourType.regex.exec( truncData ) ) ) {
+                // I care this much
+                let an = ["a","e","i","o","u"].indexOf(ourType.type.charAt(0)) !== -1 ? "an" : "a";
+                log(`I see ${an} ${ourType.type} at line ${line} col ${column}`)
+                tokens.push( token(ourType.type, ourType.notext ? false : matchData[0] ) );
 
                 column += matchData[0].length;
                 position += matchData[0].length;
@@ -520,7 +533,8 @@ module.exports = (data, error, verbose) => {
                 }
             }
             // Whitespace (for ignoring)
-            else if ( matchData = /^[\s]+/.exec( truncData ) ) {
+            else if ( matchData = /^[ \t]+/.exec( truncData ) ) {
+                log(`Ignoring whitespace at line ${line} col ${column}`);
                 column += matchData[0].length;
                 position += matchData[0].length;
             }
