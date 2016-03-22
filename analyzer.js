@@ -1,6 +1,6 @@
 "use strict";
 
-class Namespace{
+class Env{
     constructor(){
         this.env = {};
     }
@@ -11,7 +11,7 @@ class Namespace{
         return this.env[key];
     }
     copy(){
-        let newEnv = new Namespace();
+        let newEnv = new Env();
         for(let key in this.env){
             newEnv[key] = this.env[key];
         }
@@ -37,34 +37,39 @@ module.exports = (parseTree, error, verbose) => {
     };
 
 
-    var globalEnv = new Namespace();
+    var globalEnv = new Env();
 
     var Block = (statements, env) => {
         log("Parsing Block");
 
         let localEnv = env.copy();
 
-        let output = "";
+        let block = {};
+
+        // // First we have to see if functions are declared
+        // for(let i = 0; i < statements.length; ++i) {
+        //     let statement = statements[i];
+
+        //     if( statement.type === "definition" ) {
+                
+        //     }
+        // }
 
         for(let i = 0; i < statements.length; ++i) {
-            let statement = statements[i];
-
-            if( statement.type === "call" ) {
-                output += Call(statement, localEnv);
-            }
+            //If assignment, add to environment
+            //else do this
+            block.push(Statement(statements[i], localEnv));
         }
     };
 
-    var Call = (call, env) => {
-        log("Parsing Call");
+    var Statement = (statement, env) => {
+        log("Parsing Statement");
 
         let localEnv = env.copy();
 
-        let output = "";
 
-        
-        
     }
 
-    return `<html>\n${Block(parseTree.block, {})}</html>`
+
+    return Block(parseTree.block, globalEnv());
 };
