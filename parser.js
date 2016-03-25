@@ -189,13 +189,13 @@ module.exports = (scannerTokens, error, verbose) => {
             "type": "JS Block",
             "body": []
         };
-        if( at("id") ){
-            js.body.push( IdWithAttr() );
+        if( atExp() ){
+            js.body.push( Exp() );
         }
         do {
             js.body.push( match("js") );
-            if( at("id") ){
-                js.body.push( IdWithAttr() );
+            if( atExp() ){
+                js.body.push( Exp() );
             }
             // If they put newlines in their JS, more power to them
             while( at("newline") ){
@@ -212,13 +212,13 @@ module.exports = (scannerTokens, error, verbose) => {
             "type": "CSS Block",
             "body": []
         };
-        if( at("id") ){
-            css.body.push( IdWithAttr() );
+        if( atExp() ){
+            css.body.push( Exp() );
         }
         do {
             css.body.push( match("css") );
-            if( at("id") ){
-                css.body.push( IdWithAttr() );
+            if( atExp() ){
+                css.body.push( Exp() );
             }
             // If they put newlines in their CSS, more power to them
             while( at("newline") ){
