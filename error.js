@@ -4,6 +4,7 @@ module.exports = class Error {
         this.count = 0;
         this.log = true;
         this.hint = "";
+        this.warnings = 0;
     }
     // Stops logging errors. Still counts
     suspend() {
@@ -13,8 +14,8 @@ module.exports = class Error {
     resume() {
         this.log = true;
     }
-    generic(message, line, col) {
-        this.count++;
+    generic(message, line, col, warning) {
+        warning ? this.warnings++ : this.count++;
         if(this.log){
             console.log(message);
         }
@@ -52,7 +53,7 @@ module.exports = class Error {
         }
         return this.parse(`Expected ${message}, got ${token.type}`, token);
     }
-    undefined(message, token) {
-        return this.generic(`Semantic Error: ${message} is not defined in this scope`, token.line, token.column);
+    undefined(type, name, token, warning) {
+        return this.generic(`Semantic ${warning ? "warning" : "error"}: ${type} '${name}' is not defined in this scope`, token.line, token.column, warning);
     }
 }
