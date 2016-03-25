@@ -8,6 +8,7 @@ module.exports = class SpecialBlock{
         this.type = `${type.toUpperCase()} Block`;
         this.statements = statements;
         this.error = new Error();
+        this.safe = true;
     }
     analyze( env ) {
         // We don't need a new environment because there are no assignments in
@@ -29,6 +30,7 @@ module.exports = class SpecialBlock{
                 code = "";
 
                 stmt.analyze( env );
+                this.safe = this.safe && stmt.safe;
                 stmts.push(stmt);
             }
         }

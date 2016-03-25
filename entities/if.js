@@ -6,22 +6,24 @@ module.exports = class If{
     constructor( conditions ) {
         this.type = "If";
         this.conditions = conditions;
+        this.safe = true;
     }
     analyze( env ) {        
-        // we're going to length -1 to skip the last one. It's inefficient to
-        // check for an else with a conditional in every iteration
-        let i = 0;
-        for( ; i < this.conditions.length - 1; ++i) {
+        for( let i = 0; i < this.conditions.length - 1; ++i) {
             let ifstmt = this.conditions[i];
-            
-            ifstmt.conditional.analyze( env );
-            ifstmt.body.analyze( env );
-        }
-        let ifstmt = this.conditions[i];
 
-        if( ifstmt.conditional ) {
-            ifstmt.conditional.analyze( env );
+            let localEnv = env.makeChild();
+            // If not the else case
+            if( ifstmt.conditional ) {
+                ifstmt.conditional.analyze( localEnv );
+                if( !ifstmt.conditional.safe ) {
+                    this.safe = false;
+                    localEnv.markUnsafe();
+                }
+            }
+            ifstmt.body.analyze( localEnv );
+
         }
-        ifstmt.body.analyze( env );
+
     }
 };

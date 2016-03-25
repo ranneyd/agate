@@ -8,9 +8,19 @@ module.exports = class Env {
         this.vars = {};
         this.functions = {};
         this.labels = {};
+        // Safety is based on runtime vs compile-time values. 
+        this.isSafe = true;
+    }
+    // Make an entire environment unsafe. You might want to do this inside the
+    // success block of an ajax request. Once an entire environment is unsafe,
+    // it cannot be made safe again.
+    markUnsafe() {
+        this.isSafe = false;
     }
     makeChild() {
-        return new Env(this);
+        let env = new Env(this);
+        env.isSafe = this.isSafe;
+        return env;
     }
     lookupVar( token ) {
         return lookup( "var", token );
@@ -22,7 +32,7 @@ module.exports = class Env {
         return lookup( "label", token );
     }
     // Look up in one of the tables, designated by 'type'
-    lookup( type, token ) {
+    lookup( type, token, noError ) {
         let key = token.text;
         let value;
         if( type === "var" ) {
@@ -47,25 +57,45 @@ module.exports = class Env {
                 value = this.parent.lookupLabel(key);
             }            
 
-            if( !value ) {
+            if( !value && !noError) {
                 error.undefined( type, name, token );
                 return false;
             }
         }
         return value;
     }
-    existsVar( token ) {
-        return exists( "var", token );
+    // These actually work with tokens or just key strings. Works with both for convenience
+    existsVar( key ) {
+        return exists( "var", key );
     }
-    existsFunction( token ) {
-        return exists( "function", token );
+    existsFunction( key ) {
+        return exists( "function", key );
     }
-    existsLabel( token ) {
-        return exists( "label", token );
+    existsLabel( key ) {
+        return exists( "label", key );
     }
-    exists( type, token ) {
-        let value = this.lookup( token );
+    exists( type, key ) {
+        let value = this.lookup( key.text ? key.text : key, true );
         return !!value;
+    }
+    // These actually work with tokens or just key strings. Works with both for convenience
+    isSafeVar( key ) {
+        return isSafe( "var", key );
+    }
+    isSafeFunction( key ) {
+        return isSafe( "function", key );
+    }
+    isSafeLabel( key ) {
+        return isSafe( "label", key );
+    }
+    isSafe( type, key ) {
+        let value = this.lookup( key.text ? key.text : key, true );
+        if( value ){
+            // If we got a hit, check if it's safe, double banging to get a proper bool
+            return !!value.safe
+        }
+        // If we didn't get a hit, it's definitely not safe
+        return false;
     }
     addVar( key, value ) {
         return add( "var", key, value );

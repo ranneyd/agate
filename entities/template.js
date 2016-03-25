@@ -14,6 +14,7 @@ module.exports = class Template{
         this.labels = labels;
         this.error = new Error();
         this.verbose = verbose;
+        this.safe = true;
     }
     analyze( env ) {
         localEnv = env.makeChild();
@@ -26,6 +27,8 @@ module.exports = class Template{
             localEnv.addLabel( label, body );
 
             body.analyze();
+
+            this.safe = this.safe && body.safe;
         }
 
         // Get the text from the file
@@ -50,5 +53,6 @@ module.exports = class Template{
         // body the body of the template "program"
         this.type = "block";
         this.body = tree;
+        this.safe = this.safe && tree.body.safe;
     }
 };
