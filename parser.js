@@ -58,40 +58,6 @@ module.exports = (scannerTokens, error, verbose) => {
     var Statement = () => {
         matchLog("Matching a Statement");
 
-        // // Assignments are a little complicated
-        // let assignmentCheck = () =>{
-        //     // Things that can be assigned
-        //     if( at("id") || at("dot") || at("hash")) {
-        //         debugger;
-        //         // Position of the equals we want
-        //         let pos = 1;
-        //         // If it's an HtmlSelector
-        //         if( !at("id") ) {
-        //             // HtmlSelectors have two tokens, ids are just one
-        //             pos++;
-        //         }
-        //         if(tokens.length > pos) {
-        //             // check for ArrayAts
-        //             while(tokens[pos].type === "openSquare") {
-        //                 // ArrayAts are always three tokens
-        //                 if(tokens.length > pos + 3) {
-        //                     pos += 3;
-        //                 }
-        //                 else{
-        //                     return false;
-        //                 }
-        //             }
-        //             if( binAssignOps.indexOf(tokens[pos].type) !== -1 ) {
-        //                 pos++;
-        //             }
-        //             return tokens[pos].type === "equals";
-
-        //         }
-        //         return false;
-
-        //     }
-        //     return false;
-        // };
         if( at("comment") ) {
             return match("comment");
         }

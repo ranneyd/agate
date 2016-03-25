@@ -33,7 +33,7 @@ module.exports = class Error {
         };
     }
     scanner(message, line, col) {
-        return this.generic(`Scanner error: ${message}`, line, col);
+        return this.generic(`Scanner Error: ${message}`, line, col);
     }
     parse(message, token) {
         return this.generic(`Parse Error: ${message}`, token.line, token.column);
@@ -51,5 +51,8 @@ module.exports = class Error {
             this.hint = "Did you use parens instead of square brackets for attributes, like a(href='place.html') instead of a[href='place.html']?"
         }
         return this.parse(`Expected ${message}, got ${token.type}`, token);
+    }
+    undefined(message, token) {
+        return this.generic(`Semantic Error: ${message} is not defined in this scope`, token.line, token.column);
     }
 }

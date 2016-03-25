@@ -244,6 +244,29 @@
                ]
             }
          ]
+      },
+      {
+         "type": "call",
+         "callee": {
+            "type": "bareword",
+            "line": 8,
+            "column": 1,
+            "text": "ack"
+         },
+         "args": [
+            {
+               "type": "intlit",
+               "line": 8,
+               "column": 5,
+               "text": "1"
+            },
+            {
+               "type": "intlit",
+               "line": 8,
+               "column": 7,
+               "text": "2"
+            }
+         ]
       }
    ]
 }

@@ -281,8 +281,41 @@
       "text": "1"
    },
    {
-      "type": "EOF",
+      "type": "newline",
       "line": 7,
       "column": 38
+   },
+   {
+      "type": "dedent",
+      "line": 8,
+      "column": 1
+   },
+   {
+      "type": "dedent",
+      "line": 8,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 8,
+      "column": 1,
+      "text": "ack"
+   },
+   {
+      "type": "intlit",
+      "line": 8,
+      "column": 5,
+      "text": "1"
+   },
+   {
+      "type": "intlit",
+      "line": 8,
+      "column": 7,
+      "text": "2"
+   },
+   {
+      "type": "EOF",
+      "line": 8,
+      "column": 8
    }
 ]
