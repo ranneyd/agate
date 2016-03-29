@@ -25,7 +25,8 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |CSSBlock       |`Exp? (css Exp? newline*)+`                                    |
 |Control        |`If | For | While`                                             |
 |If             |`if Exp ChildBlock (else-if Exp ChildBlock)*(else ChildBlock)?`|
-|For            |`for id in Exp ChildBlock`                                     |
+|For            |`for id in Iterable ChildBlock`                                |
+|Iterable       |`Exp`                                                          |
 |Array          |`openSquare (Arg+|ArgBlock|intlit range intlit)? closeSquare`  |
 |ArgBlock       |`newline indent (Arg newline)+ dedent`                         |
 |Arg            |`Exp`                                                          |

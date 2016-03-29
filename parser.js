@@ -306,11 +306,15 @@ module.exports = (scannerTokens, error, verbose) => {
 
         match("in");
 
-        forStatement.iterable = Exp();
+        forStatement.iterable = Iterable();
         forStatement.body = ChildBlock();
 
         return forStatement;
     };
+    var Iterable = () => {
+        matchLog("Matching Iterable");
+        return Exp();
+    }
     var ArrayDef = () => {
         matchLog("Matching Array");
 

@@ -8,22 +8,21 @@ module.exports = class If{
         this.conditions = conditions;
         this.safe = true;
     }
-    analyze( env ) {        
+    analyze( env ) {
+        let tempSafe = this.safe;  
         for( let i = 0; i < this.conditions.length - 1; ++i) {
             let ifstmt = this.conditions[i];
 
             let localEnv = env.makeChild();
             // If not the else case
             if( ifstmt.conditional ) {
-                ifstmt.conditional.analyze( localEnv );
-                if( !ifstmt.conditional.safe ) {
-                    this.safe = false;
-                    localEnv.markUnsafe();
-                }
+                ifstmt.conditional.analyze( env );
+                localEnv.safe = this.safe && ifstmt.conditional.safe;
+                tempSafe = tempSafe && ifstmt.conditional.safe;
             }
             ifstmt.body.analyze( localEnv );
-
+            tempSafe = tempSafe && ifstmt.body.safe;
         }
-
+        this.safe = tempSafe;
     }
 };

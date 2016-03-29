@@ -9,17 +9,17 @@ module.exports = class Env {
         this.functions = {};
         this.labels = {};
         // Safety is based on runtime vs compile-time values. 
-        this.isSafe = true;
+        this.safe = true;
     }
     // Make an entire environment unsafe. You might want to do this inside the
     // success block of an ajax request. Once an entire environment is unsafe,
     // it cannot be made safe again.
     markUnsafe() {
-        this.isSafe = false;
+        this.safe = false;
     }
     makeChild() {
         let env = new Env(this);
-        env.isSafe = this.isSafe;
+        env.safe = this.safe;
         return env;
     }
     lookupVar( token ) {
