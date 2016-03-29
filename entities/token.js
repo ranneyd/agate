@@ -9,7 +9,7 @@ module.exports = class Token{
         this.safe = safe;
     }
     // No analysis necessary
-    analyze( ) {
-        return true;
+    analyze( env ) {
+
     }
 };

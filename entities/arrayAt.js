@@ -8,10 +8,10 @@ module.exports = class ArrayAt{
         this.safe = true;
     }
     analyze( env ) {
-        let array = env.lookupVar( this.array );
-        this.safe = this.safe && array.safe;
+        this.array = env.lookupVar( this.array );
+        this.safe = this.safe && this.array.safe;
         
-        index.analyze( env );
+        this.index.analyze( env );
         this.safe = this.safe && this.index.safe;
     }
 };

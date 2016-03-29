@@ -20,8 +20,6 @@ module.exports = class Def{
         this.body.parse( localEnv );
 
         this.safe = this.safe && this.body.safe;
-        // user~ means the namespace is user. There is a system "agate"
-        // namespace and individual objects
-        env.addFunc( `user~${this.name}`, this );
+        env.addFunc( this.name, this );
     }
 };
