@@ -17,7 +17,7 @@ module.exports = class If{
             // If not the else case
             if( ifstmt.conditional ) {
                 ifstmt.conditional.analyze( env );
-                localEnv.safe = this.safe && ifstmt.conditional.safe;
+                localEnv.safe = localEnv.safe && this.safe && ifstmt.conditional.safe;
                 tempSafe = tempSafe && ifstmt.conditional.safe;
             }
             ifstmt.body.analyze( localEnv );

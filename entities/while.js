@@ -13,9 +13,9 @@ module.exports = class While{
         this.safe = this.safe && exp.safe;
 
         localEnv = env.makeChild();
-        localEnv.safe = this.safe;
+        localEnv.safe = localEnv.safe && this.safe;
 
-        body.parse( localEnv );
+        this.body.parse( localEnv );
         
         this.safe = this.safe && body.safe;
     }

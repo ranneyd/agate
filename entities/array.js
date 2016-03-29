@@ -7,7 +7,7 @@ module.exports = class Array{
         this.safe = true;
     }
     analyze( env ) {
-        for(let elem of elems) {
+        for(let elem of this.elems) {
             elem.parse( env );
 
             this.safe = this.safe && elem.safe;  

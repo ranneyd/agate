@@ -8,7 +8,7 @@ module.exports = class Block{
     }
     analyze( env ) {
         localEnv = env.makeChild();
-        localEnv.safe = this.safe;
+        localEnv.safe = localEnv.safe && this.safe;
         
         for( let i = 0; i < this.statements.length; ++i) {
             let stmt = this.statements[i]

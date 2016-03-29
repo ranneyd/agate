@@ -9,12 +9,14 @@ module.exports = class For{
         this.safe = true;
     }
     analyze( env ) {
+        let iterable = this.iterable;
+        
         iterable.parse( env );
 
         this.safe = this.safe && iterable.safe;
 
         localEnv = env.makeChild();
-        localEnv.safe = this.safe;
+        localEnv.safe = localEnv.safe && this.safe;
 
         // Doing some hoisting since we don't have the value yet
         localEnv.addVar(id, null);
