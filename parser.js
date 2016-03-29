@@ -1,5 +1,31 @@
 "use strict";
 
+ArrayDef = require("./entities/array");
+ArrayAt = require("./entities/arrayAt");
+Assignment = require("./entities/assignment");
+BinaryExp = require("./entities/binaryExp");
+Block = require("./entities/block");
+Call = require("./entities/call");
+Def = require("./entities/def");
+ElemFunc = require("./entities/elemFunc");
+HashMap = require("./entities/hashMap");
+If = require("./entities/if");
+Include = require("./entities/include");
+Interable = require("./entities/iterable");
+Label = require("./entities/label");
+Literal = require("./entities/literal");
+Lookup = require("./entities/lookup");
+Program = require("./entities/program");
+Return = require("./entities/return");
+Selector = require("./entities/selector");
+SpecialBlock = require("./entities/specialBlock");
+Template = require("./entities/template");
+This = require("./entities/this");
+Token = require("./entities/token");
+UnaryExp = require("./entities/unaryExp");
+While = require("./entities/while");
+
+
 var lits = ["stringlit", "intlit", "floatlit", "boollit"];
 var builtins = ['script', 'style'];
 var controlTypes = ['if', 'for', 'while'];
@@ -18,17 +44,14 @@ module.exports = (scannerTokens, error, verbose) => {
         log(message + ` at line ${tokens[0].line} col ${tokens[0].column}`);
     };
 
-    var Program = () => {
+    var program = () => {
         matchLog("Matching the program");
-        let tree = {
-            "type":"program",
-            "block": Block()
-        };
+        let tree = new Program( block() );
         match("EOF");
         return tree;
     };
-    var Block = () => {
-        matchLog("Matching Block");
+    var block = () => {
+        matchLog("Matching block");
         let statements = [];
 
         // If we get a dedent or an EOF, we have no more block
@@ -36,12 +59,12 @@ module.exports = (scannerTokens, error, verbose) => {
             while( at("newline") ) {
                 match("newline");
             }
-            let statement = Statement();
+            let stmt = statement();
 
             // They can put as many blank lines as they'd like, but that
             // doesn't mean we have to pay attention to them
-            if(statement !== "blank"){
-                statements.push( statement );
+            if(stmt !== "blank"){
+                statements.push( stmt );
             }
 
             // child blocks are special cases. Since dedents come after the
@@ -53,71 +76,64 @@ module.exports = (scannerTokens, error, verbose) => {
             }
         }
 
-        return statements;
+        return new Block(statements);
     };
-    var Statement = () => {
-        matchLog("Matching a Statement");
+    var statement = () => {
+        matchLog("Matching a statement");
 
         if( at("comment") ) {
-            return match("comment");
+            return new Token( match("comment") );
         }
         else if ( at('template') ) {
-            return Template();
+            return template();
         }
         else if( at(controlTypes) ) {
-            return Control();
+            return control();
         }
         else if( at("def") ) {
-            return Definition();
+            return definition();
         }
         else if( at("return") ) {
             match("return");
-            return {
-                "type": "return",
-                "value": Exp()
-            };
+            return new Return( exp() );
         }
         else if( atExp() ){
-            let exp = Exp();
+            let ourExp = exp();
             if( at("equals") || at(binAssignOps) ) {
-                let assignment = {
-                    "type": "assignment",
-                    "lhs": exp
-                };
                 if( at(binAssignOps) ){
                     if( at("boolop") ) {
-                        assignment.value = {
-                            "type": "boolop",
-                            "op": match("boolop"),
-                            "a": assignment.id
-                        };
+                        let op = match("boolop");
+                        match("equals");
+                        ourExp = new Assignment(
+                            ourExp,
+                            new BinaryExp(ourExp, exp(), op)
+                        );
                     }
                     else if( at("multop") ) {
-                        assignment.value = {
-                            "type": "multop",
-                            "op": match("multop"),
-                            "a": assignment.id
-                        };
+                        let op = match("multop");
+                        match("equals");
+                        ourExp = new Assignment(
+                            ourExp,
+                            new BinaryExp(ourExp, exp(), op)
+                        );
                     }
                     else {
                         error.hint = "You have 'id *something*= *stuff*' and we're trying to figure out"
                                    + "what the *something* means. We're looking for stuff like +=, -= etc";
-                        assignment.value = {
-                            "type": "addop",
-                            "op": at("minus") ? match("minus") : match("plus"),
-                            "a": assignment.id
-                        };
+                        let op = at("minus") ? match("minus") : match("plus");
+                        match("equals");
+                        ourExp = new Assignment(
+                            ourExp,
+                            new BinaryExp(ourExp, exp(), op)
+                        );
                     }
-                    match("equals")
-                    assignment.value.b = Exp();
                 }
                 else {
                     match("equals");
-                    assignment.value = Exp();
+                    ourExp = new Assignment( ourExp, exp());
                 }
-                exp = assignment;
             }
-            return exp;
+            return ourExp;
         }
         else {
             error.hint = "Did you put a blank line without indentation?";
@@ -921,5 +937,5 @@ module.exports = (scannerTokens, error, verbose) => {
         }
     };
 
-    return Program();
+    return program();
 };
