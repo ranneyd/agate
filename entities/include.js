@@ -18,7 +18,17 @@ module.exports = class Include{
     analyze( env ) {
 
         // Get the text from the file
-        let raw = fs.readFileSync(this.filename, 'utf8');
+        let raw = "";
+        try{
+            raw = fs.readFileSync(this.filename.text, 'utf8');
+        }
+        catch(err){
+            this.error.generic(
+                `Semantic error: No file named '${this.filename.text}' found`,
+                this.filename.line,
+                this.filename.column
+            );
+        }
 
         // Scan it
         if( this.verbose ) {

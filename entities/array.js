@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = class Array{
+module.exports = class ArrayDef{
     constructor( elems ) {
         this.type = "Array";
         this.elems = elems;

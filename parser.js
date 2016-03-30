@@ -102,7 +102,7 @@ module.exports = (scannerTokens, error, verbose) => {
             if( at("equals") || at(binAssignOps) ) {
                 if( at(binAssignOps) ){
                     if( at("boolop") ) {
-                        let op = match("boolop");
+                        let op = new Token( match("boolop") );
                         match("equals");
                         ourExp = new Assignment(
                             ourExp,
@@ -110,7 +110,7 @@ module.exports = (scannerTokens, error, verbose) => {
                         );
                     }
                     else if( at("multop") ) {
-                        let op = match("multop");
+                        let op = new Token( match("multop") );
                         match("equals");
                         ourExp = new Assignment(
                             ourExp,
@@ -120,7 +120,7 @@ module.exports = (scannerTokens, error, verbose) => {
                     else {
                         error.hint = "You have 'id *something*= *stuff*' and we're trying to figure out"
                                    + "what the *something* means. We're looking for stuff like +=, -= etc";
-                        let op = at("minus") ? match("minus") : match("plus");
+                        let op = new Token( at("minus") ? match("minus") : match("plus") );
                         match("equals");
                         ourExp = new Assignment(
                             ourExp,
@@ -142,76 +142,66 @@ module.exports = (scannerTokens, error, verbose) => {
         }
 
     };
-    var Template = () => {
-        log('Matching Template');
+    var template = () => {
+        matchLog('Matching template');
 
-        let template = {
-            "type": "template",
-            "template": match("template")
-        };
+        let ourTemp = match("template");
+        let labels = [];
         if( at("newline") ) {
             match("newline");
             match("indent");
-            let labels = [];
             do{
-                labels.push({
-                    "label": Label(),
-                    "body": ChildBlock()
-                });
+                labels.push( 
+                    "label": label(),
+                    "body": childBlock()
+                );
             } while ( !at("dedent") );
 
-            template.labels = labels;
             match("dedent");
         }
-        return template;
+        return new Template( ourTemp, labels, verbose);
     };
-    var Label = () =>{
-        matchLog("Matching Label");
+    var label = () =>{
+        matchLog("Matching label");
         match("openCurly");
-        let label = { 
-            type: "Label,",
-            label: match("bareword")
-        };
+        let ourLabel = new Label( match("bareword") );
         match("closeCurly");
-        return label;
+        return ourLabel;
     };
-    var ChildBlock = () => {
-        matchLog("Matching ChildBlock");
+    var childBlock = () => {
+        matchLog("Matching childBlock");
         match("newline");
         match("indent");
 
-        let block;
+        let ourBlock;
 
         if( at("js") ){
-            block = JSBlock();
+            ourBlock = JSBlock();
         }
         else if( at("css") ){
-            block = CSSBlock();
+            ourBlock = CSSBlock();
         }
         else {
-            block = Block();
+            ourBlock = block();
         }
 
 
         if( !at("EOF")){
             match("dedent");
         }
-        return block;
+        return ourBlock;
     };
     var JSBlock = () => {
         matchLog("Matching JS Block");
 
-        let js = {
-            "type": "JS Block",
-            "body": []
-        };
+        let statements = [];
         if( atExp() ){
-            js.body.push( Exp() );
+            statements.push( exp() );
         }
         do {
-            js.body.push( match("js") );
+            statements.push( match("js") );
             if( atExp() ){
-                js.body.push( Exp() );
+                statements.push( exp() );
             }
             // If they put newlines in their JS, more power to them
             while( at("newline") ){
@@ -219,22 +209,19 @@ module.exports = (scannerTokens, error, verbose) => {
             }
         } while( at("js") );
 
-        return js;
+        return new SpecialBlock( statements, "js" );
     };
     var CSSBlock = () => {
         matchLog("Matching CSS Block");
 
-        let css = {
-            "type": "CSS Block",
-            "body": []
-        };
+        let statements = [];
         if( atExp() ){
-            css.body.push( Exp() );
+            statements.push( exp() );
         }
         do {
-            css.body.push( match("css") );
+            statements.push( match("css") );
             if( atExp() ){
-                css.body.push( Exp() );
+                statements.push( exp() );
             }
             // If they put newlines in their CSS, more power to them
             while( at("newline") ){
@@ -242,165 +229,155 @@ module.exports = (scannerTokens, error, verbose) => {
             }
         } while( at("css") );
 
-        return css;
+        return new SpecialBlock( statements, "css" );
     };
-    var IdWithAttr = () => {
-        matchLog("Matching IdWithAttr");
-        let id = match("id");
-
-        while( at("openSquare") ) {
-            let arrAt = ArrayAt();
-            arrAt.of = id;
-            id = arrAt;
-        }
-
-        return id;
-    }
-    var Control = () => {
-        matchLog("Matching Control block");
+    var control = () => {
+        matchLog("Matching control block");
 
         if( at("if")) {
-            return If();
+            return ifDef();
         }
         else if( at("for") ) {
-            return For();
+            return forDef();
         }
         else if( at("while") ) {
-            return While();
+            return whileDef();
         }
         else {
             error.parse(`${tokens[0].text} is not a recognized control statement`, tokens.shift());
         }
     };
-    var If = () => {
-        matchLog("Matching If");
+    var ifDef = () => {
+        matchLog("Matching if");
 
-        let ifStatement = {
-            "type": "if"
-        };
+        let conditionals = [];
 
         if( at("if") ) {
             match("if");
 
-            ifStatement.condition = Exp();
-            ifStatement.body = ChildBlock();
+            conditionals.push({
+                condition: exp(),
+                body: childBlock()
+            });
 
             while( at("else-if") ) {
                 match("else-if");
 
-                let thisIf = {
-                    "condition": Exp(),
-                    "body": ChildBlock()
-                };
-                
-                let elseIfs = ifStatement["else-if"] || [];
-                elseIfs.push(thisIf);
-                ifStatement["else-if"] = elseIfs;
+                conditionals.push({
+                    condition: exp(),
+                    body: childBlock()
+                });
             }
 
             if( at("else") ) {
                 match("else");
 
-                ifStatement.else = ChildBlock()
+                conditionals.push({
+                    body: childBlock()
+                });
             }
         }
         else {
             error.expected('an if statement', tokens.shift());          
         }
 
-        return ifStatement;
+        return new If( conditionals );
     };
-    var For = () => {
-        matchLog("Matching For");
+    var forDef = () => {
+        matchLog("Matching for");
 
         match('for');
 
-        let forStatement = {
-            "type": "for",
-            "id": match("id")
-        };
-
+        let ourId = match("id");
         match("in");
 
-        forStatement.iterable = Iterable();
-        forStatement.body = ChildBlock();
-
-        return forStatement;
+        return new For(ourId, iterable(), childBlock());
     };
-    var Iterable = () => {
-        matchLog("Matching Iterable");
-        return Exp();
+    var iterable = () => {
+        matchLog("Matching iterable");
+        return new Iterable( exp() );
     }
-    var ArrayDef = () => {
-        matchLog("Matching Array");
+    var arrayDef = () => {
+        matchLog("Matching array");
 
         match("openSquare");
 
-        let arrayDef = {
-            "type": "array",
-        };
+        let elems = [];
         if( !at("closeSquare") ){
             if(atSequential(["intlit", "range", "intlit"])) {
-                arrayDef.elems = {
-                    "type": "range",
-                    "a": match("intlit")
-                }
+                let a = match("intlit");
+                let aVal = parseInt( a.text() );
+                
                 match("range");
-                arrayDefs.elems.b = match("intlit");
+                
+                let b = match("intlit");
+                let bVal = parseInt( b.text() );
+
+                if( isNaN(aVal) ){
+                    error.parse(`'${a.text()}' has to be a number`, a);
+                }
+                else if( isNaN(bVal) ){
+                    error.parse(`'${b.text()}' has to be a number`, b);
+                }
+                else{
+                    if( aVal < bVal ) {
+                        for( let i = aVal; i < bVal; ++i ){
+                            elems.push( new Literal("Intlit", {
+                                type: "intlit",
+                                text: i,
+                                line: a.line(),
+                                column: a.column()
+                            }));
+                        }
+                    }
+                }
             }
             else if( at("newline") ) {
-                arrayDef.elems = ArgBlock();
+                elems = argBlock();
             }
             else {
-                arrayDef.elems = [];
+                elems = [];
                 do{
-                    arrayDef.elems.push(Arg());
+                    elems.push(arg());
                 } while( !at("closeSquare") );
             }
         }
         match("closeSquare");
 
-        return arrayDef;
+        return new ArrayDef( elems );
     };
-    var ArgBlock = () => {
-        matchLog("Matching ArgBlock");
+    var argBlock = () => {
+        matchLog("Matching argBlock");
         match("newline");
         match("indent");
-        let args = [];
+        let ourArgs = [];
         do {
-            args.push(Arg());
+            ourArgs.push(arg());
             match("newline");
         } while( !at("dedent") );
 
         match("dedent");
 
-        return args;
+        return ourArgs;
     };
-    var Arg = () => {
-        matchLog("Matching Arg");
-        return Exp();
+    var arg = () => {
+        matchLog("Matching arg");
+        return exp();
     };
-    var While = () => {
-        matchLog("Matching While");
+    var whileDef = () => {
+        matchLog("Matching while");
 
         if( at("while") ) {
-            return {
-                "type": "while",
-                "condition": Exp(),
-                "body": ChildBlock()
-            };
+            return new While( exp(), childBlock() );
         }
         else {
             error.expected('a while statement', tokens.shift());
         }
     };
-    var Definition = () => {
-        matchLog("Matching Definition");
+    var def = () => {
+        matchLog("Matching definition");
         match("def");
-        let func = {
-            "type": "definition",
-            "name": match("bareword"),
-        };
+        let name =  match("bareword");
         
         match("openParen");
         
@@ -411,130 +388,102 @@ module.exports = (scannerTokens, error, verbose) => {
                 match("comma");
             }
         }
-        if(params.length > 0){
-            func.params = params;
-        }
         
         match("closeParen");
-        
-        func.body = ChildBlock();
 
-        return func;
+        return new Def( name, params, childBlock() );
     };
-    var Exp = () => {
-        matchLog("Matching Exp");
+    var exp = () => {
+        matchLog("Matching exp");
 
-        return TernaryIfExp();
+        return ternaryIfExp();
     }
-    var TernaryIfExp = () => {
-        matchLog("Matching TernaryIfExp");
+    var ternaryIfExp = () => {
+        matchLog("Matching ternaryIfExp");
 
-        let exp = BoolExp();
+        let ourExp = boolExp();
         if( at("question") ) {
             match("question");
-            let ternary = {
-                "type": "ternary",
-                "condition": exp,
-                "if": BoolExp()
-            };
-            match("colon");
-            ternary.else = BoolExp();
             
-            exp = ternary;
-        }
-        return exp;
-    };
-    var BoolExp = () => {
-        matchLog("Matching BoolExp");
+            ourExp = [{
+                condition: ourExp,
+                body: boolExp()
+            }];
 
-        let exp = RelExp();
+            match("colon");
+            
+            ourExp.push({ body: boolExp()});
+        }
+        return ourExp;
+    };
+    var boolExp = () => {
+        matchLog("Matching boolExp");
+
+        let ourExp = relExp();
         while( at("boolop") && !atSequential(["boolop", "equals"])) {
-            let boolop = {
-                "type": "boolop",
-                "op": match("boolop"),
-                "a": exp,
-                "b": RelExp()
-            };
-
-            exp = boolop;
+            let ourOp = match("boolop");
+            ourExp = new BinaryExp( ourExp, relExp(), ourOp );
         }
-        return exp;
+        return ourExp;
     };
-    var RelExp = () => {
-        matchLog("Matching RelExp");
-        let exp = AddExp();
-        while( at("relop") ) {
-           let relop = {
-                "type": "relop",
-                "op": match("relop"),
-                "a": exp,
-                "b": AddExp()
-            };
-            exp = relop;
+    var relExp = () => {
+        matchLog("Matching relExp");
+        
+        let ourExp = addExp();
+        while( at("relop") && !atSequential(["relop", "equals"])) {
+            let ourOp = match("relop");
+            ourExp = new BinaryExp( ourExp, addExp(), ourOp );
         }
-        return exp;
+        return ourExp;
     };
-    var AddExp = () => {
-        matchLog("Matching AddExp");
-        let exp = MultExp();
+    var addExp = () => {
+        matchLog("Matching addExp");
+        let ourExp = multExp();
         while( at(["plus", "minus"])  && !atIndex("equals", 1) ) {
-            let addop = {
-                "type": "addop",
-                "op": at("plus") ? match("plus") : match("minus"),
-                "a": exp,
-                "b": MultExp()
-            };
-            exp = addop;
+            let ourOp = at("plus") ? match("plus") : match("minus");
+            ourExp = new BinaryExp( ourExp, multExp(), ourOp );
         }
-        return exp;
+        return ourExp;
     };
-    var MultExp = () => {
-        matchLog("Matching MultExp");
-        let exp = PostfixExp();
-        while( at("multop")  && !atSequential(["multop", "equals"]) ) {
-            let multop = {
-                "type": "multop",
-                "op": match("multop"),
-                "a": exp,
-                "b": PostfixExp()
-            };
-            exp = multop;
+    var multExp = () => {
+        matchLog("Matching multExp");
+        
+        let ourExp = postfixExp();
+        while( at("multop") && !atSequential(["multop", "equals"])) {
+            let ourOp = match("multop");
+            ourExp = new BinaryExp( ourExp, postfixExp(), ourOp );
         }
-        return exp;
+        return ourExp;
     };
-    var PostfixExp = () => {
-        matchLog("Matching PostfixExp");
+    var postfixExp = () => {
+        matchLog("Matching postfixExp");
 
-        let exp = ElemFuncExp();
-        if ( at("postfixop") ) {
-            return {
-                "type": "postfixop",
-                "op": match("postfixop"),
-                "body": exp
-            };
+        let ourExp = elemFuncExp();
+        if( at("postfixop") ) {
+            ourExp = new UnaryExp( ourExp, match("postfixop") );
         }
-        return exp;
+        return ourExp;
     };
-    var ElemFuncExp = () => {
-        matchLog("Matching ElemFuncExp");
+    var elemFuncExp = () => {
+        matchLog("Matching elemFuncExp");
 
-        let exp = ArrayElemExp();
+        let ourExp = arrayElemExp();
 
         while ( at("tilde") ) {
             match("tilde")
             
-            exp = {
-                "type": "elemfunc",
-                "elem": exp,
-                "func": match("bareword")
-            };
+            let func = match("bareword");
+            let ourArgs = [];
             error.hint = "The ~ operator is for member functions only. Thus, if you don't put parens after, we're going to gobble up as many potential arguments as we can";
+            
             if( atArgs() ) {
-                exp.args = Args();
+                ourArgs = args();
             }
             error.hint = "";
+
+            ourExp = new ElemFunc( ourExp, func, ourArgs);
         }
-        return exp;
+        return ourExp;
     };
     var ArrayElemExp = () => {
         matchLog("Matching ArrayElemExp");

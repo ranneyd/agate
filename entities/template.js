@@ -26,13 +26,23 @@ module.exports = class Template{
 
             localEnv.addLabel( label, body );
 
-            body.analyze();
+            body.analyze( env );
 
             this.safe = this.safe && body.safe;
         }
 
         // Get the text from the file
-        let raw = fs.readFileSync(this.filename, 'utf8');
+        let raw = "";
+        try{
+            raw = fs.readFileSync(this.filename.text, 'utf8');
+        }
+        catch(err){
+            this.error.generic(
+                `Semantic error: No file named '${this.filename.text}' found`,
+                this.filename.line,
+                this.filename.column
+            );
+        }
 
         // Scan it
         if( this.verbose ) {
