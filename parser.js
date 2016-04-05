@@ -1,30 +1,29 @@
 "use strict";
-
-ArrayDef = require("./entities/array");
-ArrayAt = require("./entities/arrayAt");
-Assignment = require("./entities/assignment");
-BinaryExp = require("./entities/binaryExp");
-Block = require("./entities/block");
-Call = require("./entities/call");
-Def = require("./entities/def");
-ElemFunc = require("./entities/elemFunc");
-HashMap = require("./entities/hashMap");
-If = require("./entities/if");
-Include = require("./entities/include");
-Interable = require("./entities/iterable");
-Label = require("./entities/label");
-Literal = require("./entities/literal");
-Lookup = require("./entities/lookup");
-Program = require("./entities/program");
-Return = require("./entities/return");
-Selector = require("./entities/selector");
-SpecialBlock = require("./entities/specialBlock");
-Template = require("./entities/template");
-This = require("./entities/this");
-Token = require("./entities/token");
-UnaryExp = require("./entities/unaryExp");
-While = require("./entities/while");
-
+let ArrayDef = require("./entities/array");
+let ArrayAt = require("./entities/arrayAt");
+let Assignment = require("./entities/assignment");
+let Attr = require("./entities/attr");
+let BinaryExp = require("./entities/binaryExp");
+let Block = require("./entities/block");
+let Call = require("./entities/call");
+let Def = require("./entities/def");
+let ElemFunc = require("./entities/elemFunc");
+let HashMap = require("./entities/hashMap");
+let If = require("./entities/if");
+let Include = require("./entities/include");
+let Interable = require("./entities/iterable");
+let Label = require("./entities/label");
+let Literal = require("./entities/literal");
+let Lookup = require("./entities/lookup");
+let Program = require("./entities/program");
+let Return = require("./entities/return");
+let Selector = require("./entities/selector");
+let SpecialBlock = require("./entities/specialBlock");
+let Template = require("./entities/template");
+let This = require("./entities/this");
+let Token = require("./entities/token");
+let UnaryExp = require("./entities/unaryExp");
+let While = require("./entities/while");
 
 var lits = ["stringlit", "intlit", "floatlit", "boollit"];
 var builtins = ['script', 'style'];
@@ -145,21 +144,21 @@ module.exports = (scannerTokens, error, verbose) => {
     var template = () => {
         matchLog('Matching template');
 
-        let ourTemp = match("template");
+        let filename = match("template");
         let labels = [];
         if( at("newline") ) {
             match("newline");
             match("indent");
             do{
-                labels.push( 
+                labels.push({ 
                     "label": label(),
                     "body": childBlock()
-                );
+                });
             } while ( !at("dedent") );
 
             match("dedent");
         }
-        return new Template( ourTemp, labels, verbose);
+        return new Template( filename, labels, verbose);
     };
     var label = () =>{
         matchLog("Matching label");
@@ -185,7 +184,6 @@ module.exports = (scannerTokens, error, verbose) => {
             ourBlock = block();
         }
 
-
         if( !at("EOF")){
             match("dedent");
         }
@@ -196,12 +194,12 @@ module.exports = (scannerTokens, error, verbose) => {
 
         let statements = [];
         if( atExp() ){
-            statements.push( exp() );
+            statements.push( Exp() );
         }
         do {
             statements.push( match("js") );
             if( atExp() ){
-                statements.push( exp() );
+                statements.push( Exp() );
             }
             // If they put newlines in their JS, more power to them
             while( at("newline") ){
@@ -485,262 +483,242 @@ module.exports = (scannerTokens, error, verbose) => {
         }
         return ourExp;
     };
-    var ArrayElemExp = () => {
-        matchLog("Matching ArrayElemExp");
+    var arrayElemExp = () => {
+        matchLog("Matching arrayElemExp");
 
-        let exp = MiscExp();
+        let ourExp = miscExp();
 
         while( at("openSquare") ) {
-            let arrAt = ArrayAt();
-            arrAt.of = exp;
-            exp = arrAt;
+            match("openSquare");
+            let index;
+            if( atSequential(["bareword", "closeSquare"]) ) {
+                index = new Token(match("bareword"));
+            }
+            else {
+                index = exp();
+            }
+            ourExp = new ArrayAt(ourExp, index);
+
+            match("closeSquare");
         }
-        return exp;
+        return ourExp;
     };
-    var ArrayAt = () => {
-        matchLog("Matching ArrayAt");
-        match("openSquare");
-
-        let index;
-        if( atSequential(["bareword", "closeSquare"]) ) {
-            index = match("bareword");
-        }
-        else {
-            index = Exp();
-        }
-
-        let exp = {
-            "type": "elemat",
-            "index": index,
-        };
-
-        match("closeSquare");
-
-        return exp;
-    };
-    var MiscExp = () => {
-        matchLog("Matching MiscExp");
+    var miscExp = () => {
+        matchLog("Matching miscExp");
 
         if( at(lits) ) {
-            return Literal();
+            return literal();
         }
         else if( atSequential(["openCurly", "bareword", "closeCurly"]) ) {
-            return Label();
+            return label();
         }
         else if( at("include") ) {
-            return Include();
+            return include();
         }
         else if( at("openSquare") ){
-            return ArrayDef();
+            return arrayDef();
         }
         else if( at("openCurly") ) {
-            return HashMap();
+            return hashMap();
         }
         else if( at("id") ) {
-            return match("id");
+            return new Token(match("id"));
         }
         else if( at("this") ) {
-            return match("this");
+            return new This(match("this"));
         }
         else if( at(["dot", "hash"]) ) {
-            return HtmlSelect();
+            return htmlSelect();
         }
         else if( at("openParen") ) {
             match("openParen");
-            let exp = Exp();
+            let exp = exp();
             match("closeParen");
             return exp;
         }
         else if( at(["prefixop", "minus"]) ) {
-            let exp = {
-                "type":"prefixop",
-                "op": at("prefixop") ? match("prefixop") : match("minus"),
-                "body": Exp()
-            };
-
-            return exp;
+            let op = at("prefixop") ? match("prefixop") : match("minus");
+            return new UnaryExp(exp(), op);
         }
-        else if( at(["bareword", ...builtins, "this"])){
-            return Call();
+        else if( at(["bareword", ...builtins])){
+            return call();
         }
         else{
             error.expected('some kind of expression', tokens.shift());
         }
     };
-    var Literal = () => {
-        matchLog("Matching Literal");
+    var literal = () => {
+        matchLog("Matching literal");
 
-        for( let lit in lits ) {
-            if( at(lits[lit]) ) {
+        for( let lit of lits ) {
+            if( at(lit) ) {
                 if( at("stringlit") ) {
-                    return StringDef();
+                    return stringDef();
                 }
                 else {
-                    return match(lits[lit]);
+                    return literal(lit, match(lit));
                 }
             }
         }
         error.expected('some kind of literal', tokens.shift());
     };
-    var StringDef = () => {
-        matchLog("Matching String");
+    var stringDef = () => {
+        matchLog("Matching string");
 
-        let str = match("stringlit");
+        let str = new Literal("stringlit", match("stringlit"));
         while( at("interpolate") ) {
-            match("interpolate");
-            let stringAndInter = {
-                "type": "addop",
-                "op": "plus",
-                "a": str,
-                "b": Exp()
-            };
-            match("/interpolate");
-            str = {
-                "type": "addop",
-                "op": "plus",
-                "a": stringAndInter,
-                "b": match("stringlit")
-            };
+            let interp = match("interpolate");
+            let fakePlusToken = {
+                type: "plus",
+                line: interp.line,
+                column: interp.column
+            }
+            let stringAndInter = new BinaryExp(str, exp(), fakePlusToken);
+            interp = match("/interpolate");
+            fakePlusToken = {
+                type: "plus",
+                line: interp.line,
+                column: interp.column
+            }
+            str = new BinaryExp(
+                stringAndInter, 
+                new Literal("stringlit", match("stringlit")),
+                fakePlusToken
+            );
         }
         return str;
     }
-    var Include = () => {
-        matchLog("Matching Include");
+    var include = () => {
+        matchLog("Matching include");
 
         match("include");
-        return {
-            "type": "include",
-            "file": match("stringlit")
-        }
+        return new Include(match("stringlit"), verbose);
     };
-    var Call = () => {
-        matchLog("Matching Call");
-        let call = {
-            "type": "call"
-        };
+    var call = () => {
+        matchLog("Matching call");
+        let name;
+        let ourAttrs = [];
+        let ourArgs = [];
 
         if( at(builtins) ){
-            call.callee = BuiltIn();
+            name = builtIn();
         }
-        else if( at("this") ) {
-            call.calle = match("this");
-        }
-        else {
-            call.callee = match("bareword");
+        else{
+            name = new Token(match("bareword"));
         }
 
+        
         let classes = [];
         while( at("dot") ){
-            classes.push(HtmlClass());
+            classes.push(htmlClass());
         }
         if(classes.length > 0){
-            call.classes = classes;
+            ourAttrs.push( new Attr("class", classes) );
         }
 
         if( at("hash") ) {
-            call.id = HtmlId();
+            ourAttrs.push( new Attr("id", htmlId()) );
         }
 
         if( at("openSquare") ) {
-            call.attrs = Attrs();
+            ourAttrs.concat( attrs() );
         }
-        if( atArgs() ){
-            call.args = Args();
+                if( atArgs() ){
+            ourArgs = args();
         }
-        return call;
+                return new Call(name, ourAttrs, ourArgs);
     };
-    var BuiltIn = () => {
-        matchLog("Matching BuiltIn");
+    var builtIn = () => {
+        matchLog("Matching builtIn");
 
-        for( let builtin in builtins ) {
-            if( at(builtins[builtin]) ) {
-                return match(builtins[builtin]);
+        for( let builtin of builtins ) {
+            if( at(builtin) ) {
+                return new Token(match(builtins));
             }
         }
         error.expected('some kind of built in function', tokens.shift());
     };
-    var HtmlSelect = () => {
-        matchLog("Matching HtmlSelect");
+    var htmlSelect = () => {
+        matchLog("Matching htmlSelect");
 
         if( at("dot") ){
-            return HtmlClass();
+            return htmlClass();
         }
         else {
-            return HtmlId();
+            return htmlId();
         }
     };
-    var HtmlClass = () => {
-        matchLog("Matching HtmlClass");
+    var htmlClass = () => {
+        matchLog("Matching htmlClass");
 
         match("dot");
-        let exp = match("bareword");
-        exp.type = "htmlclass";
+        let ourExp = match("bareword");
         // Because of the .
-        exp.column--;
-        return exp;
+        ourExp.column--;
+        return new Selector("HtmlClass", ourExp);
     }
-    var HtmlId = () => {
-        matchLog("Matching HtmlId");
+    var htmlId = () => {
+        matchLog("Matching htmlId");
 
         match("hash");
-        let exp = match("bareword");
-        exp.type = "htmlid";
+        let ourExp = match("bareword");
         // Because of the #
-        exp.column--;
-        return exp;
+        ourExp.column--;
+        return new Selector("HtmlId", ourExp);
     }
-    var Attrs = () => {
-        matchLog("Matching Attrs");
+    var attrs = () => {
+        matchLog("Matching attrs");
         
         match("openSquare")
 
         if( atBlock() ) {
-            let block =  AttrBlock();
+            let ourBlock = attrBlock();
             match("closeSquare");
-            return block;
+            return ourBlock;
         }
 
-        let attrs = [];
+        let ourAttrs = [];
 
         while( !at("closeSquare") ) {
-            attrs.push(Attr());
+            ourAttrs.push(attr());
         } 
 
         match("closeSquare");
 
-        return attrs;
+        return ourAttrs;
     };
-    var AttrBlock = () => {
-        matchLog("Matching AttrBlock");
+    var attrBlock = () => {
+        matchLog("Matching attrBlock");
         
         match("newline");
         match("indent");
 
 
-        let attrs = [];
+        let ourAttrs = [];
 
         while( !at("dedent") ) {
-            attrs.push(Attr());
+            ourAttrs.push(attr());
             match("newline");
         } 
 
         match("dedent");
 
-        return attrs;
+        return ourAttrs;
     };
-    var Attr = () => {
-        matchLog("Matching Attr");
+    var attr = () => {
+        matchLog("Matching attr");
         
-        let attr = {};
+        let key;
+        let value;
         error.hint = "Did you use a reserved word as an index, like 'if', or did you forget an @ symbol?";
         if(at("stringlit")) {
-            attr.name = match("stringlit");
+            name = new Literal("stringlit", match("stringlit"));
         }
         else if(at(builtins)){
-            attr.name = BuiltIn();
+            name = builtIn();
         }
         else {
-            attr.name = match("bareword");
+            name = new Token(match("bareword"));
         }
         error.hint = "";
         if(at("equals")) {
@@ -749,69 +727,67 @@ module.exports = (scannerTokens, error, verbose) => {
         else {
             match("colon");
         }
-        attr.value = Exp();
+        value = exp();
 
-        return attr;
+        return new Attr(key, value);
     };
-    var Args = () => {
-        matchLog("Matching Args");
+    var args = () => {
+        matchLog("Matching args");
         
         if( at("openParen") ){
             match("openParen");
-            let args = [];
+            let ourArgs = [];
             if( !at("closeParen") ) {
-                args.push(Arg());
+                ourArgs.push(arg());
             }
             while( !at("closeParen") ) {
                 if( at("comma") ) {
                     match("comma");
                 }
-                args.push(Arg());
+                ourArgs.push(arg());
             }
             match("closeParen");
-            return args;
+            return ourArgs;
         }
         else if( atBlock() ){
-            return ChildBlock();
+            return childBlock();
         }
         else{
             error.hint = "If you don't use parens or commas, we're going to try to gobble up as many expressions as we can as arguments.";
-            let args = [Arg()];
+            let ourArgs = [arg()];
             while( at("comma") || atExp() ) {
                 if( at("comma") ) {
                     match("comma");
                 }
-                args.push(Arg());
+                ourArgs.push(arg());
             }
             error.hint = "";
-            return args;
+            return ourArgs;
         }
     };
-    var HashMap = () => {
-        matchLog("Matching HashMap");
+    var hashMap = () => {
+        matchLog("Matching hashMap");
 
         match("openCurly");
 
-        let hash = {
-            "type": "hashmap"
-        };
+        let pairs;
 
         if( atBlock() ) {
-            hash.pairs = AttrBlock();
+            pairs = attrBlock();
         }
         else {
             if( at("bareword") ) {
-                hash.pairs = [];
+                pairs = [];
 
                 while( !at("closeCurly") ) {
-                    hash.pairs.push(Attr());
+                    pairs.push(attr());
                 } 
             }
         }
 
         match("closeCurly");
 
-        return hash;
+        return new HashMap(pairs);
     };
     
     

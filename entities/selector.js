@@ -2,7 +2,7 @@
 
 module.exports = class Selector{
     constructor( type, selector) {
-        this.type = "Selector";
+        this.type = type;
         this.selector = selector;
         this.safe = true;
     }

@@ -41,14 +41,13 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |MultExp        |`PostfixExp (multop PostfixExp)*`                              |
 |PostfixExp     |`ElemFuncExp postfixop?`                                       |
 |ElemFuncExp    |`ArrayElemExp (tilde bareword Args?)*`                         |
-|ArrayElemExp   |`MiscExp ArrayAt*`                                             |
-|ArrayAt        |`openSquare Exp closeSquare`                                   |
+|ArrayElemExp   |`MiscExp (openSquare (bareword|Exp) closeSquare)`              |
 |MiscExp        |`Literal|Label|Include|Array|HashMap|id|this|HtmlSelect`       |
 |               |`openParen Exp closeParen`                                     |
 |\*\*           |`(prefixop|minus)? id`                                         |
 |               |`Call`                                                         |
 |Literal        |`String|intlit|floatlit|boollit`                               |
-|String         |`stringlit (interpolate Exp() \interpolate stringlit)*`        |
+|String         |`stringlit (interpolate Exp \interpolate stringlit)*`          |
 |Include        |`include stringlit`                                            |
 |Call           |`(BuiltIn|bareword)(HtmlClass)*(HtmlId)?Attrs?Args?`           |
 |BuiltIn        |`script|style`                                                 |

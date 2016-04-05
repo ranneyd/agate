@@ -1,6 +1,6 @@
 'use strict';
 
-Env = require('../env');
+var Env = require('./env');
 
 module.exports = class Program{
     constructor(block) {

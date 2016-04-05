@@ -20,9 +20,9 @@ module.exports = class Template{
         localEnv = env.makeChild();
 
         // Analyze all our labels, then add them to the environment
-        for(let i = 0; i < this.labels.length; ++i) {
-            let label = this.labels[i].label;
-            let body = this.labels[i].body;
+        for(let labelObj of labels) {
+            let label = labelObj.label;
+            let body = labelObj.body;
 
             localEnv.addLabel( label, body );
 

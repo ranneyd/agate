@@ -1,9 +1,10 @@
 'use strict';
 
 module.exports = class Call{
-    constructor( name, args ) {
+    constructor( name, attrs, args ) {
         this.type = "Call";
         this.name = name;
+        this.attrs = attrs;
         this.args = args;
         this.safe = true;
     }
@@ -16,7 +17,12 @@ module.exports = class Call{
             this.safe = false;
         }
 
-        for( let arg in this.args ) {
+        for( let attr of this.attrs ) {
+            attr.analyze( env );
+            this.safe = this.safe && attr.safe;
+        }
+
+        for( let arg of this.args ) {
             arg.analyze( env );
             this.safe = this.safe && arg.safe;
         }
