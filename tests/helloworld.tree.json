@@ -1,61 +1,40 @@
-{
-   "type": "program",
-   "block": [
-      {
-         "type": "call",
-         "callee": {
-            "type": "bareword",
-            "line": 1,
-            "column": 1,
-            "text": "head"
-         },
-         "args": [
-            {
-               "type": "call",
-               "callee": {
-                  "type": "bareword",
-                  "line": 2,
-                  "column": 5,
-                  "text": "title"
-               },
-               "args": [
-                  {
-                     "type": "stringlit",
-                     "line": 2,
-                     "column": 11,
-                     "text": "\"Hello World\""
-                  }
-               ]
-            }
-         ]
+[
+   {
+      "type": "call",
+      "name": {
+         "type": "token",
+         "text": "head"
       },
-      {
-         "type": "call",
-         "callee": {
-            "type": "bareword",
-            "line": 3,
-            "column": 1,
-            "text": "body"
-         },
-         "args": [
-            {
-               "type": "call",
-               "callee": {
-                  "type": "bareword",
-                  "line": 4,
-                  "column": 5,
-                  "text": "h1"
-               },
-               "args": [
-                  {
-                     "type": "stringlit",
-                     "line": 4,
-                     "column": 8,
-                     "text": "\"Hello World\""
-                  }
-               ]
-            }
-         ]
-      }
-   ]
-}
+      "args": [
+         {
+            "type": "call",
+            "name": {
+               "type": "token",
+               "text": "title"
+            },
+            "args": [
+               "Hello World"
+            ]
+         }
+      ]
+   },
+   {
+      "type": "call",
+      "name": {
+         "type": "token",
+         "text": "body"
+      },
+      "args": [
+         {
+            "type": "call",
+            "name": {
+               "type": "token",
+               "text": "h1"
+            },
+            "args": [
+               "Hello World"
+            ]
+         }
+      ]
+   }
+]

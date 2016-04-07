@@ -8,6 +8,14 @@ module.exports = class If{
         this.conditions = conditions;
         this.safe = true;
     }
+    toString(){
+        let str = `{type:"if",conditions:[`;
+        for(let condition of this.conditions) {
+            str += `{conditional:${condition.conditional}, body:${condition.body}},`;
+        }
+
+        return str + "]}";
+    }
     analyze( env ) {
         let tempSafe = this.safe;  
         for( let i = 0; i < this.conditions.length - 1; ++i) {

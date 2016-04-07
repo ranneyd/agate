@@ -6,6 +6,13 @@ module.exports = class ArrayDef{
         this.elems = elems;
         this.safe = true;
     }
+    toString(){
+        let str = "[";
+        for(let elem of elems) {
+            str += elem.toString() + ",";
+        }
+        return str + "]";
+    }
     analyze( env ) {
         for(let elem of this.elems) {
             elem.parse( env );

@@ -10,11 +10,24 @@ module.exports = class Label{
         this.error = new Error();
         this.safe = true;
     }
+    toString(){
+        if(this.type === block) {
+            let str = "[";
+            for(let stmt of this.statements){
+                str += stmt.toString() + ',';
+            }
+            return str + "]";
+        }
+        return `{`
+            + `type:"label",`
+            + `token:${this.token.toString()},`
+            + `}`;
+    }
     analyze( env ) {
         let label = env.lookupLabel( this.token );
         if( label ) {
             this.type = "block";
-            this.body = label;
+            this.statements = label.body.statements;
             this.safe = label.safe;
         }
         else {

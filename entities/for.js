@@ -8,6 +8,14 @@ module.exports = class For{
         this.body = body;
         this.safe = true;
     }
+    toString(){
+        return `{`
+            + `type:"for",`
+            + `id:${this.id.toString()},`
+            + `iterable:${this.iterable.toString()}}`
+            + `body:${this.body.toString()}}`
+            + `}`;
+    }
     analyze( env ) {
         let iterable = this.iterable;
         

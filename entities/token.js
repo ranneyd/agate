@@ -8,6 +8,14 @@ module.exports = class Token{
         this.column = token.column;
         this.safe = true;
     }
+    toString(){
+        return `{`
+            + `"type":"token", `
+            + `"text":"${this.text}"`
+            // + `line:${this.line.toString()}}`
+            // + `column:${this.column.toString()}}`
+            + `}`;
+    }
     // No analysis necessary
     analyze( env ) {
 

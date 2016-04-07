@@ -565,7 +565,11 @@ module.exports = (scannerTokens, error, verbose) => {
     var stringDef = () => {
         matchLog("Matching string");
 
-        let str = new Literal("stringlit", match("stringlit"));
+        let actualStr = new Token(match("stringlit"));
+        // Ditch those quotes son
+        actualStr.text = actualStr.text.slice(1, -1);
+
+        let str = new Literal("stringlit", actualStr);
         while( at("interpolate") ) {
             let interp = match("interpolate");
             let fakePlusToken = {
@@ -623,10 +627,10 @@ module.exports = (scannerTokens, error, verbose) => {
         if( at("openSquare") ) {
             ourAttrs.concat( attrs() );
         }
-                if( atArgs() ){
+        if( atArgs() ){
             ourArgs = args();
         }
-                return new Call(name, ourAttrs, ourArgs);
+        return new Call(name, ourAttrs, ourArgs);
     };
     var builtIn = () => {
         matchLog("Matching builtIn");
@@ -750,7 +754,7 @@ module.exports = (scannerTokens, error, verbose) => {
             return ourArgs;
         }
         else if( atBlock() ){
-            return childBlock();
+            return childBlock().statements;
         }
         else{
             error.hint = "If you don't use parens or commas, we're going to try to gobble up as many expressions as we can as arguments.";

@@ -9,6 +9,9 @@ module.exports = class BinaryExp{
         this.op = op;
         this.safe = true;
     }
+    toString(){
+        return `{ type:${this.op.toString()}, a:${this.a.toString()}, b:${this.b.toString()}}`;
+    }
     analyze( env ) {
         this.a.analyze( env );
         this.b.analyze( env );

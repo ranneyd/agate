@@ -8,6 +8,9 @@ module.exports = class Program{
         this.body = block;
         this.safe = true;
     }
+    toString(){
+        return this.body.toString();
+    }
     analyze() {
         this.body.analyze( new Env() );
         this.safe = this.body.safe;

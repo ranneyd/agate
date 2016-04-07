@@ -6,6 +6,12 @@ module.exports = class HashMap{
         this.pairs = pairs;
         this.safe = true;
     }
+    toString(){
+        return `{`
+            + `type:"hashMap",`
+            + `pairs:${this.pairs.toString()},`
+            + `}`;
+    }
     analyze( env ) {
         for(let pair of this.pairs) {
             pair.value.parse( env );

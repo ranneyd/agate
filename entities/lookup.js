@@ -9,6 +9,12 @@ module.exports = class Lookup{
         this.error = new Error();
         this.safe = true;
     }
+    toString(){
+        return `{`
+            + `type:"lookup",`
+            + `token:${this.token.toString()},`
+            + `}`;
+    }
     analyze( env ) {
         if( env.existsVar( this.token ) ) {
             this.id = env.lookupVar( this.token );

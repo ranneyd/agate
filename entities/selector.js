@@ -6,6 +6,12 @@ module.exports = class Selector{
         this.selector = selector;
         this.safe = true;
     }
+    toString(){
+        return `{`
+            + `type:${this.type},`
+            + `selector:${this.selector.toString()},`
+            + `}`;
+    }
     analyze( env ) {
 
     }

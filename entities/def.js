@@ -8,6 +8,14 @@ module.exports = class Def{
         this.body = body;
         this.safe = true;
     }
+    toString(){
+        return `{`
+            + `type:"def",`
+            + `name:${this.name.toString()},`
+            + `args:${this.args.toString()}}`
+            + `body:${this.body.toString()}}`
+            + `}`;
+    }
     analyze( env ) {
         localEnv = env.makeChild();
         localEnv.safe = localEnv.safe && this.safe;

@@ -16,6 +16,20 @@ module.exports = class Template{
         this.verbose = verbose;
         this.safe = true;
     }
+    toString(){
+        if(this.type === block) {
+            let str = "[";
+            for(let stmt of this.statements){
+                str += stmt.toString() + ',';
+            }
+            return str + "]";
+        }
+        let str = `{type:"label",filename:${this.filename.toString()},labels:[`;
+        for(let label of this.labels){
+            str += label.toString() + ",";
+        }
+        return str + "]}";
+    }
     analyze( env ) {
         localEnv = env.makeChild();
 

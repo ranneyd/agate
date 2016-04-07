@@ -6,6 +6,9 @@ module.exports = class Iterable{
         this.exp = exp;
         this.safe = true;
     }
+    toString(){
+        return this.exp.toString();
+    }
     analyze( env ) {
         this.exp.parse( env );
 

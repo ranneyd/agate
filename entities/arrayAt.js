@@ -7,6 +7,9 @@ module.exports = class ArrayAt{
         this.index = index;
         this.safe = true;
     }
+    toString(){
+        return `{ type:"arrayAt", array:${this.array.toString()}, index:${this.index}}`;
+    }
     analyze( env ) {
         this.array = env.lookupVar( this.array );
         this.safe = this.safe && this.array.safe;

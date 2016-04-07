@@ -7,6 +7,13 @@ module.exports = class UnaryExp{
         this.op = op;
         this.safe = true;
     }
+    toString(){
+        return `{`
+            + `type:"unaryExp",`
+            + `op:${this.op.toString()},`
+            + `a:${this.a.toString()}}`
+            + `}`;
+    }
     analyze( env ) {
         this.a.analyze( env );
         this.safe = this.safe && this.a.safe;

@@ -6,6 +6,13 @@ module.exports = class Block{
         this.statements = statements;
         this.safe = true;
     }
+    toString(){
+        let str = "[";
+        for(let stmt of this.statements){
+            str += stmt.toString() + ', ';
+        }
+        return str.slice(0, -2) + "]";
+    }
     analyze( env ) {
         localEnv = env.makeChild();
         localEnv.safe = localEnv.safe && this.safe;

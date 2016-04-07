@@ -7,6 +7,13 @@ module.exports = class While{
         this.body = body;
         this.safe = true;
     }
+    toString(){
+        return `{`
+            + `type:"while",`
+            + `exp:${this.exp.toString()},`
+            + `body:${this.body.toString()}}`
+            + `}`;
+    }
     analyze( env ) {
         exp.parse( env );
 

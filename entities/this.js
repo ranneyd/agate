@@ -5,6 +5,9 @@ module.exports = class This{
         this.type = "This";
         this.safe = true;
     }
+    toString(){
+        return "'this'";
+    }
     analyze( env ) {
 
     }

@@ -8,6 +8,14 @@ module.exports = class ElemFunc{
         this.args = args;
         this.safe = true;
     }
+    toString(){
+        return `{`
+            + `type:"elemFunc",`
+            + `elem:${this.elem.toString()},`
+            + `func:${this.func.toString()}}`
+            + `args:${this.args.toString()}}`
+            + `}`;
+    }
     analyze( env ) {
         this.elem.analyze( env );
         this.safe = this.safe && this.elem.safe;

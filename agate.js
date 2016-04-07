@@ -88,6 +88,7 @@ readFile(`${file}.agate`)
                 console.log("Beginning Parsing...");
             }
             let prettyTokens = JSON.stringify(tokens, null, 3);
+            console.log(prettyTokens);
             writeFile(`${outName || file}.tokens.json`, prettyTokens)
                 .catch( err => {
                     console.log(err);
@@ -97,7 +98,9 @@ readFile(`${file}.agate`)
         if( !error.count ) {
             let parseTree = parser(tokens, error, verbose);
             if( dumpParseTree ) {
-                let prettyTree = JSON.stringify(parseTree, null, 3);
+                debugger;
+                console.log(parseTree.toString());
+                let prettyTree = JSON.stringify(JSON.parse(parseTree.toString()), null, 3);
                 writeFile(`${outName || file}.tree.json`, prettyTree)
                     .catch( err => {
                         console.log(err);

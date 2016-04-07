@@ -3,7 +3,8 @@
 var scanner = require("../scanner.js");
 var parser = require("../parser.js");
 var fs = require("fs");
-Error = require("../error.js");
+var Error = require("../error.js");
+var Block = require('./block.js');
 
 module.exports = class Include{
     // Since we're running a subprocess of the whole compiler up to this
@@ -14,6 +15,20 @@ module.exports = class Include{
         this.error = new Error();
         this.verbose = verbose;
         this.safe = true;
+    }
+    toString(){
+        // Pre or post analysis
+        if(this.type === "block") {
+            let str = "[";
+            for(let stmt of this.statements){
+                str += stmt.toString() + ',';
+            }
+            return str + "]";
+        }
+        return `{`
+            + `type:"include",`
+            + `filename:${this.filename.toString()},`
+            + `}`;
     }
     analyze( env ) {
 
@@ -48,7 +63,7 @@ module.exports = class Include{
         // The tree will be a "program". Make our object a block, make it's
         // body the body of the template "program"
         this.type = "block";
-        this.body = tree;
+        this.statements = tree.body.statements;
         this.safe = this.safe && tree.body.safe;
     }
 };
