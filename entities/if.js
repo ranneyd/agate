@@ -3,18 +3,18 @@
 module.exports = class If{
     // Conditions is an array of objects, each with a "conditional" and
     // "body". If the last one does not have a conditional, it's the else case
-    constructor( conditions ) {
+    constructor( conditionals ) {
         this.type = "If";
-        this.conditions = conditions;
+        this.conditionals = conditionals;
         this.safe = true;
     }
     toString(){
-        let str = `{type:"if",conditions:[`;
-        for(let condition of this.conditions) {
-            str += `{conditional:${condition.conditional}, body:${condition.body}},`;
+        let str = `{"type":"if", "conditionals":[`;
+        for(let conditional of this.conditionals) {
+            str += `{"condition":${conditional.condition}, "body":${conditional.body}}, `;
         }
 
-        return str + "]}";
+        return str.slice(0,-2) + "]}";
     }
     analyze( env ) {
         let tempSafe = this.safe;  

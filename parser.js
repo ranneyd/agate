@@ -90,7 +90,7 @@ module.exports = (scannerTokens, error, verbose) => {
             return control();
         }
         else if( at("def") ) {
-            return definition();
+            return def();
         }
         else if( at("return") ) {
             match("return");
@@ -253,8 +253,11 @@ module.exports = (scannerTokens, error, verbose) => {
         if( at("if") ) {
             match("if");
 
+            let condition = exp();
+            debugger;
+
             conditionals.push({
-                condition: exp(),
+                condition: condition,
                 body: childBlock()
             });
 
@@ -375,13 +378,13 @@ module.exports = (scannerTokens, error, verbose) => {
     var def = () => {
         matchLog("Matching definition");
         match("def");
-        let name =  match("bareword");
+        let name = new Token(match("bareword"));
         
         match("openParen");
         
         let params = [];
         while( at("id") ) {
-            params.push( match("id") );
+            params.push( new Token(match("id")) );
             if( at("comma") ) {
                 match("comma");
             }
@@ -420,7 +423,7 @@ module.exports = (scannerTokens, error, verbose) => {
         let ourExp = relExp();
         while( at("boolop") && !atSequential(["boolop", "equals"])) {
             let ourOp = match("boolop");
-            ourExp = new BinaryExp( ourExp, relExp(), ourOp );
+            ourExp = new BinaryExp( ourExp, relExp(), new Token(ourOp) );
         }
         return ourExp;
     };
@@ -430,7 +433,9 @@ module.exports = (scannerTokens, error, verbose) => {
         let ourExp = addExp();
         while( at("relop") && !atSequential(["relop", "equals"])) {
             let ourOp = match("relop");
-            ourExp = new BinaryExp( ourExp, addExp(), ourOp );
+            debugger;
+            ourExp = new BinaryExp( ourExp, addExp(), new Token(ourOp) );
+            debugger;
         }
         return ourExp;
     };
@@ -439,7 +444,7 @@ module.exports = (scannerTokens, error, verbose) => {
         let ourExp = multExp();
         while( at(["plus", "minus"])  && !atIndex("equals", 1) ) {
             let ourOp = at("plus") ? match("plus") : match("minus");
-            ourExp = new BinaryExp( ourExp, multExp(), ourOp );
+            ourExp = new BinaryExp( ourExp, multExp(), new Token(ourOp) );
         }
         return ourExp;
     };
@@ -449,7 +454,7 @@ module.exports = (scannerTokens, error, verbose) => {
         let ourExp = postfixExp();
         while( at("multop") && !atSequential(["multop", "equals"])) {
             let ourOp = match("multop");
-            ourExp = new BinaryExp( ourExp, postfixExp(), ourOp );
+            ourExp = new BinaryExp( ourExp, postfixExp(), new Token(ourOp) );
         }
         return ourExp;
     };
@@ -458,7 +463,7 @@ module.exports = (scannerTokens, error, verbose) => {
 
         let ourExp = elemFuncExp();
         if( at("postfixop") ) {
-            ourExp = new UnaryExp( ourExp, match("postfixop") );
+            ourExp = new UnaryExp( ourExp, new Token(match("postfixop")) );
         }
         return ourExp;
     };
@@ -556,7 +561,7 @@ module.exports = (scannerTokens, error, verbose) => {
                     return stringDef();
                 }
                 else {
-                    return literal(lit, match(lit));
+                    return new Literal(lit, match(lit));
                 }
             }
         }

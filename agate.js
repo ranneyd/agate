@@ -96,15 +96,26 @@ readFile(`${file}.agate`)
         }
 
         if( !error.count ) {
-            let parseTree = parser(tokens, error, verbose);
-            if( dumpParseTree ) {
+            try{
+                let parseTree = parser(tokens, error, verbose);
+                if( dumpParseTree ) {
+                    let treeString = parseTree.toString();
+                    console.log(treeString);
+                    let treeStringToJSON = JSON.parse(treeString); 
+                    let prettyTree = JSON.stringify(treeStringToJSON, null, 3);
+                    console.log(prettyTree);
+                    writeFile(`${outName || file}.tree.json`, prettyTree)
+                        .catch( err => {
+                            console.log(err);
+                        });
+                }
+            }
+            // The built-in error handling is so bad
+            catch(e){
+                console.log(e.text);
+                console.log(e.stack);
                 debugger;
-                console.log(parseTree.toString());
-                let prettyTree = JSON.stringify(JSON.parse(parseTree.toString()), null, 3);
-                writeFile(`${outName || file}.tree.json`, prettyTree)
-                    .catch( err => {
-                        console.log(err);
-                    });
+                return;
             }
         }
 

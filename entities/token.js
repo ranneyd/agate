@@ -10,8 +10,8 @@ module.exports = class Token{
     }
     toString(){
         return `{`
-            + `"type":"token", `
-            + `"text":"${this.text}"`
+            + `"type":"${this.type}", `
+            + (this.text ? `"text":"${this.text}"` : "" )
             // + `line:${this.line.toString()}}`
             // + `column:${this.column.toString()}}`
             + `}`;

@@ -9,11 +9,15 @@ module.exports = class Def{
         this.safe = true;
     }
     toString(){
+        let args = "[";
+        for(let arg of this.args) {
+            args += arg.toString() + ", ";
+        }
         return `{`
-            + `type:"def",`
-            + `name:${this.name.toString()},`
-            + `args:${this.args.toString()}}`
-            + `body:${this.body.toString()}}`
+            + `"type":"def", `
+            + `"name":${this.name.toString()}, `
+            + `"args":${args.slice(0,-2)}], `
+            + `"body":${this.body.toString()}}`
             + `}`;
     }
     analyze( env ) {
