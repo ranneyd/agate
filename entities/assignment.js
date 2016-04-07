@@ -8,7 +8,7 @@ module.exports = class Assignment{
         this.safe = true;
     }
     toString(){
-        return `{ type:"assignment", lhs:${this.id.toString()}, rhs:${this.val.toString()}}`;
+        return `{"type":"assignment", "lhs":${this.id.toString()}, "rhs":${this.val.toString()}}`;
     }
     analyze( env ) {
         val.parse( env );

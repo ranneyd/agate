@@ -25,7 +25,7 @@
       "type": "stringlit",
       "line": 2,
       "column": 11,
-      "text": "\"Hello World\""
+      "text": "Hello World"
    },
    {
       "type": "newline",
@@ -63,7 +63,7 @@
       "type": "stringlit",
       "line": 4,
       "column": 8,
-      "text": "\"Hello World\""
+      "text": "Hello World"
    },
    {
       "type": "EOF",

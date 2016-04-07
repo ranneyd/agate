@@ -278,7 +278,7 @@ module.exports = (data, error, verbose) => {
             }
             // string literals are a little complicated
             if( matchData = /^"([^"\\\r\n]|(\\")|(\\\\))*("|\r?\n)/.exec( truncData ) ) {
-                let stringToken = token("stringlit", matchData[0].replace(/\r?\n$/, " "))
+                let stringToken = token("stringlit", matchData[0].slice(1,-1).replace(/\r?\n$/, " "))
                 column += matchData[0].length;
                 position += matchData[0].length;
 
@@ -320,7 +320,7 @@ module.exports = (data, error, verbose) => {
                 truncData = truncData.replace(/^./, "'");
             }
             if( matchData = /^'([^'\\\r\n]|(\\')|(\\\\))*?('|\r?\n|\$\{)/.exec( truncData )) {
-                let stringToken = token("stringlit", matchData[0].replace(/\r?\n$/, " "))
+                let stringToken = token("stringlit", matchData[0].slice(1,-1).replace(/\r?\n$/, " "))
                 column += matchData[0].length;
                 position += matchData[0].length;
 

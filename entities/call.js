@@ -19,7 +19,7 @@ module.exports = class Call{
         if(this.attrs){
             let attrString = '"attrs":[';
             for(let attr of this.attrs){
-                attrString = attrString.slice(0, -2) + attr.toString() + ", "
+                attrString += attr.toString() + ", "
             }
             attrString = attrString.slice(0, -2) + "], ";
             str += attrString;

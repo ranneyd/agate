@@ -24,11 +24,11 @@ module.exports = class Template{
             }
             return str + "]";
         }
-        let str = `{type:"label",filename:${this.filename.toString()},labels:[`;
+        let str = `{"type":"label", "filename":${this.filename.toString()}, "labels":[`;
         for(let label of this.labels){
-            str += label.toString() + ",";
+            str += label.toString() + ", ";
         }
-        return str + "]}";
+        return str.slice(0,-2) + "]}";
     }
     analyze( env ) {
         localEnv = env.makeChild();

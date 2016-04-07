@@ -8,8 +8,8 @@ module.exports = class Selector{
     }
     toString(){
         return `{`
-            + `type:${this.type},`
-            + `selector:${this.selector.toString()},`
+            + `"type":"${this.type}", `
+            + `"selector":${this.selector.toString()}`
             + `}`;
     }
     analyze( env ) {

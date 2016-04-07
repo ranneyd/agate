@@ -11,8 +11,8 @@ module.exports = class Lookup{
     }
     toString(){
         return `{`
-            + `type:"lookup",`
-            + `token:${this.token.toString()},`
+            + `"type":"lookup",`
+            + `"token":${this.token.toString()},`
             + `}`;
     }
     analyze( env ) {

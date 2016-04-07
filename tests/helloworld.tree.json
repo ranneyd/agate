@@ -2,14 +2,14 @@
    {
       "type": "call",
       "name": {
-         "type": "token",
+         "type": "bareword",
          "text": "head"
       },
       "args": [
          {
             "type": "call",
             "name": {
-               "type": "token",
+               "type": "bareword",
                "text": "title"
             },
             "args": [
@@ -21,14 +21,14 @@
    {
       "type": "call",
       "name": {
-         "type": "token",
+         "type": "bareword",
          "text": "body"
       },
       "args": [
          {
             "type": "call",
             "name": {
-               "type": "token",
+               "type": "bareword",
                "text": "h1"
             },
             "args": [

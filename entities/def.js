@@ -17,7 +17,7 @@ module.exports = class Def{
             + `"type":"def", `
             + `"name":${this.name.toString()}, `
             + `"args":${args.slice(0,-2)}], `
-            + `"body":${this.body.toString()}}`
+            + `"body":${this.body.toString()}`
             + `}`;
     }
     analyze( env ) {

@@ -19,8 +19,8 @@ module.exports = class Label{
             return str + "]";
         }
         return `{`
-            + `type:"label",`
-            + `token:${this.token.toString()},`
+            + `"type":"label",`
+            + `"token":${this.token.toString()},`
             + `}`;
     }
     analyze( env ) {

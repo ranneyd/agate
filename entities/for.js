@@ -10,10 +10,10 @@ module.exports = class For{
     }
     toString(){
         return `{`
-            + `type:"for",`
-            + `id:${this.id.toString()},`
-            + `iterable:${this.iterable.toString()}}`
-            + `body:${this.body.toString()}}`
+            + `"type":"for",`
+            + `"id":${this.id.toString()},`
+            + `"iterable":${this.iterable.toString()},`
+            + `"body":${this.body.toString()}`
             + `}`;
     }
     analyze( env ) {

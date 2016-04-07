@@ -11,7 +11,8 @@ module.exports = class If{
     toString(){
         let str = `{"type":"if", "conditionals":[`;
         for(let conditional of this.conditionals) {
-            str += `{"condition":${conditional.condition}, "body":${conditional.body}}, `;
+            let condition = conditional.condition ? `"condition":${conditional.condition}, ` : "";
+            str += `{${condition}"body":${conditional.body}}, `;
         }
 
         return str.slice(0,-2) + "]}";

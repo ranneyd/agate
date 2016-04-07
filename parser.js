@@ -8,10 +8,11 @@ let Block = require("./entities/block");
 let Call = require("./entities/call");
 let Def = require("./entities/def");
 let ElemFunc = require("./entities/elemFunc");
+let For = require("./entities/for");
 let HashMap = require("./entities/hashMap");
 let If = require("./entities/if");
 let Include = require("./entities/include");
-let Interable = require("./entities/iterable");
+let Iterable = require("./entities/iterable");
 let Label = require("./entities/label");
 let Literal = require("./entities/literal");
 let Lookup = require("./entities/lookup");
@@ -289,7 +290,7 @@ module.exports = (scannerTokens, error, verbose) => {
 
         match('for');
 
-        let ourId = match("id");
+        let ourId = new Token(match("id"));
         match("in");
 
         return new For(ourId, iterable(), childBlock());
@@ -297,7 +298,7 @@ module.exports = (scannerTokens, error, verbose) => {
     var iterable = () => {
         matchLog("Matching iterable");
         return new Iterable( exp() );
-    }
+    };
     var arrayDef = () => {
         matchLog("Matching array");
 
@@ -475,7 +476,7 @@ module.exports = (scannerTokens, error, verbose) => {
         while ( at("tilde") ) {
             match("tilde")
             
-            let func = match("bareword");
+            let func = new Token(match("bareword"));
             let ourArgs = [];
             error.hint = "The ~ operator is for member functions only. Thus, if you don't put parens after, we're going to gobble up as many potential arguments as we can";
             
@@ -571,8 +572,6 @@ module.exports = (scannerTokens, error, verbose) => {
         matchLog("Matching string");
 
         let actualStr = new Token(match("stringlit"));
-        // Ditch those quotes son
-        actualStr.text = actualStr.text.slice(1, -1);
 
         let str = new Literal("stringlit", actualStr);
         while( at("interpolate") ) {
@@ -616,7 +615,6 @@ module.exports = (scannerTokens, error, verbose) => {
             name = new Token(match("bareword"));
         }
 
-        
         let classes = [];
         while( at("dot") ){
             classes.push(htmlClass());
@@ -664,7 +662,7 @@ module.exports = (scannerTokens, error, verbose) => {
         let ourExp = match("bareword");
         // Because of the .
         ourExp.column--;
-        return new Selector("HtmlClass", ourExp);
+        return new Selector("HtmlClass", new Token(ourExp));
     }
     var htmlId = () => {
         matchLog("Matching htmlId");
@@ -673,7 +671,7 @@ module.exports = (scannerTokens, error, verbose) => {
         let ourExp = match("bareword");
         // Because of the #
         ourExp.column--;
-        return new Selector("HtmlId", ourExp);
+        return new Selector("HtmlId", new Token(ourExp));
     }
     var attrs = () => {
         matchLog("Matching attrs");
@@ -721,13 +719,18 @@ module.exports = (scannerTokens, error, verbose) => {
         let value;
         error.hint = "Did you use a reserved word as an index, like 'if', or did you forget an @ symbol?";
         if(at("stringlit")) {
-            name = new Literal("stringlit", match("stringlit"));
+            let str = match("stringlit");
+            // Is it an empty string?
+            if(!str.text.length){
+                error.parse("HashMap key can't be empty", str);
+            }
+            key = str.text;
         }
         else if(at(builtins)){
-            name = builtIn();
+            key = builtIn().text;
         }
         else {
-            name = new Token(match("bareword"));
+            key = match("bareword").text;
         }
         error.hint = "";
         if(at("equals")) {

@@ -9,11 +9,15 @@ module.exports = class ElemFunc{
         this.safe = true;
     }
     toString(){
+        let args = `[`;
+        for(let arg of this.args){
+            args += arg.toString() + ", ";
+        }
         return `{`
-            + `type:"elemFunc",`
-            + `elem:${this.elem.toString()},`
-            + `func:${this.func.toString()}}`
-            + `args:${this.args.toString()}}`
+            + `"type":"elemFunc", `
+            + `"elem":${this.elem.toString()}, `
+            + `"func":${this.func.toString()}, `
+            + `"args":${args.slice(0,-2)}]`
             + `}`;
     }
     analyze( env ) {

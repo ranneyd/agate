@@ -9,9 +9,9 @@ module.exports = class While{
     }
     toString(){
         return `{`
-            + `type:"while",`
-            + `exp:${this.exp.toString()},`
-            + `body:${this.body.toString()}}`
+            + `"type":"while",`
+            + `"exp":${this.exp.toString()},`
+            + `"body":${this.body.toString()}`
             + `}`;
     }
     analyze( env ) {

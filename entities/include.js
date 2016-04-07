@@ -26,8 +26,8 @@ module.exports = class Include{
             return str + "]";
         }
         return `{`
-            + `type:"include",`
-            + `filename:${this.filename.toString()},`
+            + `"type":"include",`
+            + `"filename":${this.filename.toString()},`
             + `}`;
     }
     analyze( env ) {

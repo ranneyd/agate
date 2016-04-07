@@ -1,237 +1,189 @@
-{
-   "type": "program",
-   "block": [
-      {
-         "type": "call",
-         "callee": {
-            "type": "bareword",
-            "line": 1,
-            "column": 1,
-            "text": "body"
-         },
-         "args": [
-            {
-               "type": "call",
-               "callee": {
-                  "type": "bareword",
-                  "line": 2,
-                  "column": 5,
-                  "text": "div"
-               },
-               "id": {
-                  "type": "htmlid",
-                  "line": 2,
-                  "column": 8,
-                  "text": "holder"
-               },
-               "args": [
-                  {
-                     "type": "call",
-                     "callee": {
+[
+   {
+      "type": "call",
+      "name": {
+         "type": "bareword",
+         "text": "body"
+      },
+      "args": [
+         {
+            "type": "call",
+            "name": {
+               "type": "bareword",
+               "text": "div"
+            },
+            "attrs": [
+               {
+                  "type": "attr",
+                  "key": "id",
+                  "value": {
+                     "type": "HtmlId",
+                     "selector": {
                         "type": "bareword",
-                        "line": 3,
-                        "column": 9,
-                        "text": "button"
-                     },
-                     "id": {
-                        "type": "htmlid",
-                        "line": 3,
-                        "column": 15,
-                        "text": "populate"
-                     },
-                     "args": [
-                        {
-                           "type": "stringlit",
-                           "line": 3,
-                           "column": 25,
-                           "text": "\"Populate\""
-                        }
-                     ]
+                        "text": "holder"
+                     }
+                  }
+               }
+            ],
+            "args": [
+               {
+                  "type": "call",
+                  "name": {
+                     "type": "bareword",
+                     "text": "button"
                   },
-                  {
-                     "type": "elemfunc",
-                     "elem": {
-                        "type": "htmlid",
-                        "line": 4,
-                        "column": 9,
-                        "text": "populate"
-                     },
-                     "func": {
-                        "type": "bareword",
-                        "line": 4,
-                        "column": 19,
-                        "text": "click"
-                     },
-                     "args": [
-                        {
-                           "type": "assignment",
-                           "lhs": {
-                              "type": "id",
-                              "line": 5,
-                              "column": 13,
-                              "text": "results"
-                           },
-                           "value": {
-                              "type": "call",
-                              "callee": {
-                                 "type": "bareword",
-                                 "line": 5,
-                                 "column": 24,
-                                 "text": "get"
-                              },
-                              "args": [
-                                 {
-                                    "type": "stringlit",
-                                    "line": 5,
-                                    "column": 28,
-                                    "text": "\"./getData\""
-                                 },
-                                 {
-                                    "type": "hashmap",
-                                    "pairs": [
-                                       {
-                                          "name": {
-                                             "type": "stringlit",
-                                             "line": 6,
-                                             "column": 17,
-                                             "text": "\"key\""
-                                          },
-                                          "value": {
-                                             "type": "stringlit",
-                                             "line": 6,
-                                             "column": 25,
-                                             "text": "\"value\""
-                                          }
-                                       },
-                                       {
-                                          "name": {
-                                             "type": "stringlit",
-                                             "line": 7,
-                                             "column": 17,
-                                             "text": "\"if\""
-                                          },
-                                          "value": {
-                                             "type": "stringlit",
-                                             "line": 7,
-                                             "column": 24,
-                                             "text": "\"this will probably break\""
-                                          }
-                                       }
-                                    ]
-                                 }
-                              ]
+                  "attrs": [
+                     {
+                        "type": "attr",
+                        "key": "id",
+                        "value": {
+                           "type": "HtmlId",
+                           "selector": {
+                              "type": "bareword",
+                              "text": "populate"
                            }
+                        }
+                     }
+                  ],
+                  "args": [
+                     "Populate"
+                  ]
+               },
+               {
+                  "type": "elemFunc",
+                  "elem": {
+                     "type": "HtmlId",
+                     "selector": {
+                        "type": "bareword",
+                        "text": "populate"
+                     }
+                  },
+                  "func": {
+                     "type": "bareword",
+                     "text": "click"
+                  },
+                  "args": [
+                     {
+                        "type": "assignment",
+                        "lhs": {
+                           "type": "id",
+                           "text": "results"
                         },
-                        {
-                           "type": "for",
-                           "id": {
-                              "type": "id",
-                              "line": 9,
-                              "column": 17,
-                              "text": "result"
+                        "rhs": {
+                           "type": "call",
+                           "name": {
+                              "type": "bareword",
+                              "text": "get"
                            },
-                           "iterable": {
-                              "type": "id",
-                              "line": 9,
-                              "column": 28,
-                              "text": "results"
-                           },
-                           "body": [
+                           "args": [
+                              "./getData",
                               {
-                                 "type": "elemfunc",
-                                 "elem": {
-                                    "type": "htmlid",
-                                    "line": 10,
-                                    "column": 17,
-                                    "text": "holder"
-                                 },
-                                 "func": {
-                                    "type": "bareword",
-                                    "line": 10,
-                                    "column": 25,
-                                    "text": "append"
-                                 },
-                                 "args": [
+                                 "type": "hashMap",
+                                 "pairs": [
                                     {
-                                       "type": "call",
-                                       "callee": {
-                                          "type": "bareword",
-                                          "line": 11,
-                                          "column": 21,
-                                          "text": "div"
-                                       },
-                                       "classes": [
-                                          {
-                                             "type": "htmlclass",
-                                             "line": 11,
-                                             "column": 24,
-                                             "text": "object"
-                                          }
-                                       ],
-                                       "args": [
-                                          {
-                                             "type": "call",
-                                             "callee": {
-                                                "type": "bareword",
-                                                "line": 12,
-                                                "column": 25,
-                                                "text": "h1"
-                                             },
-                                             "args": [
-                                                {
-                                                   "type": "elemat",
-                                                   "index": {
-                                                      "type": "stringlit",
-                                                      "line": 12,
-                                                      "column": 36,
-                                                      "text": "\"title\""
-                                                   },
-                                                   "of": {
-                                                      "type": "id",
-                                                      "line": 12,
-                                                      "column": 28,
-                                                      "text": "result"
-                                                   }
-                                                }
-                                             ]
-                                          },
-                                          {
-                                             "type": "call",
-                                             "callee": {
-                                                "type": "bareword",
-                                                "line": 13,
-                                                "column": 25,
-                                                "text": "p"
-                                             },
-                                             "args": [
-                                                {
-                                                   "type": "elemat",
-                                                   "index": {
-                                                      "type": "stringlit",
-                                                      "line": 13,
-                                                      "column": 35,
-                                                      "text": "\"body\""
-                                                   },
-                                                   "of": {
-                                                      "type": "id",
-                                                      "line": 13,
-                                                      "column": 27,
-                                                      "text": "result"
-                                                   }
-                                                }
-                                             ]
-                                          }
-                                       ]
+                                       "type": "attr",
+                                       "key": "key",
+                                       "value": "value"
+                                    },
+                                    {
+                                       "type": "attr",
+                                       "key": "if",
+                                       "value": "this will probably break"
                                     }
                                  ]
                               }
                            ]
                         }
-                     ]
-                  }
-               ]
-            }
-         ]
-      }
-   ]
-}
+                     },
+                     {
+                        "type": "for",
+                        "id": {
+                           "type": "id",
+                           "text": "result"
+                        },
+                        "iterable": {
+                           "type": "id",
+                           "text": "results"
+                        },
+                        "body": [
+                           {
+                              "type": "elemFunc",
+                              "elem": {
+                                 "type": "HtmlId",
+                                 "selector": {
+                                    "type": "bareword",
+                                    "text": "holder"
+                                 }
+                              },
+                              "func": {
+                                 "type": "bareword",
+                                 "text": "append"
+                              },
+                              "args": [
+                                 {
+                                    "type": "call",
+                                    "name": {
+                                       "type": "bareword",
+                                       "text": "div"
+                                    },
+                                    "attrs": [
+                                       {
+                                          "type": "attr",
+                                          "key": "class",
+                                          "value": {
+                                             "type": "HtmlClass",
+                                             "selector": {
+                                                "type": "bareword",
+                                                "text": "object"
+                                             }
+                                          }
+                                       }
+                                    ],
+                                    "args": [
+                                       {
+                                          "type": "call",
+                                          "name": {
+                                             "type": "bareword",
+                                             "text": "h1"
+                                          },
+                                          "args": [
+                                             {
+                                                "type": "arrayAt",
+                                                "array": {
+                                                   "type": "id",
+                                                   "text": "result"
+                                                },
+                                                "index": "title"
+                                             }
+                                          ]
+                                       },
+                                       {
+                                          "type": "call",
+                                          "name": {
+                                             "type": "bareword",
+                                             "text": "p"
+                                          },
+                                          "args": [
+                                             {
+                                                "type": "arrayAt",
+                                                "array": {
+                                                   "type": "id",
+                                                   "text": "result"
+                                                },
+                                                "index": "body"
+                                             }
+                                          ]
+                                       }
+                                    ]
+                                 }
+                              ]
+                           }
+                        ]
+                     }
+                  ]
+               }
+            ]
+         }
+      ]
+   }
+]

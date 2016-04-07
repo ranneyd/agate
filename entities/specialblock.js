@@ -11,16 +11,16 @@ module.exports = class SpecialBlock{
         this.safe = true;
     }
     toString(){
-        let str = `{type:'${this.type}',statements:[`;
+        let str = `{"type":'${this.type}', "statements":[`;
         for(let stmt of statements){
             if(stmt.toString){
-                str += stmt.toString() + ",";
+                str += stmt.toString() + ", ";
             }
             else{
-                str += `'unanalyzed',`;
+                str += `'unanalyzed', `;
             }
         }
-        return str + "]}";
+        return str.slice(0,-2) + "]}";
     }
     analyze( env ) {
         // We don't need a new environment because there are no assignments in

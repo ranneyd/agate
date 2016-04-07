@@ -8,8 +8,8 @@ module.exports = class Return{
     }
     toString(){
         return `{`
-            + `type:"return",`
-            + `val:${this.val.toString()},`
+            + `"type":"return", `
+            + `"val":${this.val.toString()}`
             + `}`;
     }
     analyze( env ) {

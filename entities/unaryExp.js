@@ -9,9 +9,9 @@ module.exports = class UnaryExp{
     }
     toString(){
         return `{`
-            + `type:"unaryExp",`
-            + `op:${this.op.toString()},`
-            + `a:${this.a.toString()}}`
+            + `"type":"unaryExp",`
+            + `"op":${this.op.toString()},`
+            + `"a":${this.a.toString()}`
             + `}`;
     }
     analyze( env ) {

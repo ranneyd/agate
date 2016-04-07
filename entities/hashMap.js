@@ -7,9 +7,13 @@ module.exports = class HashMap{
         this.safe = true;
     }
     toString(){
+        let pairs = "[";
+        for(let pair of this.pairs){
+            pairs += pair.toString() + ", ";
+        }
         return `{`
-            + `type:"hashMap",`
-            + `pairs:${this.pairs.toString()},`
+            + `"type":"hashMap",`
+            + `"pairs":${pairs.slice(0,-2)}]`
             + `}`;
     }
     analyze( env ) {

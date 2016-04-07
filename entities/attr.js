@@ -8,7 +8,7 @@ module.exports = class Attr{
         this.safe = true;
     }
     toString(){
-        return `{ type:"attr", key:${this.key.toString()}, value:${this.value.toString()}}`;
+        return `{"type":"attr", "key":"${this.key}", "value":${this.value.toString()}}`;
     }
     analyze( env ) {     
         this.value.analyze( env );
