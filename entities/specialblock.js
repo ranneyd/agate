@@ -11,15 +11,16 @@ module.exports = class SpecialBlock{
         this.safe = true;
     }
     toString(){
-        let str = `{"type":'${this.type}', "statements":[`;
-        for(let stmt of statements){
-            if(stmt.toString){
-                str += stmt.toString() + ", ";
+        let str = `{"type":"${this.type}", "statements":[`;
+        for(let stmt of this.statements){
+            if(stmt.type && stmt.type === "js"){
+                str += `"${stmt.text.replace(/"/g, `\\"`)}", `;
             }
             else{
-                str += `'unanalyzed', `;
+                str += stmt.toString() + ", ";
             }
         }
+        debugger;
         return str.slice(0,-2) + "]}";
     }
     analyze( env ) {

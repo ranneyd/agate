@@ -17,16 +17,17 @@ module.exports = class Template{
         this.safe = true;
     }
     toString(){
-        if(this.type === block) {
+        // Have we been analyzed yet?
+        if(this.type === "block") {
             let str = "[";
             for(let stmt of this.statements){
-                str += stmt.toString() + ',';
+                str += stmt.toString() + ', ';
             }
-            return str + "]";
+            return str.slice(0,-2) + "]";
         }
-        let str = `{"type":"label", "filename":${this.filename.toString()}, "labels":[`;
+        let str = `{"type":"template", "filename":"${this.filename}", "labels":[`;
         for(let label of this.labels){
-            str += label.toString() + ", ";
+            str += `{"label":${label.label.toString()}, "body":${label.body.toString()}}, `;
         }
         return str.slice(0,-2) + "]}";
     }

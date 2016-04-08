@@ -1,84 +1,44 @@
-{
-   "type": "program",
-   "block": [
-      {
-         "type": "template",
-         "template": {
-            "type": "template",
-            "line": 1,
-            "column": 1,
-            "text": "template.agate"
+[
+   {
+      "type": "template",
+      "filename": "template.agate",
+      "labels": [
+         {
+            "label": {
+               "type": "label",
+               "token": "title"
+            },
+            "body": [
+               "Templating demo"
+            ]
          },
-         "labels": [
-            {
-               "label": {
-                  "type": "Label,",
-                  "label": {
-                     "type": "bareword",
-                     "line": 2,
-                     "column": 6,
-                     "text": "title"
-                  }
-               },
-               "body": [
-                  {
-                     "type": "stringlit",
-                     "line": 3,
-                     "column": 9,
-                     "text": "\"Templating demo\""
-                  }
-               ]
+         {
+            "label": {
+               "type": "label",
+               "token": "heading"
             },
-            {
-               "label": {
-                  "type": "Label,",
-                  "label": {
-                     "type": "bareword",
-                     "line": 4,
-                     "column": 6,
-                     "text": "heading"
-                  }
-               },
-               "body": [
-                  {
-                     "type": "stringlit",
-                     "line": 5,
-                     "column": 9,
-                     "text": "\"Our header\""
-                  }
-               ]
+            "body": [
+               "Our header"
+            ]
+         },
+         {
+            "label": {
+               "type": "label",
+               "token": "body"
             },
-            {
-               "label": {
-                  "type": "Label,",
-                  "label": {
+            "body": [
+               {
+                  "type": "call",
+                  "name": {
                      "type": "bareword",
-                     "line": 6,
-                     "column": 6,
-                     "text": "body"
-                  }
-               },
-               "body": [
-                  {
-                     "type": "call",
-                     "callee": {
-                        "type": "bareword",
-                        "line": 7,
-                        "column": 9,
-                        "text": "p"
-                     },
-                     "args": [
-                        {
-                           "type": "stringlit",
-                           "line": 7,
-                           "column": 11,
-                           "text": "\"Our template is generalized so we can fill in all these values in separate modules.\""
-                        }
-                     ]
-                  }
-               ]
-            }
-         ]
-      }
-   ]
-}
+                     "text": "p"
+                  },
+                  "args": [
+                     "Our template is generalized so we can fill in all these values in separate modules."
+                  ]
+               }
+            ]
+         }
+      ]
+   }
+]

@@ -145,7 +145,7 @@ module.exports = (scannerTokens, error, verbose) => {
     var template = () => {
         matchLog('Matching template');
 
-        let filename = match("template");
+        let filename = match("template").text;
         let labels = [];
         if( at("newline") ) {
             match("newline");
@@ -159,7 +159,7 @@ module.exports = (scannerTokens, error, verbose) => {
 
             match("dedent");
         }
-        return new Template( filename, labels, verbose);
+        return new Template(filename, labels, verbose);
     };
     var label = () =>{
         matchLog("Matching label");
@@ -195,12 +195,12 @@ module.exports = (scannerTokens, error, verbose) => {
 
         let statements = [];
         if( atExp() ){
-            statements.push( Exp() );
+            statements.push( exp() );
         }
         do {
             statements.push( match("js") );
             if( atExp() ){
-                statements.push( Exp() );
+                statements.push( exp() );
             }
             // If they put newlines in their JS, more power to them
             while( at("newline") ){
@@ -255,7 +255,6 @@ module.exports = (scannerTokens, error, verbose) => {
             match("if");
 
             let condition = exp();
-            debugger;
 
             conditionals.push({
                 condition: condition,
@@ -434,9 +433,7 @@ module.exports = (scannerTokens, error, verbose) => {
         let ourExp = addExp();
         while( at("relop") && !atSequential(["relop", "equals"])) {
             let ourOp = match("relop");
-            debugger;
             ourExp = new BinaryExp( ourExp, addExp(), new Token(ourOp) );
-            debugger;
         }
         return ourExp;
     };
@@ -477,7 +474,7 @@ module.exports = (scannerTokens, error, verbose) => {
             match("tilde")
             
             let func = new Token(match("bareword"));
-            let ourArgs = [];
+            let ourArgs;
             error.hint = "The ~ operator is for member functions only. Thus, if you don't put parens after, we're going to gobble up as many potential arguments as we can";
             
             if( atArgs() ) {
@@ -606,7 +603,7 @@ module.exports = (scannerTokens, error, verbose) => {
         matchLog("Matching call");
         let name;
         let ourAttrs = [];
-        let ourArgs = [];
+        let ourArgs;
 
         if( at(builtins) ){
             name = builtIn();
@@ -628,7 +625,7 @@ module.exports = (scannerTokens, error, verbose) => {
         }
 
         if( at("openSquare") ) {
-            ourAttrs.concat( attrs() );
+            ourAttrs = ourAttrs.concat( attrs() );
         }
         if( atArgs() ){
             ourArgs = args();
@@ -640,7 +637,7 @@ module.exports = (scannerTokens, error, verbose) => {
 
         for( let builtin of builtins ) {
             if( at(builtin) ) {
-                return new Token(match(builtins));
+                return new Token(match(builtin));
             }
         }
         error.expected('some kind of built in function', tokens.shift());
@@ -759,10 +756,10 @@ module.exports = (scannerTokens, error, verbose) => {
                 ourArgs.push(arg());
             }
             match("closeParen");
-            return ourArgs;
+            return new Block(ourArgs);
         }
         else if( atBlock() ){
-            return childBlock().statements;
+            return childBlock();
         }
         else{
             error.hint = "If you don't use parens or commas, we're going to try to gobble up as many expressions as we can as arguments.";
@@ -774,7 +771,7 @@ module.exports = (scannerTokens, error, verbose) => {
                 ourArgs.push(arg());
             }
             error.hint = "";
-            return ourArgs;
+            return new Block(ourArgs);
         }
     };
     var hashMap = () => {

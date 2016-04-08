@@ -7,7 +7,7 @@ module.exports = class Call{
         if(attrs.length){
             this.attrs = attrs;
         }
-        if(args.length){
+        if(args){
             this.args = args;
         }
         this.safe = true;
@@ -25,12 +25,7 @@ module.exports = class Call{
             str += attrString;
         }
         if(this.args){
-            let argString = '"args":[';
-            for(let arg of this.args){
-                argString += arg.toString() + ", "
-            }
-            argString = argString.slice(0, -2) + "], ";
-            str += argString;
+            str += `"args":${this.args.toString()}, `;
         }
         return str.slice(0, -2) + "}";
     }

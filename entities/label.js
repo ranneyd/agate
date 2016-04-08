@@ -11,7 +11,7 @@ module.exports = class Label{
         this.safe = true;
     }
     toString(){
-        if(this.type === block) {
+        if(this.type === "block") {
             let str = "[";
             for(let stmt of this.statements){
                 str += stmt.toString() + ',';
@@ -19,8 +19,8 @@ module.exports = class Label{
             return str + "]";
         }
         return `{`
-            + `"type":"label",`
-            + `"token":${this.token.toString()},`
+            + `"type":"label", `
+            + `"token":"${this.name}"`
             + `}`;
     }
     analyze( env ) {
