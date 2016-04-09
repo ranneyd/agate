@@ -3,7 +3,7 @@
 var scanner = require("../scanner.js");
 var parser = require("../parser.js");
 var fs = require("fs");
-var Error = require("../error.js");
+const AgateError = require("../error.js");
 var Block = require('./block.js');
 
 module.exports = class Include{
@@ -12,7 +12,7 @@ module.exports = class Include{
     constructor(filename, verbose) {
         this.type = "Include";
         this.filename = filename;
-        this.error = new Error();
+        this.error = new AgateError();
         this.verbose = verbose;
         this.safe = true;
     }

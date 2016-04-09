@@ -3,7 +3,7 @@
 var scanner = require("../scanner.js");
 var parser = require("../parser.js");
 var fs = require("fs");
-Error = require("../error.js");
+const AgateError = require("../error.js");
 
 module.exports = class Template{
     // Since we're running a subprocess of the whole compiler up to this
@@ -12,7 +12,7 @@ module.exports = class Template{
         this.type = "Template";
         this.filename = filename;
         this.labels = labels;
-        this.error = new Error();
+        this.error = new AgateError();
         this.verbose = verbose;
         this.safe = true;
     }

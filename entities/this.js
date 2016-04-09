@@ -1,14 +1,17 @@
 'use strict';
 
-module.exports = class This{
-    constructor() {
-        this.type = "This";
-        this.safe = true;
+const Entity = require("./entity.js");
+
+module.exports = class This extends Entity{
+    constructor( token ) {
+        super( token );
     }
-    toString(){
-        return `"this"`;
+    toString(indentLevel, indent){
+        // Thanks node for your default parameter support >:(
+        indentLevel = indentLevel || 0;
+        return " ".repeat(indentLevel) + "this";
     }
     analyze( env ) {
-
+        this.val.analyze( env );
     }
 };

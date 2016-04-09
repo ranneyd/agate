@@ -1,5 +1,5 @@
 'use strict';
-module.exports = class Error {
+module.exports = class AgateError {
     constructor() {
         this.count = 0;
         this.log = true;

@@ -1,17 +1,17 @@
 'use strict';
 
-module.exports = class ArrayDef{
-    constructor( elems ) {
-        this.type = "Array";
+const Entity = require("./entity.js");
+
+module.exports = class ArrayDef extends Entity{
+    constructor( token, elems ) {
+        super( token );
         this.elems = elems;
-        this.safe = true;
     }
-    toString(){
-        let str = "[";
-        for(let elem of elems) {
-            str += elem.toString() + ",";
-        }
-        return str + "]";
+    toString(indentLevel, indent){
+        let strArr = [
+            `elems: ${this.elems.toString(indentLevel, indent)}`
+        ];
+        return this.toStringArray(indentLevel, indent, strArr).join("\n");  
     }
     analyze( env ) {
         for(let elem of this.elems) {
@@ -19,6 +19,5 @@ module.exports = class ArrayDef{
 
             this.safe = this.safe && elem.safe;  
         }
-
     }
 };

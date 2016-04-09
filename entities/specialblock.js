@@ -1,13 +1,13 @@
 'use strict';
 
-Error = require("../error.js");
+const AgateError = require("../error.js");
 
 module.exports = class SpecialBlock{
     // Type should be "js" or "css"
     constructor(statements, type) {
         this.type = `${type.toUpperCase()} Block`;
         this.statements = statements;
-        this.error = new Error();
+        this.error = new AgateError();
         this.safe = true;
     }
     toString(){

@@ -1,12 +1,12 @@
 'use strict';
 
-Error = require("../error.js");
+const AgateError = require("../error.js");
 
 module.exports = class Lookup{
     constructor( token ) {
         this.type = "Lookup";
         this.token = token;
-        this.error = new Error();
+        this.error = new AgateError();
         this.safe = true;
     }
     toString(){

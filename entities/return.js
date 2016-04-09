@@ -1,16 +1,21 @@
 'use strict';
 
-module.exports = class Return{
-    constructor( val ) {
-        this.type = "Return";
+const Entity = require("./entity.js");
+
+module.exports = class Return extends Entity{
+    constructor( token, val ) {
+        super( token );
         this.val = val;
-        this.safe = true;
     }
-    toString(){
-        return `{`
-            + `"type":"return", `
-            + `"val":${this.val.toString()}`
-            + `}`;
+    toString(indentLevel, indent){
+        // Thanks node for your default parameter support >:(
+        indentLevel = indentLevel || 0;
+        indent = indent || 3;
+
+        let strArr = [
+            `val: ${this.val.toString(indentLevel + indent)}`
+        ];
+        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
     }
     analyze( env ) {
         this.val.analyze( env );

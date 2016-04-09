@@ -7,9 +7,9 @@ var dumpParseTree = false;
 var outName = false;
 var fs = require("fs");
 
-var Error = require("./error.js");
+var AgateError = require("./error.js");
 
-var error = new Error();
+var error = new AgateError();
 
 var scanner = require("./scanner.js");
 var parser  = require("./parser.js");

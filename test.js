@@ -12,7 +12,7 @@ var parser = require("./parser.js");
 var fs = require( 'fs' );
 var dir = "./tests";
 
-Error = require("./error.js");
+AgateError = require("./error.js");
 
 require('colors');
 var jsdiff = require('diff');
@@ -57,7 +57,7 @@ fs.readdir( dir, ( dir_err, list ) => {
             // For every agate file there should be a corresponding json with the expected
             // lexical analysis
             let expectedTokens = require( `${dir}/${fileParts[1]}.tokens.json` );
-            let error = new Error();
+            let error = new AgateError();
             // If the test has "fail" in the name, it's testing that things properly fail. So we
             // should not log errors
             let failTest = /fail/g.exec(fileParts[1]);

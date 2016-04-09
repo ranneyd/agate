@@ -1,6 +1,6 @@
 'use strict';
 
-Error = require("../error.js");
+const AgateError = require("../error.js");
 
 module.exports = class Env {
     constructor(parent) {
@@ -8,6 +8,7 @@ module.exports = class Env {
         this.vars = {};
         this.functions = {};
         this.labels = {};
+        this.error = parent ? parent.error : new AgateError();
         // Safety is based on runtime vs compile-time values. 
         this.safe = true;
     }
@@ -58,7 +59,7 @@ module.exports = class Env {
             }            
 
             if( !value && !noError) {
-                error.undefined( type, name, token );
+                this.error.undefined( type, name, token );
                 return false;
             }
         }

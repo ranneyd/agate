@@ -1,20 +1,25 @@
 'use strict';
 
-module.exports = class Token{
+const Entity = require("./entity.js");
+
+module.exports = class Token extends Entity{
     constructor( token ) {
-        this.type = token.type;
-        this.text = token.text;
-        this.line = token.line;
-        this.column = token.column;
-        this.safe = true;
+        super( token );
+        this.token = token;
     }
-    toString(){
-        return `{`
-            + `"type":"${this.type}"`
-            + (this.text ? `, "text":"${this.text}"` : "" )
-            // + `line:${this.line.toString()}}`
-            // + `column:${this.column.toString()}}`
-            + `}`;
+    toString(indentLevel, indent){
+        // Thanks node for your default parameter support >:(
+        indentLevel = indentLevel || 0;
+        indent = indent || 3;
+        
+        let strArr = [
+            `tokenType: ${this.token.type}`
+        ];
+        // Not all tokens have text
+        if( this.token.text ){
+            strArr.push(`text: ${this.token.text}`);
+        }
+        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
     }
     // No analysis necessary
     analyze( env ) {
