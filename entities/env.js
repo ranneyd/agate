@@ -67,13 +67,13 @@ module.exports = class Env {
     }
     // These actually work with tokens or just key strings. Works with both for convenience
     existsVar( key ) {
-        return exists( "var", key );
+        return this.exists( "var", key );
     }
     existsFunction( key ) {
-        return exists( "function", key );
+        return this.exists( "function", key );
     }
     existsLabel( key ) {
-        return exists( "label", key );
+        return this.exists( "label", key );
     }
     exists( type, key ) {
         let value = this.lookup( key.text ? key.text : key, true );
@@ -81,13 +81,13 @@ module.exports = class Env {
     }
     // These actually work with tokens or just key strings. Works with both for convenience
     isSafeVar( key ) {
-        return isSafe( "var", key );
+        return this.isSafe( "var", key );
     }
     isSafeFunction( key ) {
-        return isSafe( "function", key );
+        return this.isSafe( "function", key );
     }
     isSafeLabel( key ) {
-        return isSafe( "label", key );
+        return this.isSafe( "label", key );
     }
     isSafe( type, key ) {
         let value = this.lookup( key.text ? key.text : key, true );
@@ -99,13 +99,13 @@ module.exports = class Env {
         return false;
     }
     addVar( key, value ) {
-        return add( "var", key, value );
+        return this.add( "var", key, value );
     }
     addFunction( key, value ) {
-        return add( "function", key, value );
+        return this.add( "function", key, value );
     }
     addLabel( key, value ) {
-        return add( "label", key, value );
+        return this.add( "label", key, value );
     }
     add( type, key, value ) {
         if( type === "var" ) {

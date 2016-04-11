@@ -114,7 +114,6 @@ readFile(`${file}.agate`)
             catch(e){
                 console.log(e.text);
                 console.log(e.stack);
-                debugger;
                 return;
             }
         }

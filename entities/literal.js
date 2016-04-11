@@ -9,10 +9,8 @@ module.exports = class Literal extends Entity{
         this.text = token.text;
         this.token = token;
     }
-    toString(indentLevel, indent){
-        // Thanks node for your default parameter support >:(
-        indentLevel = indentLevel || 0;
-        return " ".repeat(indentLevel) + this.text;
+    toString(){
+        return "" + this.text;
     }
     // No analysis necessary
     analyze( env ) {

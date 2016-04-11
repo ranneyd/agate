@@ -1,20 +1,29 @@
 'use strict';
 
-module.exports = class Assignment{
-    constructor( id, val ) {
-        this.type = "Assignment";
-        this.id = id;
-        this.val = val;
-        this.safe = true;
+const Entity = require("./entity.js");
+
+module.exports = class Assignment extends Entity{
+    constructor( token, lhs, rhs ) {
+        super(token);
+        this.lhs = lhs;
+        this.rhs = rhs;
     }
-    toString(){
-        return `{"type":"assignment", "lhs":${this.id.toString()}, "rhs":${this.val.toString()}}`;
+    toString(indentLevel, indent){
+        // Thanks node for your default parameter support >:(
+        indentLevel = indentLevel || 0;
+        indent = indent || 3;
+
+        let strArr = [
+            `lhs: ${this.lhs.text}`,
+            `rhs: ${this.rhs.toString(indentLevel + indent, indent)}`
+        ];
+        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
     }
     analyze( env ) {
-        val.parse( env );
+        this.rhs.analyze( env );
         
-        env.addVar(id, val);
+        env.addVar(this.lhs, this.rhs);
 
-        this.safe = this.safe && val.safe;
+        this.safe = this.safe && this.rhs.safe;
     }
 };

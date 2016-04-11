@@ -15,7 +15,7 @@ module.exports = class Attr extends Entity{
 
         let strArr = [
             `key: ${this.key}`,
-            `value: ${this.value.toString(indentLevel + 3, indent )}`
+            `value: ${this.value.toString(indentLevel + indent, indent )}`
         ];
         return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
     }
