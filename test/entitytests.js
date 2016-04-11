@@ -8,6 +8,7 @@ const ArrayAt = require("../entities/arrayAt");
 const ArrayLit = require("../entities/arraylit");
 const Assignment = require("../entities/assignment");
 const Attr = require("../entities/attr");
+const BinaryExp = require("../entities/binaryExp");
 const Block = require("../entities/block");
 const Literal = require("../entities/literal");
 const Return = require("../entities/return");
@@ -723,6 +724,125 @@ describe('ArrayAt', function() {
             let env = new Env(null);
 
             arrayAt.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+
+describe('Binary Exp', function() {
+    let practiceValue = new Literal({
+        type: "intlit",
+        text: 42,
+        line: 1,
+        column: 1
+    });
+    let practiceOp = {
+        type: "minus",
+        line: 1,
+        column: 3
+    };
+    let practiceOp2 = {
+        type: "plus",
+        line: 1,
+        column: 3
+    };
+    let practiceValue2 = new Literal({
+        type: "intlit",
+        text: 1024,
+        line: 1,
+        column: 4
+    });
+    describe('constructor', function () {
+        it('should construct', function () {
+            let exp = new BinaryExp(practiceOp, practiceValue, practiceValue2, praticeOp.type);
+            assert.deepStrictEqual(exp.a, practiceValue, "a");
+            assert.deepStrictEqual(exp.b, practiceValue2, "b");
+            assert.deepStrictEqual(exp.op, "minus", "op1");
+
+            exp = new BinaryExp(practiceOp, practiceValue, practiceValue2, praticeOp);
+            assert.deepStrictEqual(exp.a, practiceValue, "a");
+            assert.deepStrictEqual(exp.b, practiceValue2, "b");
+            assert.deepStrictEqual(exp.op, "minus", "op1 (alt)");
+
+            let exp2 = new BinaryExp(practiceOp2, practiceValue, practiceValue2, praticeOp2);
+            assert.deepStrictEqual(exp.op, "plus", "op2 (alt)");
+
+            let exp3 = new BinaryExp(practiceOp, practiceValue, exp, praticeOp);
+            assert.deepStrictEqual(exp3.a, exp, "a composite");
+            assert.deepStrictEqual(exp3.b, exp, "b composite");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+
+            let exp = new BinaryExp(practiceOp, practiceValue, practiceValue2, praticeOp.type);
+
+            let expectedString = [
+                "{",
+                "   type: BinaryExp",
+                "   a: 42",
+                "   b: 13",
+                "   op: minus",
+                "}"
+            ].join("\n");
+
+            assert.deepStrictEqual(exp.toString(), expectedString, "defaults");
+
+            expectedString = [
+                "{",
+                "      type: BinaryExp",
+                "      a: 42",
+                "      b: 13",
+                "      op: minus",
+                "   }"
+            ].join("\n");
+            assert.deepStrictEqual(exp.toString(3), expectedString, "indentation");
+
+
+            let expAlt = new BinaryExp(practiceOp, practiceValue, exp, praticeOp);
+
+            expectedString = [
+                "{",
+                "   type: BinaryExp",
+                "   a: 42",
+                "   b: {",
+                "      type: BinaryExp",
+                "      a: 42",
+                "      b: 13",
+                "      op: minus",
+                "   }",
+                "   op: minus",
+                "}"
+            ].join("\n");
+
+            assert.deepStrictEqual(expAlt.toString(), expectedString, "defaults (alt)");
+
+            expectedString = [
+                "{",
+                "      type: BinaryExp",
+                "      a: 42",
+                "      b: {",
+                "         type: BinaryExp",
+                "         a: 42",
+                "         b: 13",
+                "         op: minus",
+                "      }",
+                "      op: minus",
+                "   }"
+            ].join("\n");
+
+            assert.deepStrictEqual(expAlt.toString(3), expectedString, "indentation (alt)");
+
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let exp = new UnaryExp(practiceOp, practiceValue, practiceOp.type);
+
+            let env = new Env()
+
+            exp.analyze(env);
 
             // TODO: more complex analysis
         });
