@@ -1,37 +1,43 @@
 'use strict';
 
+const Entity = require("./entity");
+const Block = require("./block");
+
 module.exports = class Def{
-    constructor( name, args, body ) {
-        this.type = "Def";
+    constructor( token, name, args, body ) {
+        super( token );
         this.name = name;
-        this.args = args;
+        if(args.length){
+            this.args = new Block(token, args);
+        }        
         this.body = body;
-        this.safe = true;
     }
-    toString(){
-        let args = "[";
-        for(let arg of this.args) {
-            args += arg.toString() + ", ";
+    toString(indentLevel, indent){
+        // Thanks node for your default parameter support >:(
+        indentLevel = indentLevel || 0;
+        indent = indent || 3;
+
+        let strArr = [
+            `name: ${this.name.toString(indentLevel + indent, indent)}`,
+        ];
+        if(this.args) {
+            strArr.push(`args: ${this.args.toString(indentLevel + indent, indent)}`);
         }
-        return `{`
-            + `"type":"def", `
-            + `"name":${this.name.toString()}, `
-            + `"args":${args.slice(0,-2)}], `
-            + `"body":${this.body.toString()}`
-            + `}`;
+        strArr.push(`body: ${this.body.toString(indentLevel + indent, indent)}`)
+        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
     }
     analyze( env ) {
-        localEnv = env.makeChild();
-        localEnv.safe = localEnv.safe && this.safe;
+        // let localEnv = env.makeChild();
+        // localEnv.safe = localEnv.safe && this.safe;
 
-        for(let arg of this.args){
-            // hoisting since these obviously don't have values yet
-            localEnv.addVar( arg, null );
-        }
+        // for(let arg of this.args){
+        //     // hoisting since these obviously don't have values yet
+        //     localEnv.addVar( arg, null );
+        // }
         
-        this.body.parse( localEnv );
+        // this.body.parse( localEnv );
 
-        this.safe = this.safe && this.body.safe;
-        env.addFunc( this.name, this );
+        // this.safe = this.safe && this.body.safe;
+        // env.addFunc( this.name, this );
     }
 };

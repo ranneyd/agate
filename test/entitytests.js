@@ -11,6 +11,7 @@ const Attr = require("../entities/attr");
 const BinaryExp = require("../entities/binaryExp");
 const Block = require("../entities/block");
 const Call = require("../entities/call");
+const Def = require("../entities/def");
 const Literal = require("../entities/literal");
 const Return = require("../entities/return");
 const This = require("../entities/this");
@@ -1034,7 +1035,178 @@ describe('Call', function() {
             ].join("\n");
 
             assert.deepStrictEqual(call.toString(3), expectedString, "indentation (alt)");
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let call = new Call(name.token, name, attrs, args);
 
+            let env = new Env()
+
+            call.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+describe('Call', function() {
+    let def = new Token({
+        type: "def",
+        line: 1,
+        column: 1
+    });
+    let name = new Token({
+        type: "bareword",
+        text: "test",
+        line: 1,
+        column: 1
+    });
+    let openBracket = new Token({
+        type: "openBracket",
+        line: 1,
+        column: 5
+    });
+    let lit1 = new Literal({
+        type: "stringlit",
+        text: "foo",
+        line: 1,
+        column: 1
+    });
+    let lit2 = new Literal({
+        type: "stringlit",
+        text: "bar",
+        line: 1,
+        column: 1
+    });
+    let lit3 = new Literal({
+        type: "stringlit",
+        text: "baz",
+        line: 1,
+        column: 1
+    });
+    let id = new Token({
+        type: "id",
+        text: "param",
+        line: 1,
+        column: 1
+    });
+    let attrs = [
+        new Attr(openBracket, "fizz", lit1),
+        new Attr(openBracket, "buzz", lit2)
+    ];
+    let args = [
+        lit3,
+        id
+    ];
+    describe('constructor', function () {
+        it('should construct', function () {
+            let call = new Call(name.token, name, attrs, args);
+            assert.deepStrictEqual(call.name, name, "name");
+            assert.deepStrictEqual(call.attrs.statements[1], attrs[1], "attrs");
+            assert.deepStrictEqual(call.args.statements[1], id, "args");
+
+            call = new Call(name.token, name, [], []);
+            assert.deepStrictEqual(call.name, name, "name (alt)");
+            assert.deepStrictEqual(call.attrs, undefined, "attrs (alt)");
+            assert.deepStrictEqual(call.args, undefined, "args (alt)");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let call = new Call(name.token, name, attrs, args);
+
+            let expectedString = [
+                "{",
+                "   type: Call",
+                "   name: {",
+                "      type: Token",
+                "      tokenType: bareword",
+                "      text: test",
+                "   }",
+                "   attrs: [",
+                "      {",
+                "         type: Attr",
+                "         key: fizz",
+                "         value: foo",
+                "      }",
+                "      {",
+                "         type: Attr",
+                "         key: buzz",
+                "         value: bar",
+                "      }",
+                "   ]",
+                "   args: [",
+                "      baz",
+                "      {",
+                "         type: Token",
+                "         tokenType: id",
+                "         text: param",
+                "      }",
+                "   ]",
+                "}"
+            ].join("\n");
+
+            assert.deepStrictEqual(call.toString(), expectedString, "defaults");
+
+            expectedString = [
+                "{",
+                "      type: Call",
+                "      name: {",
+                "         type: Token",
+                "         tokenType: bareword",
+                "         text: test",
+                "      }",
+                "      attrs: [",
+                "         {",
+                "            type: Attr",
+                "            key: fizz",
+                "            value: foo",
+                "         }",
+                "         {",
+                "            type: Attr",
+                "            key: buzz",
+                "            value: bar",
+                "         }",
+                "      ]",
+                "      args: [",
+                "         baz",
+                "         {",
+                "            type: Token",
+                "            tokenType: id",
+                "            text: param",
+                "         }",
+                "      ]",
+                "   }"
+            ].join("\n");
+            assert.deepStrictEqual(call.toString(3), expectedString, "indentation");
+
+            call = new Call(name.token, name, [], []);
+
+            expectedString = [
+                "{",
+                "   type: Call",
+                "   name: {",
+                "      type: Token",
+                "      tokenType: bareword",
+                "      text: test",
+                "   }",
+                "}"
+            ].join("\n");
+
+            assert.deepStrictEqual(call.toString(), expectedString, "defaults (alt)");
+
+            expectedString = [
+                "{",
+                "      type: Call",
+                "      name: {",
+                "         type: Token",
+                "         tokenType: bareword",
+                "         text: test",
+                "      }",
+                "   }"
+            ].join("\n");
+
+            assert.deepStrictEqual(call.toString(3), expectedString, "indentation (alt)");
         });
     });
     describe('analyze', function () {
