@@ -5,7 +5,16 @@ const Entity = require("./entity.js");
 module.exports = class Attr extends Entity{
     constructor( token, key, value ) {
         super( token );
-        this.key = key;     // not entity
+        // not entity
+        if(key.text) {
+            this.key = key.text;
+        }
+        else if(key.type) {
+            this.key = key.type
+        }
+        else{
+            this.key = key;
+        }
         this.value = value; // entity
     }
     toString(indentLevel, indent){

@@ -10,6 +10,7 @@ const Assignment = require("../entities/assignment");
 const Attr = require("../entities/attr");
 const BinaryExp = require("../entities/binaryExp");
 const Block = require("../entities/block");
+const Call = require("../entities/call");
 const Literal = require("../entities/literal");
 const Return = require("../entities/return");
 const This = require("../entities/this");
@@ -171,28 +172,37 @@ describe('This', function() {
 });
 
 describe('Attr', function() {
-    let practiceValue = {
+    let practiceValue = new Token({
         type: "intlit",
         text: 42,
         line: 1,
         column: 7
-    };
+    });
     let practiceBracket = {
         type: "openSquare",
         line: 1,
         column: 1
     };
+    let practiceKey = {
+        type: "stringlit",
+        text: "test",
+        line: 1,
+        column: 2
+    };
     describe('constructor', function () {
         it('should construct', function () {
+            let attr = new Attr(practiceBracket, "test", practiceValue);
+            assert.deepStrictEqual(attr.key, "test", "key");
+            assert.deepStrictEqual(attr.value, practiceValue, "value");
 
-            let attr = new Attr(practiceBracket, "test", new Token(practiceValue));
-            assert.deepStrictEqual(attr.key, "test", "line");
-            assert.deepStrictEqual(attr.value.token, practiceValue, "value");
+            attr = new Attr(practiceBracket, practiceKey, practiceValue);
+            assert.deepStrictEqual(attr.key, "test", "key (alt)");
+            assert.deepStrictEqual(attr.value, practiceValue, "value (alt)");
         });
     });
     describe('toString', function () {
         it('should make the string', function () {
-            let attr = new Attr(practiceBracket, "test", new Token(practiceValue));
+            let attr = new Attr(practiceBracket, "test", practiceValue);
 
             let expectedString = [
                 "{",
@@ -488,6 +498,11 @@ describe('Assignment', function() {
     });
 });
 describe('Block', function() {
+    let dummyToken = {
+        type: "indent",
+        line: 1,
+        column:1
+    };
 
     let practiceId = {
         type: "id",
@@ -530,6 +545,10 @@ describe('Block', function() {
             assert.deepStrictEqual(block.line, practiceId.line, "line");
             assert.deepStrictEqual(block.statements[0], practiceAssign, "1st");
             assert.deepStrictEqual(block.statements[1], practiceReturnStmt, "2nd");
+
+            let emptyBlock = new Block(dummyToken, []);
+            assert.deepStrictEqual(emptyBlock.line, dummyToken.line, "empty line");
+            assert.deepStrictEqual(emptyBlock.statements, [], "empty statements");
         });
     });
     describe('toString', function () {
@@ -568,6 +587,19 @@ describe('Block', function() {
                 "   ]"
             ].join("\n");
             assert.deepStrictEqual(block.toString(3), expectedString, "indentation");
+
+            let emptyBlock = new Block(dummyToken, []);
+            expectedString = [
+                "[",
+                "]"
+            ].join("\n");
+            assert.deepStrictEqual(emptyBlock.toString(), expectedString, "empty");
+
+            expectedString = [
+                "[",
+                "   ]"
+            ].join("\n");
+            assert.deepStrictEqual(emptyBlock.toString(3), expectedString, "empty indented");
         });
     });
     describe('analyze', function () {
@@ -755,34 +787,34 @@ describe('Binary Exp', function() {
     });
     describe('constructor', function () {
         it('should construct', function () {
-            let exp = new BinaryExp(practiceOp, practiceValue, practiceValue2, praticeOp.type);
+            let exp = new BinaryExp(practiceOp, practiceValue, practiceValue2, practiceOp.type);
             assert.deepStrictEqual(exp.a, practiceValue, "a");
             assert.deepStrictEqual(exp.b, practiceValue2, "b");
             assert.deepStrictEqual(exp.op, "minus", "op1");
 
-            exp = new BinaryExp(practiceOp, practiceValue, practiceValue2, praticeOp);
+            exp = new BinaryExp(practiceOp, practiceValue, practiceValue2, practiceOp);
             assert.deepStrictEqual(exp.a, practiceValue, "a");
             assert.deepStrictEqual(exp.b, practiceValue2, "b");
             assert.deepStrictEqual(exp.op, "minus", "op1 (alt)");
 
-            let exp2 = new BinaryExp(practiceOp2, practiceValue, practiceValue2, praticeOp2);
-            assert.deepStrictEqual(exp.op, "plus", "op2 (alt)");
+            let exp2 = new BinaryExp(practiceOp2, practiceValue, practiceValue2, practiceOp2);
+            assert.deepStrictEqual(exp2.op, "plus", "op2 (alt)");
 
-            let exp3 = new BinaryExp(practiceOp, practiceValue, exp, praticeOp);
-            assert.deepStrictEqual(exp3.a, exp, "a composite");
+            let exp3 = new BinaryExp(practiceOp, practiceValue, exp, practiceOp);
+            assert.deepStrictEqual(exp3.a, practiceValue, "a composite");
             assert.deepStrictEqual(exp3.b, exp, "b composite");
         });
     });
     describe('toString', function () {
         it('should make the string', function () {
 
-            let exp = new BinaryExp(practiceOp, practiceValue, practiceValue2, praticeOp.type);
+            let exp = new BinaryExp(practiceOp, practiceValue, practiceValue2, practiceOp.type);
 
             let expectedString = [
                 "{",
                 "   type: BinaryExp",
                 "   a: 42",
-                "   b: 13",
+                "   b: 1024",
                 "   op: minus",
                 "}"
             ].join("\n");
@@ -793,14 +825,14 @@ describe('Binary Exp', function() {
                 "{",
                 "      type: BinaryExp",
                 "      a: 42",
-                "      b: 13",
+                "      b: 1024",
                 "      op: minus",
                 "   }"
             ].join("\n");
             assert.deepStrictEqual(exp.toString(3), expectedString, "indentation");
 
 
-            let expAlt = new BinaryExp(practiceOp, practiceValue, exp, praticeOp);
+            let expAlt = new BinaryExp(practiceOp, practiceValue, exp, practiceOp);
 
             expectedString = [
                 "{",
@@ -809,7 +841,7 @@ describe('Binary Exp', function() {
                 "   b: {",
                 "      type: BinaryExp",
                 "      a: 42",
-                "      b: 13",
+                "      b: 1024",
                 "      op: minus",
                 "   }",
                 "   op: minus",
@@ -825,7 +857,7 @@ describe('Binary Exp', function() {
                 "      b: {",
                 "         type: BinaryExp",
                 "         a: 42",
-                "         b: 13",
+                "         b: 1024",
                 "         op: minus",
                 "      }",
                 "      op: minus",
@@ -843,6 +875,175 @@ describe('Binary Exp', function() {
             let env = new Env()
 
             exp.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+
+describe('Call', function() {
+    let name = new Token({
+        type: "bareword",
+        text: "test",
+        line: 1,
+        column: 1
+    });
+    let openBracket = new Token({
+        type: "openBracket",
+        line: 1,
+        column: 5
+    });
+    let lit1 = new Literal({
+        type: "stringlit",
+        text: "foo",
+        line: 1,
+        column: 1
+    });
+    let lit2 = new Literal({
+        type: "stringlit",
+        text: "bar",
+        line: 1,
+        column: 1
+    });
+    let lit3 = new Literal({
+        type: "stringlit",
+        text: "baz",
+        line: 1,
+        column: 1
+    });
+    let id = new Token({
+        type: "id",
+        text: "param",
+        line: 1,
+        column: 1
+    });
+    let attrs = [
+        new Attr(openBracket, "fizz", lit1),
+        new Attr(openBracket, "buzz", lit2)
+    ];
+    let args = [
+        lit3,
+        id
+    ];
+    describe('constructor', function () {
+        it('should construct', function () {
+            let call = new Call(name.token, name, attrs, args);
+            assert.deepStrictEqual(call.name, name, "name");
+            assert.deepStrictEqual(call.attrs.statements[1], attrs[1], "attrs");
+            assert.deepStrictEqual(call.args.statements[1], id, "args");
+
+            call = new Call(name.token, name, [], []);
+            assert.deepStrictEqual(call.name, name, "name (alt)");
+            assert.deepStrictEqual(call.attrs, undefined, "attrs (alt)");
+            assert.deepStrictEqual(call.args, undefined, "args (alt)");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let call = new Call(name.token, name, attrs, args);
+
+            let expectedString = [
+                "{",
+                "   type: Call",
+                "   name: {",
+                "      type: Token",
+                "      tokenType: bareword",
+                "      text: test",
+                "   }",
+                "   attrs: [",
+                "      {",
+                "         type: Attr",
+                "         key: fizz",
+                "         value: foo",
+                "      }",
+                "      {",
+                "         type: Attr",
+                "         key: buzz",
+                "         value: bar",
+                "      }",
+                "   ]",
+                "   args: [",
+                "      baz",
+                "      {",
+                "         type: Token",
+                "         tokenType: id",
+                "         text: param",
+                "      }",
+                "   ]",
+                "}"
+            ].join("\n");
+
+            assert.deepStrictEqual(call.toString(), expectedString, "defaults");
+
+            expectedString = [
+                "{",
+                "      type: Call",
+                "      name: {",
+                "         type: Token",
+                "         tokenType: bareword",
+                "         text: test",
+                "      }",
+                "      attrs: [",
+                "         {",
+                "            type: Attr",
+                "            key: fizz",
+                "            value: foo",
+                "         }",
+                "         {",
+                "            type: Attr",
+                "            key: buzz",
+                "            value: bar",
+                "         }",
+                "      ]",
+                "      args: [",
+                "         baz",
+                "         {",
+                "            type: Token",
+                "            tokenType: id",
+                "            text: param",
+                "         }",
+                "      ]",
+                "   }"
+            ].join("\n");
+            assert.deepStrictEqual(call.toString(3), expectedString, "indentation");
+
+            call = new Call(name.token, name, [], []);
+
+            expectedString = [
+                "{",
+                "   type: Call",
+                "   name: {",
+                "      type: Token",
+                "      tokenType: bareword",
+                "      text: test",
+                "   }",
+                "}"
+            ].join("\n");
+
+            assert.deepStrictEqual(call.toString(), expectedString, "defaults (alt)");
+
+            expectedString = [
+                "{",
+                "      type: Call",
+                "      name: {",
+                "         type: Token",
+                "         tokenType: bareword",
+                "         text: test",
+                "      }",
+                "   }"
+            ].join("\n");
+
+            assert.deepStrictEqual(call.toString(3), expectedString, "indentation (alt)");
+
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let call = new Call(name.token, name, attrs, args);
+
+            let env = new Env()
+
+            call.analyze(env);
 
             // TODO: more complex analysis
         });
