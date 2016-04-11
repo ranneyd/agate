@@ -24,13 +24,13 @@ module.exports = class Env {
         return env;
     }
     lookupVar( token ) {
-        return lookup( "var", token );
+        return this.lookup( "var", token );
     }
     lookupFunction( token ) {
-        return lookup( "function", token );
+        return this.lookup( "function", token );
     }
     lookupLabel( token ) {
-        return lookup( "label", token );
+        return this.lookup( "label", token );
     }
     // Look up in one of the tables, designated by 'type'
     lookup( type, token, noError ) {
@@ -46,20 +46,21 @@ module.exports = class Env {
             value = this.labels[key];
         }
 
-
         if( !value ) {
-            if( type === "var" ) {
-                value = this.parent.lookupVar(key);
+            if(this.parent){
+                if( type === "var" ) {
+                    value = this.parent.lookupVar(key);
+                }
+                else if( type === "functions" ) {
+                    value = this.parent.lookupFunction(key);
+                }
+                else {
+                    value = this.parent.lookupLabel(key);
+                }   
             }
-            else if( type === "functions" ) {
-                value = this.parent.lookupFunction(key);
-            }
-            else {
-                value = this.parent.lookupLabel(key);
-            }            
-
+         
             if( !value && !noError) {
-                this.error.undefined( type, name, token );
+                this.error.undefined( type, key, token );
                 return false;
             }
         }

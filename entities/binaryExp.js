@@ -1,5 +1,6 @@
 'use strict';
 
+const Entity = require("./entity.js");
 
 module.exports = class BinaryExp{
     constructor( a, b, op ) {

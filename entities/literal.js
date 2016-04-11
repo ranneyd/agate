@@ -9,7 +9,7 @@ module.exports = class Literal extends Entity{
         this.text = token.text;
         this.token = token;
     }
-    toString(){
+    toString(indentLevel, indent){
         return "" + this.text;
     }
     // No analysis necessary

@@ -4,6 +4,7 @@
 const Entity = require("../entities/entity");
 const Env = require("../entities/env");
 
+const ArrayAt = require("../entities/arrayAt");
 const ArrayLit = require("../entities/arraylit");
 const Assignment = require("../entities/assignment");
 const Attr = require("../entities/attr");
@@ -532,7 +533,7 @@ describe('Block', function() {
     });
     describe('toString', function () {
         it('should make the string', function () {
-            let block = new Block(practiceId, [practiceAssign, practiceReturnStmt]);
+            let block = new Block(practiceId, [practiceAssign, practiceLit, practiceReturnStmt]);
 
             let expectedString = [
                 "[",
@@ -541,6 +542,7 @@ describe('Block', function() {
                 "      lhs: test",
                 "      rhs: 42",
                 "   }",
+                "   42",
                 "   {",
                 "      type: Return",
                 "      val: test",
@@ -557,6 +559,7 @@ describe('Block', function() {
                 "         lhs: test",
                 "         rhs: 42",
                 "      }",
+                "      42",
                 "      {",
                 "         type: Return",
                 "         val: test",
@@ -620,43 +623,106 @@ describe('Arraylit', function() {
 
             let expectedString = [
                 "[",
-                "   {",
-                "      type: Assignment",
-                "      lhs: test",
-                "      rhs: 42",
-                "   }",
-                "   {",
-                "      type: Return",
-                "      val: test",
-                "   }",
+                "   42",
+                "   test",
                 "]"
             ].join("\n");
 
-            assert.deepStrictEqual(block.toString(), expectedString, "defaults");
+            assert.deepStrictEqual(arraylit.toString(), expectedString, "defaults");
 
             expectedString = [
                 "[",
-                "      {",
-                "         type: Assignment",
-                "         lhs: test",
-                "         rhs: 42",
-                "      }",
-                "      {",
-                "         type: Return",
-                "         val: test",
-                "      }",
+                "      42",
+                "      test",
                 "   ]"
             ].join("\n");
-            assert.deepStrictEqual(block.toString(3), expectedString, "indentation");
+            assert.deepStrictEqual(arraylit.toString(3), expectedString, "indentation");
         });
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let block = new Block(practiceId, [practiceAssign, practiceReturnStmt]);
+            let arraylit = new ArrayLit(practiceOpenBracket, [practiceLit, practiceLit2]);
 
             let env = new Env()
 
-            block.analyze(env);
+            arraylit.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+describe('ArrayAt', function() {
+
+    let practiceId = new Token({
+        type: "id",
+        text: "test",
+        line: 1,
+        column: 1
+    });
+    let practiceOpenBracket = {
+        type: "openSquare",
+        line: 1,
+        column: 6
+    };
+    let practiceLit = new Literal({
+        type: "intlit",
+        text: 42,
+        line: 1,
+        column: 7
+    });
+    let practiceCloseSquare = {
+        type: "closeSquare",
+        line: 1,
+        column: 9
+    };
+
+    describe('constructor', function () {
+        it('should construct', function () {
+            let arrayAt = new ArrayAt(practiceOpenBracket, practiceId, practiceLit);
+            assert.deepStrictEqual(arrayAt.line, practiceOpenBracket.line, "line");
+            assert.deepStrictEqual(arrayAt.array, practiceId, "array");
+            assert.deepStrictEqual(arrayAt.index, practiceLit, "index");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let arrayAt = new ArrayAt(practiceOpenBracket, practiceId, practiceLit);
+
+            let expectedString = [
+                "{",
+                "   type: ArrayAt",
+                "   array: {",
+                "      type: Token",
+                "      tokenType: id",
+                "      text: test",
+                "   }",
+                "   index: 42",
+                "}"
+            ].join("\n");
+
+            assert.deepStrictEqual(arrayAt.toString(), expectedString, "defaults");
+
+            expectedString = [
+                "{",
+                "      type: ArrayAt",
+                "      array: {",
+                "         type: Token",
+                "         tokenType: id",
+                "         text: test",
+                "      }",
+                "      index: 42",
+                "   }"
+            ].join("\n");
+            assert.deepStrictEqual(arrayAt.toString(3), expectedString, "indentation");
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let arrayAt = new ArrayAt(practiceOpenBracket, practiceId, practiceLit);
+
+            let env = new Env(null);
+
+            arrayAt.analyze(env);
 
             // TODO: more complex analysis
         });
