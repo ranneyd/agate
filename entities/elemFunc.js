@@ -1,30 +1,28 @@
 'use strict';
 
-module.exports = class ElemFunc{
-    constructor( elem, func, args ) {
-        this.type = "ElemFunc";
+const Entity = require("./entity");
+const Call = require("./Call");
+
+module.exports = class ElemFunc extends Call{
+    constructor( token, elem, func, args ) {
+        super(token, func, [], args);
         this.elem = elem;
-        this.func = func;
-        if(args){
-            this.args = args;
-        }
-        this.safe = true;
     }
-    toString(){
-        return `{`
-            + `"type":"elemFunc", `
-            + `"elem":${this.elem.toString()}, `
-            + `"func":${this.func.toString()}`
-            + (this.args ? `, "args":${this.args.toString()}` : "")
-            + `}`;
+    get func(){
+        return this.name;
     }
-    analyze( env ) {
-        this.elem.analyze( env );
-        this.safe = this.safe && this.elem.safe;
-        
-        for(let arg of this.args) {
-            arg.analyze( env );
-            this.safe = this.safe && arg.safe;
+    toString(indentLevel, indent){
+        // Thanks node for your default parameter support >:(
+        indentLevel = indentLevel || 0;
+        indent = indent || 3;
+
+        let strArr = [
+            `elem: ${this.elem.toString(indentLevel + indent, indent)}`,
+            `func: ${this.func.toString(indentLevel + indent, indent)}`,
+        ];
+        if(this.args) {
+            strArr.push(`args: ${this.args.toString(indentLevel + indent, indent)}`);
         }
+        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
     }
 };

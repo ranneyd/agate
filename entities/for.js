@@ -1,36 +1,27 @@
 'use strict';
 
-module.exports = class For{
-    constructor( id, iterable, body ) {
-        this.type = "For";
+const Entity = require("./entity.js");
+
+module.exports = class For extends Entity{
+    constructor( token, id, iterable, body ) {
+        super(token);
         this.id = id;
         this.iterable = iterable;
-        this.body = body;
-        this.safe = true;
+        this.body = this.body;
     }
-    toString(){
-        return `{`
-            + `"type":"for",`
-            + `"id":${this.id.toString()},`
-            + `"iterable":${this.iterable.toString()},`
-            + `"body":${this.body.toString()}`
-            + `}`;
+    toString(indentLevel, indent){
+        // Thanks node for your default parameter support >:(
+        indentLevel = indentLevel || 0;
+        indent = indent || 3;
+
+        let strArr = [
+            `id: ${this.id.toString(indentLevel + indent, indent)}`,
+            `iterable: ${this.iterable.toString(indentLevel + indent, indent)}`,
+            `body: ${this.body.toString(indentLevel + indent, indent)}`
+        ];
+        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
     }
     analyze( env ) {
-        let iterable = this.iterable;
-        
-        iterable.parse( env );
-
-        this.safe = this.safe && iterable.safe;
-
-        localEnv = env.makeChild();
-        localEnv.safe = localEnv.safe && this.safe;
-
-        // Doing some hoisting since we don't have the value yet
-        localEnv.addVar(id, null);
-
-        body.parse( localEnv );
-        
-        this.safe = this.safe && iterable.safe && body.safe;
+        // TODO
     }
 };

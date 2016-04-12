@@ -12,6 +12,7 @@ const BinaryExp = require("../entities/binaryExp");
 const Block = require("../entities/block");
 const Call = require("../entities/call");
 const Def = require("../entities/def");
+const ElemFunc = require("../entities/elemFunc");
 const Id = require("../entities/id");
 const Literal = require("../entities/literal");
 const Return = require("../entities/return");
@@ -1252,6 +1253,135 @@ describe('Def', function() {
             let env = new Env()
 
             def.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+
+describe('ElemFunc', function() {
+    let elem = new Id({
+        type: "id",
+        text: "test",
+        line: 1,
+        column: 1
+    });
+    let tilde = {
+        type: "tilde",
+        line: 1,
+        column: 1
+    };
+    let func = new Token({
+        type: "bareword",
+        text: "foo",
+        line: 1,
+        column: 1
+    });
+    let lit = new Literal({
+        type: "stringlit",
+        text: "bar",
+        line: 1,
+        column: 1
+    });
+    let id = new Id({
+        type: "id",
+        text: "param",
+        line: 1,
+        column: 1
+    });
+    let args = [
+        lit,
+        id
+    ];
+    describe('constructor', function () {
+        it('should construct', function () {
+            let elemFunc = new ElemFunc(tilde, elem, func, args);
+            assert.deepStrictEqual(elemFunc.elem, elem, "elem");
+            assert.deepStrictEqual(elemFunc.func, func, "func");
+            assert.deepStrictEqual(elemFunc.args.statements[1], id, "args");
+
+            elemFunc = new ElemFunc(tilde, elem, func, []);
+            assert.deepStrictEqual(elemFunc.elem, elem, "elem (alt)");
+            assert.deepStrictEqual(elemFunc.func, func, "func (alt)");
+            assert.deepStrictEqual(elemFunc.args, undefined, "args (alt)");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let elemFunc = new ElemFunc(tilde, elem, func, args);
+
+            let expectedString = [
+                "{",
+                "   type: ElemFunc",
+                "   elem: @test",
+                "   func: {",
+                "      type: Token",
+                "      tokenType: bareword",
+                "      text: foo",
+                "   }",
+                "   args: [",
+                "      bar",
+                "      @param",
+                "   ]",
+                "}"
+            ].join("\n");
+
+            assert.deepStrictEqual(elemFunc.toString(), expectedString, "defaults");
+
+            expectedString = [
+                "{",
+                "      type: ElemFunc",
+                "      elem: @test",
+                "      func: {",
+                "         type: Token",
+                "         tokenType: bareword",
+                "         text: foo",
+                "      }",
+                "      args: [",
+                "         bar",
+                "         @param",
+                "      ]",
+                "   }"
+            ].join("\n");
+            assert.deepStrictEqual(elemFunc.toString(3), expectedString, "indentation");
+
+            elemFunc = new ElemFunc(tilde, elem, func, []);
+
+            expectedString = [
+                "{",
+                "   type: ElemFunc",
+                "   elem: @test",
+                "   func: {",
+                "      type: Token",
+                "      tokenType: bareword",
+                "      text: foo",
+                "   }",
+                "}"
+            ].join("\n");
+
+            assert.deepStrictEqual(elemFunc.toString(), expectedString, "defaults (alt)");
+
+            expectedString = [
+                "{",
+                "      type: ElemFunc",
+                "      elem: @test",
+                "      func: {",
+                "         type: Token",
+                "         tokenType: bareword",
+                "         text: foo",
+                "      }",
+                "   }"
+            ].join("\n");
+            assert.deepStrictEqual(elemFunc.toString(3), expectedString, "indentation (alt)");
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let elemFunc = new ElemFunc(tilde, elem, func, args);
+
+            let env = new Env()
+
+            elemFunc.analyze(env);
 
             // TODO: more complex analysis
         });
