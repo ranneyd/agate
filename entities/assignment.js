@@ -14,7 +14,7 @@ module.exports = class Assignment extends Entity{
         indent = indent || 3;
 
         let strArr = [
-            `lhs: ${this.lhs.text}`,
+            `lhs: ${this.lhs.toString()}`,
             `rhs: ${this.rhs.toString(indentLevel + indent, indent)}`
         ];
         return this.toStringArray(indentLevel, indent, strArr).join("\n"); 

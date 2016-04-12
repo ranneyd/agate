@@ -12,6 +12,7 @@ const BinaryExp = require("../entities/binaryExp");
 const Block = require("../entities/block");
 const Call = require("../entities/call");
 const Def = require("../entities/def");
+const Id = require("../entities/id");
 const Literal = require("../entities/literal");
 const Return = require("../entities/return");
 const This = require("../entities/this");
@@ -121,6 +122,31 @@ describe('Token', function() {
                 "}"
             ].join("\n");
             assert.deepStrictEqual(entity.toString(), expectedString, "defaults");
+        });
+    });
+});
+describe('Id', function() {
+    let practiceId = {
+        type: "id",
+        text: "test",
+        line: 1,
+        column: 2
+    };
+    describe('constructor', function () {
+        it('should construct', function () {
+            let id = new Id(practiceId);
+            assert.deepStrictEqual(id.line, 1, "line");
+            assert.deepStrictEqual(id.column, 2, "column");
+            assert.deepStrictEqual(id.id, practiceId.text, "id");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let id = new Id(practiceId);
+            let expectedString = [
+                "@test"
+            ].join("\n");
+            assert.deepStrictEqual(id.toString(), expectedString, "defaults");
         });
     });
 });
@@ -399,7 +425,7 @@ describe('Return', function() {
             let expectedString = [
                 "{",
                 "   type: Return",
-                "   val: {",
+                "   value: {",
                 "      type: UnaryExp",
                 "      a: 42",
                 "      op: minus",
@@ -412,7 +438,7 @@ describe('Return', function() {
             expectedString = [
                 "{",
                 "      type: Return",
-                "      val: {",
+                "      value: {",
                 "         type: UnaryExp",
                 "         a: 42",
                 "         op: minus",
@@ -435,12 +461,12 @@ describe('Return', function() {
     });
 });
 describe('Assignment', function() {
-    let practiceId = {
+    let practiceId = new Id({
         type: "id",
         text: "test",
         line: 1,
         column: 1
-    };
+    });
     let practiceEquals = {
         type: "equals",
         text: "test",
@@ -469,7 +495,7 @@ describe('Assignment', function() {
             let expectedString = [
                 "{",
                 "   type: Assignment",
-                "   lhs: test",
+                "   lhs: @test",
                 "   rhs: 42",
                 "}"
             ].join("\n");
@@ -479,7 +505,7 @@ describe('Assignment', function() {
             expectedString = [
                 "{",
                 "      type: Assignment",
-                "      lhs: test",
+                "      lhs: @test",
                 "      rhs: 42",
                 "   }"
             ].join("\n");
@@ -505,12 +531,12 @@ describe('Block', function() {
         column:1
     };
 
-    let practiceId = {
+    let practiceId = new Id({
         type: "id",
         text: "test",
         line: 1,
         column: 1
-    };
+    });
     let practiceEquals = {
         type: "equals",
         text: "test",
@@ -560,13 +586,13 @@ describe('Block', function() {
                 "[",
                 "   {",
                 "      type: Assignment",
-                "      lhs: test",
+                "      lhs: @test",
                 "      rhs: 42",
                 "   }",
                 "   42",
                 "   {",
                 "      type: Return",
-                "      val: test",
+                "      value: test",
                 "   }",
                 "]"
             ].join("\n");
@@ -577,13 +603,13 @@ describe('Block', function() {
                 "[",
                 "      {",
                 "         type: Assignment",
-                "         lhs: test",
+                "         lhs: @test",
                 "         rhs: 42",
                 "      }",
                 "      42",
                 "      {",
                 "         type: Return",
-                "         val: test",
+                "         value: test",
                 "      }",
                 "   ]"
             ].join("\n");
@@ -687,7 +713,7 @@ describe('Arraylit', function() {
 });
 describe('ArrayAt', function() {
 
-    let practiceId = new Token({
+    let practiceId = new Id({
         type: "id",
         text: "test",
         line: 1,
@@ -725,11 +751,7 @@ describe('ArrayAt', function() {
             let expectedString = [
                 "{",
                 "   type: ArrayAt",
-                "   array: {",
-                "      type: Token",
-                "      tokenType: id",
-                "      text: test",
-                "   }",
+                "   array: @test",
                 "   index: 42",
                 "}"
             ].join("\n");
@@ -739,11 +761,7 @@ describe('ArrayAt', function() {
             expectedString = [
                 "{",
                 "      type: ArrayAt",
-                "      array: {",
-                "         type: Token",
-                "         tokenType: id",
-                "         text: test",
-                "      }",
+                "      array: @test",
                 "      index: 42",
                 "   }"
             ].join("\n");
@@ -912,7 +930,7 @@ describe('Call', function() {
         line: 1,
         column: 1
     });
-    let id = new Token({
+    let id = new Id({
         type: "id",
         text: "param",
         line: 1,
@@ -965,11 +983,7 @@ describe('Call', function() {
                 "   ]",
                 "   args: [",
                 "      baz",
-                "      {",
-                "         type: Token",
-                "         tokenType: id",
-                "         text: param",
-                "      }",
+                "      @param",
                 "   ]",
                 "}"
             ].join("\n");
@@ -998,11 +1012,7 @@ describe('Call', function() {
                 "      ]",
                 "      args: [",
                 "         baz",
-                "         {",
-                "            type: Token",
-                "            tokenType: id",
-                "            text: param",
-                "         }",
+                "         @param",
                 "      ]",
                 "   }"
             ].join("\n");
@@ -1049,22 +1059,29 @@ describe('Call', function() {
         });
     });
 });
-describe('Call', function() {
-    let def = new Token({
+describe('Def', function() {
+    let defToken = {
         type: "def",
         line: 1,
         column: 1
-    });
+    };
     let name = new Token({
         type: "bareword",
         text: "test",
         line: 1,
         column: 1
     });
-    let openBracket = new Token({
-        type: "openBracket",
+    let id1 = new Id({
+        type: "id",
+        text: "luke",
         line: 1,
-        column: 5
+        column: 1
+    });
+    let id2 = new Id({
+        type: "id",
+        text: "vader",
+        line: 1,
+        column: 1
     });
     let lit1 = new Literal({
         type: "stringlit",
@@ -1084,138 +1101,157 @@ describe('Call', function() {
         line: 1,
         column: 1
     });
-    let id = new Token({
-        type: "id",
-        text: "param",
+    let returnToken = {
+        type: "return",
         line: 1,
         column: 1
-    });
-    let attrs = [
-        new Attr(openBracket, "fizz", lit1),
-        new Attr(openBracket, "buzz", lit2)
-    ];
+    };
+
     let args = [
-        lit3,
-        id
+        id1,
+        id2
     ];
+
+    let equals = {
+        type:"equals",
+        line:1,
+        column:1
+    };
+    let plus = {
+        type:"plus",
+        line:1,
+        column:1
+    };
+    let concat = new BinaryExp(plus, id2, lit1, plus);
+    let assign = new Assignment(equals, id1, concat);
+    let concat2 = new BinaryExp(plus, id1, lit2, plus);
+    let returnStmt = new Return(returnToken, concat2);
+    let body = new Block(id1, [assign, returnStmt]);
+
+    let returnAlt = new Return(returnToken, lit3);
+    let bodyAlt = new Block(returnToken, [returnAlt]);
+
     describe('constructor', function () {
         it('should construct', function () {
-            let call = new Call(name.token, name, attrs, args);
-            assert.deepStrictEqual(call.name, name, "name");
-            assert.deepStrictEqual(call.attrs.statements[1], attrs[1], "attrs");
-            assert.deepStrictEqual(call.args.statements[1], id, "args");
+            let def = new Def(defToken, name, args, body);
+            assert.deepStrictEqual(def.name, name, "name");
+            assert.deepStrictEqual(def.args.statements[1], args[1], "args");
+            assert.deepStrictEqual(def.body, body, "body");
 
-            call = new Call(name.token, name, [], []);
-            assert.deepStrictEqual(call.name, name, "name (alt)");
-            assert.deepStrictEqual(call.attrs, undefined, "attrs (alt)");
-            assert.deepStrictEqual(call.args, undefined, "args (alt)");
+            def = new Def(defToken, name, [], bodyAlt);
+            assert.deepStrictEqual(def.name, name, "name (alt)");
+            assert.deepStrictEqual(def.args, undefined, "args (alt)");
+            assert.deepStrictEqual(def.body, bodyAlt, "body (alt)");
         });
     });
     describe('toString', function () {
         it('should make the string', function () {
-            let call = new Call(name.token, name, attrs, args);
+            let def = new Def(defToken, name, args, body);
 
             let expectedString = [
                 "{",
-                "   type: Call",
+                "   type: Def",
                 "   name: {",
                 "      type: Token",
                 "      tokenType: bareword",
                 "      text: test",
                 "   }",
-                "   attrs: [",
-                "      {",
-                "         type: Attr",
-                "         key: fizz",
-                "         value: foo",
-                "      }",
-                "      {",
-                "         type: Attr",
-                "         key: buzz",
-                "         value: bar",
-                "      }",
-                "   ]",
                 "   args: [",
-                "      baz",
+                "      @luke",
+                "      @vader",
+                "   ]",
+                "   body: [",
                 "      {",
-                "         type: Token",
-                "         tokenType: id",
-                "         text: param",
+                "         type: Assignment",
+                "         lhs: @luke",
+                "         rhs: {",
+                "            type: BinaryExp",
+                "            a: @vader",
+                "            b: foo",
+                "            op: plus",
+                "         }",
+                "      }",
+                "      {",
+                "         type: Return",
+                "         value: {",
+                "            type: BinaryExp",
+                "            a: @luke",
+                "            b: bar",
+                "            op: plus",
+                "         }",
                 "      }",
                 "   ]",
                 "}"
             ].join("\n");
 
-            assert.deepStrictEqual(call.toString(), expectedString, "defaults");
-
+            assert.deepStrictEqual(def.toString(), expectedString, "defaults");
             expectedString = [
                 "{",
-                "      type: Call",
+                "      type: Def",
                 "      name: {",
                 "         type: Token",
                 "         tokenType: bareword",
                 "         text: test",
                 "      }",
-                "      attrs: [",
-                "         {",
-                "            type: Attr",
-                "            key: fizz",
-                "            value: foo",
-                "         }",
-                "         {",
-                "            type: Attr",
-                "            key: buzz",
-                "            value: bar",
-                "         }",
-                "      ]",
                 "      args: [",
-                "         baz",
+                "         @luke",
+                "         @vader",
+                "      ]",
+                "      body: [",
                 "         {",
-                "            type: Token",
-                "            tokenType: id",
-                "            text: param",
+                "            type: Assignment",
+                "            lhs: @luke",
+                "            rhs: {",
+                "               type: BinaryExp",
+                "               a: @vader",
+                "               b: foo",
+                "               op: plus",
+                "            }",
+                "         }",
+                "         {",
+                "            type: Return",
+                "            value: {",
+                "               type: BinaryExp",
+                "               a: @luke",
+                "               b: bar",
+                "               op: plus",
+                "            }",
                 "         }",
                 "      ]",
                 "   }"
             ].join("\n");
-            assert.deepStrictEqual(call.toString(3), expectedString, "indentation");
 
-            call = new Call(name.token, name, [], []);
+            assert.deepStrictEqual(def.toString(3), expectedString, "indentation");
 
+            def = new Def(defToken, name, [], bodyAlt);
             expectedString = [
                 "{",
-                "   type: Call",
-                "   name: {",
-                "      type: Token",
-                "      tokenType: bareword",
-                "      text: test",
-                "   }",
-                "}"
-            ].join("\n");
-
-            assert.deepStrictEqual(call.toString(), expectedString, "defaults (alt)");
-
-            expectedString = [
-                "{",
-                "      type: Call",
+                "      type: Def",
                 "      name: {",
                 "         type: Token",
                 "         tokenType: bareword",
                 "         text: test",
                 "      }",
+                "      body: [",
+                "         {",
+                "            type: Return",
+                "            value: baz",
+                "         }",
+                "      ]",
                 "   }"
             ].join("\n");
 
-            assert.deepStrictEqual(call.toString(3), expectedString, "indentation (alt)");
+            assert.deepStrictEqual(def.toString(3), expectedString, "indentation (alt)");
+
         });
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let call = new Call(name.token, name, attrs, args);
+            let def = new Def(defToken, name, args, body);
 
             let env = new Env()
 
-            call.analyze(env);
+            def.analyze(env);
 
             // TODO: more complex analysis
         });

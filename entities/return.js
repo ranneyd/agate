@@ -13,7 +13,7 @@ module.exports = class Return extends Entity{
         indent = indent || 3;
 
         let strArr = [
-            `val: ${this.val.toString(indentLevel + indent)}`
+            `value: ${this.val.toString(indentLevel + indent)}`
         ];
         return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
     }

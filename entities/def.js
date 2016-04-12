@@ -3,7 +3,7 @@
 const Entity = require("./entity");
 const Block = require("./block");
 
-module.exports = class Def{
+module.exports = class Def extends Entity{
     constructor( token, name, args, body ) {
         super( token );
         this.name = name;
