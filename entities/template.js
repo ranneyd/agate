@@ -1,83 +1,40 @@
 'use strict';
 
-var scanner = require("../scanner.js");
-var parser = require("../parser.js");
-var fs = require("fs");
-const AgateError = require("../error.js");
+// Labels is an array of objects, where "label" is a Label and "body" is a Block
+module.exports = (filename, labels, verbose) => {
+    const scanner = require("../scanner.js");
+    const parser = require("../parser.js");
+    const fs = require("fs");
+    const AgateError = require("../error.js");
+    
+    let error = new AgateError();
 
-module.exports = class Template{
-    // Since we're running a subprocess of the whole compiler up to this
-    // point, we need the verbose setting
-    constructor(filename, labels, verbose) {
-        this.type = "Template";
-        this.filename = filename;
-        this.labels = labels;
-        this.error = new AgateError();
-        this.verbose = verbose;
-        this.safe = true;
+    // Get the text from the file
+    let raw = "";
+    try{
+        raw = fs.readFileSync(filename.text, 'utf8');
     }
-    toString(){
-        // Have we been analyzed yet?
-        if(this.type === "block") {
-            let str = "[";
-            for(let stmt of this.statements){
-                str += stmt.toString() + ', ';
-            }
-            return str.slice(0,-2) + "]";
-        }
-        let str = `{"type":"template", "filename":"${this.filename}", "labels":[`;
-        for(let label of this.labels){
-            str += `{"label":${label.label.toString()}, "body":${label.body.toString()}}, `;
-        }
-        return str.slice(0,-2) + "]}";
+    catch(err){
+        this.error.generic(
+            `Semantic error: No file named '${filename.text}' found`,
+            filename.line,
+            filename.column
+        );
     }
-    analyze( env ) {
-        localEnv = env.makeChild();
 
-        // Analyze all our labels, then add them to the environment
-        for(let labelObj of labels) {
-            let label = labelObj.label;
-            let body = labelObj.body;
-
-            localEnv.addLabel( label, body );
-
-            body.analyze( env );
-
-            this.safe = this.safe && body.safe;
-        }
-
-        // Get the text from the file
-        let raw = "";
-        try{
-            raw = fs.readFileSync(this.filename.text, 'utf8');
-        }
-        catch(err){
-            this.error.generic(
-                `Semantic error: No file named '${this.filename.text}' found`,
-                this.filename.line,
-                this.filename.column
-            );
-        }
-
-        // Scan it
-        if( this.verbose ) {
-            console.log(`Scanning file "${this.filename}"`);
-        }
-        let tokens = scanner(raw, this.error, this.verbose);
-        
-        // Parse it
-        if( this.verbose ) {
-            console.log(`Parsing file "${this.filename}"`);
-        }
-        let tree = parse(tokens, this.error, this.verbose);
-
-        // Analyze its body, but give it the new environment with the labels
-        tree.body.analyze( localEnv );
-
-        // The tree will be a "program". Make our object a block, make it's
-        // body the body of the template "program"
-        this.type = "block";
-        this.body = tree;
-        this.safe = this.safe && tree.body.safe;
+    // Scan it
+    if( verbose ) {
+        console.log(`Scanning file "${filename}"`);
     }
+    let tokens = scanner(raw, error, verbose);
+    
+    // Parse it
+    if( verbose ) {
+        console.log(`Parsing file "${filename}"`);
+    }
+    let tree = parse(tokens, error, verbose);
+
+    // TODO: actually insert the stuff
+
+    return tree.body;
 };

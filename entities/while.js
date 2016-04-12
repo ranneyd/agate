@@ -1,29 +1,25 @@
 'use strict';
 
-module.exports = class While{
-    constructor( exp, body ) {
-        this.type = "While";
+const Entity = require("./entity");
+
+module.exports = class While extends Entity{
+    constructor( token, exp, body ) {
+        super(token);
         this.exp = exp;
         this.body = body;
-        this.safe = true;
     }
-    toString(){
-        return `{`
-            + `"type":"while",`
-            + `"exp":${this.exp.toString()},`
-            + `"body":${this.body.toString()}`
-            + `}`;
+    toString(indentLevel, indent){
+        // Thanks node for your default parameter support >:(
+        indentLevel = indentLevel || 0;
+        indent = indent || 3;
+
+        let strArr = [
+            `exp: ${this.exp.toString(indentLevel + indent, indent)}`,
+            `body: ${this.body.toString(indentLevel + indent, indent)}`
+        ];
+        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
     }
     analyze( env ) {
-        exp.parse( env );
-
-        this.safe = this.safe && exp.safe;
-
-        localEnv = env.makeChild();
-        localEnv.safe = localEnv.safe && this.safe;
-
-        this.body.parse( localEnv );
-        
-        this.safe = this.safe && body.safe;
+        // TODO
     }
 };

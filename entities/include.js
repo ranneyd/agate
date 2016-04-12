@@ -1,60 +1,38 @@
 'use strict';
 
-var scanner = require("../scanner.js");
-var parser = require("../parser.js");
-var fs = require("fs");
-const AgateError = require("../error.js");
 
-module.exports = function Include(filename, verbose){
-    let.error = new AgateError();
-    toString(){
-        // Pre or post analysis
-        if(this.type === "block") {
-            let str = "[";
-            for(let stmt of this.statements){
-                str += stmt.toString() + ',';
-            }
-            return str + "]";
-        }
-        return `{`
-            + `"type":"include",`
-            + `"filename":${this.filename.toString()},`
-            + `}`;
+
+module.exports = (filename, verbose) => {
+    const scanner = require("../scanner.js");
+    const parser = require("../parser.js");
+    const fs = require("fs");
+    const AgateError = require("../error.js");
+    let error = new AgateError();
+
+    // Get the text from the file
+    let raw = "";
+    try{
+        raw = fs.readFileSync(filename.text, 'utf8');
     }
-    analyze( env ) {
-
-        // Get the text from the file
-        let raw = "";
-        try{
-            raw = fs.readFileSync(this.filename.text, 'utf8');
-        }
-        catch(err){
-            this.error.generic(
-                `Semantic error: No file named '${this.filename.text}' found`,
-                this.filename.line,
-                this.filename.column
-            );
-        }
-
-        // Scan it
-        if( this.verbose ) {
-            console.log(`Scanning file "${this.filename}"`);
-        }
-        let tokens = scanner(raw, this.error, this.verbose);
-        
-        // Parse it
-        if( this.verbose ) {
-            console.log(`Parsing file "${this.filename}"`);
-        }
-        let tree = parse(tokens, this.error, this.verbose);
-
-        // Analyze its body
-        tree.body.analyze( env );
-
-        // The tree will be a "program". Make our object a block, make it's
-        // body the body of the template "program"
-        this.type = "block";
-        this.statements = tree.body.statements;
-        this.safe = this.safe && tree.body.safe;
+    catch(err){
+        error.parse(
+            `No file named '${filename.text}' found`,
+            filename.line,
+            filename.column
+        );
     }
+
+    // Scan it
+    if( verbose ) {
+        console.log(`Scanning file "${filename}"`);
+    }
+    let tokens = scanner(raw, error, verbose);
+    
+    // Parse it
+    if( verbose ) {
+        console.log(`Parsing file "${filename}"`);
+    }
+    let tree = parse(tokens, error, verbose);
+
+    return tree.body;
 };

@@ -1,19 +1,18 @@
 'use strict';
 
-var Env = require('./env');
+const Env = require('./env');
+const Entity = require("./entity.js");
 
-module.exports = class Program{
-    constructor(block) {
-        this.type = "Program";
+module.exports = class Program extends Entity{
+    constructor(token, block) {
+        super(token);
         this.body = block;
-        this.safe = true;
     }
-    toString(){
-        return this.body.toString();
+    toString(indentLevel, indent){
+        return this.body.toString(indentLevel, indent);
     }
     analyze() {
-        this.body.analyze( new Env() );
-        this.safe = this.body.safe;
+        // this.body.analyze( new Env() );
+        // this.safe = this.body.safe;
     }
-    
 };

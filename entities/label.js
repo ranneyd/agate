@@ -1,39 +1,23 @@
 'use strict';
 
-const AgateError = require("../error.js");
+const Entity = require("./entity.js");
 
-module.exports = class Label{
+module.exports = class Label extends Entity{
     constructor( token ) {
-        this.type = "Label";
+        super(token);
         this.name = token.text;
-        this.token = token;
-        this.error = new AgateError();
-        this.safe = true;
     }
-    toString(){
-        if(this.type === "block") {
-            let str = "[";
-            for(let stmt of this.statements){
-                str += stmt.toString() + ',';
-            }
-            return str + "]";
-        }
-        return `{`
-            + `"type":"label", `
-            + `"token":"${this.name}"`
-            + `}`;
+    toString(indentLevel, indent){
+        // Thanks node for your default parameter support >:(
+        indentLevel = indentLevel || 0;
+        indent = indent || 3;
+
+        let strArr = [
+            `name: ${this.name.toString(indentLevel + indent, indent)}`,
+        ];
+        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
     }
     analyze( env ) {
-        let label = env.lookupLabel( this.token );
-        if( label ) {
-            this.type = "block";
-            this.statements = label.body.statements;
-            this.safe = label.safe;
-        }
-        else {
-            this.error.undefined( "label", this.name, this.token, true );
-            this.type = "comment";
-            this.text = `//! Label ${this.name} undefined`;
-        }
+
     }
 };

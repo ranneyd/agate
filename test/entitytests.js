@@ -17,13 +17,19 @@ const For = require("../entities/for");
 const HashMap = require("../entities/hashMap");
 const Id = require("../entities/id");
 const If = require("../entities/if");
-//const Include = require("../entities/include");
+const include = require("../entities/include");
 const Iterable = require("../entities/iterable");
+const Label = require("../entities/label");
 const Literal = require("../entities/literal");
+const Program = require("../entities/program");
 const Return = require("../entities/return");
+const Selector = require("../entities/selector");
+const SpecialBlock = require("../entities/specialblock");
+const template = require("../entities/template");
 const This = require("../entities/this");
 const Token = require("../entities/token");
 const UnaryExp = require("../entities/unaryExp");
+const While = require("../entities/while");
 
 var assert = require('assert');
 
@@ -1791,3 +1797,325 @@ describe('If', function() {
         });
     });
 });
+
+describe('Label', function() {
+    let name = {
+        type: "bareword",
+        text: "test",
+        line: 1,
+        column: 1
+    };
+    describe('constructor', function () {
+        it('should construct', function () {
+            let label = new Label(name);
+            assert.deepStrictEqual(label.name, name.text, "name");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let label = new Label(name);
+
+            let expectedString = [
+                `{`,
+                `   type: Label`,
+                `   name: ${name.text}`,
+                `}`
+            ].join("\n");
+
+            assert.deepStrictEqual(label.toString(), expectedString, "defaults");
+
+            expectedString = [
+                `{`,
+                `      type: Label`,
+                `      name: ${name.text}`,
+                `   }`
+            ].join("\n");
+
+            assert.deepStrictEqual(label.toString(3), expectedString, "indentation");
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let label = new Label(name);
+
+            let env = new Env()
+
+            label.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+
+describe('Program', function() {
+    let litToken = {
+        type: "intlit",
+        text: 42,
+        line: 1,
+        column: 1
+    };
+    let lit = new Literal(litToken);
+    let block = new Block(litToken, [lit]);
+    describe('constructor', function () {
+        it('should construct', function () {
+            let program = new Program(litToken, block);
+            assert.deepStrictEqual(program.body, block, "body");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let program = new Program(litToken, block);
+
+            let expectedString = [
+                `[`,
+                `   42`,
+                `]`
+            ].join("\n");
+
+            assert.deepStrictEqual(program.toString(), expectedString, "defaults");
+
+            expectedString = [
+                `[`,
+                `      42`,
+                `   ]`
+            ].join("\n");
+
+            assert.deepStrictEqual(program.toString(3), expectedString, "indentation");
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let program = new Program(litToken, block);
+
+            let env = new Env()
+
+            program.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+
+describe('Selector', function() {
+    let hash = {
+        type: "hash",
+        line: 1,
+        column: 1
+    };
+    let name = {
+        type: "bareword",
+        text: "test",
+        line: 1,
+        column: 1
+    };
+    describe('constructor', function () {
+        it('should construct', function () {
+            let selector = new Selector(hash, "id", name);
+            assert.deepStrictEqual(selector.selectorType, "id", "type");
+            assert.deepStrictEqual(selector.selector, "test", "selector");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let selector = new Selector(hash, "id", name);
+
+            let expectedString = [
+                `{`,
+                `   type: Selector`,
+                `   selectorType: id`,
+                `   selector: test`,
+                `}`
+            ].join("\n");
+
+            assert.deepStrictEqual(selector.toString(), expectedString, "defaults");
+
+            expectedString = [
+                `{`,
+                `      type: Selector`,
+                `      selectorType: id`,
+                `      selector: test`,
+                `   }`
+            ].join("\n");
+
+            assert.deepStrictEqual(selector.toString(3), expectedString, "indentation");
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let selector = new Selector(hash, "id", name);
+
+            let env = new Env()
+
+            selector.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+
+describe('SpecialBlock', function() {
+    let js1 = {
+        type: "js",
+        text: `alert("Hello world!");`,
+        line: 1,
+        column: 1
+    };
+    let js2 = {
+        type: "js",
+        text: `alert('`,
+        line: 1,
+        column: 1
+    };
+    let js3 = {
+        type: "js",
+        text: `');`,
+        line: 1,
+        column: 1
+    };
+    let id = new Id({
+        type: "id",
+        text: "test",
+        line: 1,
+        column: 1
+    });
+    
+    describe('constructor', function () {
+        it('should construct', function () {
+            let special = new SpecialBlock(js1, [js1], "js");
+            assert.deepStrictEqual(special.statements[0], js1, "statements");
+            assert.deepStrictEqual(special.specialType, "js", "type");
+
+            special = new SpecialBlock(js2, [js2, id, js3], "js");
+            assert.deepStrictEqual(special.statements[1], id, "statements (alt)");
+            assert.deepStrictEqual(special.specialType, "js", "type (alt)");
+
+            // TODO: test css?
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let special = new SpecialBlock(js1, [js1], "js");
+
+            let expectedString = [
+                `[`,
+                `   alert("Hello world!");`,
+                `]`
+            ].join("\n");
+
+            assert.deepStrictEqual(special.toString(), expectedString, "defaults");
+
+            expectedString = [
+                `[`,
+                `      alert("Hello world!");`,
+                `   ]`
+            ].join("\n");
+
+            assert.deepStrictEqual(special.toString(3), expectedString, "indentation");
+
+            special = new SpecialBlock(js2, [js2, id, js3], "js");
+
+            expectedString = [
+                `[`,
+                `   alert('`,
+                `   @test`,
+                `   ');`,
+                `]`
+            ].join("\n");
+
+            assert.deepStrictEqual(special.toString(), expectedString, "defaults");
+
+            expectedString = [
+                `[`,
+                `      alert('`,
+                `      @test`,
+                `      ');`,
+                `   ]`
+            ].join("\n");
+
+            assert.deepStrictEqual(special.toString(3), expectedString, "indentation");
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let special = new SpecialBlock(js1, [js1], "js");
+
+            let env = new Env()
+
+            special.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+
+describe('While', function() {
+    let whileToken = {
+        type: "while",
+        line: 1,
+        column: 1
+    };
+    let id = new Id({
+        type: "id",
+        text: "test",
+        line: 1,
+        column: 1
+    });
+    
+    let body = new Block(whileToken, [id]);
+
+    describe('constructor', function () {
+        it('should construct', function () {
+            let whileStmt = new While(whileToken, id, body);
+            assert.deepStrictEqual(whileStmt.exp, id, "exp");
+            assert.deepStrictEqual(whileStmt.body.statements[0], id, "body");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let whileStmt = new While(whileToken, id, body);
+
+            let expectedString = [
+                "{",
+                "   type: While",
+                "   exp: @test",
+                "   body: [",
+                "      @test",
+                "   ]",
+                "}"
+            ].join("\n");
+
+            assert.deepStrictEqual(whileStmt.toString(), expectedString, "defaults");
+
+            expectedString = [
+                "{",
+                "      type: While",
+                "      exp: @test",
+                "      body: [",
+                "         @test",
+                "      ]",
+                "   }"
+            ].join("\n");
+            assert.deepStrictEqual(whileStmt.toString(3), expectedString, "indentation");
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let whileStmt = new While(whileToken, id, body);
+
+            let env = new Env()
+
+            whileStmt.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+
+
+// describe('Include', function() {
+//     describe('constructor', function () {
+//         it('should construct', function () {
+//             assert.deepStrictEqual(include("../tests/helloworld.agate"), id, "body");
+//         });
+//     });
+// });
