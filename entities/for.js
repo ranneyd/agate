@@ -7,7 +7,7 @@ module.exports = class For extends Entity{
         super(token);
         this.id = id;
         this.iterable = iterable;
-        this.body = this.body;
+        this.body = body;
     }
     toString(indentLevel, indent){
         // Thanks node for your default parameter support >:(

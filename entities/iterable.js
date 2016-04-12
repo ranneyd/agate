@@ -1,17 +1,17 @@
 'use strict';
 
-module.exports = class Iterable{
-    constructor( exp ) {
-        this.type = "Iterable";
+const Entity = require("./entity.js");
+
+module.exports = class Iterable extends Entity{
+    constructor( token, exp ) {
+        super(token);
         this.exp = exp;
-        this.safe = true;
     }
-    toString(){
-        return this.exp.toString();
+    toString(indentLevel, indent){
+        return this.exp.toString(indentLevel, indent)
     }
     analyze( env ) {
-        this.exp.parse( env );
-
+        this.exp.analyze( env );
         this.safe = this.safe && this.exp.safe;
     }
 };

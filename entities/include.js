@@ -4,18 +4,9 @@ var scanner = require("../scanner.js");
 var parser = require("../parser.js");
 var fs = require("fs");
 const AgateError = require("../error.js");
-var Block = require('./block.js');
 
-module.exports = class Include{
-    // Since we're running a subprocess of the whole compiler up to this
-    // point, we need the verbose setting
-    constructor(filename, verbose) {
-        this.type = "Include";
-        this.filename = filename;
-        this.error = new AgateError();
-        this.verbose = verbose;
-        this.safe = true;
-    }
+module.exports = function Include(filename, verbose){
+    let.error = new AgateError();
     toString(){
         // Pre or post analysis
         if(this.type === "block") {

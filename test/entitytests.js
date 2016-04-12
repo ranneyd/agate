@@ -13,7 +13,12 @@ const Block = require("../entities/block");
 const Call = require("../entities/call");
 const Def = require("../entities/def");
 const ElemFunc = require("../entities/elemFunc");
+const For = require("../entities/for");
+const HashMap = require("../entities/hashMap");
 const Id = require("../entities/id");
+const If = require("../entities/if");
+//const Include = require("../entities/include");
+const Iterable = require("../entities/iterable");
 const Literal = require("../entities/literal");
 const Return = require("../entities/return");
 const This = require("../entities/this");
@@ -1382,6 +1387,405 @@ describe('ElemFunc', function() {
             let env = new Env()
 
             elemFunc.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+
+
+describe('Iterable', function() {
+    let array = {
+        type: "id",
+        text: "test",
+        line: 1,
+        column: 1
+    };
+    let arrayId = new Id(array);
+    describe('constructor', function () {
+        it('should construct', function () {
+            let iterable = new Iterable(array, arrayId);
+            assert.deepStrictEqual(iterable.exp, arrayId, "exp");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let iterable = new Iterable(array, arrayId);
+
+            let expectedString = [
+                "@test"
+            ].join("\n");
+
+            assert.deepStrictEqual(iterable.toString(), expectedString, "defaults");
+
+            expectedString = [
+                "@test"
+            ].join("\n");
+
+            assert.deepStrictEqual(iterable.toString(3), expectedString, "indentation");
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let iterable = new Iterable(array, arrayId);
+
+            let env = new Env()
+
+            iterable.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+
+describe('For', function() {
+    let forToken = {
+        type: "for",
+        line: 1,
+        column:1
+    };
+    let id = new Id({
+        type: "id",
+        text: "test",
+        line: 1,
+        column: 1
+    });
+    let iterableToken = {
+        type: "id",
+        text: "array",
+        line: 1,
+        column: 1
+    }
+    let iterable = new Iterable(iterableToken, new Id(iterableToken));
+    
+    let body = new Block(forToken, [id]);
+    describe('constructor', function () {
+        it('should construct', function () {
+            let forStmt = new For(forToken, id, iterable, body);
+            assert.deepStrictEqual(forStmt.id, id, "id");
+            assert.deepStrictEqual(forStmt.iterable, iterable, "iterable");
+            assert.deepStrictEqual(forStmt.body.statements[0], id, "body");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let forStmt = new For(forToken, id, iterable, body);
+
+            let expectedString = [
+                "{",
+                "   type: For",
+                "   id: @test",
+                "   iterable: @array",
+                "   body: [",
+                "      @test",
+                "   ]",
+                "}"
+            ].join("\n");
+
+            assert.deepStrictEqual(forStmt.toString(), expectedString, "defaults");
+
+            expectedString = [
+                "{",
+                "      type: For",
+                "      id: @test",
+                "      iterable: @array",
+                "      body: [",
+                "         @test",
+                "      ]",
+                "   }"
+            ].join("\n");
+            assert.deepStrictEqual(forStmt.toString(3), expectedString, "indentation");
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let forStmt = new For(forToken, id, iterable, body);
+
+            let env = new Env()
+
+            forStmt.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+
+describe('HashMap', function() {
+
+    let openCurly = {
+        type: "openCurly",
+        line: 1,
+        column: 1
+    };
+    let colon = {
+        type: "colon",
+        line: 1,
+        column: 1
+    };
+    let lit1 = new Literal({
+        type: "intlit",
+        text: 42,
+        line: 1,
+        column: 1
+    });
+    let lit2 = new Literal({
+        type: "intlit",
+        text: 1024,
+        line: 1,
+        column: 1
+    });
+    let attr1 = new Attr(colon, "foo", lit1);
+
+    let attr2 = new Attr(colon, "bar", lit2);
+
+
+    describe('constructor', function () {
+        it('should construct', function () {
+            let hash = new HashMap(openCurly, [attr1, attr2]);
+            assert.deepStrictEqual(hash.line, openCurly.line, "line");
+            assert.deepStrictEqual(hash.pairs[0], attr1, "1st");
+            assert.deepStrictEqual(hash.pairs[1], attr2, "2nd");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let hash = new HashMap(openCurly, [attr1, attr2]);
+
+            let expectedString = [
+                "[",
+                "   {",
+                "      type: Attr",
+                "      key: foo",
+                "      value: 42",
+                "   }",
+                "   {",
+                "      type: Attr",
+                "      key: bar",
+                "      value: 1024",
+                "   }",
+                "]"
+            ].join("\n");
+
+            assert.deepStrictEqual(hash.toString(), expectedString, "defaults");
+
+            expectedString = [
+                "[",
+                "      {",
+                "         type: Attr",
+                "         key: foo",
+                "         value: 42",
+                "      }",
+                "      {",
+                "         type: Attr",
+                "         key: bar",
+                "         value: 1024",
+                "      }",
+                "   ]"
+            ].join("\n");
+            assert.deepStrictEqual(hash.toString(3), expectedString, "indentation");
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let hash = new HashMap(openCurly, [attr1, attr2]);
+
+            let env = new Env()
+
+            hash.analyze(env);
+
+            // TODO: more complex analysis
+        });
+    });
+});
+
+describe('If', function() {
+
+    let ifToken = {
+        type: "if",
+        line: 1,
+        column: 1
+    };
+    let elseIfToken = {
+        type: "else-if",
+        line: 1,
+        column: 1
+    };
+    let elseToken = {
+        type: "else",
+        line: 1,
+        column: 1
+    };
+    let id1 = new Id({
+        type: "id",
+        text: "fizz",
+        line: 1,
+        column: 1
+    });
+    let id2 = new Id({
+        type: "id",
+        text: "buzz",
+        line: 1,
+        column: 1
+    });
+    let lit1 = new Literal({
+        type: "stringlit",
+        text: "foo",
+        line: 1,
+        column: 1
+    });
+    let lit2 = new Literal({
+        type: "stringlit",
+        text: "bar",
+        line: 1,
+        column: 1
+    });
+    let lit3 = new Literal({
+        type: "stringlit",
+        text: "baz",
+        line: 1,
+        column: 1
+    });
+
+    describe('constructor', function () {
+        it('should construct', function () {
+            let ifStmt = new If(ifToken, [
+                {
+                    condition: id1,
+                    body: lit1
+                },
+                {
+                    condition: id2,
+                    body: lit2
+                },
+                {
+                    body: lit3
+                }
+            ]);
+            assert.deepStrictEqual(ifStmt.line, ifToken.line, "line");
+            assert.deepStrictEqual(ifStmt.conditionals[0].condition, id1, "conditional 1 condition");
+            assert.deepStrictEqual(ifStmt.conditionals[1].condition, id2, "conditional 2 condition");
+            assert.deepStrictEqual(ifStmt.conditionals[2].condition, undefined, "conditional 3 condition");
+
+            assert.deepStrictEqual(ifStmt.conditionals[0].body, lit1, "conditional 1 body");
+            assert.deepStrictEqual(ifStmt.conditionals[1].body, lit2, "conditional 2 body");
+            assert.deepStrictEqual(ifStmt.conditionals[2].body, lit3, "conditional 3 body");
+        });
+    });
+    describe('toString', function () {
+        it('should make the string', function () {
+            let ifStmt = new If(ifToken, [
+                {
+                    condition: id1,
+                    body: lit1
+                },
+                {
+                    condition: id2,
+                    body: lit2
+                },
+                {
+                    body: lit3
+                }
+            ]);
+
+            let expectedString = [
+                "[",
+                "   {",
+                "      condition: @fizz",
+                "      body: foo",
+                "   }",
+                "   {",
+                "      condition: @buzz",
+                "      body: bar",
+                "   }",
+                "   {",
+                "      body: baz",
+                "   }",
+                "]"
+            ].join("\n");
+
+            assert.deepStrictEqual(ifStmt.toString(), expectedString, "defaults");
+
+            expectedString = [
+                "[",
+                "      {",
+                "         condition: @fizz",
+                "         body: foo",
+                "      }",
+                "      {",
+                "         condition: @buzz",
+                "         body: bar",
+                "      }",
+                "      {",
+                "         body: baz",
+                "      }",
+                "   ]"
+            ].join("\n");
+            assert.deepStrictEqual(ifStmt.toString(3), expectedString, "indentation");
+
+            ifStmt = new If(ifToken, [
+                {
+                    condition: id1,
+                    body: lit1
+                },
+                {
+                    condition: id2,
+                    body: lit2
+                }
+            ]);
+
+            expectedString = [
+                "[",
+                "   {",
+                "      condition: @fizz",
+                "      body: foo",
+                "   }",
+                "   {",
+                "      condition: @buzz",
+                "      body: bar",
+                "   }",
+                "]"
+            ].join("\n");
+
+            assert.deepStrictEqual(ifStmt.toString(), expectedString, "no else");
+
+            ifStmt = new If(ifToken, [
+                {
+                    condition: id1,
+                    body: lit1
+                }
+            ]);
+
+            expectedString = [
+                "[",
+                "   {",
+                "      condition: @fizz",
+                "      body: foo",
+                "   }",
+                "]"
+            ].join("\n");
+
+            assert.deepStrictEqual(ifStmt.toString(), expectedString, "just if");
+        });
+    });
+    describe('analyze', function () {
+        it('should properly analyze', function () {
+            let ifStmt = new If(ifToken, [
+                {
+                    condition: id1,
+                    body: lit1
+                },
+                {
+                    condition: id2,
+                    body: lit2
+                },
+                {
+                    body: lit3
+                }
+            ]);
+
+            let env = new Env()
+
+            ifStmt.analyze(env);
 
             // TODO: more complex analysis
         });

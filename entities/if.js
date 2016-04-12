@@ -1,37 +1,48 @@
 'use strict';
 
-module.exports = class If{
-    // Conditions is an array of objects, each with a "conditional" and
-    // "body". If the last one does not have a conditional, it's the else case
-    constructor( conditionals ) {
-        this.type = "If";
+const Entity = require("./entity");
+const Block = require("./block");
+
+module.exports = class If extends Block{
+    // Conditions is an array of objects, each with a "condition" and
+    // "body". If the last one does not have a condition, it's the else case
+    constructor( token, conditionals ) {
+        super(token);
         this.conditionals = conditionals;
-        this.safe = true;
     }
-    toString(){
-        let str = `{"type":"if", "conditionals":[`;
-        for(let conditional of this.conditionals) {
-            let condition = conditional.condition ? `"condition":${conditional.condition}, ` : "";
-            str += `{${condition}"body":${conditional.body}}, `;
+    toString(indentLevel, indent){
+        // Thanks node for your default parameter support >:(
+        indentLevel = indentLevel || 0;
+        indent = indent || 3;
+
+        let strArr = [];
+
+        for(let stmt of this.conditionals) {
+            strArr.push("{");
+            if(stmt.condition) {
+                strArr.push(" ".repeat(indent) + `condition: ${stmt.condition.toString(indentLevel + indent * 2, indent)}`)
+            }
+            strArr.push(" ".repeat(indent) + `body: ${stmt.body.toString(indentLevel + indent * 2, indent)}`)
+            strArr.push("}");
         }
 
-        return str.slice(0,-2) + "]}";
+        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
     }
     analyze( env ) {
-        let tempSafe = this.safe;  
-        for( let i = 0; i < this.conditions.length - 1; ++i) {
-            let ifstmt = this.conditions[i];
+        // let tempSafe = this.safe;  
+        // for( let i = 0; i < this.conditions.length - 1; ++i) {
+        //     let ifstmt = this.conditions[i];
 
-            let localEnv = env.makeChild();
-            // If not the else case
-            if( ifstmt.conditional ) {
-                ifstmt.conditional.analyze( env );
-                localEnv.safe = localEnv.safe && this.safe && ifstmt.conditional.safe;
-                tempSafe = tempSafe && ifstmt.conditional.safe;
-            }
-            ifstmt.body.analyze( localEnv );
-            tempSafe = tempSafe && ifstmt.body.safe;
-        }
-        this.safe = tempSafe;
+        //     let localEnv = env.makeChild();
+        //     // If not the else case
+        //     if( ifstmt.conditional ) {
+        //         ifstmt.conditional.analyze( env );
+        //         localEnv.safe = localEnv.safe && this.safe && ifstmt.conditional.safe;
+        //         tempSafe = tempSafe && ifstmt.conditional.safe;
+        //     }
+        //     ifstmt.body.analyze( localEnv );
+        //     tempSafe = tempSafe && ifstmt.body.safe;
+        // }
+        // this.safe = tempSafe;
     }
 };
