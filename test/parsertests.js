@@ -27,6 +27,7 @@ var assert = require('assert');
 
 describe('Parser', function() {
     let parser = new Parser(tokens, error, false);
+    let parser2 = new Parser(tokens, error, false);
 
     it('should construct', function () {
         assert.deepStrictEqual(parser.tokens, tokens, "tokens");
@@ -38,10 +39,27 @@ describe('Parser', function() {
     it('should have next()', function () {
         assert.deepStrictEqual(parser.next, tokens[0], "next");
     });
-    it('should have get() ', function () {
+    it('should have get()', function () {
         assert.deepStrictEqual(parser.get(0), tokens[0], "0");
         assert.deepStrictEqual(parser.get(1), tokens[1], "1");
         assert.deepStrictEqual(parser.get(2), tokens[2], "2");
+    });
+    it('should properly at()', function () {
+        assert.deepStrictEqual(parser.at("bareword"),true, "at");
+        assert.deepStrictEqual(parser.at("intlit"), false, "not at");
+
+        assert.deepStrictEqual(parser.atAhead("newline", 1), true, "atAhead");
+        assert.deepStrictEqual(parser.atAhead("intlit", 1), false, "not atAhead");
+
+        assert.deepStrictEqual(parser.at(["intlit", "bareword"]), true, "at (array)");
+        assert.deepStrictEqual(parser.at(["boollit", "intlit"]), false, "not at (array)");
+
+        assert.deepStrictEqual(parser.atAhead(["intlit", "newline"], 1), true, "atAhead (array)");
+        assert.deepStrictEqual(parser.atAhead(["boollit", "intlit"], 1), false, "not atAhead (array)");
+        
+        assert.deepStrictEqual(parser.atSequential(["bareword", "newline"]), true, "atSequential");
+        assert.deepStrictEqual(parser.atSequential(["bareword", "intlit"]), false, "not atSequential");
+        assert.deepStrictEqual(parser.atSequential(["intlit", "newline"]), false, "also not atSequential");
     });
     it('should have pop, tokensLeft, and empty', function () {
         assert.deepStrictEqual(parser.pop(), tokens[0], "pop 0");
@@ -55,5 +73,19 @@ describe('Parser', function() {
         assert.deepStrictEqual(parser.pop(), tokens[2], "pop 2");
         assert.deepStrictEqual(parser.tokensLeft, 0, "tokens left 2");
         assert.deepStrictEqual(parser.empty, true, "empty 2");
+    });
+
+    it('should do atExp, atBlock, atArgs', function () {
+        assert.deepStrictEqual(parser2.atExp(), true, "atExp");
+        assert.deepStrictEqual(parser2.atArgs(), true, "atArgs");
+        assert.deepStrictEqual(parser2.atBlock(), false, "atBlock (false)");
+    });
+    it('should properly match', function () {
+        assert.deepStrictEqual(parser2.match("bareword"), tokens[0], "match");
+    });
+    it('should do atExp, atBlock, atArgs (continued)', function () {
+        assert.deepStrictEqual(parser2.atExp(), false, "atExp (false)");
+        assert.deepStrictEqual(parser2.atArgs(), true, "atArgs");
+        assert.deepStrictEqual(parser2.atBlock(), true, "atBlock");
     });
 });

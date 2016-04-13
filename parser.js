@@ -3,7 +3,10 @@
 let Block = require("./entities/block");
 let Program = require("./entities/program");
 
+
+
 module.exports = class Parser{
+
     constructor( tokens, error, verbose ) {
         this.tokens = tokens;
         this.index = 0;
@@ -18,7 +21,6 @@ module.exports = class Parser{
         return this.tokens.length <= this.index;
     }
     get tokensLeft() {
-
         return this.tokens.length - this.index;
     }
     get( i ) {
@@ -39,7 +41,7 @@ module.exports = class Parser{
     }
     match( type ){
         if( this.empty ) {
-            this.error.parse(`Expected ${type}, got end of program`);
+            this.error.parse(`Expected ${type}, got end of program`, this.lastToken);
         }
         else if( type === undefined ||  type === this.next.type) {
             let msg = `Matched "${type}"`;
@@ -48,7 +50,7 @@ module.exports = class Parser{
             }
             this.log( msg );
 
-            log(`Tokens remaining: ${this.tokensLeft - 1}`);
+            this.log(`Tokens remaining: ${this.tokensLeft - 1}`);
             
             return this.pop();
         }
@@ -59,21 +61,64 @@ module.exports = class Parser{
     // Returns true if the next token has type "type", or a type in "type" if
     // type is an array, false otherwise
     at( type ) {
-        return atIndex( type, 0 );
+        return this.atAhead( type, 0 );
     }
-    atIndex ( type, i ) {
+    atAhead ( type, i ) {
         if( this.empty ) {
             return false;
         }
         if(Array.isArray( type )) {
             for(let j = 0; j < type.length; ++j) {
-                if( type[j] === this.get(j).type ) {
+                if( type[j] === this.get(this.index + i).type ) {
                     return true;
                 }
             }
             return false;
         }
         return type === this.get(i).type;
+    }
+    atSequential( type ){
+        for(let i = 0; i < type.length; ++i) {
+            // If we don't have enough tokens or the token we're at doesn't
+            // match, no sale. 
+            if(this.tokensLeft <= i || type[i] !== this.get(this.index + i).type) {
+                return false;
+            }
+        }
+        return true;
+    }
+    atBlock() {
+        return this.atSequential(["newline", "indent"]);
+    }
+    atArgs() {
+        return this.at("openParen") || this.atBlock() || this.atExp();
+    }
+    atExp() {
+        return this.at([...this.lits,
+                   "include",
+                   "openSquare", 
+                   "openCurly", 
+                   "id", 
+                   "this", 
+                   "dot", 
+                   "hash",
+                   "openParen",
+                   "prefixop",
+                   "minus",
+                   ...this.builtins,
+                   "bareword"]);
+    }
+    get lits() {
+        return ["stringlit", "intlit", "floatlit", "boollit"];
+    }
+    get builtins() {
+        return ['script', 'style'];
+    }
+    get controlTypes() {
+        return ['if', 'for', 'while'];
+    }
+    get binAssignOps() {
+        return ["plus", "minus", "multop", "boolop"];
     }
     init() {
         return [];
