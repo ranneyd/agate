@@ -1,10 +1,10 @@
 'use strict';
 
 module.exports = (filename, verbose) => {
-    const scanner = require("../scanner.js");
-    const parser = require("../parser.js");
-    const fs = require("fs");
-    const AgateError = require("../error.js");
+    let scanner = require("../scanner.js");
+    let parser = require("../parser.js");
+    let fs = require("fs");
+    let AgateError = require("../error.js");
     let error = new AgateError();
 
     // Get the text from the file

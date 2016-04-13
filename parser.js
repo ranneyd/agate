@@ -1,6 +1,6 @@
 "use strict";
 
-let Program = require("./entities/program");
+let parseProgram = require("./parse_functions/program.js");
 
 module.exports = class Parser{
 
@@ -72,13 +72,13 @@ module.exports = class Parser{
             }
             return false;
         }
-        return type === this.get(i).type;
+        return type === this.get(this.index + i).type;
     }
     atSequential( type ){
         for(let i = 0; i < type.length; ++i) {
             // If we don't have enough tokens or the token we're at doesn't
             // match, no sale. 
-            if(this.tokensLeft <= i || type[i] !== this.get(this.index + i).type) {
+            if(this.tokensLeft <= i || !this.atAhead( type[i], i )) {
                 return false;
             }
         }
@@ -118,6 +118,6 @@ module.exports = class Parser{
         return ["plus", "minus", "multop", "boolop"];
     }
     init() {
-        return Program.parse( this );
+        return parseProgram( this );
     }
 };

@@ -1,35 +1,35 @@
 "use strict";
 
 
-const Entity = require("../entities/entity");
-const Env = require("../entities/env");
+let Entity = require("../entities/entity");
+let Env = require("../entities/env");
 
-const ArrayAt = require("../entities/arrayAt");
-const ArrayLit = require("../entities/arraylit");
-const Assignment = require("../entities/assignment");
-const Attr = require("../entities/attr");
-const BinaryExp = require("../entities/binaryExp");
-const Block = require("../entities/block");
-const Call = require("../entities/call");
-const Def = require("../entities/def");
-const ElemFunc = require("../entities/elemFunc");
-const For = require("../entities/for");
-const HashMap = require("../entities/hashMap");
-const Id = require("../entities/id");
-const If = require("../entities/if");
-const include = require("../entities/include");
-const Iterable = require("../entities/iterable");
-const Label = require("../entities/label");
-const Literal = require("../entities/literal");
-const Program = require("../entities/program");
-const Return = require("../entities/return");
-const Selector = require("../entities/selector");
-const SpecialBlock = require("../entities/specialblock");
-const template = require("../entities/template");
-const This = require("../entities/this");
-const Token = require("../entities/token");
-const UnaryExp = require("../entities/unaryExp");
-const While = require("../entities/while");
+let ArrayAt = require("../entities/arrayAt");
+let ArrayLit = require("../entities/arraylit");
+let Assignment = require("../entities/assignment");
+let Attr = require("../entities/attr");
+let BinaryExp = require("../entities/binaryExp");
+let Block = require("../entities/block");
+let Call = require("../entities/call");
+let Def = require("../entities/def");
+let ElemFunc = require("../entities/elemFunc");
+let For = require("../entities/for");
+let HashMap = require("../entities/hashMap");
+let Id = require("../entities/id");
+let If = require("../entities/if");
+let include = require("../entities/include");
+let Iterable = require("../entities/iterable");
+let Label = require("../entities/label");
+let Literal = require("../entities/literal");
+let Program = require("../entities/program");
+let Return = require("../entities/return");
+let Selector = require("../entities/selector");
+let SpecialBlock = require("../entities/specialblock");
+let template = require("../entities/template");
+let This = require("../entities/this");
+let Token = require("../entities/token");
+let UnaryExp = require("../entities/unaryExp");
+let While = require("../entities/while");
 
 var assert = require('assert');
 

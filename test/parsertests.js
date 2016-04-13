@@ -1,7 +1,7 @@
 "use strict";
 
-const Parser = require("../parser");
-const AgateError = require("../error.js");
+let Parser = require("../parser");
+let AgateError = require("../error.js");
 
 var error = new AgateError();
 var tokens = [
@@ -85,7 +85,7 @@ describe('Parser', function() {
     });
     it('should do atExp, atBlock, atArgs (continued)', function () {
         assert.deepStrictEqual(parser2.atExp(), false, "atExp (false)");
-        assert.deepStrictEqual(parser2.atArgs(), true, "atArgs");
         assert.deepStrictEqual(parser2.atBlock(), true, "atBlock");
+        assert.deepStrictEqual(parser2.atArgs(), true, "atArgs");
     });
 });

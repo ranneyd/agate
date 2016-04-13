@@ -12,7 +12,7 @@ var AgateError = require("./error.js");
 var error = new AgateError();
 
 var scanner = require("./scanner.js");
-const Parser  = require("./parser.js");
+let Parser  = require("./parser.js");
 
 var help = () =>{
     console.log("Help")

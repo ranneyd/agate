@@ -1,6 +1,6 @@
 'use strict';
 
-const Block = require("./block");
+let Block = require("./block");
 
 module.exports = class SpecialBlock extends Block{
     // Type should be "js" or "css"

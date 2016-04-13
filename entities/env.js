@@ -1,6 +1,6 @@
 'use strict';
 
-const AgateError = require("../error.js");
+let AgateError = require("../error.js");
 
 module.exports = class Env {
     constructor(parent) {

@@ -1,6 +1,6 @@
 'use strict';
 
-const Block = require("./block.js");
+let Block = require("./block.js");
 
 module.exports = class ArrayLit extends Block{
     constructor( token, elems ) {

@@ -1,6 +1,6 @@
 'use strict';
 
-const Entity = require("./entity.js");
+let Entity = require("./entity.js");
 
 module.exports = class Attr extends Entity{
     constructor( token, key, value ) {

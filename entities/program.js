@@ -1,8 +1,8 @@
 'use strict';
 
-const Env = require('./env');
-const Entity = require("./entity");
-const Block = require("./block");
+let Env = require('./env');
+let Entity = require("./entity");
+let Block = require("./block");
 
 module.exports = class Program extends Entity{
     constructor(token, block) {
@@ -17,7 +17,8 @@ module.exports = class Program extends Entity{
         // this.safe = this.body.safe;
     }
     static parse( parser ) {
-        super( parser );
+        parser.matchLog(`Matching ${this.constructor.name}`);
+        
         let tree = Block.parse( parser );
         parser.match("EOF");
         return tree;

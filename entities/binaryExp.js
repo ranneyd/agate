@@ -1,6 +1,6 @@
 'use strict';
 
-const Entity = require("./entity.js");
+let Entity = require("./entity.js");
 
 module.exports = class BinaryExp extends Entity{
     constructor( token, a, b, op ) {

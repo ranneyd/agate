@@ -1,6 +1,6 @@
 'use strict';
 
-const Entity = require("./entity");
+let Entity = require("./entity");
 
 module.exports = class While extends Entity{
     constructor( token, exp, body ) {

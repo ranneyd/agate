@@ -1,7 +1,7 @@
 'use strict';
 
-const Entity = require("./entity");
-const Block = require("./block");
+let Entity = require("./entity");
+let Block = require("./block");
 
 module.exports = class HashMap extends Block{
     constructor( token, pairs ) {

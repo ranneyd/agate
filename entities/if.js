@@ -1,7 +1,7 @@
 'use strict';
 
-const Entity = require("./entity");
-const Block = require("./block");
+let Entity = require("./entity");
+let Block = require("./block");
 
 module.exports = class If extends Block{
     // Conditions is an array of objects, each with a "condition" and

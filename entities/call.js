@@ -1,7 +1,7 @@
 'use strict';
 
-const Entity = require("./entity");
-const Block = require("./block");
+let Entity = require("./entity");
+let Block = require("./block");
 
 module.exports = class Call extends Entity{
     constructor( token, name, attrs, args ) {
