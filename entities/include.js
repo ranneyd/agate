@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 module.exports = (filename, verbose) => {
     const scanner = require("../scanner.js");
     const parser = require("../parser.js");
