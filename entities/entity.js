@@ -38,4 +38,7 @@ module.exports = class Entity{
     analyze( env ) {
 
     }
+    static parse( parser ) {
+        parser.matchLog(`Matching ${this.constructor.name}`);
+    }
 };

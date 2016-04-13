@@ -1,9 +1,6 @@
 "use strict";
 
-let Block = require("./entities/block");
 let Program = require("./entities/program");
-
-
 
 module.exports = class Parser{
 
@@ -121,6 +118,6 @@ module.exports = class Parser{
         return ["plus", "minus", "multop", "boolop"];
     }
     init() {
-        return [];
+        return Program.parse( this );
     }
 };

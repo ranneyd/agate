@@ -12,7 +12,7 @@ var AgateError = require("./error.js");
 var error = new AgateError();
 
 var scanner = require("./scanner.js");
-var parser  = require("./parser.js");
+const Parser  = require("./parser.js");
 
 var help = () =>{
     console.log("Help")
@@ -97,14 +97,12 @@ readFile(`${file}.agate`)
 
         if( !error.count ) {
             try{
-                let parseTree = parser(tokens, error, verbose);
+                let parser = new Parser(tokens, error, verbose);
+                let parseTree = parser.init();
                 if( dumpParseTree ) {
                     let treeString = parseTree.toString();
-                    console.log(treeString);
-                    let treeStringToJSON = JSON.parse(treeString); 
-                    let prettyTree = JSON.stringify(treeStringToJSON, null, 3);
-                    console.log(prettyTree);
-                    writeFile(`${outName || file}.tree.json`, prettyTree)
+
+                    writeFile(`${outName || file}.tree.json`, treeString)
                         .catch( err => {
                             console.log(err);
                         });
