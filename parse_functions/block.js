@@ -5,7 +5,9 @@ let Assignment = require("../entities/assignment");
 let BinaryExp = require("../entities/binaryExp");
 let Block = require("../entities/block");
 let For = require("../entities/for");
+let Id = require("../entities/id");
 let If = require("../entities/if");
+let Iterable = require("../entities/iterable");
 let Return = require("../entities/return");
 let Token = require("../entities/token");
 let While = require("../entities/while");
@@ -37,7 +39,7 @@ let parseStatement = p => {
         if( p.at("equals") ){
             return new Assignment(p.match("equals"), exp, parseExp( p ));
         }
-        // Looking for += etc, -=, *=, /=, %=, 
+        // Looking for += etc, -=, *=, /=, %=,
         else if(p.atSequential([p.binAssignOps, "equals"])){
             // and= and or= (boolean ops are cool)
             if( p.at("boolop") ) {
@@ -89,7 +91,7 @@ let parseStatement = p => {
                 );
             }
         }
-        // No assignment of any kind? 
+        // No assignment of any kind?
         else {
             return exp;
         }
@@ -144,7 +146,21 @@ let parseIf = p =>{
     return new If( ifToken, conditionals );
 }
 let parseFor = p =>{
-    // TODO
+    let parseExp = require("./exp");
+    let parseChildBlock = require("./childBlock");
+
+
+    let forToken = p.match('for');
+
+    let id = new Id(p.match("id"));
+    p.match("in");
+
+    return new For(
+        forToken, // token
+        id, // id
+        new Iterable(p.next, parseExp( p ) ), // iterable
+        parseChildBlock( p ) //body
+    );
 }
 let parseWhile = p =>{
     // TODO
@@ -163,7 +179,7 @@ module.exports = ( p ) => {
         }
 
         let stmt = parseStatement( p );
-        
+
         // They can put as many blank lines as they'd like, but that
         // doesn't mean we have to pay attention to them
         if(stmt !== "blank"){

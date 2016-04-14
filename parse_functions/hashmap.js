@@ -10,9 +10,9 @@ module.exports = ( p ) => {
 
     let bracket = p.match("openCurly");
 
-    let pairs = parseAttrs( p );
+    let attrs = parseAttrs( p );
 
     p.match("closeCurly");
 
-    return new HashMap(bracket, pairs);
+    return new HashMap(bracket, attrs);
 };

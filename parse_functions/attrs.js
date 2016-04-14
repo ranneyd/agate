@@ -42,7 +42,6 @@ let parseAttr = p => {
 // Returns array, not block object
 module.exports = ( p ) => {
     // Circular dependency issues
-    let parseAttr = require("./exp");
     let parseChildBlock = require("./childblock");
 
     p.matchLog(`Matching Attrs`);
@@ -60,6 +59,8 @@ module.exports = ( p ) => {
             attrs.push(parseAttr( p ));
             p.match("newline");
         }
+
+        p.match("dedent");
 
         return attrs;
     }

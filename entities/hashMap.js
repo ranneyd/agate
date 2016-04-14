@@ -4,11 +4,11 @@ let Entity = require("./entity");
 let Block = require("./block");
 
 module.exports = class HashMap extends Block{
-    constructor( token, pairs ) {
+    constructor( token, attrs ) {
         // Should be array of Attrs
-        super(token, pairs);
+        super(token, attrs);
     }
-    get pairs(){
+    get attrs(){
         return this.statements;
     }
 };
