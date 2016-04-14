@@ -13,11 +13,11 @@ module.exports = ( p ) => {
     let parseArgs = require("./args");
 
     p.matchLog(`Matching Call`);
-    
+
     let token;
     let name;
     let attrs = [];
-    let args;
+    let args = [];
 
     if( p.at(p.builtins) ){
         token =  p.match(p.builtins);
@@ -47,7 +47,9 @@ module.exports = ( p ) => {
     }
 
     if( p.at("openSquare") ) {
+        p.match("openSqaure");
         attrs = attrs.concat( parseAttrs( p ) );
+        p.match("closeSquare");
     }
     if( p.atArgs() ){
         args = parseArgs( p );
