@@ -1,9 +1,7 @@
 'use strict';
 
 // Entities
-let Def = require("../entities/def");
-let Id = require("../entities/id");
-let Token = require("../entities/token");
+let Selector = require("../entities/selector");
 
 
 module.exports = ( p ) => {

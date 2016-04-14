@@ -3,7 +3,6 @@
 let parseProgram = require("./parse_functions/program.js");
 
 module.exports = class Parser{
-
     constructor( tokens, error, verbose ) {
         this.tokens = tokens;
         this.index = 0;

@@ -63,7 +63,7 @@
       "type": "stringlit",
       "line": 3,
       "column": 25,
-      "text": "\"Populate\""
+      "text": "Populate"
    },
    {
       "type": "newline",
@@ -123,22 +123,17 @@
       "type": "stringlit",
       "line": 5,
       "column": 28,
-      "text": "\"./getData\""
-   },
-   {
-      "type": "comma",
-      "line": 5,
-      "column": 39
+      "text": "./getData"
    },
    {
       "type": "openCurly",
       "line": 5,
-      "column": 41
+      "column": 40
    },
    {
       "type": "newline",
       "line": 5,
-      "column": 42
+      "column": 41
    },
    {
       "type": "indent",
@@ -149,7 +144,7 @@
       "type": "stringlit",
       "line": 6,
       "column": 17,
-      "text": "\"key\""
+      "text": "key"
    },
    {
       "type": "equals",
@@ -160,7 +155,7 @@
       "type": "stringlit",
       "line": 6,
       "column": 25,
-      "text": "\"value\""
+      "text": "value"
    },
    {
       "type": "newline",
@@ -171,7 +166,7 @@
       "type": "stringlit",
       "line": 7,
       "column": 17,
-      "text": "\"if\""
+      "text": "if"
    },
    {
       "type": "equals",
@@ -182,7 +177,7 @@
       "type": "stringlit",
       "line": 7,
       "column": 24,
-      "text": "\"this will probably break\""
+      "text": "this will probably break"
    },
    {
       "type": "newline",
@@ -316,7 +311,7 @@
       "type": "stringlit",
       "line": 12,
       "column": 36,
-      "text": "\"title\""
+      "text": "title"
    },
    {
       "type": "closeSquare",
@@ -349,7 +344,7 @@
       "type": "stringlit",
       "line": 13,
       "column": 35,
-      "text": "\"body\""
+      "text": "body"
    },
    {
       "type": "closeSquare",

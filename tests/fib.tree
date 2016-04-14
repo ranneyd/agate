@@ -1,0 +1,81 @@
+[
+   {
+      type: Def
+      name: {
+         type: Token
+         tokenType: bareword
+         text: fib
+      }
+      args: [
+         @num
+      ]
+      body: [
+         [
+            {
+               condition: {
+                  type: BinaryExp
+                  a: @num
+                  b: 1
+                  op: <=
+               }
+               body: [
+                  {
+                     type: Return
+                     value: 1
+                  }
+               ]
+            }
+         ]
+         {
+            type: Return
+            value: {
+               type: BinaryExp
+               a: {
+                  type: Call
+                  name: {
+                     type: Token
+                     tokenType: bareword
+                     text: fib
+                  }
+                  args: [
+                     {
+                        type: BinaryExp
+                        a: @num
+                        b: 1
+                        op: minus
+                     }
+                  ]
+               }
+               b: {
+                  type: Call
+                  name: {
+                     type: Token
+                     tokenType: bareword
+                     text: fib
+                  }
+                  args: [
+                     {
+                        type: BinaryExp
+                        a: @num
+                        b: 2
+                        op: minus
+                     }
+                  ]
+               }
+               op: plus
+            }
+         }
+      ]
+   }
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: fib
+      }
+      args: [
+         5
+      ]
+   }
+]
