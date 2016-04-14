@@ -9,17 +9,7 @@ let If = require("../entities/if");
 let Literal = require("../entities/literal");
 let This = require("../entities/this");
 let Token = require("../entities/token");
-
-// Parse Functions
-let parseBlock = require("./block");
-let parseArgs = require("./args");
-let parseLabel = require("./label");
-let parseInclude = require("./include");
-let parseArray = require("./array");
-let parseHashMap = require("./hashmap");
-let parseSelector = require("./selector");
-let parseCall = require("./call");
-
+let UnaryExp = require("../entities/unaryExp");
 
 let parseTernary = p => {
     let exp = parseBool( p );
@@ -48,19 +38,29 @@ let parseTernary = p => {
 let parseBool = p => {
     let exp = parseRel( p );
     // While at a boolop, but not at an assignment of some kind
-    while( p.at("boolop") && !p.atSequential(["boolop", "equals"])) {
+    while( p.at("boolop") && !p.atAhead("equals", 1) ) {
         let op = p.match("boolop");
-        return new BinaryExp( op, exp, parseRel( p ), new Token( op ) );
+        return new BinaryExp( op, exp, parseRel( p ), op );
     }
     return exp;
 };
 
 let parseRel = p => {
+    let exp = parseAdd( p );
+    // While at a relop, but not at an assignment of some kind
+    while( p.at("relop") && !p.atAhead("equals", 1)) {
+        let op = p.match("relop");
+        return new BinaryExp( op, exp, parseAdd( p ), op );
+    }
+    return exp;
+};
+
+let parseAdd = p => {
     let exp = parseMult( p );
     // While at a relop, but not at an assignment of some kind
-    while( p.at("relop") && !p.atSequential(["relop", "equals"])) {
-        let op = p.match("relop");
-        return new BinaryExp( op, exp, parseMult( p ), new Token( op ) );
+    while( p.at(["plus", "minus"]) && !p.atAhead("equals", 1) ) {
+        let op = (p.at("plus") ? p.match("plus") : p.match("minus"));
+        return new BinaryExp( op, exp, parseMult( p ), op );
     }
     return exp;
 };
@@ -68,9 +68,9 @@ let parseRel = p => {
 let parseMult = p => {
     let exp = parsePostfix( p );
     // While at a multop, but not at an assignment of some kind
-    while( p.at("multop") && !p.atSequential(["multop", "equals"])) {
+    while( p.at("multop") && !p.atAhead("equals", 1) ) {
         let op = p.match("multop");
-        return new BinaryExp( op, exp, parsePostfix( p ), new Token( op ) );
+        return new BinaryExp( op, exp, parsePostfix( p ), op );
     }
     return exp;
 };
@@ -80,12 +80,14 @@ let parsePostfix = p => {
     // While at a boolop, but not at an assignment of some kind
     if( p.at("postfixop")) {
         let op = p.match("postfixop");
-        return new UnaryExp( op, exp, new Token( op ) );
+        return new UnaryExp( op, exp, op );
     }
     return exp;
 }
 
 let parseElemFunc = p => {
+    let parseArgs = require("./args");
+
     let exp = parseArrayElem( p );
 
     while( p.at("tilde") ) {
@@ -107,7 +109,7 @@ let parseElemFunc = p => {
 };
 
 let parseArrayElem = p => {
-    let exp = parseMisc();
+    let exp = parseMisc( p );
 
     while( p.at("openSquare") ) {
         let open = p.match("openSquare");
@@ -127,6 +129,13 @@ let parseArrayElem = p => {
 };
 
 let parseMisc = p => {
+    let parseLabel = require("./label");
+    let parseInclude = require("./include");
+    let parseArray = require("./array");
+    let parseHashMap = require("./hashmap");
+    let parseSelector = require("./selector");
+    let parseCall = require("./call");
+
     if( p.at(p.lits) ) {
         return parseLit( p );
     }
@@ -159,7 +168,7 @@ let parseMisc = p => {
     }
     else if( p.at(["prefixop", "minus"]) ) {
         let op = (p.at("prefixop") ? p.match("prefixop") : p.match("minus"));
-        return new UnaryExp( op, parseExp( p ), new Token(op) );
+        return new UnaryExp( op, parseTernary( p ), op );
     }
     else if( p.at(["bareword", ...p.builtins])){
         return parseCall( p );
@@ -173,7 +182,7 @@ let parseLit = p => {
     for( let lit of p.lits ) {
         if( p.at(lit) ) {
             if( p.at("stringlit") ) {
-                return parseString();
+                return parseString( p );
             }
             else {
                 return new Literal(p.match(lit));
@@ -190,7 +199,7 @@ let parseString = p => {
         // cheating. We want to keep the line/column but we want it to be the right op
         interp.type = "plus";
 
-        let stringAndInter = new BinaryExp(interp, str, parseExp( p ), new Token(interp) );
+        let stringAndInter = new BinaryExp(interp, str, parseExp( p ), interp );
         interp = p.match("/interpolate");
         // more cheating
         interp.type = "plus";
@@ -199,7 +208,7 @@ let parseString = p => {
             interp, // token
             stringAndInter, // a
             new Literal(p.match("stringlit")), // b
-            new Token(interp) // op
+            interp // op
         );
     }
     return str;

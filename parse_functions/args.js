@@ -4,11 +4,13 @@
 let Block = require("../entities/block");
 
 // Parse Functions
-let parseExp = require("./exp");
-let parseChildBlock = require("./childblock");
 
 // Returns array, not block object
 module.exports = ( p ) => {
+    // Circular dependency issues
+    let parseExp = require("./exp");
+    let parseChildBlock = require("./childblock");
+
     p.matchLog(`Matching Args`);
     
     if( p.at("openParen") ){
@@ -31,7 +33,7 @@ module.exports = ( p ) => {
     }
     else if( p.atBlock() ){
         // We expect only an array, not a block
-        return parseChildBlock().statements;
+        return parseChildBlock( p ).statements;
     }
     else{
         p.error.hint = "If you don't use parens or commas, we're going to try to gobble up as many expressions as we can as arguments.";

@@ -2,6 +2,7 @@
 
 // Entities
 let Assignment = require("../entities/assignment");
+let BinaryExp = require("../entities/binaryExp");
 let Block = require("../entities/block");
 let For = require("../entities/for");
 let If = require("../entities/if");
@@ -9,12 +10,11 @@ let Return = require("../entities/return");
 let Token = require("../entities/token");
 let While = require("../entities/while");
 
-// Parse Functions
-let parseDef = require("./def");
-let parseExp = require("./exp");
-let parseChildBlock = require("./childBlock");
 
 let parseStatement = p => {
+    let parseExp = require("./exp");
+    let parseDef = require("./def");
+
     if( p.at("comment") ) {
         return new Token( p.match("comment") );
     }
@@ -23,7 +23,7 @@ let parseStatement = p => {
         //return template();
     }
     else if( p.at(p.controlTypes) ) {
-        return parseControl();
+        return parseControl( p );
     }
     else if( p.at("def") ) {
         return parseDef( p );
@@ -51,7 +51,7 @@ let parseStatement = p => {
                         op, // token
                         exp, // a
                         p.parseExp(), // b
-                        new Token(op) // op
+                        op // op
                     )
                 );
             }
@@ -67,7 +67,7 @@ let parseStatement = p => {
                         op, // token
                         exp, // a
                         p.parseExp(), // b
-                        new Token(op) // op
+                        op // op
                     )
                 );
             }
@@ -84,7 +84,7 @@ let parseStatement = p => {
                         op, // token
                         exp, // a
                         p.parseExp(), // b
-                        new Token(op) // op
+                        op // op
                     )
                 );
             }
@@ -102,40 +102,43 @@ let parseStatement = p => {
 }
 let parseControl = p =>{
     if( p.at("if")) {
-        return parseIf();
+        return parseIf( p );
     }
     else if( p.at("for") ) {
-        return parseFor();
+        return parseFor( p );
     }
     // while
     else{
-        return parseWhile();
+        return parseWhile( p );
     }
 }
 let parseIf = p =>{
+    let parseExp = require("./exp");
+    let parseChildBlock = require("./childBlock");
+
     let conditionals = [];
 
     let ifToken = p.match("if");
 
     conditionals.push({
-        condition: parseExp(),
-        body: parseChildBlock()
+        condition: parseExp( p ),
+        body: parseChildBlock( p )
     });
 
-    while( at("else-if") ) {
-        match("else-if");
+    while( p.at("else-if") ) {
+        p.match("else-if");
 
         conditionals.push({
-            condition: parseExp(),
-            body: parseChildBlock()
+            condition: parseExp( p ),
+            body: parseChildBlock( p )
         });
     }
 
-    if( at("else") ) {
-        match("else");
+    if( p.at("else") ) {
+        p.match("else");
 
         conditionals.push({
-            body: parseChildBlock()
+            body: parseChildBlock( p )
         });
     }
     return new If( ifToken, conditionals );
@@ -159,7 +162,7 @@ module.exports = ( p ) => {
             p.match("newline");
         }
 
-        let stmt = this.parseStatement( p );
+        let stmt = parseStatement( p );
         
         // They can put as many blank lines as they'd like, but that
         // doesn't mean we have to pay attention to them

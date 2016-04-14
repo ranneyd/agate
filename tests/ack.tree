@@ -1,0 +1,129 @@
+[
+   {
+      type: Def
+      name: {
+         type: Token
+         tokenType: bareword
+         text: ack
+      }
+      args: [
+         @m
+         @n
+      ]
+      body: [
+         [
+            {
+               condition: {
+                  type: BinaryExp
+                  a: @m
+                  b: 0
+                  op: ==
+               }
+               body: [
+                  {
+                     type: Return
+                     value: {
+                        type: BinaryExp
+                        a: @n
+                        b: 1
+                        op: plus
+                     }
+                  }
+               ]
+            }
+            {
+               condition: {
+                  type: BinaryExp
+                  a: {
+                     type: BinaryExp
+                     a: @m
+                     b: 0
+                     op: >
+                  }
+                  b: {
+                     type: BinaryExp
+                     a: @n
+                     b: 0
+                     op: ==
+                  }
+                  op: and
+               }
+               body: [
+                  {
+                     type: Return
+                     value: {
+                        type: Call
+                        name: {
+                           type: Token
+                           tokenType: bareword
+                           text: ack
+                        }
+                        args: [
+                           {
+                              type: BinaryExp
+                              a: @m
+                              b: 1
+                              op: minus
+                           }
+                           1
+                        ]
+                     }
+                  }
+               ]
+            }
+            {
+               body: [
+                  {
+                     type: Return
+                     value: {
+                        type: Call
+                        name: {
+                           type: Token
+                           tokenType: bareword
+                           text: ack
+                        }
+                        args: [
+                           {
+                              type: BinaryExp
+                              a: @m
+                              b: 1
+                              op: minus
+                           }
+                           {
+                              type: Call
+                              name: {
+                                 type: Token
+                                 tokenType: bareword
+                                 text: ack
+                              }
+                              args: [
+                                 @m
+                                 {
+                                    type: BinaryExp
+                                    a: @n
+                                    b: 1
+                                    op: minus
+                                 }
+                              ]
+                           }
+                        ]
+                     }
+                  }
+               ]
+            }
+         ]
+      ]
+   }
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: ack
+      }
+      args: [
+         1
+         2
+      ]
+   }
+]

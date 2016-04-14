@@ -7,6 +7,7 @@ module.exports = class BinaryExp extends Entity{
         super(token);
         this.a = a;
         this.b = b;
+        // NOT entity
         if(op.text) {
             this.op = op.text;
         }

@@ -4,13 +4,14 @@
 let ArrayLit = require("../entities/arraylit");
 let Attr = require("../entities/attr");
 let Call = require("../entities/call");
-// Parse Functions
-let parseSelector = require("./selector");
-let parseAttrs = require("./attrs");
-let parseArgs = require("./args");
+let Token = require("../entities/token");
 
 
 module.exports = ( p ) => {
+    let parseSelector = require("./selector");
+    let parseAttrs = require("./attrs");
+    let parseArgs = require("./args");
+
     p.matchLog(`Matching Call`);
     
     let token;
@@ -26,7 +27,6 @@ module.exports = ( p ) => {
     }
 
     name = new Token( token );
-
 
     let classes = [];
     let dotToken;

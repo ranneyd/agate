@@ -3,14 +3,16 @@
 // Entities
 let Program = require("../entities/program");
 
-// Parse Functions
-let parseBlock = require("./block");
 
 module.exports = ( parser ) => {
+    // Parse Functions
+    let parseBlock = require("./block");
     parser.matchLog(`Matching Program`);
     
+    let first = parser.next;
+
     let body = parseBlock( parser );
     parser.match("EOF");
 
-    return new Program( parser.next(), body );
+    return new Program( first, body );
 };

@@ -3,8 +3,6 @@
 // Entities
 let Block = require("../entities/block");
 
-// Parse Functions
-let parseBlock = require("./block");
 
 let parseJSBlock = p => {
     // TODO
@@ -13,27 +11,28 @@ let parseCSSBlock = p => {
     // TODO
 };
 
-module.exports = ( parser ) => {
-    parser.matchLog(`Matching ChildBlock`);
+module.exports = ( p ) => {
+    let parseBlock = require("./block");
     
-    parser.match("newline");
-    parser.match("indent");
+    p.matchLog(`Matching ChildBlock`);
+    
+    p.match("newline");
+    p.match("indent");
 
-    let token = parser.next();
     let block;
 
-    if( parser.at("js") ){
-        ourBlock = parseJSBlock();
+    if( p.at("js") ){
+        block = parseJSBlock( p );
     }
-    else if( parser.at("css") ){
-        ourBlock = parseCSSBlock();
+    else if( p.at("css") ){
+        block = parseCSSBlock( p );
     }
     else {
-        ourBlock = parseBlock();
+        block = parseBlock( p );
     }
 
-    if( !at("EOF")){
-        match("dedent");
+    if( !p.at("EOF")){
+        p.match("dedent");
     }
-    return ourBlock;
+    return block;
 };
