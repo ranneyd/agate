@@ -45,7 +45,7 @@
       "type": "stringlit",
       "line": 3,
       "column": 9,
-      "text": "\"Templating demo\""
+      "text": "Templating demo"
    },
    {
       "type": "newline",
@@ -87,7 +87,7 @@
       "type": "stringlit",
       "line": 5,
       "column": 9,
-      "text": "\"Our header\""
+      "text": "Our header"
    },
    {
       "type": "newline",
@@ -135,7 +135,7 @@
       "type": "stringlit",
       "line": 7,
       "column": 11,
-      "text": "\"Our template is generalized so we can fill in all these values in separate modules.\""
+      "text": "Our template is generalized so we can fill in all these values in separate modules."
    },
    {
       "type": "newline",

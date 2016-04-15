@@ -63,7 +63,7 @@
       "type": "stringlit",
       "line": 5,
       "column": 13,
-      "text": "\"text\""
+      "text": "text"
    },
    {
       "type": "closeParen",
@@ -71,26 +71,21 @@
       "column": 19
    },
    {
-      "type": "comma",
-      "line": 5,
-      "column": 20
-   },
-   {
       "type": "bareword",
       "line": 5,
-      "column": 22,
+      "column": 21,
       "text": "span"
    },
    {
       "type": "stringlit",
       "line": 5,
-      "column": 27,
-      "text": "\"other text\""
+      "column": 26,
+      "text": "other text"
    },
    {
       "type": "newline",
       "line": 5,
-      "column": 39
+      "column": 38
    },
    {
       "type": "bareword",
@@ -108,7 +103,7 @@
       "type": "stringlit",
       "line": 6,
       "column": 13,
-      "text": "\"another p\""
+      "text": "another p"
    },
    {
       "type": "newline",
@@ -130,7 +125,7 @@
       "type": "stringlit",
       "line": 7,
       "column": 9,
-      "text": "\"Another div\""
+      "text": "Another div"
    },
    {
       "type": "EOF",

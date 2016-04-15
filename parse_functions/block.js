@@ -147,8 +147,7 @@ let parseIf = p =>{
 }
 let parseFor = p =>{
     let parseExp = require("./exp");
-    let parseChildBlock = require("./childBlock");
-
+    let parseChildBlock = require("./childBlock")
 
     let forToken = p.match('for');
 
