@@ -2,6 +2,8 @@
 
 let Entity = require("./entity");
 let Block = require("./block");
+let Token = require("./token");
+
 
 module.exports = class Def extends Entity{
     constructor( token, name, args, body ) {
@@ -9,7 +11,7 @@ module.exports = class Def extends Entity{
         this.name = name;
         if(args.length){
             this.args = new Block(token, args);
-        }        
+        }
         this.body = body;
     }
     toString(indentLevel, indent){
@@ -24,7 +26,7 @@ module.exports = class Def extends Entity{
             strArr.push(`args: ${this.args.toString(indentLevel + indent, indent)}`);
         }
         strArr.push(`body: ${this.body.toString(indentLevel + indent, indent)}`)
-        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
+        return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
     analyze( env ) {
         // let localEnv = env.makeChild();
@@ -34,7 +36,7 @@ module.exports = class Def extends Entity{
         //     // hoisting since these obviously don't have values yet
         //     localEnv.addVar( arg, null );
         // }
-        
+
         // this.body.parse( localEnv );
 
         // this.safe = this.safe && this.body.safe;

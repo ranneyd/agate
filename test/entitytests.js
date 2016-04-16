@@ -69,7 +69,7 @@ describe('Entity', function() {
     };
     describe('constructor', function () {
         it('should construct', function () {
-        
+
             let entity = new Entity(practiceToken);
             assert.deepStrictEqual(entity.line, 1, "line");
             assert.deepStrictEqual(entity.column, 2, "column");
@@ -82,28 +82,28 @@ describe('Entity', function() {
                 "{",
                 "   type: Entity",
                 "}"
-            ].join("\n");        
+            ].join("\n");
             assert.deepStrictEqual(entity.toString(), expectedString, "defaults");
-            
+
             expectedString = [
                 "{",
                 "      type: Entity",
                 "   }"
-            ].join("\n"); 
+            ].join("\n");
             assert.deepStrictEqual(entity.toString(3), expectedString, "indent level 3");
 
             expectedString = [
                 "{",
                 "    type: Entity",
                 "}"
-            ].join("\n"); 
+            ].join("\n");
             assert.deepStrictEqual(entity.toString(0, 4), expectedString, "indent level 0, indent amount 4");
-            
+
             expectedString = [
                 "{",
                 "       type: Entity",
                 "   }"
-            ].join("\n"); 
+            ].join("\n");
             assert.deepStrictEqual(entity.toString(3, 4), expectedString, "indent level 3, indent amount 4");
         });
     });
@@ -205,7 +205,7 @@ describe('This', function() {
         it('should make the string', function () {
             let thisObj = new This(practiceToken);
             assert.deepStrictEqual(thisObj.toString(), "this", "defaults");
-            assert.deepStrictEqual(thisObj.toString(3), "   this", "indentation");
+            assert.deepStrictEqual(thisObj.toString(3), "this", "indentation");
         });
     });
 });
@@ -948,22 +948,24 @@ describe('Call', function() {
         line: 1,
         column: 1
     });
-    let attrs = [
+    let attrs = new Block(openBracket, [
         new Attr(openBracket, "fizz", lit1),
         new Attr(openBracket, "buzz", lit2)
-    ];
-    let args = [
+    ]);
+    let args = new Block(openBracket, [
         lit3,
         id
-    ];
+    ]);
+
+    let emptyBlock = new Block(openBracket, []);
     describe('constructor', function () {
         it('should construct', function () {
             let call = new Call(name.token, name, attrs, args);
             assert.deepStrictEqual(call.name, name, "name");
-            assert.deepStrictEqual(call.attrs.statements[1], attrs[1], "attrs");
-            assert.deepStrictEqual(call.args.statements[1], id, "args");
+            assert.deepStrictEqual(call.attrs, attrs, "attrs");
+            assert.deepStrictEqual(call.args, args, "args");
 
-            call = new Call(name.token, name, [], []);
+            call = new Call(name.token, name, emptyBlock, emptyBlock);
             assert.deepStrictEqual(call.name, name, "name (alt)");
             assert.deepStrictEqual(call.attrs, undefined, "attrs (alt)");
             assert.deepStrictEqual(call.args, undefined, "args (alt)");
@@ -1300,18 +1302,21 @@ describe('ElemFunc', function() {
         line: 1,
         column: 1
     });
-    let args = [
+
+    let args = new Block(tilde, [
         lit,
         id
-    ];
+    ]);
+
+    let emptyBlock = new Block(tilde, []);
     describe('constructor', function () {
         it('should construct', function () {
             let elemFunc = new ElemFunc(tilde, elem, func, args);
             assert.deepStrictEqual(elemFunc.elem, elem, "elem");
             assert.deepStrictEqual(elemFunc.func, func, "func");
-            assert.deepStrictEqual(elemFunc.args.statements[1], id, "args");
+            assert.deepStrictEqual(elemFunc.args, args, "args");
 
-            elemFunc = new ElemFunc(tilde, elem, func, []);
+            elemFunc = new ElemFunc(tilde, elem, func, emptyBlock);
             assert.deepStrictEqual(elemFunc.elem, elem, "elem (alt)");
             assert.deepStrictEqual(elemFunc.func, func, "func (alt)");
             assert.deepStrictEqual(elemFunc.args, undefined, "args (alt)");
@@ -1463,7 +1468,7 @@ describe('For', function() {
         column: 1
     }
     let iterable = new Iterable(iterableToken, new Id(iterableToken));
-    
+
     let body = new Block(forToken, [id]);
     describe('constructor', function () {
         it('should construct', function () {
@@ -1549,8 +1554,8 @@ describe('HashMap', function() {
         it('should construct', function () {
             let hash = new HashMap(openCurly, [attr1, attr2]);
             assert.deepStrictEqual(hash.line, openCurly.line, "line");
-            assert.deepStrictEqual(hash.pairs[0], attr1, "1st");
-            assert.deepStrictEqual(hash.pairs[1], attr2, "2nd");
+            assert.deepStrictEqual(hash.attrs[0], attr1, "1st");
+            assert.deepStrictEqual(hash.attrs[1], attr2, "2nd");
         });
     });
     describe('toString', function () {
@@ -1978,7 +1983,7 @@ describe('SpecialBlock', function() {
         line: 1,
         column: 1
     });
-    
+
     describe('constructor', function () {
         it('should construct', function () {
             let special = new SpecialBlock(js1, [js1], "js");
@@ -2060,7 +2065,7 @@ describe('While', function() {
         line: 1,
         column: 1
     });
-    
+
     let body = new Block(whileToken, [id]);
 
     describe('constructor', function () {
