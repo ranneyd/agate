@@ -1,0 +1,86 @@
+[
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: body
+      }
+      args: [
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: bareword
+               text: div
+            }
+            args: [
+               {
+                  type: Call
+                  name: {
+                     type: Token
+                     tokenType: bareword
+                     text: p
+                  }
+                  args: [
+                     {
+                        type: Call
+                        name: {
+                           type: Token
+                           tokenType: bareword
+                           text: a
+                        }
+                        args: [
+                           text
+                        ]
+                     }
+                     {
+                        type: Call
+                        name: {
+                           type: Token
+                           tokenType: bareword
+                           text: span
+                        }
+                        args: [
+                           other text
+                        ]
+                     }
+                  ]
+               }
+               {
+                  type: Call
+                  name: {
+                     type: Token
+                     tokenType: bareword
+                     text: p
+                  }
+                  args: [
+                     {
+                        type: Call
+                        name: {
+                           type: Token
+                           tokenType: bareword
+                           text: i
+                        }
+                        args: [
+                           another p
+                        ]
+                     }
+                  ]
+               }
+            ]
+         }
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: bareword
+               text: div
+            }
+            args: [
+               Another div
+            ]
+         }
+      ]
+   }
+]
