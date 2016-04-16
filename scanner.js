@@ -352,7 +352,12 @@ module.exports = (data, error, verbose) => {
                 }
 
                 if(lastGroup === "${") {
-                    stringToken.text = stringToken.text.slice(0, -1).replace(/.$/, "'");
+                    // Because we handle the beginning and ending quotes for normal strings, our
+                    // last character get knocked off. This is usually a quote, but in this case
+                    // it's a {. This still triggers because the last matching group is unchanged.
+                    // So our string was `'...${` and now it's `...$`. So we need to just knock off
+                    // the $ and we're good!
+                    stringToken.text = stringToken.text.slice(0, -1);
                     interpolating = true;
 
                     tokens.push( stringToken );

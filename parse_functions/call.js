@@ -3,6 +3,7 @@
 // Entities
 let ArrayLit = require("../entities/arraylit");
 let Attr = require("../entities/attr");
+let Block = require("../entities/block");
 let Call = require("../entities/call");
 let Token = require("../entities/token");
 
@@ -51,6 +52,7 @@ module.exports = ( p ) => {
         attrs = attrs.concat( parseAttrs( p ) );
         p.match("closeSquare");
     }
+    attrs = new Block(token, attrs);
     if( p.atArgs() ){
         args = parseArgs( p );
     }

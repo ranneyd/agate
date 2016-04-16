@@ -48,6 +48,6 @@ module.exports = ( p ) => {
     }
     else{
         // No args
-        return new Block( p.lastToken, args );
+        return new Block( p.lastToken, [] );
     }
 };

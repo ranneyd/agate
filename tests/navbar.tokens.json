@@ -287,7 +287,7 @@
       "type": "stringlit",
       "line": 18,
       "column": 19,
-      "text": "'"
+      "text": "/"
    },
    {
       "type": "interpolate",

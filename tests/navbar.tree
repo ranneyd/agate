@@ -57,6 +57,43 @@
                            tokenType: bareword
                            text: a
                         }
+                        attrs: [
+                           [
+                              {
+                                 type: Attr
+                                 key: href
+                                 value: {
+                                    type: BinaryExp
+                                    a: {
+                                       type: BinaryExp
+                                       a: /
+                                       b: @page
+                                       op: plus
+                                    }
+                                    b: html
+                                    op: plus
+                                 }
+                              }
+                              {
+                                 type: Attr
+                                 key: class
+                                 value: [
+                                    {
+                                       condition: {
+                                          type: BinaryExp
+                                          a: @page
+                                          b: home
+                                          op: ==
+                                       }
+                                       body: home
+                                    }
+                                    {
+                                       body: 
+                                    }
+                                 ]
+                              }
+                           ]
+                        ]
                         args: [
                            @page
                         ]
