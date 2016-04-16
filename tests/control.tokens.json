@@ -25,7 +25,7 @@
       "type": "stringlit",
       "line": 2,
       "column": 11,
-      "text": "\"Password Demo\""
+      "text": "Password Demo"
    },
    {
       "type": "newline",
@@ -101,7 +101,7 @@
       "type": "stringlit",
       "line": 4,
       "column": 30,
-      "text": "\"password\""
+      "text": "password"
    },
    {
       "type": "closeSquare",
@@ -148,7 +148,7 @@
       "type": "stringlit",
       "line": 5,
       "column": 14,
-      "text": "\"value\""
+      "text": "value"
    },
    {
       "type": "closeSquare",
@@ -203,7 +203,7 @@
       "type": "stringlit",
       "line": 6,
       "column": 15,
-      "text": "\"style\""
+      "text": "style"
    },
    {
       "type": "equals",
@@ -214,7 +214,7 @@
       "type": "stringlit",
       "line": 6,
       "column": 23,
-      "text": "\"color:red; background-color:cyan\""
+      "text": "color:red; background-color:cyan"
    },
    {
       "type": "closeSquare",
@@ -225,7 +225,7 @@
       "type": "stringlit",
       "line": 6,
       "column": 59,
-      "text": "\"Your password sucks\""
+      "text": "Your password sucks"
    },
    {
       "type": "newline",
