@@ -40,7 +40,7 @@ let parseBool = p => {
     // While at a boolop, but not at an assignment of some kind
     while( p.at("boolop") && !p.atAhead("equals", 1) ) {
         let op = p.match("boolop");
-        return new BinaryExp( op, exp, parseRel( p ), op );
+        exp = new BinaryExp( op, exp, parseRel( p ), op );
     }
     return exp;
 };
@@ -50,7 +50,7 @@ let parseRel = p => {
     // While at a relop, but not at an assignment of some kind
     while( p.at("relop") && !p.atAhead("equals", 1)) {
         let op = p.match("relop");
-        return new BinaryExp( op, exp, parseAdd( p ), op );
+        exp =  new BinaryExp( op, exp, parseAdd( p ), op );
     }
     return exp;
 };
@@ -60,7 +60,7 @@ let parseAdd = p => {
     // While at a relop, but not at an assignment of some kind
     while( p.at(["plus", "minus"]) && !p.atAhead("equals", 1) ) {
         let op = (p.at("plus") ? p.match("plus") : p.match("minus"));
-        return new BinaryExp( op, exp, parseMult( p ), op );
+        exp =  new BinaryExp( op, exp, parseMult( p ), op );
     }
     return exp;
 };
@@ -70,7 +70,7 @@ let parseMult = p => {
     // While at a multop, but not at an assignment of some kind
     while( p.at("multop") && !p.atAhead("equals", 1) ) {
         let op = p.match("multop");
-        return new BinaryExp( op, exp, parsePostfix( p ), op );
+        exp =  new BinaryExp( op, exp, parsePostfix( p ), op );
     }
     return exp;
 };
@@ -103,7 +103,7 @@ let parseElemFunc = p => {
         }
         p.error.hint = "";
 
-        return new ElemFunc(tilde, exp, func, args);
+        exp =  new ElemFunc(tilde, exp, func, args);
     }
     return exp;
 };

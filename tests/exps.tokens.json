@@ -15,7 +15,7 @@
       "type": "stringlit",
       "line": 1,
       "column": 12,
-      "text": "\"Exps test\""
+      "text": "Exps test"
    },
    {
       "type": "newline",
@@ -194,8 +194,7 @@
    {
       "type": "stringlit",
       "line": 9,
-      "column": 19,
-      "text": "\"\""
+      "column": 19
    },
    {
       "type": "newline",
@@ -217,7 +216,7 @@
       "type": "stringlit",
       "line": 10,
       "column": 22,
-      "text": "\"hello world\""
+      "text": "hello world"
    },
    {
       "type": "newline",
