@@ -25,7 +25,7 @@
       "type": "stringlit",
       "line": 2,
       "column": 11,
-      "text": "\"JS and CSS test\""
+      "text": "JS and CSS test"
    },
    {
       "type": "newline",
@@ -41,13 +41,14 @@
    {
       "type": "equals",
       "line": 3,
-      "column": 12
+      "column": 12,
+      "text": false
    },
    {
       "type": "stringlit",
       "line": 3,
       "column": 14,
-      "text": "\"cyan\""
+      "text": "cyan"
    },
    {
       "type": "newline",
@@ -160,7 +161,8 @@
    {
       "type": "openSquare",
       "line": 11,
-      "column": 11
+      "column": 11,
+      "text": false
    },
    {
       "type": "bareword",
@@ -171,18 +173,20 @@
    {
       "type": "equals",
       "line": 11,
-      "column": 15
+      "column": 15,
+      "text": false
    },
    {
       "type": "stringlit",
       "line": 11,
       "column": 16,
-      "text": "\"/js/main.js\""
+      "text": "/js/main.js"
    },
    {
       "type": "closeSquare",
       "line": 11,
-      "column": 29
+      "column": 29,
+      "text": false
    },
    {
       "type": "newline",

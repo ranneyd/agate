@@ -13,17 +13,17 @@ let UnaryExp = require("../entities/unaryExp");
 
 let parseTernary = p => {
     let exp = parseBool( p );
-
+    // TODO: this does not work
     if( p.at("question") ) {
 
-        let qToken = match("question");
+        let qToken = p.match("question");
 
         let ifstmt = {
             condition: exp,
             body: parseBool( p )
         };
 
-        match("colon");
+        p.match("colon");
 
         let elsestmt = {
             body: parseBool( p )
@@ -162,7 +162,7 @@ let parseMisc = p => {
     }
     else if( p.at("openParen") ) {
         p.match("openParen");
-        let exp = parseExp( p );
+        let exp = parseTernary( p );
         p.match("closeParen");
         return exp;
     }
@@ -199,7 +199,7 @@ let parseString = p => {
         // cheating. We want to keep the line/column but we want it to be the right op
         interp.type = "plus";
 
-        let stringAndInter = new BinaryExp(interp, str, parseExp( p ), interp );
+        let stringAndInter = new BinaryExp(interp, str, parseTernary( p ), interp );
         interp = p.match("/interpolate");
         // more cheating
         interp.type = "plus";

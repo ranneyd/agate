@@ -1,0 +1,85 @@
+[
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: head
+      }
+      args: [
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: bareword
+               text: title
+            }
+            args: [
+               JS and CSS test
+            ]
+         }
+         {
+            type: Assignment
+            lhs: @color
+            rhs: cyan
+         }
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: style
+            }
+            args: [
+               p {
+                   background-color: red;
+               }
+               a.specialA {
+                   color: blue;
+               }
+            ]
+         }
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: script
+            }
+         }
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: script
+            }
+            args: [
+               alert("This is an alert");
+               console.log("Print statement");
+               if( testingIndentation ) {
+                   var lets = "hope this works";
+                   var test = 'notdoingidsyet';
+               }
+            ]
+         }
+      ]
+   }
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: body
+      }
+      args: [
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: script
+            }
+            args: [
+               alert("Should be fine right?");
+            ]
+         }
+      ]
+   }
+]

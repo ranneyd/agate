@@ -8,41 +8,44 @@
    {
       "type": "equals",
       "line": 1,
-      "column": 8
+      "column": 8,
+      "text": false
    },
    {
       "type": "openSquare",
       "line": 1,
-      "column": 10
+      "column": 10,
+      "text": false
    },
    {
       "type": "stringlit",
       "line": 1,
       "column": 11,
-      "text": "\"home\""
+      "text": "home"
    },
    {
       "type": "stringlit",
       "line": 1,
       "column": 18,
-      "text": "\"news\""
+      "text": "news"
    },
    {
       "type": "stringlit",
       "line": 1,
       "column": 25,
-      "text": "\"about\""
+      "text": "about"
    },
    {
       "type": "stringlit",
       "line": 1,
       "column": 33,
-      "text": "\"contact\""
+      "text": "contact"
    },
    {
       "type": "closeSquare",
       "line": 1,
-      "column": 42
+      "column": 42,
+      "text": false
    },
    {
       "type": "newline",
@@ -219,7 +222,8 @@
    {
       "type": "for",
       "line": 17,
-      "column": 5
+      "column": 5,
+      "text": false
    },
    {
       "type": "id",
@@ -230,7 +234,8 @@
    {
       "type": "in",
       "line": 17,
-      "column": 15
+      "column": 15,
+      "text": false
    },
    {
       "type": "id",
@@ -263,7 +268,8 @@
    {
       "type": "openSquare",
       "line": 18,
-      "column": 13
+      "column": 13,
+      "text": false
    },
    {
       "type": "bareword",
@@ -274,13 +280,14 @@
    {
       "type": "equals",
       "line": 18,
-      "column": 18
+      "column": 18,
+      "text": false
    },
    {
       "type": "stringlit",
       "line": 18,
       "column": 19,
-      "text": "'/'"
+      "text": "'"
    },
    {
       "type": "interpolate",
@@ -302,7 +309,7 @@
       "type": "stringlit",
       "line": 18,
       "column": 28,
-      "text": "'html'"
+      "text": "html"
    },
    {
       "type": "bareword",
@@ -313,17 +320,20 @@
    {
       "type": "equals",
       "line": 18,
-      "column": 40
+      "column": 40,
+      "text": false
    },
    {
       "type": "openParen",
       "line": 18,
-      "column": 41
+      "column": 41,
+      "text": false
    },
    {
       "type": "openParen",
       "line": 18,
-      "column": 42
+      "column": 42,
+      "text": false
    },
    {
       "type": "id",
@@ -341,44 +351,49 @@
       "type": "stringlit",
       "line": 18,
       "column": 52,
-      "text": "\"home\""
+      "text": "home"
    },
    {
       "type": "closeParen",
       "line": 18,
-      "column": 58
+      "column": 58,
+      "text": false
    },
    {
       "type": "question",
       "line": 18,
-      "column": 60
+      "column": 60,
+      "text": false
    },
    {
       "type": "stringlit",
       "line": 18,
       "column": 62,
-      "text": "\"home\""
+      "text": "home"
    },
    {
       "type": "colon",
       "line": 18,
-      "column": 69
+      "column": 69,
+      "text": false
    },
    {
       "type": "stringlit",
       "line": 18,
       "column": 71,
-      "text": "\"\""
+      "text": ""
    },
    {
       "type": "closeParen",
       "line": 18,
-      "column": 73
+      "column": 73,
+      "text": false
    },
    {
       "type": "closeSquare",
       "line": 18,
-      "column": 74
+      "column": 74,
+      "text": false
    },
    {
       "type": "id",
