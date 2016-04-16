@@ -1,6 +1,7 @@
 'use strict';
 
 var file;
+var directory = "./";
 var verbose = false;
 var dumpTokens = false;
 var dumpParseTree = false;
@@ -46,9 +47,10 @@ var processArguments = function(){
             }
         }
         else{
-            let fileName = arg.split('.');
-            fileName.pop();
-            file = fileName.join('.');
+            // optional /, (characters followed by /)* ((non-dots)+ (dot (non-dots)+)*) (dot then characters)
+            let fileparts = /^((\/)?(.+?\/)*)([^\.]+(\.[^\.]+)*)\..+$/.exec(arg);
+            directory = fileparts[1];
+            file = fileparts[4];
         }
     }
     if ( !file ){
@@ -76,7 +78,7 @@ var writeFile = (name, toWrite) => new Promise( (resolve, reject) => {
 
 processArguments();
 
-readFile(`${file}.agate`)
+readFile(`${directory}${file}.agate`)
     .then( code => {
         if(verbose) {
             console.log("Beginning Scanning...");
@@ -88,7 +90,7 @@ readFile(`${file}.agate`)
                 console.log("Beginning Parsing...");
             }
             let prettyTokens = JSON.stringify(tokens, null, 3);
-            writeFile(`${outName || file}.tokens.json`, prettyTokens)
+            writeFile(`${directory}${outName || file}.tokens.json`, prettyTokens)
                 .catch( err => {
                     console.log(err);
                 });
@@ -96,12 +98,12 @@ readFile(`${file}.agate`)
 
         if( !error.count ) {
             try{
-                let parser = new Parser(tokens, error, verbose);
+                let parser = new Parser(tokens, error, verbose, directory);
                 let parseTree = parser.init();
                 if( dumpParseTree ) {
                     let treeString = parseTree.toString();
 
-                    writeFile(`${outName || file}.tree`, treeString)
+                    writeFile(`${directory}${outName || file}.tree`, treeString)
                         .catch( err => {
                             console.log(err);
                         });

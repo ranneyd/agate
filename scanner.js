@@ -555,6 +555,13 @@ module.exports = (data, error, verbose) => {
             }
         }
     }
+    // Cleanup. Make sure, in case this gets imported somewhere, that it ends at the same
+    // indentation it began at
+    tokens.push( token("newline") );
+    while(indent.peek() !== 0){
+          tokens.push( token("dedent") );
+          indent.pop();
+    }
     tokens.push( token("EOF") );
     return tokens;
 }

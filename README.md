@@ -18,6 +18,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |               |`return Exp`                                                   |
 |               |`Exp`                                                          |
 |               |`Assignment`                                                   |
+|               |`Include`                                                      |
 |Template       |`template (newline indent (Label ChildBlock)+ dedent)?`        |
 |ChildBlock     |`newline indent (JSBlock|CSSBlock|Block) newline dedent`       |
 |Label          |`openCurly bareword closeCurly`                                |
@@ -119,7 +120,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 - Comments are C-style, `\\` denoting a single-line comment.
     - Comments will insert HTML comments into the code.
     - Adding an exclamation point (`\\! comment`) will prevent the comment from occurring in HTML in the compiled document.
-    - Block comments can be achieved with indentation. 
+    - Block comments can be achieved with indentation.
 
 ###Templates
 
@@ -141,7 +142,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
     - Content of tag (assuming non-self-closing tag) is in indented block
         - Contents can be included in one line if short, such as `p "contents of p"`
             - Contents can include variables and literals.
-                - Note, that a string literal containing raw HTML will be inserted into the resultant document. 
+                - Note, that a string literal containing raw HTML will be inserted into the resultant document.
             - This content can include tags
                 - Content belonging to tag is _non-greedy_.
                     - `p strong "bold" " stuff"` produces `<p><strong>bold</strong> stuff</p>`.
@@ -169,7 +170,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
         - If, before the `style` block, the programmer writes `@foo = "red"` then the CSS `background-color:@foo` will be converted into `background-color: red`
 - CSS can be imported and templated in the same way as normal Agate
     - `>` and `|` statements can be written at top-level indentation and will be escaped from the CSS
-    - ex: injecting the contents of `p_styles.css` would go like 
+    - ex: injecting the contents of `p_styles.css` would go like
     ```
     style
         p: {

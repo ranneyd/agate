@@ -130,7 +130,6 @@ let parseArrayElem = p => {
 
 let parseMisc = p => {
     let parseLabel = require("./label");
-    let parseInclude = require("./include");
     let parseArray = require("./array");
     let parseHashMap = require("./hashmap");
     let parseSelector = require("./selector");
@@ -141,9 +140,6 @@ let parseMisc = p => {
     }
     else if( p.atSequential(["openCurly", "bareword", "closeCurly"]) ) {
         return parseLabel( p );
-    }
-    else if( p.at("include") ) {
-        return parseInclude( p );
     }
     else if( p.at("openSquare") ){
         return parseArray( p );

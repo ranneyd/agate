@@ -16,13 +16,17 @@ let While = require("../entities/while");
 let parseStatement = p => {
     let parseExp = require("./exp");
     let parseDef = require("./def");
+    let parseInclude = require("./include");
+    let parseTemplate = require("./template");
 
     if( p.at("comment") ) {
         return new Token( p.match("comment") );
     }
     else if ( p.at('template') ) {
-        // TODO
-        //return template();
+        return parseTemplate( p );
+    }
+    else if( p.at("include") ) {
+        return parseInclude( p );
     }
     else if( p.at(p.controlTypes) ) {
         return parseControl( p );
@@ -180,18 +184,24 @@ module.exports = ( p ) => {
 
         let stmt = parseStatement( p );
 
-        // They can put as many blank lines as they'd like, but that
-        // doesn't mean we have to pay attention to them
-        if(stmt !== "blank"){
+        // Make sure the statement didn't come back with nothing
+        if(stmt){
             statements.push( stmt );
         }
+        else{
+            // If it came back with nothing it's probably an include or template thing. So just
+            // restart
+            continue;
+        }
 
-        // child blocks are special cases. Since dedents come after the
-        // newlines, the ChildBlock pattern needs to consume the newline.
-        if(p.lastToken.type !== "dedent" && !p.at("EOF")){
-            do{
-                p.match("newline");
-            } while( p.at("newline") );
+        // There should be at least one, or an EOF
+        while(p.at("newline")) {
+            p.match("newline");
+        }
+
+        // If we're at the end of the file or a dedent, our work is done
+        if(p.at("EOF") || p.at("dedent")){
+            break;
         }
     }
 
