@@ -20,7 +20,7 @@ module.exports = ( p ) => {
     let args = [];
 
     if( p.at(p.builtins) ){
-        token =  p.match(p.builtins);
+        token =  p.pop();
     }
     else{
         token = p.match("bareword");
@@ -47,7 +47,7 @@ module.exports = ( p ) => {
     }
 
     if( p.at("openSquare") ) {
-        p.match("openSqaure");
+        p.match("openSquare");
         attrs = attrs.concat( parseAttrs( p ) );
         p.match("closeSquare");
     }

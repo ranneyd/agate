@@ -13,9 +13,9 @@ let UnaryExp = require("../entities/unaryExp");
 
 let parseTernary = p => {
     let exp = parseBool( p );
-    
+
     if( p.at("question") ) {
-        
+
         let qToken = match("question");
 
         let ifstmt = {
@@ -31,7 +31,7 @@ let parseTernary = p => {
 
         return new If( qToken, [ifstmt, elsestmt] );
     }
-    
+
     return exp;
 };
 
@@ -95,7 +95,7 @@ let parseElemFunc = p => {
 
         let func = new Token( p.match("bareword") );
 
-        let args;
+        let args = [];
         p.error.hint = "The ~ operator is for member functions only. Thus, if you don't put parens after, we're going to gobble up as many potential arguments as we can";
 
         if( p.atArgs() ){
@@ -216,6 +216,6 @@ let parseString = p => {
 
 module.exports = ( p ) => {
     p.matchLog(`Matching Exp`);
-    
+
     return parseTernary( p );
 };

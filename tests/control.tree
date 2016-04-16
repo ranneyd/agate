@@ -1,0 +1,100 @@
+[
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: head
+      }
+      args: [
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: bareword
+               text: title
+            }
+            args: [
+               Password Demo
+            ]
+         }
+      ]
+   }
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: body
+      }
+      args: [
+         {
+            type: ElemFunc
+            elem: {
+               type: Call
+               name: {
+                  type: Token
+                  tokenType: bareword
+                  text: input
+               }
+            }
+            func: {
+               type: Token
+               tokenType: bareword
+               text: submit
+            }
+            args: [
+               [
+                  {
+                     condition: {
+                        type: BinaryExp
+                        a: {
+                           type: ElemFunc
+                           elem: {
+                              type: ArrayAt
+                              array: this
+                              index: value
+                           }
+                           func: {
+                              type: Token
+                              tokenType: bareword
+                              text: length
+                           }
+                        }
+                        b: 8
+                        op: <
+                     }
+                     body: [
+                        {
+                           type: Call
+                           name: {
+                              type: Token
+                              tokenType: bareword
+                              text: p
+                           }
+                           args: [
+                              Your password sucks
+                           ]
+                        }
+                     ]
+                  }
+                  {
+                     body: [
+                        {
+                           type: Call
+                           name: {
+                              type: Token
+                              tokenType: script
+                           }
+                           args: [
+                              alert("Hooray!");
+                           ]
+                        }
+                     ]
+                  }
+               ]
+            ]
+         }
+      ]
+   }
+]

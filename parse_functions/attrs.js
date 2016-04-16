@@ -39,14 +39,13 @@ let parseAttr = p => {
     return new Attr(token, key, value);
 };
 
-// Returns array, not block object
+// Returns block
 module.exports = ( p ) => {
-    // Circular dependency issues
-    let parseChildBlock = require("./childblock");
 
     p.matchLog(`Matching Attrs`);
 
     let attrStarts = ["stringlit", ...p.builtins, "bareword"];
+    let token = p.next;
 
     if( p.atBlock() ){
         // We expect only an array, not a block
@@ -62,16 +61,17 @@ module.exports = ( p ) => {
 
         p.match("dedent");
 
-        return attrs;
+        return new Block( token, attrs );
     }
     else if ( p.at(attrStarts) ){
         let attrs = [ parseAttr( p ) ];
+
         while( p.at(attrStarts) ) {
             attrs.push( parseAttr( p ) );
         }
-        return attrs;
+        return new Block( token, attrs );
     }
     else{
-        return [];
+        return new Block( token, []);
     }
 };

@@ -1,11 +1,12 @@
 'use strict';
 
 let Entity = require("./entity");
-let Call = require("./Call");
+let Block = require("./block");
+let Call = require("./call");
 
 module.exports = class ElemFunc extends Call{
     constructor( token, elem, func, args ) {
-        super(token, func, [], args);
+        super(token, func, new Block( token, []), args);
         this.elem = elem;
     }
     get func(){
@@ -23,6 +24,6 @@ module.exports = class ElemFunc extends Call{
         if(this.args) {
             strArr.push(`args: ${this.args.toString(indentLevel + indent, indent)}`);
         }
-        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
+        return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
 };
