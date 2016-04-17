@@ -194,7 +194,8 @@
    {
       "type": "stringlit",
       "line": 9,
-      "column": 19
+      "column": 19,
+      "text": ""
    },
    {
       "type": "newline",
@@ -1741,6 +1742,16 @@
       "line": 52,
       "column": 28,
       "text": "3"
+   },
+   {
+      "type": "newline",
+      "line": 52,
+      "column": 29
+   },
+   {
+      "type": "dedent",
+      "line": 52,
+      "column": 29
    },
    {
       "type": "EOF",

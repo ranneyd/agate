@@ -3,12 +3,12 @@
       "type": "template",
       "line": 1,
       "column": 1,
-      "text": "template.agate"
+      "text": "templates/template.agate"
    },
    {
       "type": "newline",
       "line": 1,
-      "column": 17
+      "column": 27
    },
    {
       "type": "indent",
@@ -18,8 +18,7 @@
    {
       "type": "openCurly",
       "line": 2,
-      "column": 5,
-      "text": false
+      "column": 5
    },
    {
       "type": "bareword",
@@ -30,8 +29,7 @@
    {
       "type": "closeCurly",
       "line": 2,
-      "column": 11,
-      "text": false
+      "column": 11
    },
    {
       "type": "newline",
@@ -62,8 +60,7 @@
    {
       "type": "openCurly",
       "line": 4,
-      "column": 5,
-      "text": false
+      "column": 5
    },
    {
       "type": "bareword",
@@ -74,8 +71,7 @@
    {
       "type": "closeCurly",
       "line": 4,
-      "column": 13,
-      "text": false
+      "column": 13
    },
    {
       "type": "newline",
@@ -106,8 +102,7 @@
    {
       "type": "openCurly",
       "line": 6,
-      "column": 5,
-      "text": false
+      "column": 5
    },
    {
       "type": "bareword",
@@ -118,8 +113,7 @@
    {
       "type": "closeCurly",
       "line": 6,
-      "column": 10,
-      "text": false
+      "column": 10
    },
    {
       "type": "newline",

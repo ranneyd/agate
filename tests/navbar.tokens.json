@@ -8,14 +8,12 @@
    {
       "type": "equals",
       "line": 1,
-      "column": 8,
-      "text": false
+      "column": 8
    },
    {
       "type": "openSquare",
       "line": 1,
-      "column": 10,
-      "text": false
+      "column": 10
    },
    {
       "type": "stringlit",
@@ -44,8 +42,7 @@
    {
       "type": "closeSquare",
       "line": 1,
-      "column": 42,
-      "text": false
+      "column": 42
    },
    {
       "type": "newline",
@@ -222,8 +219,7 @@
    {
       "type": "for",
       "line": 17,
-      "column": 5,
-      "text": false
+      "column": 5
    },
    {
       "type": "id",
@@ -234,8 +230,7 @@
    {
       "type": "in",
       "line": 17,
-      "column": 15,
-      "text": false
+      "column": 15
    },
    {
       "type": "id",
@@ -268,8 +263,7 @@
    {
       "type": "openSquare",
       "line": 18,
-      "column": 13,
-      "text": false
+      "column": 13
    },
    {
       "type": "bareword",
@@ -280,8 +274,7 @@
    {
       "type": "equals",
       "line": 18,
-      "column": 18,
-      "text": false
+      "column": 18
    },
    {
       "type": "stringlit",
@@ -320,20 +313,17 @@
    {
       "type": "equals",
       "line": 18,
-      "column": 40,
-      "text": false
+      "column": 40
    },
    {
       "type": "openParen",
       "line": 18,
-      "column": 41,
-      "text": false
+      "column": 41
    },
    {
       "type": "openParen",
       "line": 18,
-      "column": 42,
-      "text": false
+      "column": 42
    },
    {
       "type": "id",
@@ -356,14 +346,12 @@
    {
       "type": "closeParen",
       "line": 18,
-      "column": 58,
-      "text": false
+      "column": 58
    },
    {
       "type": "question",
       "line": 18,
-      "column": 60,
-      "text": false
+      "column": 60
    },
    {
       "type": "stringlit",
@@ -374,8 +362,7 @@
    {
       "type": "colon",
       "line": 18,
-      "column": 69,
-      "text": false
+      "column": 69
    },
    {
       "type": "stringlit",
@@ -386,20 +373,33 @@
    {
       "type": "closeParen",
       "line": 18,
-      "column": 73,
-      "text": false
+      "column": 73
    },
    {
       "type": "closeSquare",
       "line": 18,
-      "column": 74,
-      "text": false
+      "column": 74
    },
    {
       "type": "id",
       "line": 18,
       "column": 76,
       "text": "page"
+   },
+   {
+      "type": "newline",
+      "line": 18,
+      "column": 81
+   },
+   {
+      "type": "dedent",
+      "line": 18,
+      "column": 81
+   },
+   {
+      "type": "dedent",
+      "line": 18,
+      "column": 81
    },
    {
       "type": "EOF",

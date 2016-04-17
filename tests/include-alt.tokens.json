@@ -35,8 +35,7 @@
    {
       "type": "include",
       "line": 3,
-      "column": 5,
-      "text": false
+      "column": 5
    },
    {
       "type": "stringlit",

@@ -37,6 +37,35 @@
                   tokenType: bareword
                   text: input
                }
+               attrs: [
+                  {
+                     type: Attr
+                     key: class
+                     value: [
+                        {
+                           type: Selector
+                           selectorType: class
+                           selector: mybutton
+                        }
+                     ]
+                  }
+                  {
+                     type: Attr
+                     key: id
+                     value: {
+                        type: Selector
+                        selectorType: HtmlId
+                        selector: pass
+                     }
+                  }
+                  [
+                     {
+                        type: Attr
+                        key: type
+                        value: password
+                     }
+                  ]
+               ]
             }
             func: {
                type: Token
@@ -72,6 +101,15 @@
                               tokenType: bareword
                               text: p
                            }
+                           attrs: [
+                              [
+                                 {
+                                    type: Attr
+                                    key: style
+                                    value: color:red; background-color:cyan
+                                 }
+                              ]
+                           ]
                            args: [
                               Your password sucks
                            ]

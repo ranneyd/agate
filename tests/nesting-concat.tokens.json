@@ -62,8 +62,7 @@
    {
       "type": "equals",
       "line": 4,
-      "column": 11,
-      "text": false
+      "column": 11
    },
    {
       "type": "stringlit",
@@ -97,8 +96,7 @@
    {
       "type": "openSquare",
       "line": 5,
-      "column": 13,
-      "text": false
+      "column": 13
    },
    {
       "type": "bareword",
@@ -109,8 +107,7 @@
    {
       "type": "equals",
       "line": 5,
-      "column": 18,
-      "text": false
+      "column": 18
    },
    {
       "type": "stringlit",
@@ -143,14 +140,12 @@
    {
       "type": "closeSquare",
       "line": 5,
-      "column": 36,
-      "text": false
+      "column": 36
    },
    {
       "type": "openParen",
       "line": 5,
-      "column": 37,
-      "text": false
+      "column": 37
    },
    {
       "type": "bareword",
@@ -161,8 +156,7 @@
    {
       "type": "openParen",
       "line": 5,
-      "column": 44,
-      "text": false
+      "column": 44
    },
    {
       "type": "stringlit",
@@ -173,8 +167,7 @@
    {
       "type": "closeParen",
       "line": 5,
-      "column": 51,
-      "text": false
+      "column": 51
    },
    {
       "type": "stringlit",
@@ -185,8 +178,7 @@
    {
       "type": "closeParen",
       "line": 5,
-      "column": 60,
-      "text": false
+      "column": 60
    },
    {
       "type": "stringlit",
@@ -220,8 +212,7 @@
    {
       "type": "openSquare",
       "line": 6,
-      "column": 14,
-      "text": false
+      "column": 14
    },
    {
       "type": "bareword",
@@ -232,8 +223,7 @@
    {
       "type": "equals",
       "line": 6,
-      "column": 19,
-      "text": false
+      "column": 19
    },
    {
       "type": "stringlit",
@@ -266,14 +256,12 @@
    {
       "type": "closeSquare",
       "line": 6,
-      "column": 37,
-      "text": false
+      "column": 37
    },
    {
       "type": "openParen",
       "line": 6,
-      "column": 39,
-      "text": false
+      "column": 39
    },
    {
       "type": "bareword",
@@ -290,8 +278,7 @@
    {
       "type": "closeParen",
       "line": 6,
-      "column": 55,
-      "text": false
+      "column": 55
    },
    {
       "type": "stringlit",
@@ -320,6 +307,16 @@
       "line": 6,
       "column": 75,
       "text": ".html"
+   },
+   {
+      "type": "newline",
+      "line": 6,
+      "column": 82
+   },
+   {
+      "type": "dedent",
+      "line": 6,
+      "column": 82
    },
    {
       "type": "EOF",

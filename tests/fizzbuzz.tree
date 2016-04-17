@@ -29,7 +29,7 @@
          {
             type: Assignment
             lhs: @str
-            rhs: undefined
+            rhs: 
          }
          [
             {
@@ -80,7 +80,7 @@
                condition: {
                   type: BinaryExp
                   a: @str
-                  b: undefined
+                  b: 
                   op: ==
                }
                body: [

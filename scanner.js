@@ -215,7 +215,8 @@ module.exports = (data, error, verbose) => {
                 "line": line,
                 "column": column
             };
-            if (text !== undefined) {
+            // We want to capture "", 0, other things that evaluate to false
+            if (text !== undefined && text !== false) {
                 ourToken.text = text;
             }
             return ourToken;

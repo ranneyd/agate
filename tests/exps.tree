@@ -83,7 +83,7 @@
          {
             type: Assignment
             lhs: @teststring
-            rhs: undefined
+            rhs: 
          }
          {
             type: Assignment

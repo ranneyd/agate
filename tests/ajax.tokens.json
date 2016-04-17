@@ -352,6 +352,41 @@
       "column": 41
    },
    {
+      "type": "newline",
+      "line": 13,
+      "column": 42
+   },
+   {
+      "type": "dedent",
+      "line": 13,
+      "column": 42
+   },
+   {
+      "type": "dedent",
+      "line": 13,
+      "column": 42
+   },
+   {
+      "type": "dedent",
+      "line": 13,
+      "column": 42
+   },
+   {
+      "type": "dedent",
+      "line": 13,
+      "column": 42
+   },
+   {
+      "type": "dedent",
+      "line": 13,
+      "column": 42
+   },
+   {
+      "type": "dedent",
+      "line": 13,
+      "column": 42
+   },
+   {
       "type": "EOF",
       "line": 13,
       "column": 42

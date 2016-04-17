@@ -274,6 +274,31 @@
       "text": "alert(\"Hooray!\");"
    },
    {
+      "type": "newline",
+      "line": 9,
+      "column": 34
+   },
+   {
+      "type": "dedent",
+      "line": 9,
+      "column": 34
+   },
+   {
+      "type": "dedent",
+      "line": 9,
+      "column": 34
+   },
+   {
+      "type": "dedent",
+      "line": 9,
+      "column": 34
+   },
+   {
+      "type": "dedent",
+      "line": 9,
+      "column": 34
+   },
+   {
       "type": "EOF",
       "line": 9,
       "column": 34
