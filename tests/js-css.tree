@@ -44,6 +44,15 @@
                type: Token
                tokenType: script
             }
+            attrs: [
+               [
+                  {
+                     type: Attr
+                     key: src
+                     value: /js/main.js
+                  }
+               ]
+            ]
          }
          {
             type: Call

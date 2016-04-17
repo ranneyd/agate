@@ -2,6 +2,8 @@
 
 module.exports = p  => {
     let parseChildBlock = require("./childblock");
+    let parseBlock = require("./block");
+
     let scanner = require("../scanner.js");
     let fs = require("fs");
 
@@ -30,8 +32,8 @@ module.exports = p  => {
             // We're going to go through removing all the tokens until the block ends. There can be
             // indentation within the block so we'll keep track of that with indentLevel.
             let tokens = [];
-            let indentLevel = 1;
-            while(indentLevel){
+            let indentLevel = 0;
+            while(!p.atSequential(["newline", "dedent"]) || indentLevel ){
                 let token = p.pop();
                 p.log(`Stashed ${token.type}`);
                 p.log(`Tokens remaining: ${p.tokensLeft}`);
@@ -42,9 +44,11 @@ module.exports = p  => {
                 if(token.type === "dedent"){
                     indentLevel--;
                 }
-
                 tokens.push(token);
             }
+
+            p.match("newline");
+            p.match("dedent");
 
             p.storeLabel(label, tokens);
         }

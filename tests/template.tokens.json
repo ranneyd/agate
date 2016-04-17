@@ -24,7 +24,8 @@
    {
       "type": "openCurly",
       "line": 2,
-      "column": 11
+      "column": 11,
+      "text": false
    },
    {
       "type": "bareword",
@@ -35,7 +36,8 @@
    {
       "type": "closeCurly",
       "line": 2,
-      "column": 17
+      "column": 17,
+      "text": false
    },
    {
       "type": "newline",
@@ -130,7 +132,8 @@
    {
       "type": "openCurly",
       "line": 9,
-      "column": 8
+      "column": 8,
+      "text": false
    },
    {
       "type": "bareword",
@@ -141,7 +144,8 @@
    {
       "type": "closeCurly",
       "line": 9,
-      "column": 16
+      "column": 16,
+      "text": false
    },
    {
       "type": "newline",
@@ -151,13 +155,14 @@
    {
       "type": "include",
       "line": 10,
-      "column": 5
+      "column": 5,
+      "text": false
    },
    {
       "type": "stringlit",
       "line": 10,
       "column": 13,
-      "text": "\"navbar.agate\""
+      "text": "navbar.agate"
    },
    {
       "type": "newline",
@@ -172,7 +177,8 @@
    {
       "type": "openCurly",
       "line": 12,
-      "column": 5
+      "column": 5,
+      "text": false
    },
    {
       "type": "bareword",
@@ -183,7 +189,8 @@
    {
       "type": "closeCurly",
       "line": 12,
-      "column": 10
+      "column": 10,
+      "text": false
    },
    {
       "type": "newline",
@@ -204,7 +211,8 @@
    {
       "type": "openSquare",
       "line": 14,
-      "column": 8
+      "column": 8,
+      "text": false
    },
    {
       "type": "style",
@@ -214,18 +222,20 @@
    {
       "type": "equals",
       "line": 14,
-      "column": 14
+      "column": 14,
+      "text": false
    },
    {
       "type": "stringlit",
       "line": 14,
       "column": 15,
-      "text": "\"position:fixed;  height:100px;  bottom:0px;  width:100%;\""
+      "text": "position:fixed;\r height:100px;  bottom:0px;  width:100%;\""
    },
    {
       "type": "closeSquare",
       "line": 17,
-      "column": 28
+      "column": 28,
+      "text": false
    },
    {
       "type": "newline",
@@ -247,7 +257,7 @@
       "type": "stringlit",
       "line": 18,
       "column": 11,
-      "text": "\"This is our footer\""
+      "text": "This is our footer"
    },
    {
       "type": "newline",
@@ -261,6 +271,11 @@
    },
    {
       "type": "dedent",
+      "line": 19,
+      "column": 1
+   },
+   {
+      "type": "newline",
       "line": 19,
       "column": 1
    },

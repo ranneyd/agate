@@ -194,7 +194,7 @@ module.exports = ( p ) => {
             continue;
         }
 
-        // There should be at least one, or an EOF
+        // There should be at least one, or an EOF or a dedent
         while(p.at("newline")) {
             p.match("newline");
         }

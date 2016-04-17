@@ -310,6 +310,21 @@
       "text": "alert(\"Should be fine right?\");"
    },
    {
+      "type": "newline",
+      "line": 21,
+      "column": 40
+   },
+   {
+      "type": "dedent",
+      "line": 21,
+      "column": 40
+   },
+   {
+      "type": "dedent",
+      "line": 21,
+      "column": 40
+   },
+   {
       "type": "EOF",
       "line": 21,
       "column": 40
