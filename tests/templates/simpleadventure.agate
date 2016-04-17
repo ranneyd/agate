@@ -13,7 +13,7 @@ def cleanup()
             @child~remove
 
 head
-    title @config{title}
+    title @config[title]
     style[type="text/css"]
         #body{
             position: absolute;
@@ -44,7 +44,7 @@ head
             color: #F5F5F5;
             padding:10px;
             font-size: 35px;
-            -webkit-transition: top .5s; 
+            -webkit-transition: top .5s;
             transition: top .5s;
             cursor:pointer;
         }
@@ -139,7 +139,7 @@ def processScene( @scene )
             #narration~show
         else
             #narration~hide
-        
+
         for @object in @scene[objects]
             @noIfOrUnless = !@object["if"] and !@object[unless]
             @objectIf = @object["if"] and @stateBools[@object["if"]]
@@ -171,7 +171,7 @@ def processScene( @scene )
         img.object[src = './objects/${@scene[img]}' style=@imgStyle]
         @divStyle = 'max-height:${@height - @objHeight - 60}px; top:${@scene[height] or 500}px'
         div.convo[style = @divStyle]
-            p 
+            p
                 script
                     '${@scene[text]}'.replace(/\*(.+?)\*/, "<em>$1</em>").replace(/_(.+?)_/, "<strong>$1</strong>");
             ol
@@ -181,7 +181,7 @@ def processScene( @scene )
                     @objectUnless = @object[unless] and !@stateBools[@object[unless]]
 
                     if (@noIfOrUnless or @objectIf or @objectUnless)
-                        li 
+                        li
                             script
                                 '${@option[text]}'.replace(/\*(.+?)\*/, "<em>$1</em>").replace(/_(.+?)_/, "<strong>$1</strong>");
                         ~click
@@ -201,7 +201,7 @@ body
             ]
                 //! Empty, but not self-closing tag
         @stageStyle = 'width:${width}px; height:${height}px;'
-        @stageStyle += 'background-image:url("./scenes/${@scenes[0][img]}")' 
+        @stageStyle += 'background-image:url("./scenes/${@scenes[0][img]}")'
         div#stage[style = @stageStyle]
             h1 @config.title
             button#play "Play" ~click

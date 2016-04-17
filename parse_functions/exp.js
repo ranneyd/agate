@@ -116,10 +116,10 @@ let parseArrayElem = p => {
         let index;
         // barewords can be array keys
         if( p.atSequential(["bareword", "closeSquare"]) ) {
-            index = new Token(match("bareword"));
+            index = new Token(p.match("bareword"));
         }
         else {
-            index = parseTernary( p );
+            index = parseExp( p );
         }
         exp = new ArrayAt(open, exp, index);
 
@@ -154,13 +154,13 @@ let parseMisc = p => {
     }
     else if( p.at("openParen") ) {
         p.match("openParen");
-        let exp = parseTernary( p );
+        let exp = parseExp( p );
         p.match("closeParen");
         return exp;
     }
     else if( p.at(["prefixop", "minus"]) ) {
         let op = (p.at("prefixop") ? p.match("prefixop") : p.match("minus"));
-        return new UnaryExp( op, parseTernary( p ), op );
+        return new UnaryExp( op, parseExp( p ), op );
     }
     else if( p.at(["bareword", ...p.builtins])){
         return parseCall( p );
@@ -191,7 +191,7 @@ let parseString = p => {
         // cheating. We want to keep the line/column but we want it to be the right op
         interp.type = "plus";
 
-        let stringAndInter = new BinaryExp(interp, str, parseTernary( p ), interp );
+        let stringAndInter = new BinaryExp(interp, str, parseExp( p ), interp );
         interp = p.match("/interpolate");
         // more cheating
         interp.type = "plus";
@@ -206,9 +206,7 @@ let parseString = p => {
     return str;
 };
 
-module.exports = ( p ) => {
-    p.matchLog(`Matching Exp`);
-
+let parseExp = p =>{
     let parseInclude = require("./include");
     let parseLabel = require("./label");
 
@@ -219,4 +217,10 @@ module.exports = ( p ) => {
         parseLabel( p );
     }
     return parseTernary( p );
+}
+
+module.exports = ( p ) => {
+    p.matchLog(`Matching Exp`);
+
+    return parseExp( p );
 };

@@ -1,5 +1,5 @@
-| simpleadventure.agate
+| templates/simpleadventure.agate
     {path}
-        "./samplegame"
+        "samplegame"
     {config}
-        "./samplegame/make.json"
+        include "samplegame/make.json"

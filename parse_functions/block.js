@@ -72,7 +72,7 @@ let parseStatement = p => {
                     new BinaryExp( //rhs
                         op, // token
                         exp, // a
-                        p.parseExp(), // b
+                        parseExp( p ), // b
                         op // op
                     )
                 );
@@ -89,7 +89,7 @@ let parseStatement = p => {
                     new BinaryExp( //rhs
                         op, // token
                         exp, // a
-                        p.parseExp(), // b
+                        parseExp( p ), // b
                         op // op
                     )
                 );
