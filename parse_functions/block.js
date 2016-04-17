@@ -167,7 +167,18 @@ let parseFor = p =>{
     );
 }
 let parseWhile = p =>{
-    // TODO
+    let parseExp = require("./exp");
+    let parseChildBlock = require("./childBlock");
+
+    let whileToken = p.match('while');
+
+    let exp = parseExp( p );
+
+    return new While(
+        whileToken, // token
+        exp, // exp
+        parseChildBlock( p ) //body
+    );
 }
 module.exports = ( p ) => {
     p.matchLog(`Matching Block`);

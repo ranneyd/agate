@@ -13,7 +13,6 @@ let UnaryExp = require("../entities/unaryExp");
 
 let parseTernary = p => {
     let exp = parseBool( p );
-    // TODO: this does not work
     if( p.at("question") ) {
 
         let qToken = p.match("question");
