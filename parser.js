@@ -36,12 +36,13 @@ module.exports = class Parser{
         // Get the tokens out of our hash
         let labelTokens = this.labels[label.text];
         if(!labelTokens) {
-            this.error.parse( `Label '${label.text}' is not defined`, label);
-            return;
+            this.error.generic( `Label '${label.text}' is not defined`, label.line, label.column, true);
+            return false;
         }
 
         // Insert tokens right where we are
         this.tokens.splice(this.index, 0, ...labelTokens);
+        return true;
     }
     storeLabel(label, tokens){
         // If label already exists, we overwrite

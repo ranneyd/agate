@@ -197,6 +197,21 @@
       "text": "Another div"
    },
    {
+      "type": "newline",
+      "line": 12,
+      "column": 22
+   },
+   {
+      "type": "dedent",
+      "line": 12,
+      "column": 22
+   },
+   {
+      "type": "dedent",
+      "line": 12,
+      "column": 22
+   },
+   {
       "type": "EOF",
       "line": 12,
       "column": 22

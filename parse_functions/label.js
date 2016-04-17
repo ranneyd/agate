@@ -1,5 +1,7 @@
 'use strict';
 
+let Literal = require("../entities/literal")
+
 module.exports = ( p ) => {
     p.matchLog(`Matching Label`);
 
@@ -7,5 +9,12 @@ module.exports = ( p ) => {
     let label = p.match("bareword");
     p.match("closeCurly");
 
-    p.insertLabel( label );
+    if(!p.insertLabel( label )){
+        return new Literal({
+            type: "stringlit",
+            text: "",
+            line: label.line,
+            column: label.column
+        })
+    }
 };

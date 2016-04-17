@@ -17,7 +17,6 @@ let For = require("../entities/for");
 let HashMap = require("../entities/hashMap");
 let Id = require("../entities/id");
 let If = require("../entities/if");
-let include = require("../entities/include");
 let Iterable = require("../entities/iterable");
 let Label = require("../entities/label");
 let Literal = require("../entities/literal");
@@ -25,7 +24,6 @@ let Program = require("../entities/program");
 let Return = require("../entities/return");
 let Selector = require("../entities/selector");
 let SpecialBlock = require("../entities/specialblock");
-let template = require("../entities/template");
 let This = require("../entities/this");
 let Token = require("../entities/token");
 let UnaryExp = require("../entities/unaryExp");
@@ -2115,12 +2113,3 @@ describe('While', function() {
         });
     });
 });
-
-
-// describe('Include', function() {
-//     describe('constructor', function () {
-//         it('should construct', function () {
-//             assert.deepStrictEqual(include("../tests/helloworld.agate"), id, "body");
-//         });
-//     });
-// });
