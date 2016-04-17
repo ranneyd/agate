@@ -18,7 +18,8 @@
    {
       "type": "openCurly",
       "line": 2,
-      "column": 5
+      "column": 5,
+      "text": false
    },
    {
       "type": "bareword",
@@ -29,7 +30,8 @@
    {
       "type": "closeCurly",
       "line": 2,
-      "column": 11
+      "column": 11,
+      "text": false
    },
    {
       "type": "newline",
@@ -45,7 +47,7 @@
       "type": "stringlit",
       "line": 3,
       "column": 9,
-      "text": "\"Templating demo\""
+      "text": "Templating demo"
    },
    {
       "type": "newline",
@@ -60,7 +62,8 @@
    {
       "type": "openCurly",
       "line": 4,
-      "column": 5
+      "column": 5,
+      "text": false
    },
    {
       "type": "bareword",
@@ -71,7 +74,8 @@
    {
       "type": "closeCurly",
       "line": 4,
-      "column": 13
+      "column": 13,
+      "text": false
    },
    {
       "type": "newline",
@@ -87,7 +91,7 @@
       "type": "stringlit",
       "line": 5,
       "column": 9,
-      "text": "\"Our header\""
+      "text": "Our header"
    },
    {
       "type": "newline",
@@ -102,7 +106,8 @@
    {
       "type": "openCurly",
       "line": 6,
-      "column": 5
+      "column": 5,
+      "text": false
    },
    {
       "type": "bareword",
@@ -113,7 +118,8 @@
    {
       "type": "closeCurly",
       "line": 6,
-      "column": 10
+      "column": 10,
+      "text": false
    },
    {
       "type": "newline",
@@ -135,7 +141,7 @@
       "type": "stringlit",
       "line": 7,
       "column": 11,
-      "text": "\"Our template is generalized so we can fill in all these values in separate modules.\""
+      "text": "Our template is generalized so we can fill in all these values in separate modules."
    },
    {
       "type": "newline",
@@ -149,6 +155,11 @@
    },
    {
       "type": "dedent",
+      "line": 8,
+      "column": 1
+   },
+   {
+      "type": "newline",
       "line": 8,
       "column": 1
    },

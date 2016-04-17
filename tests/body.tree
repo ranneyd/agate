@@ -1,0 +1,35 @@
+[
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: head
+      }
+      args: [
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: bareword
+               text: title
+            }
+            args: [
+               Templating demo
+            ]
+         }
+      ]
+   }
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: style
+      }
+      args: [
+         h1{
+             font-size:30px;
+         }
+      ]
+   }
+]

@@ -3,9 +3,9 @@
 module.exports = ( p ) => {
     p.matchLog(`Matching Label`);
 
-    p.match("{");
+    p.match("openCurly");
     let label = p.match("bareword");
-    p.match("}");
+    p.match("closeCurly");
 
     p.insertLabel( label );
 };

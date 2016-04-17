@@ -16,11 +16,4 @@ module.exports = class Program extends Entity{
         // this.body.analyze( new Env() );
         // this.safe = this.body.safe;
     }
-    static parse( parser ) {
-        parser.matchLog(`Matching ${this.constructor.name}`);
-        
-        let tree = Block.parse( parser );
-        parser.match("EOF");
-        return tree;
-    }
 };

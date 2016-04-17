@@ -33,12 +33,17 @@ module.exports = p  => {
             let indentLevel = 1;
             while(indentLevel){
                 let token = p.pop();
+                p.log(`Stashed ${token.type}`);
+                p.log(`Tokens remaining: ${p.tokensLeft}`);
+
                 if(token.type === "indent") {
                     indentLevel++;
                 }
                 if(token.type === "dedent"){
                     indentLevel--;
                 }
+
+                tokens.push(token);
             }
 
             p.storeLabel(label, tokens);
