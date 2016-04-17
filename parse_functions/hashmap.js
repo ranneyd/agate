@@ -14,5 +14,5 @@ module.exports = ( p ) => {
 
     p.match("closeCurly");
 
-    return new HashMap(bracket, attrs);
+    return attrs;
 };

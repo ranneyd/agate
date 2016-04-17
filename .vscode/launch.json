@@ -7,7 +7,7 @@
 			"request": "launch",
 			"program": "${workspaceRoot}/agate.js",
 			"stopOnEntry": false,
-			"args": ["-t", "-p", "./tests/fib.agate"],
+			"args": ["-t", "-p", "./tests/ajax.agate"],
 			"cwd": "${workspaceRoot}",
 			"preLaunchTask": null,
 			"runtimeExecutable": null,

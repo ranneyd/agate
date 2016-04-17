@@ -2,7 +2,7 @@
 
 // Entities
 let Attr = require("../entities/attr");
-let Block = require("../entities/block");
+let HashMap = require("../entities/hashMap");
 
 let parseAttr = p => {
     let parseExp = require("./exp");
@@ -61,7 +61,7 @@ module.exports = ( p ) => {
 
         p.match("dedent");
 
-        return new Block( token, attrs );
+        return new HashMap( token, attrs );
     }
     else if ( p.at(attrStarts) ){
         let attrs = [ parseAttr( p ) ];
@@ -69,9 +69,9 @@ module.exports = ( p ) => {
         while( p.at(attrStarts) ) {
             attrs.push( parseAttr( p ) );
         }
-        return new Block( token, attrs );
+        return new HashMap( token, attrs );
     }
     else{
-        return new Block( token, []);
+        return new HashMap( token, []);
     }
 };
