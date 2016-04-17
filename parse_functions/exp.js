@@ -209,12 +209,13 @@ let parseString = p => {
 let parseExp = p =>{
     let parseInclude = require("./include");
     let parseLabel = require("./label");
-
-    if( p.at("include") ) {
-        parseInclude( p );
-    }
-    if( p.atLabel() ) {
-        parseLabel( p );
+    while(p.at("include") || p.atLabel()) {
+        if( p.at("include") ) {
+            parseInclude( p );
+        }
+        if( p.atLabel() ) {
+            parseLabel( p );
+        }
     }
     return parseTernary( p );
 }

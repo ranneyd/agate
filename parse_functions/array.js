@@ -45,7 +45,7 @@ module.exports = ( p ) => {
             }
         }
         else if( p.at("newline") ) {
-            elems = parseChildBlock( p );
+            elems = parseChildBlock( p ).statements;
         }
         else {
             elems = [];

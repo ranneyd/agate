@@ -56,7 +56,7 @@ let parseStatement = p => {
                     new BinaryExp( //rhs
                         op, // token
                         exp, // a
-                        p.parseExp(), // b
+                        parseExp( p ), // b
                         op // op
                     )
                 );
@@ -193,7 +193,10 @@ module.exports = ( p ) => {
             // restart
             continue;
         }
-
+        // Since a lot of things use block, and some of them are JSON related, we'll allow commas
+        if(p.at("comma")) {
+            p.match("comma");
+        }
         // There should be at least one, or an EOF or a dedent
         while(p.at("newline")) {
             p.match("newline");

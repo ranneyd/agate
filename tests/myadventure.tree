@@ -1,0 +1,2875 @@
+[
+   {
+      type: Assignment
+      lhs: @config
+      rhs: [
+         {
+            type: Attr
+            key: title
+            value: Sample Kanye Adventure!
+         }
+         {
+            type: Attr
+            key: width
+            value: 1280
+         }
+         {
+            type: Attr
+            key: height
+            value: 1024
+         }
+         {
+            type: Attr
+            key: music
+            value: kanye.mp3
+         }
+         {
+            type: Attr
+            key: scenes
+            value: [
+               [
+                  {
+                     type: Attr
+                     key: id
+                     value: room
+                  }
+                  {
+                     type: Attr
+                     key: type
+                     value: location
+                  }
+                  {
+                     type: Attr
+                     key: img
+                     value: room.jpg
+                  }
+                  {
+                     type: Attr
+                     key: music
+                     value: kanye.mp3
+                  }
+                  {
+                     type: Attr
+                     key: text
+                     value: You are in your home. _Kanye West_ is here. As awesome as that sounds, you have things you need to do today...
+                  }
+                  {
+                     type: Attr
+                     key: objects
+                     value: [
+                        [
+                           {
+                              type: Attr
+                              key: img
+                              value: kanye.gif
+                           }
+                           {
+                              type: Attr
+                              key: x
+                              value: 200
+                           }
+                           {
+                              type: Attr
+                              key: y
+                              value: 250
+                           }
+                           {
+                              type: Attr
+                              key: width
+                              value: 300
+                           }
+                           {
+                              type: Attr
+                              key: click
+                              value: kanyeBegin
+                           }
+                        ]
+                        [
+                           {
+                              type: Attr
+                              key: img
+                              value: right.png
+                           }
+                           {
+                              type: Attr
+                              key: x
+                              value: 1050
+                           }
+                           {
+                              type: Attr
+                              key: y
+                              value: 400
+                           }
+                           {
+                              type: Attr
+                              key: width
+                              value: 200
+                           }
+                           {
+                              type: Attr
+                              key: click
+                              value: beach
+                           }
+                        ]
+                     ]
+                  }
+               ]
+               [
+                  {
+                     type: Attr
+                     key: id
+                     value: kanyeBegin
+                  }
+                  {
+                     type: Attr
+                     key: type
+                     value: convo
+                  }
+                  {
+                     type: Attr
+                     key: img
+                     value: kanye.gif
+                  }
+                  {
+                     type: Attr
+                     key: height
+                     value: 543
+                  }
+                  {
+                     type: Attr
+                     key: width
+                     value: 402
+                  }
+                  {
+                     type: Attr
+                     key: music
+                     value: skinhead.mp3
+                  }
+                  {
+                     type: Attr
+                     key: text
+                     value: I am Kanye West, the greatest rapper of all time. Do you agree?
+                  }
+                  {
+                     type: Attr
+                     key: options
+                     value: [
+                        [
+                           {
+                              type: Attr
+                              key: text
+                              value: Of course. Haven't you listened to My Beautiful Dark Twisted Fantasy?
+                           }
+                           {
+                              type: Attr
+                              key: result
+                              value: kanyeAgree
+                           }
+                        ]
+                        [
+                           {
+                              type: Attr
+                              key: text
+                              value: No
+                           }
+                           {
+                              type: Attr
+                              key: result
+                              value: kanyeStupid
+                           }
+                        ]
+                        [
+                           {
+                              type: Attr
+                              key: if
+                              value: pablo
+                           }
+                           {
+                              type: Attr
+                              key: text
+                              value: Hey, is this your album?
+                           }
+                           {
+                              type: Attr
+                              key: result
+                              value: kanyePablo
+                           }
+                        ]
+                        [
+                           {
+                              type: Attr
+                              key: text
+                              value: *Ignore him*
+                           }
+                           {
+                              type: Attr
+                              key: result
+                              value: room
+                           }
+                        ]
+                     ]
+                  }
+               ]
+               [
+                  {
+                     type: Attr
+                     key: id
+                     value: kanyeAgree
+                  }
+                  {
+                     type: Attr
+                     key: type
+                     value: convo
+                  }
+                  {
+                     type: Attr
+                     key: img
+                     value: kanye.gif
+                  }
+                  {
+                     type: Attr
+                     key: height
+                     value: 543
+                  }
+                  {
+                     type: Attr
+                     key: width
+                     value: 402
+                  }
+                  {
+                     type: Attr
+                     key: text
+                     value: Finally, someone understands
+                  }
+                  {
+                     type: Attr
+                     key: options
+                     value: [
+                        [
+                           {
+                              type: Attr
+                              key: text
+                              value: Leave
+                           }
+                           {
+                              type: Attr
+                              key: result
+                              value: room
+                           }
+                        ]
+                     ]
+                  }
+               ]
+               [
+                  {
+                     type: Attr
+                     key: id
+                     value: kanyeStupid
+                  }
+                  {
+                     type: Attr
+                     key: type
+                     value: convo
+                  }
+                  {
+                     type: Attr
+                     key: img
+                     value: kanye.gif
+                  }
+                  {
+                     type: Attr
+                     key: height
+                     value: 543
+                  }
+                  {
+                     type: Attr
+                     key: width
+                     value: 402
+                  }
+                  {
+                     type: Attr
+                     key: text
+                     value: Are you stupid?!?!?! I'm the greatest rapper _OF ALL TIME_
+                  }
+                  {
+                     type: Attr
+                     key: options
+                     value: [
+                        [
+                           {
+                              type: Attr
+                              key: text
+                              value: ok...
+                           }
+                           {
+                              type: Attr
+                              key: result
+                              value: kanyeBegin
+                           }
+                        ]
+                     ]
+                  }
+               ]
+               [
+                  {
+                     type: Attr
+                     key: id
+                     value: kanyePablo
+                  }
+                  {
+                     type: Attr
+                     key: type
+                     value: convo
+                  }
+                  {
+                     type: Attr
+                     key: img
+                     value: kanye.gif
+                  }
+                  {
+                     type: Attr
+                     key: height
+                     value: 543
+                  }
+                  {
+                     type: Attr
+                     key: width
+                     value: 402
+                  }
+                  {
+                     type: Attr
+                     key: text
+                     value: THAT'S MY LATEST ALBUM! ISN'T IT AMAZING?!?!
+                  }
+                  {
+                     type: Attr
+                     key: options
+                     value: [
+                        [
+                           {
+                              type: Attr
+                              key: text
+                              value: Yeah dude it's genius
+                           }
+                           {
+                              type: Attr
+                              key: result
+                              value: kanyeThanks
+                           }
+                        ]
+                        [
+                           {
+                              type: Attr
+                              key: text
+                              value: I don't know, man, it's not My Beautiful Dark Twisted Fantasy...
+                           }
+                           {
+                              type: Attr
+                              key: result
+                              value: kanyeStupid
+                           }
+                        ]
+                        [
+                           {
+                              type: Attr
+                              key: text
+                              value: *Ignore him*
+                           }
+                           {
+                              type: Attr
+                              key: result
+                              value: room
+                           }
+                        ]
+                     ]
+                  }
+               ]
+               [
+                  {
+                     type: Attr
+                     key: id
+                     value: kanyeThanks
+                  }
+                  {
+                     type: Attr
+                     key: type
+                     value: convo
+                  }
+                  {
+                     type: Attr
+                     key: img
+                     value: kanye.gif
+                  }
+                  {
+                     type: Attr
+                     key: height
+                     value: 543
+                  }
+                  {
+                     type: Attr
+                     key: width
+                     value: 402
+                  }
+                  {
+                     type: Attr
+                     key: text
+                     value: Thank you for understanding my processes.
+                  }
+                  {
+                     type: Attr
+                     key: options
+                     value: [
+                        [
+                           {
+                              type: Attr
+                              key: text
+                              value: No problem bro
+                           }
+                           {
+                              type: Attr
+                              key: result
+                              value: room
+                           }
+                        ]
+                     ]
+                  }
+               ]
+               [
+                  {
+                     type: Attr
+                     key: id
+                     value: beach
+                  }
+                  {
+                     type: Attr
+                     key: type
+                     value: location
+                  }
+                  {
+                     type: Attr
+                     key: img
+                     value: beach.jpg
+                  }
+                  {
+                     type: Attr
+                     key: text
+                     value: You end up in a beach somehow.
+                  }
+                  {
+                     type: Attr
+                     key: objects
+                     value: [
+                        [
+                           {
+                              type: Attr
+                              key: unless
+                              value: pablo
+                           }
+                           {
+                              type: Attr
+                              key: img
+                              value: pablo.jpg
+                           }
+                           {
+                              type: Attr
+                              key: x
+                              value: 700
+                           }
+                           {
+                              type: Attr
+                              key: y
+                              value: 700
+                           }
+                           {
+                              type: Attr
+                              key: width
+                              value: 200
+                           }
+                           {
+                              type: Attr
+                              key: click
+                              value: pablo
+                           }
+                        ]
+                        [
+                           {
+                              type: Attr
+                              key: img
+                              value: left.png
+                           }
+                           {
+                              type: Attr
+                              key: x
+                              value: 30
+                           }
+                           {
+                              type: Attr
+                              key: y
+                              value: 400
+                           }
+                           {
+                              type: Attr
+                              key: width
+                              value: 200
+                           }
+                           {
+                              type: Attr
+                              key: click
+                              value: room
+                           }
+                        ]
+                     ]
+                  }
+               ]
+               [
+                  {
+                     type: Attr
+                     key: id
+                     value: pablo
+                  }
+                  {
+                     type: Attr
+                     key: type
+                     value: convo
+                  }
+                  {
+                     type: Attr
+                     key: img
+                     value: pablo.jpg
+                  }
+                  {
+                     type: Attr
+                     key: height
+                     value: 500
+                  }
+                  {
+                     type: Attr
+                     key: width
+                     value: 500
+                  }
+                  {
+                     type: Attr
+                     key: text
+                     value: It's Kanye's new album, \"The Life of Pablo\". What do you do with it?
+                  }
+                  {
+                     type: Attr
+                     key: options
+                     value: [
+                        [
+                           {
+                              type: Attr
+                              key: text
+                              value: Take it
+                           }
+                           {
+                              type: Attr
+                              key: setTrue
+                              value: pablo
+                           }
+                           {
+                              type: Attr
+                              key: result
+                              value: beach
+                           }
+                        ]
+                        [
+                           {
+                              type: Attr
+                              key: text
+                              value: Leave it
+                           }
+                           {
+                              type: Attr
+                              key: result
+                              value: beach
+                           }
+                        ]
+                     ]
+                  }
+               ]
+            ]
+         }
+      ]
+   }
+   {
+      type: Assignment
+      lhs: @path
+      rhs: samplegame
+   }
+   {
+      type: Assignment
+      lhs: @width
+      rhs: {
+         type: BinaryExp
+         a: {
+            type: ArrayAt
+            array: @config
+            index: {
+               type: Token
+               tokenType: bareword
+               text: width
+            }
+         }
+         b: 1280
+         op: or
+      }
+   }
+   {
+      type: Assignment
+      lhs: @height
+      rhs: {
+         type: BinaryExp
+         a: {
+            type: ArrayAt
+            array: @config
+            index: {
+               type: Token
+               tokenType: bareword
+               text: height
+            }
+         }
+         b: 1024
+         op: or
+      }
+   }
+   {
+      type: Assignment
+      lhs: @scenes
+      rhs: {
+         type: ArrayAt
+         array: @config
+         index: {
+            type: Token
+            tokenType: bareword
+            text: scenes
+         }
+      }
+   }
+   {
+      type: Assignment
+      lhs: @stateBools
+      rhs: [
+      ]
+   }
+   {
+      type: Def
+      name: {
+         type: Token
+         tokenType: bareword
+         text: cleanup
+      }
+      body: [
+         {
+            type: Assignment
+            lhs: @children
+            rhs: {
+               type: ElemFunc
+               elem: {
+                  type: Selector
+                  selectorType: HtmlId
+                  selector: stage
+               }
+               func: {
+                  type: Token
+                  tokenType: bareword
+                  text: getChildren
+               }
+            }
+         }
+         {
+            type: For
+            id: @child
+            iterable: @children
+            body: [
+               [
+                  {
+                     condition: {
+                        type: BinaryExp
+                        a: {
+                           type: BinaryExp
+                           a: {
+                              type: BinaryExp
+                              a: {
+                                 type: ArrayAt
+                                 array: @child
+                                 index: {
+                                    type: Token
+                                    tokenType: bareword
+                                    text: type
+                                 }
+                              }
+                              b: img
+                              op: ==
+                           }
+                           b: {
+                              type: ElemFunc
+                              elem: @child
+                              func: {
+                                 type: Token
+                                 tokenType: bareword
+                                 text: hasClass
+                              }
+                              args: [
+                                 blur
+                              ]
+                           }
+                           op: or
+                        }
+                        b: {
+                           type: ElemFunc
+                           elem: @child
+                           func: {
+                              type: Token
+                              tokenType: bareword
+                              text: hasClass
+                           }
+                           args: [
+                              convo
+                           ]
+                        }
+                        op: or
+                     }
+                     body: [
+                        {
+                           type: ElemFunc
+                           elem: @child
+                           func: {
+                              type: Token
+                              tokenType: bareword
+                              text: remove
+                           }
+                        }
+                     ]
+                  }
+               ]
+            ]
+         }
+      ]
+   }
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: head
+      }
+      args: [
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: bareword
+               text: title
+            }
+            args: [
+               {
+                  type: ArrayAt
+                  array: @config
+                  index: {
+                     type: Token
+                     tokenType: bareword
+                     text: title
+                  }
+               }
+            ]
+         }
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: style
+            }
+            attrs: [
+               [
+                  {
+                     type: Attr
+                     key: type
+                     value: text/css
+                  }
+               ]
+            ]
+            args: [
+               #body{
+                   position: absolute;
+                   top:0px;
+                   left:0px;
+                   height:100%;
+                   width:100%;
+                   background-color: #F5F5F5;
+                   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+                   text-align: center;
+               }
+               #stage{
+                   position: relative;
+                   display: inline-block;
+                   background-color: #F5F5F5;
+                   background-repeat: no-repeat;
+               }
+               #narration{
+                   position: absolute;
+                   top:0px;
+                   left:20%;
+                   width:60%;
+                   height:120px;
+                   overflow: auto;
+                   border-radius: 10px;
+                   border: 15px solid #F5F5F5;
+                   background-color: #6991AC;
+                   color: #F5F5F5;
+                   padding:10px;
+                   font-size: 35px;
+                   -webkit-transition: top .5s;
+                   transition: top .5s;
+                   cursor:pointer;
+               }
+               .blur {
+                   -webkit-filter: blur(10px);
+                   filter: blur(10px);
+                   position: absolute;
+                   top:0;
+                   left:0;
+                   width: 100%;
+                   height: 100%;
+                   -webkit-box-shadow: 0px 0px 5px 5px rgba(153,153,153,1);
+                   -moz-box-shadow: 0px 0px 5px 5px rgba(153,153,153,1);
+                   box-shadow: 0px 0px 5px 5px rgba(153,153,153,1);
+                   background-repeat: no-repeat;
+               }
+               img.object{
+                   position: absolute;
+                   border: none;
+                   cursor: pointer;
+               }
+               div.convo{
+                   position: absolute;
+                   left:20%;
+                   width:60%;
+                   overflow: auto;
+                   border-radius: 10px;
+                   border: 15px solid #F5F5F5;
+                   background-color: #6991AC;
+                   color: #F5F5F5;
+                   padding:15px;
+                   text-align: left;
+               }
+               div.convo p{
+                   margin: 0px;
+                   font-size: 35px;
+               }
+               div.convo ol {
+                   list-style-position: inside;
+                   margin: 20px 40px 0px 40px;
+                   padding:0px;
+               }
+               div.convo ol li{
+                   font-size: 25px;
+                   cursor: pointer;
+                   border-top: 2px solid #F5F5F5;
+                   padding:10px;
+               }
+               h1{
+                   margin-top: 25%;
+                   font-size: 40px;
+                   color: #6991AC;
+               }
+               button{
+                   font-size: 30px;
+                   display: block;
+                   box-shadow: 10px 10px 5px #333333;
+                   width:200px;
+                   background-color: #D75C37;
+                   border: none;
+                   border-radius: 5px;
+                   margin: 30px auto;
+                   padding: 10px;
+                   color: #F5F5F5;
+                   cursor: pointer;
+               }
+            ]
+         }
+      ]
+   }
+   {
+      type: Assignment
+      lhs: @narrationUp
+      rhs: {
+         type: Call
+         name: {
+            type: Token
+            tokenType: bareword
+            text: false
+         }
+      }
+   }
+   {
+      type: Def
+      name: {
+         type: Token
+         tokenType: bareword
+         text: narrationRollUp
+      }
+      body: [
+         {
+            type: ElemFunc
+            elem: {
+               type: Selector
+               selectorType: HtmlId
+               selector: narration
+            }
+            func: {
+               type: Token
+               tokenType: bareword
+               text: css
+            }
+            args: [
+               top
+               -150px
+            ]
+         }
+         {
+            type: Assignment
+            lhs: @narrationUp
+            rhs: {
+               type: Call
+               name: {
+                  type: Token
+                  tokenType: bareword
+                  text: true
+               }
+            }
+         }
+      ]
+   }
+   {
+      type: Def
+      name: {
+         type: Token
+         tokenType: bareword
+         text: narrationRollDown
+      }
+      body: [
+         {
+            type: ElemFunc
+            elem: {
+               type: Selector
+               selectorType: HtmlId
+               selector: narration
+            }
+            func: {
+               type: Token
+               tokenType: bareword
+               text: css
+            }
+            args: [
+               top
+               0px
+            ]
+         }
+         {
+            type: Assignment
+            lhs: @narrationUp
+            rhs: {
+               type: Call
+               name: {
+                  type: Token
+                  tokenType: bareword
+                  text: false
+               }
+            }
+         }
+      ]
+   }
+   {
+      type: Def
+      name: {
+         type: Token
+         tokenType: bareword
+         text: play
+      }
+      body: [
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: bareword
+               text: processScene
+            }
+            args: [
+               {
+                  type: ArrayAt
+                  array: @scenes
+                  index: 0
+               }
+            ]
+         }
+      ]
+   }
+   {
+      type: Def
+      name: {
+         type: Token
+         tokenType: bareword
+         text: processScene
+      }
+      args: [
+         @scene
+      ]
+      body: [
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: bareword
+               text: cleanup
+            }
+         }
+         [
+            {
+               condition: {
+                  type: ArrayAt
+                  array: @scene
+                  index: {
+                     type: Token
+                     tokenType: bareword
+                     text: music
+                  }
+               }
+               body: [
+                  {
+                     type: Assignment
+                     lhs: @musicLocation
+                     rhs: {
+                        type: BinaryExp
+                        a: {
+                           type: BinaryExp
+                           a: ./music/
+                           b: {
+                              type: Call
+                              name: {
+                                 type: Token
+                                 tokenType: bareword
+                                 text: scene
+                              }
+                              attrs: [
+                                 {
+                                    type: Attr
+                                    key: class
+                                    value: [
+                                       {
+                                          type: Selector
+                                          selectorType: class
+                                          selector: music
+                                       }
+                                    ]
+                                 }
+                              ]
+                           }
+                           op: plus
+                        }
+                        b: 
+                        op: plus
+                     }
+                  }
+                  [
+                     {
+                        condition: {
+                           type: BinaryExp
+                           a: {
+                              type: Call
+                              name: {
+                                 type: Token
+                                 tokenType: bareword
+                                 text: musicOn
+                              }
+                           }
+                           b: {
+                              type: BinaryExp
+                              a: {
+                                 type: ArrayAt
+                                 array: {
+                                    type: Selector
+                                    selectorType: HtmlId
+                                    selector: audio
+                                 }
+                                 index: {
+                                    type: Token
+                                    tokenType: bareword
+                                    text: src
+                                 }
+                              }
+                              b: @musicLocation
+                              op: !=
+                           }
+                           op: and
+                        }
+                        body: [
+                           {
+                              type: Assignment
+                              lhs: {
+                                 type: ArrayAt
+                                 array: {
+                                    type: Selector
+                                    selectorType: HtmlId
+                                    selector: audio
+                                 }
+                                 index: {
+                                    type: Token
+                                    tokenType: bareword
+                                    text: src
+                                 }
+                              }
+                              rhs: @musicLocation
+                           }
+                        ]
+                     }
+                  ]
+               ]
+            }
+         ]
+         [
+            {
+               condition: {
+                  type: BinaryExp
+                  a: {
+                     type: ArrayAt
+                     array: @scene
+                     index: {
+                        type: Token
+                        tokenType: bareword
+                        text: type
+                     }
+                  }
+                  b: location
+                  op: ==
+               }
+               body: [
+                  {
+                     type: ElemFunc
+                     elem: {
+                        type: Selector
+                        selectorType: HtmlId
+                        selector: stage
+                     }
+                     func: {
+                        type: Token
+                        tokenType: bareword
+                        text: css
+                     }
+                     args: [
+                        background-image
+                        {
+                           type: BinaryExp
+                           a: {
+                              type: BinaryExp
+                              a: url("./scenes/
+                              b: {
+                                 type: Call
+                                 name: {
+                                    type: Token
+                                    tokenType: bareword
+                                    text: scene
+                                 }
+                                 attrs: [
+                                    {
+                                       type: Attr
+                                       key: class
+                                       value: [
+                                          {
+                                             type: Selector
+                                             selectorType: class
+                                             selector: img
+                                          }
+                                       ]
+                                    }
+                                 ]
+                              }
+                              op: plus
+                           }
+                           b: ")
+                           op: plus
+                        }
+                     ]
+                  }
+                  [
+                     {
+                        condition: {
+                           type: ArrayAt
+                           array: @scene
+                           index: {
+                              type: Token
+                              tokenType: bareword
+                              text: text
+                           }
+                        }
+                        body: [
+                           {
+                              type: Call
+                              name: {
+                                 type: Token
+                                 tokenType: script
+                              }
+                              args: [
+                                 var sceneText = 
+                                 {
+                                    type: ArrayAt
+                                    array: @scene
+                                    index: {
+                                       type: Token
+                                       tokenType: bareword
+                                       text: text
+                                    }
+                                 }
+                                 .replace(/\*(.+?)\*/, "<em>$1</em>").replace(/_(.+?)_/, "<strong>$1</strong>");
+                              ]
+                           }
+                           {
+                              type: Assignment
+                              lhs: {
+                                 type: ArrayAt
+                                 array: {
+                                    type: Selector
+                                    selectorType: HtmlId
+                                    selector: narration
+                                 }
+                                 index: {
+                                    type: Token
+                                    tokenType: bareword
+                                    text: html
+                                 }
+                              }
+                              rhs: {
+                                 type: Call
+                                 name: {
+                                    type: Token
+                                    tokenType: bareword
+                                    text: sceneText
+                                 }
+                              }
+                           }
+                           {
+                              type: Call
+                              name: {
+                                 type: Token
+                                 tokenType: bareword
+                                 text: narrationRollDown
+                              }
+                           }
+                           {
+                              type: ElemFunc
+                              elem: {
+                                 type: Selector
+                                 selectorType: HtmlId
+                                 selector: narration
+                              }
+                              func: {
+                                 type: Token
+                                 tokenType: bareword
+                                 text: show
+                              }
+                           }
+                        ]
+                     }
+                     {
+                        body: [
+                           {
+                              type: ElemFunc
+                              elem: {
+                                 type: Selector
+                                 selectorType: HtmlId
+                                 selector: narration
+                              }
+                              func: {
+                                 type: Token
+                                 tokenType: bareword
+                                 text: hide
+                              }
+                           }
+                        ]
+                     }
+                  ]
+                  {
+                     type: For
+                     id: @object
+                     iterable: {
+                        type: ArrayAt
+                        array: @scene
+                        index: {
+                           type: Token
+                           tokenType: bareword
+                           text: objects
+                        }
+                     }
+                     body: [
+                        {
+                           type: Assignment
+                           lhs: @noIfOrUnless
+                           rhs: {
+                              type: UnaryExp
+                              a: {
+                                 type: BinaryExp
+                                 a: {
+                                    type: ArrayAt
+                                    array: @object
+                                    index: if
+                                 }
+                                 b: {
+                                    type: UnaryExp
+                                    a: {
+                                       type: ArrayAt
+                                       array: @object
+                                       index: {
+                                          type: Token
+                                          tokenType: bareword
+                                          text: unless
+                                       }
+                                    }
+                                    op: !
+                                 }
+                                 op: and
+                              }
+                              op: !
+                           }
+                        }
+                        {
+                           type: Assignment
+                           lhs: @objectIf
+                           rhs: {
+                              type: BinaryExp
+                              a: {
+                                 type: ArrayAt
+                                 array: @object
+                                 index: if
+                              }
+                              b: {
+                                 type: ArrayAt
+                                 array: @stateBools
+                                 index: {
+                                    type: ArrayAt
+                                    array: @object
+                                    index: if
+                                 }
+                              }
+                              op: and
+                           }
+                        }
+                        {
+                           type: Assignment
+                           lhs: @objectUnless
+                           rhs: {
+                              type: BinaryExp
+                              a: {
+                                 type: ArrayAt
+                                 array: @object
+                                 index: {
+                                    type: Token
+                                    tokenType: bareword
+                                    text: unless
+                                 }
+                              }
+                              b: {
+                                 type: UnaryExp
+                                 a: {
+                                    type: ArrayAt
+                                    array: @stateBools
+                                    index: {
+                                       type: ArrayAt
+                                       array: @object
+                                       index: {
+                                          type: Token
+                                          tokenType: bareword
+                                          text: unless
+                                       }
+                                    }
+                                 }
+                                 op: !
+                              }
+                              op: and
+                           }
+                        }
+                        [
+                           {
+                              condition: {
+                                 type: BinaryExp
+                                 a: {
+                                    type: BinaryExp
+                                    a: @noIfOrUnless
+                                    b: @objectIf
+                                    op: or
+                                 }
+                                 b: @objectUnless
+                                 op: or
+                              }
+                              body: [
+                                 {
+                                    type: Assignment
+                                    lhs: @imgStyle
+                                    rhs: [
+                                       {
+                                          condition: {
+                                             type: ArrayAt
+                                             array: @object
+                                             index: {
+                                                type: Token
+                                                tokenType: bareword
+                                                text: x
+                                             }
+                                          }
+                                          body: {
+                                             type: BinaryExp
+                                             a: {
+                                                type: BinaryExp
+                                                a: left:
+                                                b: {
+                                                   type: ArrayAt
+                                                   array: @object
+                                                   index: {
+                                                      type: Token
+                                                      tokenType: bareword
+                                                      text: x
+                                                   }
+                                                }
+                                                op: plus
+                                             }
+                                             b: 
+                                             op: plus
+                                          }
+                                       }
+                                       {
+                                          body: 
+                                       }
+                                    ]
+                                 }
+                                 {
+                                    type: Assignment
+                                    lhs: @imgStyle
+                                    rhs: {
+                                       type: BinaryExp
+                                       a: @imgStyle
+                                       b: [
+                                          {
+                                             condition: {
+                                                type: ArrayAt
+                                                array: @object
+                                                index: {
+                                                   type: Token
+                                                   tokenType: bareword
+                                                   text: y
+                                                }
+                                             }
+                                             body: {
+                                                type: BinaryExp
+                                                a: {
+                                                   type: BinaryExp
+                                                   a: top:
+                                                   b: {
+                                                      type: ArrayAt
+                                                      array: @object
+                                                      index: {
+                                                         type: Token
+                                                         tokenType: bareword
+                                                         text: y
+                                                      }
+                                                   }
+                                                   op: plus
+                                                }
+                                                b: 
+                                                op: plus
+                                             }
+                                          }
+                                          {
+                                             body: 
+                                          }
+                                       ]
+                                       op: plus
+                                    }
+                                 }
+                                 {
+                                    type: Assignment
+                                    lhs: @imgStyle
+                                    rhs: {
+                                       type: BinaryExp
+                                       a: @imgStyle
+                                       b: [
+                                          {
+                                             condition: {
+                                                type: ArrayAt
+                                                array: @object
+                                                index: {
+                                                   type: Token
+                                                   tokenType: bareword
+                                                   text: width
+                                                }
+                                             }
+                                             body: {
+                                                type: BinaryExp
+                                                a: {
+                                                   type: BinaryExp
+                                                   a: width:
+                                                   b: {
+                                                      type: ArrayAt
+                                                      array: @object
+                                                      index: {
+                                                         type: Token
+                                                         tokenType: bareword
+                                                         text: width
+                                                      }
+                                                   }
+                                                   op: plus
+                                                }
+                                                b: 
+                                                op: plus
+                                             }
+                                          }
+                                          {
+                                             body: 
+                                          }
+                                       ]
+                                       op: plus
+                                    }
+                                 }
+                                 {
+                                    type: Assignment
+                                    lhs: @imgStyle
+                                    rhs: {
+                                       type: BinaryExp
+                                       a: @imgStyle
+                                       b: [
+                                          {
+                                             condition: {
+                                                type: ArrayAt
+                                                array: @object
+                                                index: {
+                                                   type: Token
+                                                   tokenType: bareword
+                                                   text: height
+                                                }
+                                             }
+                                             body: {
+                                                type: BinaryExp
+                                                a: {
+                                                   type: BinaryExp
+                                                   a: height:
+                                                   b: {
+                                                      type: ArrayAt
+                                                      array: @object
+                                                      index: {
+                                                         type: Token
+                                                         tokenType: bareword
+                                                         text: height
+                                                      }
+                                                   }
+                                                   op: plus
+                                                }
+                                                b: 
+                                                op: plus
+                                             }
+                                          }
+                                          {
+                                             body: 
+                                          }
+                                       ]
+                                       op: plus
+                                    }
+                                 }
+                                 {
+                                    type: ElemFunc
+                                    elem: {
+                                       type: Call
+                                       name: {
+                                          type: Token
+                                          tokenType: bareword
+                                          text: img
+                                       }
+                                       attrs: [
+                                          {
+                                             type: Attr
+                                             key: class
+                                             value: [
+                                                {
+                                                   type: Selector
+                                                   selectorType: class
+                                                   selector: object
+                                                }
+                                             ]
+                                          }
+                                          [
+                                             {
+                                                type: Attr
+                                                key: src
+                                                value: {
+                                                   type: BinaryExp
+                                                   a: {
+                                                      type: BinaryExp
+                                                      a: ./objects/
+                                                      b: {
+                                                         type: ArrayAt
+                                                         array: @object
+                                                         index: {
+                                                            type: Token
+                                                            tokenType: bareword
+                                                            text: img
+                                                         }
+                                                      }
+                                                      op: plus
+                                                   }
+                                                   b: 
+                                                   op: plus
+                                                }
+                                             }
+                                             {
+                                                type: Attr
+                                                key: style
+                                                value: @imgStyle
+                                             }
+                                          ]
+                                       ]
+                                    }
+                                    func: {
+                                       type: Token
+                                       tokenType: bareword
+                                       text: click
+                                    }
+                                    args: [
+                                       [
+                                          {
+                                             condition: {
+                                                type: ArrayAt
+                                                array: @object
+                                                index: {
+                                                   type: Token
+                                                   tokenType: bareword
+                                                   text: setTrue
+                                                }
+                                             }
+                                             body: [
+                                                {
+                                                   type: Assignment
+                                                   lhs: {
+                                                      type: ArrayAt
+                                                      array: @stateBools
+                                                      index: {
+                                                         type: ArrayAt
+                                                         array: @object
+                                                         index: {
+                                                            type: Token
+                                                            tokenType: bareword
+                                                            text: setTrue
+                                                         }
+                                                      }
+                                                   }
+                                                   rhs: {
+                                                      type: Call
+                                                      name: {
+                                                         type: Token
+                                                         tokenType: bareword
+                                                         text: true
+                                                      }
+                                                   }
+                                                }
+                                             ]
+                                          }
+                                       ]
+                                       [
+                                          {
+                                             condition: {
+                                                type: ArrayAt
+                                                array: @object
+                                                index: {
+                                                   type: Token
+                                                   tokenType: bareword
+                                                   text: setFalse
+                                                }
+                                             }
+                                             body: [
+                                                {
+                                                   type: Assignment
+                                                   lhs: {
+                                                      type: ArrayAt
+                                                      array: @stateBools
+                                                      index: {
+                                                         type: ArrayAt
+                                                         array: @object
+                                                         index: {
+                                                            type: Token
+                                                            tokenType: bareword
+                                                            text: setFalse
+                                                         }
+                                                      }
+                                                   }
+                                                   rhs: {
+                                                      type: Call
+                                                      name: {
+                                                         type: Token
+                                                         tokenType: bareword
+                                                         text: false
+                                                      }
+                                                   }
+                                                }
+                                             ]
+                                          }
+                                       ]
+                                       {
+                                          type: Call
+                                          name: {
+                                             type: Token
+                                             tokenType: bareword
+                                             text: processScene
+                                          }
+                                          args: [
+                                             {
+                                                type: ArrayAt
+                                                array: @object
+                                                index: {
+                                                   type: Token
+                                                   tokenType: bareword
+                                                   text: click
+                                                }
+                                             }
+                                          ]
+                                       }
+                                    ]
+                                 }
+                              ]
+                           }
+                        ]
+                     ]
+                  }
+               ]
+            }
+            {
+               body: [
+                  {
+                     type: Assignment
+                     lhs: @objHeight
+                     rhs: {
+                        type: BinaryExp
+                        a: {
+                           type: BinaryExp
+                           a: {
+                              type: ArrayAt
+                              array: @scene
+                              index: {
+                                 type: Token
+                                 tokenType: bareword
+                                 text: height
+                              }
+                           }
+                           b: 500
+                           op: or
+                        }
+                        b: 40
+                        op: minus
+                     }
+                  }
+                  {
+                     type: Assignment
+                     lhs: @objWidth
+                     rhs: {
+                        type: BinaryExp
+                        a: {
+                           type: ArrayAt
+                           array: @scene
+                           index: {
+                              type: Token
+                              tokenType: bareword
+                              text: width
+                           }
+                        }
+                        b: 500
+                        op: or
+                     }
+                  }
+                  {
+                     type: ElemFunc
+                     elem: {
+                        type: Selector
+                        selectorType: HtmlId
+                        selector: narration
+                     }
+                     func: {
+                        type: Token
+                        tokenType: bareword
+                        text: hide
+                     }
+                  }
+                  {
+                     type: Call
+                     name: {
+                        type: Token
+                        tokenType: bareword
+                        text: div
+                     }
+                     attrs: [
+                        {
+                           type: Attr
+                           key: class
+                           value: [
+                              {
+                                 type: Selector
+                                 selectorType: class
+                                 selector: blur
+                              }
+                           ]
+                        }
+                        [
+                           {
+                              type: Attr
+                              key: style
+                              value: {
+                                 type: BinaryExp
+                                 a: {
+                                    type: BinaryExp
+                                    a: background-image: 
+                                    b: {
+                                       type: ElemFunc
+                                       elem: {
+                                          type: Selector
+                                          selectorType: HtmlId
+                                          selector: stage
+                                       }
+                                       func: {
+                                          type: Token
+                                          tokenType: bareword
+                                          text: css
+                                       }
+                                       args: [
+                                          background-image
+                                       ]
+                                    }
+                                    op: plus
+                                 }
+                                 b: 
+                                 op: plus
+                              }
+                           }
+                        ]
+                     ]
+                  }
+                  {
+                     type: Assignment
+                     lhs: @imgStyle
+                     rhs: {
+                        type: BinaryExp
+                        a: {
+                           type: BinaryExp
+                           a: {
+                              type: BinaryExp
+                              a: {
+                                 type: BinaryExp
+                                 a: cursor:auto; height:
+                                 b: {
+                                    type: Call
+                                    name: {
+                                       type: Token
+                                       tokenType: bareword
+                                       text: objHeight
+                                    }
+                                 }
+                                 op: plus
+                              }
+                              b: px; width:
+                              op: plus
+                           }
+                           b: {
+                              type: Call
+                              name: {
+                                 type: Token
+                                 tokenType: bareword
+                                 text: objWidth
+                              }
+                           }
+                           op: plus
+                        }
+                        b: px
+                        op: plus
+                     }
+                  }
+                  {
+                     type: Assignment
+                     lhs: @imgStyle
+                     rhs: {
+                        type: BinaryExp
+                        a: @imgStyle
+                        b: {
+                           type: BinaryExp
+                           a: {
+                              type: BinaryExp
+                              a: top:20px; left:
+                              b: {
+                                 type: BinaryExp
+                                 a: {
+                                    type: BinaryExp
+                                    a: @width
+                                    b: @objWidth
+                                    op: minus
+                                 }
+                                 b: 2
+                                 op: /
+                              }
+                              op: plus
+                           }
+                           b: px
+                           op: plus
+                        }
+                        op: plus
+                     }
+                  }
+                  {
+                     type: Call
+                     name: {
+                        type: Token
+                        tokenType: bareword
+                        text: img
+                     }
+                     attrs: [
+                        {
+                           type: Attr
+                           key: class
+                           value: [
+                              {
+                                 type: Selector
+                                 selectorType: class
+                                 selector: object
+                              }
+                           ]
+                        }
+                        [
+                           {
+                              type: Attr
+                              key: src
+                              value: {
+                                 type: BinaryExp
+                                 a: {
+                                    type: BinaryExp
+                                    a: ./objects/
+                                    b: {
+                                       type: ArrayAt
+                                       array: @scene
+                                       index: {
+                                          type: Token
+                                          tokenType: bareword
+                                          text: img
+                                       }
+                                    }
+                                    op: plus
+                                 }
+                                 b: 
+                                 op: plus
+                              }
+                           }
+                           {
+                              type: Attr
+                              key: style
+                              value: @imgStyle
+                           }
+                        ]
+                     ]
+                  }
+                  {
+                     type: Assignment
+                     lhs: @divStyle
+                     rhs: {
+                        type: BinaryExp
+                        a: {
+                           type: BinaryExp
+                           a: {
+                              type: BinaryExp
+                              a: {
+                                 type: BinaryExp
+                                 a: max-height:
+                                 b: {
+                                    type: BinaryExp
+                                    a: {
+                                       type: BinaryExp
+                                       a: @height
+                                       b: @objHeight
+                                       op: minus
+                                    }
+                                    b: 60
+                                    op: minus
+                                 }
+                                 op: plus
+                              }
+                              b: px; top:
+                              op: plus
+                           }
+                           b: {
+                              type: BinaryExp
+                              a: {
+                                 type: ArrayAt
+                                 array: @scene
+                                 index: {
+                                    type: Token
+                                    tokenType: bareword
+                                    text: height
+                                 }
+                              }
+                              b: 500
+                              op: or
+                           }
+                           op: plus
+                        }
+                        b: px
+                        op: plus
+                     }
+                  }
+                  {
+                     type: Call
+                     name: {
+                        type: Token
+                        tokenType: bareword
+                        text: div
+                     }
+                     attrs: [
+                        {
+                           type: Attr
+                           key: class
+                           value: [
+                              {
+                                 type: Selector
+                                 selectorType: class
+                                 selector: convo
+                              }
+                           ]
+                        }
+                        [
+                           {
+                              type: Attr
+                              key: style
+                              value: @divStyle
+                           }
+                        ]
+                     ]
+                     args: [
+                        {
+                           type: Call
+                           name: {
+                              type: Token
+                              tokenType: bareword
+                              text: p
+                           }
+                           args: [
+                              {
+                                 type: Call
+                                 name: {
+                                    type: Token
+                                    tokenType: script
+                                 }
+                                 args: [
+                                    
+                                    {
+                                       type: ArrayAt
+                                       array: @scene
+                                       index: {
+                                          type: Token
+                                          tokenType: bareword
+                                          text: text
+                                       }
+                                    }
+                                    .replace(/\*(.+?)\*/, "<em>$1</em>").replace(/_(.+?)_/, "<strong>$1</strong>");
+                                 ]
+                              }
+                           ]
+                        }
+                        {
+                           type: Call
+                           name: {
+                              type: Token
+                              tokenType: bareword
+                              text: ol
+                           }
+                           args: [
+                              {
+                                 type: For
+                                 id: @option
+                                 iterable: {
+                                    type: ArrayAt
+                                    array: @scene
+                                    index: {
+                                       type: Token
+                                       tokenType: bareword
+                                       text: options
+                                    }
+                                 }
+                                 body: [
+                                    {
+                                       type: Assignment
+                                       lhs: @noIfOrUnless
+                                       rhs: {
+                                          type: UnaryExp
+                                          a: {
+                                             type: BinaryExp
+                                             a: {
+                                                type: ArrayAt
+                                                array: @object
+                                                index: if
+                                             }
+                                             b: {
+                                                type: UnaryExp
+                                                a: {
+                                                   type: ArrayAt
+                                                   array: @object
+                                                   index: {
+                                                      type: Token
+                                                      tokenType: bareword
+                                                      text: unless
+                                                   }
+                                                }
+                                                op: !
+                                             }
+                                             op: and
+                                          }
+                                          op: !
+                                       }
+                                    }
+                                    {
+                                       type: Assignment
+                                       lhs: @objectIf
+                                       rhs: {
+                                          type: BinaryExp
+                                          a: {
+                                             type: ArrayAt
+                                             array: @object
+                                             index: if
+                                          }
+                                          b: {
+                                             type: ArrayAt
+                                             array: @stateBools
+                                             index: {
+                                                type: ArrayAt
+                                                array: @object
+                                                index: if
+                                             }
+                                          }
+                                          op: and
+                                       }
+                                    }
+                                    {
+                                       type: Assignment
+                                       lhs: @objectUnless
+                                       rhs: {
+                                          type: BinaryExp
+                                          a: {
+                                             type: ArrayAt
+                                             array: @object
+                                             index: {
+                                                type: Token
+                                                tokenType: bareword
+                                                text: unless
+                                             }
+                                          }
+                                          b: {
+                                             type: UnaryExp
+                                             a: {
+                                                type: ArrayAt
+                                                array: @stateBools
+                                                index: {
+                                                   type: ArrayAt
+                                                   array: @object
+                                                   index: {
+                                                      type: Token
+                                                      tokenType: bareword
+                                                      text: unless
+                                                   }
+                                                }
+                                             }
+                                             op: !
+                                          }
+                                          op: and
+                                       }
+                                    }
+                                    [
+                                       {
+                                          condition: {
+                                             type: BinaryExp
+                                             a: {
+                                                type: BinaryExp
+                                                a: @noIfOrUnless
+                                                b: @objectIf
+                                                op: or
+                                             }
+                                             b: @objectUnless
+                                             op: or
+                                          }
+                                          body: [
+                                             {
+                                                type: ElemFunc
+                                                elem: {
+                                                   type: Call
+                                                   name: {
+                                                      type: Token
+                                                      tokenType: bareword
+                                                      text: li
+                                                   }
+                                                   args: [
+                                                      {
+                                                         type: Call
+                                                         name: {
+                                                            type: Token
+                                                            tokenType: script
+                                                         }
+                                                         args: [
+                                                            
+                                                            {
+                                                               type: ArrayAt
+                                                               array: @option
+                                                               index: {
+                                                                  type: Token
+                                                                  tokenType: bareword
+                                                                  text: text
+                                                               }
+                                                            }
+                                                            .replace(/\*(.+?)\*/, "<em>$1</em>").replace(/_(.+?)_/, "<strong>$1</strong>");
+                                                         ]
+                                                      }
+                                                   ]
+                                                }
+                                                func: {
+                                                   type: Token
+                                                   tokenType: bareword
+                                                   text: click
+                                                }
+                                                args: [
+                                                   [
+                                                      {
+                                                         condition: {
+                                                            type: ArrayAt
+                                                            array: @option
+                                                            index: {
+                                                               type: Token
+                                                               tokenType: bareword
+                                                               text: setTrue
+                                                            }
+                                                         }
+                                                         body: [
+                                                            {
+                                                               type: Assignment
+                                                               lhs: {
+                                                                  type: ArrayAt
+                                                                  array: @stateBools
+                                                                  index: {
+                                                                     type: ArrayAt
+                                                                     array: @option
+                                                                     index: {
+                                                                        type: Token
+                                                                        tokenType: bareword
+                                                                        text: setTrue
+                                                                     }
+                                                                  }
+                                                               }
+                                                               rhs: {
+                                                                  type: Call
+                                                                  name: {
+                                                                     type: Token
+                                                                     tokenType: bareword
+                                                                     text: true
+                                                                  }
+                                                               }
+                                                            }
+                                                         ]
+                                                      }
+                                                   ]
+                                                   [
+                                                      {
+                                                         condition: {
+                                                            type: ArrayAt
+                                                            array: @option
+                                                            index: {
+                                                               type: Token
+                                                               tokenType: bareword
+                                                               text: setFalse
+                                                            }
+                                                         }
+                                                         body: [
+                                                            {
+                                                               type: Assignment
+                                                               lhs: {
+                                                                  type: ArrayAt
+                                                                  array: @stateBools
+                                                                  index: {
+                                                                     type: ArrayAt
+                                                                     array: @option
+                                                                     index: {
+                                                                        type: Token
+                                                                        tokenType: bareword
+                                                                        text: setFalse
+                                                                     }
+                                                                  }
+                                                               }
+                                                               rhs: {
+                                                                  type: Call
+                                                                  name: {
+                                                                     type: Token
+                                                                     tokenType: bareword
+                                                                     text: false
+                                                                  }
+                                                               }
+                                                            }
+                                                         ]
+                                                      }
+                                                   ]
+                                                   {
+                                                      type: Call
+                                                      name: {
+                                                         type: Token
+                                                         tokenType: bareword
+                                                         text: processScene
+                                                      }
+                                                      args: [
+                                                         {
+                                                            type: ArrayAt
+                                                            array: @option
+                                                            index: {
+                                                               type: Token
+                                                               tokenType: bareword
+                                                               text: result
+                                                            }
+                                                         }
+                                                      ]
+                                                   }
+                                                ]
+                                             }
+                                          ]
+                                       }
+                                    ]
+                                 ]
+                              }
+                           ]
+                        }
+                     ]
+                  }
+               ]
+            }
+         ]
+      ]
+   }
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: body
+      }
+      args: [
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: bareword
+               text: div
+            }
+            attrs: [
+               {
+                  type: Attr
+                  key: id
+                  value: {
+                     type: Selector
+                     selectorType: HtmlId
+                     selector: body
+                  }
+               }
+            ]
+            args: [
+               [
+                  {
+                     condition: {
+                        type: ArrayAt
+                        array: @config
+                        index: {
+                           type: Token
+                           tokenType: bareword
+                           text: music
+                        }
+                     }
+                     body: [
+                        {
+                           type: Call
+                           name: {
+                              type: Token
+                              tokenType: bareword
+                              text: audio
+                           }
+                           attrs: [
+                              {
+                                 type: Attr
+                                 key: id
+                                 value: {
+                                    type: Selector
+                                    selectorType: HtmlId
+                                    selector: audio
+                                 }
+                              }
+                              [
+                                 {
+                                    type: Attr
+                                    key: autoplay
+                                    value: autoplay
+                                 }
+                                 {
+                                    type: Attr
+                                    key: loop
+                                    value: loop
+                                 }
+                                 {
+                                    type: Attr
+                                    key: src
+                                    value: {
+                                       type: BinaryExp
+                                       a: {
+                                          type: BinaryExp
+                                          a: ./music/
+                                          b: {
+                                             type: ArrayAt
+                                             array: @config
+                                             index: {
+                                                type: Token
+                                                tokenType: bareword
+                                                text: music
+                                             }
+                                          }
+                                          op: plus
+                                       }
+                                       b: 
+                                       op: plus
+                                    }
+                                 }
+                                 {
+                                    type: Attr
+                                    key: style
+                                    value: display:none
+                                 }
+                              ]
+                           ]
+                           args: [
+                              {
+                                 type: Token
+                                 tokenType: comment
+                                 text: //! Empty, but not self-closing tag
+                              }
+                           ]
+                        }
+                     ]
+                  }
+               ]
+               {
+                  type: Assignment
+                  lhs: @stageStyle
+                  rhs: {
+                     type: BinaryExp
+                     a: {
+                        type: BinaryExp
+                        a: {
+                           type: BinaryExp
+                           a: {
+                              type: BinaryExp
+                              a: width:
+                              b: {
+                                 type: Call
+                                 name: {
+                                    type: Token
+                                    tokenType: bareword
+                                    text: width
+                                 }
+                              }
+                              op: plus
+                           }
+                           b: px; height:
+                           op: plus
+                        }
+                        b: {
+                           type: Call
+                           name: {
+                              type: Token
+                              tokenType: bareword
+                              text: height
+                           }
+                        }
+                        op: plus
+                     }
+                     b: px;
+                     op: plus
+                  }
+               }
+               {
+                  type: Assignment
+                  lhs: @stageStyle
+                  rhs: {
+                     type: BinaryExp
+                     a: @stageStyle
+                     b: {
+                        type: BinaryExp
+                        a: {
+                           type: BinaryExp
+                           a: background-image:url("./scenes/
+                           b: {
+                              type: ArrayAt
+                              array: {
+                                 type: ArrayAt
+                                 array: @scenes
+                                 index: 0
+                              }
+                              index: {
+                                 type: Token
+                                 tokenType: bareword
+                                 text: img
+                              }
+                           }
+                           op: plus
+                        }
+                        b: ")
+                        op: plus
+                     }
+                     op: plus
+                  }
+               }
+               {
+                  type: Call
+                  name: {
+                     type: Token
+                     tokenType: bareword
+                     text: div
+                  }
+                  attrs: [
+                     {
+                        type: Attr
+                        key: id
+                        value: {
+                           type: Selector
+                           selectorType: HtmlId
+                           selector: stage
+                        }
+                     }
+                     [
+                        {
+                           type: Attr
+                           key: style
+                           value: @stageStyle
+                        }
+                     ]
+                  ]
+                  args: [
+                     {
+                        type: Call
+                        name: {
+                           type: Token
+                           tokenType: bareword
+                           text: h1
+                        }
+                        args: [
+                           @config
+                           {
+                              type: Selector
+                              selectorType: class
+                              selector: title
+                           }
+                        ]
+                     }
+                     {
+                        type: Call
+                        name: {
+                           type: Token
+                           tokenType: bareword
+                           text: button
+                        }
+                        attrs: [
+                           {
+                              type: Attr
+                              key: id
+                              value: {
+                                 type: Selector
+                                 selectorType: HtmlId
+                                 selector: play
+                              }
+                           }
+                        ]
+                        args: [
+                           {
+                              type: ElemFunc
+                              elem: Play
+                              func: {
+                                 type: Token
+                                 tokenType: bareword
+                                 text: click
+                              }
+                              args: [
+                                 {
+                                    type: Assignment
+                                    lhs: @children
+                                    rhs: {
+                                       type: ElemFunc
+                                       elem: {
+                                          type: Selector
+                                          selectorType: HtmlId
+                                          selector: stage
+                                       }
+                                       func: {
+                                          type: Token
+                                          tokenType: bareword
+                                          text: getChildren
+                                       }
+                                    }
+                                 }
+                                 {
+                                    type: For
+                                    id: @child
+                                    iterable: @children
+                                    body: [
+                                       [
+                                          {
+                                             condition: {
+                                                type: BinaryExp
+                                                a: {
+                                                   type: BinaryExp
+                                                   a: {
+                                                      type: ArrayAt
+                                                      array: @child
+                                                      index: {
+                                                         type: Token
+                                                         tokenType: bareword
+                                                         text: type
+                                                      }
+                                                   }
+                                                   b: button
+                                                   op: ==
+                                                }
+                                                b: {
+                                                   type: BinaryExp
+                                                   a: {
+                                                      type: ArrayAt
+                                                      array: @child
+                                                      index: {
+                                                         type: Token
+                                                         tokenType: bareword
+                                                         text: type
+                                                      }
+                                                   }
+                                                   b: h1
+                                                   op: ==
+                                                }
+                                                op: or
+                                             }
+                                             body: [
+                                                {
+                                                   type: ElemFunc
+                                                   elem: @child
+                                                   func: {
+                                                      type: Token
+                                                      tokenType: bareword
+                                                      text: remove
+                                                   }
+                                                }
+                                             ]
+                                          }
+                                       ]
+                                    ]
+                                 }
+                                 {
+                                    type: Call
+                                    name: {
+                                       type: Token
+                                       tokenType: bareword
+                                       text: play
+                                    }
+                                 }
+                              ]
+                           }
+                           {
+                              type: Call
+                              name: {
+                                 type: Token
+                                 tokenType: bareword
+                                 text: button
+                              }
+                              attrs: [
+                                 {
+                                    type: Attr
+                                    key: id
+                                    value: {
+                                       type: Selector
+                                       selectorType: HtmlId
+                                       selector: fullscreen
+                                    }
+                                 }
+                              ]
+                              args: [
+                                 {
+                                    type: ElemFunc
+                                    elem: Fullscreen
+                                    func: {
+                                       type: Token
+                                       tokenType: bareword
+                                       text: click
+                                    }
+                                    args: [
+                                       {
+                                          type: Call
+                                          name: {
+                                             type: Token
+                                             tokenType: script
+                                          }
+                                          args: [
+                                             var elem = document.getElementById("body");
+                                             if(elem.requestFullscreen) {
+                                                 elem.requestFullscreen();
+                                             } else if(elem.mozRequestFullScreen) {
+                                                 elem.mozRequestFullScreen();
+                                             } else if(elem.webkitRequestFullscreen) {
+                                                 elem.webkitRequestFullscreen();
+                                             } else if(elem.msRequestFullscreen) {
+                                                 elem.msRequestFullscreen();
+                                             } else {
+                                                 alert("Sorry, your browser doesn't support fullscreen");
+                                             }
+                                          ]
+                                       }
+                                    ]
+                                 }
+                                 {
+                                    type: Call
+                                    name: {
+                                       type: Token
+                                       tokenType: bareword
+                                       text: button
+                                    }
+                                    attrs: [
+                                       {
+                                          type: Attr
+                                          key: id
+                                          value: {
+                                             type: Selector
+                                             selectorType: HtmlId
+                                             selector: music
+                                          }
+                                       }
+                                    ]
+                                    args: [
+                                       {
+                                          type: ElemFunc
+                                          elem: Toggle Music
+                                          func: {
+                                             type: Token
+                                             tokenType: bareword
+                                             text: click
+                                          }
+                                          args: [
+                                             {
+                                                type: Call
+                                                name: {
+                                                   type: Token
+                                                   tokenType: script
+                                                }
+                                                args: [
+                                                   var music = document.getElementById("audio");
+                                                   if (music.paused) {
+                                                       music.play();
+                                                   } else {
+                                                       music.pause();
+                                                   }
+                                                   musicOn = !musicOn;
+                                                ]
+                                             }
+                                          ]
+                                       }
+                                       {
+                                          type: ElemFunc
+                                          elem: {
+                                             type: Call
+                                             name: {
+                                                type: Token
+                                                tokenType: bareword
+                                                text: div
+                                             }
+                                             attrs: [
+                                                {
+                                                   type: Attr
+                                                   key: id
+                                                   value: {
+                                                      type: Selector
+                                                      selectorType: HtmlId
+                                                      selector: narration
+                                                   }
+                                                }
+                                                [
+                                                   {
+                                                      type: Attr
+                                                      key: style
+                                                      value: display:none
+                                                   }
+                                                ]
+                                             ]
+                                             args: [
+                                                {
+                                                   type: Token
+                                                   tokenType: comment
+                                                   text: //! Empty, but not self-closing tag
+                                                }
+                                             ]
+                                          }
+                                          func: {
+                                             type: Token
+                                             tokenType: bareword
+                                             text: click
+                                          }
+                                          args: [
+                                             [
+                                                {
+                                                   condition: @narrationUp
+                                                   body: [
+                                                      {
+                                                         type: Call
+                                                         name: {
+                                                            type: Token
+                                                            tokenType: bareword
+                                                            text: narrationRollDown
+                                                         }
+                                                      }
+                                                   ]
+                                                }
+                                                {
+                                                   body: [
+                                                      {
+                                                         type: Call
+                                                         name: {
+                                                            type: Token
+                                                            tokenType: bareword
+                                                            text: narrationRollUp
+                                                         }
+                                                      }
+                                                   ]
+                                                }
+                                             ]
+                                          ]
+                                       }
+                                    ]
+                                 }
+                              ]
+                           }
+                        ]
+                     }
+                  ]
+               }
+            ]
+         }
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: script
+            }
+            attrs: [
+               [
+                  {
+                     type: Attr
+                     key: type
+                     value: text/javascript
+                  }
+               ]
+            ]
+            args: [
+               var musicOn = true;
+            ]
+         }
+      ]
+   }
+]

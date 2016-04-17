@@ -56,6 +56,10 @@ module.exports = ( p ) => {
 
         while( !p.at("dedent") ) {
             attrs.push(parseAttr( p ));
+            // We want to be able to parse JSON, even though we don't need commas
+            if(p.at("comma")) {
+                p.match("comma");
+            }
             p.match("newline");
         }
 
