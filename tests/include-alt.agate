@@ -1,0 +1,3 @@
+body
+    h1 "Testing including stuff"
+    include "navbar.agate"

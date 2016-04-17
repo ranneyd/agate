@@ -25,7 +25,7 @@ let parseStatement = p => {
     else if ( p.at('template') ) {
         return parseTemplate( p );
     }
-    else if( p.at("include") ) {
+    else if ( p.at('include') ) {
         return parseInclude( p );
     }
     else if( p.at(p.controlTypes) ) {

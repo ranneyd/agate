@@ -213,5 +213,10 @@ let parseString = p => {
 module.exports = ( p ) => {
     p.matchLog(`Matching Exp`);
 
+    let parseInclude = require("./include");
+
+    if( p.at("include") ) {
+        parseInclude( p );
+    }
     return parseTernary( p );
 };

@@ -12,13 +12,13 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Program        |`Block EOF`                                                    |
 |Block*         |`newline+ (Statement ((?<!ChildBlock)newline+)?)+`             |
 |Statement      |`Template`                                                     |
+|               |`Include`                                                      |
 |               |`Control`                                                      |
 |               |`Definition`                                                   |
 |               |`comment`                                                      |
 |               |`return Exp`                                                   |
 |               |`Exp`                                                          |
 |               |`Assignment`                                                   |
-|               |`Include`                                                      |
 |Template       |`template (newline indent (Label ChildBlock)+ dedent)?`        |
 |ChildBlock     |`newline indent (JSBlock|CSSBlock|Block) newline dedent`       |
 |Label          |`openCurly bareword closeCurly`                                |
@@ -34,7 +34,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |While          |`while Exp ChildBlock`                                         |
 |Assignment     |`Exp (AddExp|MultExp|BoolExp)? equals Exp`                     |
 |Definition     |`def bareword openParen (id comma?)* closeParen ChildBlock`    |
-|Exp            |`TernaryIfExp`                                                 |
+|Exp            |`Include? TernaryIfExp`                                        |
 |TernaryIfExp   |`BoolExp (question BoolExp colon BoolExp)?`                    |
 |BoolExp        |`RelExp (boolop RelExp)*`                                      |
 |RelExp         |`AddExp (relop AddExp)*`                                       |

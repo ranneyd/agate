@@ -1,0 +1,62 @@
+[
+   {
+      "type": "bareword",
+      "line": 1,
+      "column": 1,
+      "text": "body"
+   },
+   {
+      "type": "newline",
+      "line": 1,
+      "column": 5
+   },
+   {
+      "type": "indent",
+      "line": 2,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 2,
+      "column": 5,
+      "text": "h1"
+   },
+   {
+      "type": "stringlit",
+      "line": 2,
+      "column": 8,
+      "text": "Testing including stuff"
+   },
+   {
+      "type": "newline",
+      "line": 2,
+      "column": 33
+   },
+   {
+      "type": "include",
+      "line": 3,
+      "column": 5,
+      "text": false
+   },
+   {
+      "type": "stringlit",
+      "line": 3,
+      "column": 13,
+      "text": "navbar.agate"
+   },
+   {
+      "type": "newline",
+      "line": 3,
+      "column": 27
+   },
+   {
+      "type": "dedent",
+      "line": 3,
+      "column": 27
+   },
+   {
+      "type": "EOF",
+      "line": 3,
+      "column": 27
+   }
+]
