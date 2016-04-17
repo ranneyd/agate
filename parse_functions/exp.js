@@ -129,7 +129,6 @@ let parseArrayElem = p => {
 };
 
 let parseMisc = p => {
-    let parseLabel = require("./label");
     let parseArray = require("./array");
     let parseHashMap = require("./hashmap");
     let parseSelector = require("./selector");
@@ -137,9 +136,6 @@ let parseMisc = p => {
 
     if( p.at(p.lits) ) {
         return parseLit( p );
-    }
-    else if( p.atSequential(["openCurly", "bareword", "closeCurly"]) ) {
-        return parseLabel( p );
     }
     else if( p.at("openSquare") ){
         return parseArray( p );
@@ -214,9 +210,13 @@ module.exports = ( p ) => {
     p.matchLog(`Matching Exp`);
 
     let parseInclude = require("./include");
+    let parseLabel = require("./label");
 
     if( p.at("include") ) {
         parseInclude( p );
+    }
+    if( p.atLabel() ) {
+        parseLabel( p );
     }
     return parseTernary( p );
 };

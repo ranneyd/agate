@@ -13,6 +13,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Block*         |`newline+ (Statement ((?<!ChildBlock)newline+)?)+`             |
 |Statement      |`Template`                                                     |
 |               |`Include`                                                      |
+|               |`Label`                                                        |
 |               |`Control`                                                      |
 |               |`Definition`                                                   |
 |               |`comment`                                                      |
@@ -34,7 +35,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |While          |`while Exp ChildBlock`                                         |
 |Assignment     |`Exp (AddExp|MultExp|BoolExp)? equals Exp`                     |
 |Definition     |`def bareword openParen (id comma?)* closeParen ChildBlock`    |
-|Exp            |`Include? TernaryIfExp`                                        |
+|Exp            |`(Include|Label)? TernaryIfExp`                                |
 |TernaryIfExp   |`BoolExp (question BoolExp colon BoolExp)?`                    |
 |BoolExp        |`RelExp (boolop RelExp)*`                                      |
 |RelExp         |`AddExp (relop AddExp)*`                                       |
@@ -43,7 +44,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |PostfixExp     |`ElemFuncExp postfixop?`                                       |
 |ElemFuncExp    |`ArrayElemExp (tilde bareword Args?)*`                         |
 |ArrayElemExp   |`MiscExp (openSquare (bareword|Exp) closeSquare)`              |
-|MiscExp        |`Literal|Label|Include|Array|HashMap|id|this|HtmlSelect`       |
+|MiscExp        |`Literal|Include|Array|HashMap|id|this|HtmlSelect`             |
 |               |`openParen Exp closeParen`                                     |
 |\*\*           |`(prefixop|minus)? id`                                         |
 |               |`Call`                                                         |

@@ -10,6 +10,7 @@ module.exports = class Parser{
         this.verbose = verbose;
         this.lastToken = null;
         this.directory = directory;
+        this.labels = {};
     }
     get next() {
         return this.tokens[this.index];
@@ -30,6 +31,21 @@ module.exports = class Parser{
     }
     getFile(filename){
         return this.directory + filename;
+    }
+    insertLabel(label){
+        // Get the tokens out of our hash
+        let labelTokens = this.labels[label.text];
+        if(!labelTokens) {
+            this.error.parse( `Label '${label.text}' is not defined`, label);
+            return;
+        }
+
+        // Insert tokens right where we are
+        this.tokens.splice(this.index, 0, ...labelTokens);
+    }
+    storeLabel(label, tokens){
+        // If label already exists, we overwrite
+        this.labels[label.text] = tokens;
     }
     log( message ) {
         if(this.verbose) {
@@ -92,6 +108,9 @@ module.exports = class Parser{
     }
     atArgs() {
         return this.at("openParen") || this.atBlock() || this.atExp();
+    }
+    atLabel() {
+        return this.atSequential(["openCurly", "bareword", "closeCurly"]);
     }
     atExp() {
         return this.at([...this.lits,
