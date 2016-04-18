@@ -67,7 +67,7 @@
       "type": "stringlit",
       "line": 5,
       "column": 17,
-      "text": "\"text\""
+      "text": "text"
    },
    {
       "type": "newline",
@@ -99,7 +99,7 @@
       "type": "stringlit",
       "line": 7,
       "column": 17,
-      "text": "\"other text\""
+      "text": "other text"
    },
    {
       "type": "newline",
@@ -152,7 +152,7 @@
       "type": "stringlit",
       "line": 10,
       "column": 17,
-      "text": "\"another p\""
+      "text": "another p"
    },
    {
       "type": "newline",
@@ -194,7 +194,22 @@
       "type": "stringlit",
       "line": 12,
       "column": 9,
-      "text": "\"Another div\""
+      "text": "Another div"
+   },
+   {
+      "type": "newline",
+      "line": 12,
+      "column": 22
+   },
+   {
+      "type": "dedent",
+      "line": 12,
+      "column": 22
+   },
+   {
+      "type": "dedent",
+      "line": 12,
+      "column": 22
    },
    {
       "type": "EOF",

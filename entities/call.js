@@ -7,11 +7,12 @@ module.exports = class Call extends Entity{
     constructor( token, name, attrs, args ) {
         super( token );
         this.name = name;
-        if(attrs.length){
-            this.attrs = new Block(token, attrs);
+        // If it's a block and it's not an empty block
+        if(attrs.statements && attrs.statements.length){
+            this.attrs = attrs;
         }
-        if(args.length){
-            this.args = new Block(token, args);
+        if(args.statements && args.statements.length){
+            this.args = args;
         }
     }
     toString(indentLevel, indent){
@@ -28,7 +29,7 @@ module.exports = class Call extends Entity{
         if(this.args) {
             strArr.push(`args: ${this.args.toString(indentLevel + indent, indent)}`);
         }
-        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
+        return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
     analyze( env ) {
         // if( env.existsFunc( this.name ) ) {

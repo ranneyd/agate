@@ -66,6 +66,16 @@
       "text": "Hello World"
    },
    {
+      "type": "newline",
+      "line": 4,
+      "column": 21
+   },
+   {
+      "type": "dedent",
+      "line": 4,
+      "column": 21
+   },
+   {
       "type": "EOF",
       "line": 4,
       "column": 21

@@ -3,12 +3,14 @@
 let parseProgram = require("./parse_functions/program.js");
 
 module.exports = class Parser{
-    constructor( tokens, error, verbose ) {
+    constructor( tokens, error, verbose, directory ) {
         this.tokens = tokens;
         this.index = 0;
         this.error = error;
         this.verbose = verbose;
         this.lastToken = null;
+        this.directory = directory;
+        this.labels = {};
     }
     get next() {
         return this.tokens[this.index];
@@ -26,6 +28,25 @@ module.exports = class Parser{
         let popped = this.tokens[this.index++];
         this.lastToken = popped;
         return popped;
+    }
+    getFile(filename){
+        return this.directory + filename;
+    }
+    insertLabel(label){
+        // Get the tokens out of our hash
+        let labelTokens = this.labels[label.text];
+        if(!labelTokens) {
+            this.error.generic( `Label '${label.text}' is not defined`, label.line, label.column, true);
+            return false;
+        }
+
+        // Insert tokens right where we are
+        this.tokens.splice(this.index, 0, ...labelTokens);
+        return true;
+    }
+    storeLabel(label, tokens){
+        // If label already exists, we overwrite
+        this.labels[label.text] = tokens;
     }
     log( message ) {
         if(this.verbose) {
@@ -47,7 +68,7 @@ module.exports = class Parser{
             this.log( msg );
 
             this.log(`Tokens remaining: ${this.tokensLeft - 1}`);
-            
+
             return this.pop();
         }
         else {
@@ -76,7 +97,7 @@ module.exports = class Parser{
     atSequential( type ){
         for(let i = 0; i < type.length; ++i) {
             // If we don't have enough tokens or the token we're at doesn't
-            // match, no sale. 
+            // match, no sale.
             if(this.tokensLeft <= i || !this.atAhead( type[i], i )) {
                 return false;
             }
@@ -89,14 +110,17 @@ module.exports = class Parser{
     atArgs() {
         return this.at("openParen") || this.atBlock() || this.atExp();
     }
+    atLabel() {
+        return this.atSequential(["openCurly", "bareword", "closeCurly"]);
+    }
     atExp() {
         return this.at([...this.lits,
                    "include",
-                   "openSquare", 
-                   "openCurly", 
-                   "id", 
-                   "this", 
-                   "dot", 
+                   "openSquare",
+                   "openCurly",
+                   "id",
+                   "this",
+                   "dot",
                    "hash",
                    "openParen",
                    "prefixop",

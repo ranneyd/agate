@@ -1,0 +1,155 @@
+[
+   {
+      type: Def
+      name: {
+         type: Token
+         tokenType: bareword
+         text: fizzbuzz
+      }
+      args: [
+         @i
+      ]
+      body: [
+         [
+            {
+               condition: {
+                  type: BinaryExp
+                  a: @i
+                  b: 1
+                  op: <=
+               }
+               body: [
+                  {
+                     type: Return
+                     value: 1
+                  }
+               ]
+            }
+         ]
+         {
+            type: Assignment
+            lhs: @str
+            rhs: 
+         }
+         [
+            {
+               condition: {
+                  type: BinaryExp
+                  a: @i
+                  b: 3
+                  op: %
+               }
+               body: [
+                  {
+                     type: Assignment
+                     lhs: @str
+                     rhs: {
+                        type: BinaryExp
+                        a: @str
+                        b: Fizz
+                        op: plus
+                     }
+                  }
+               ]
+            }
+         ]
+         [
+            {
+               condition: {
+                  type: BinaryExp
+                  a: @i
+                  b: 5
+                  op: %
+               }
+               body: [
+                  {
+                     type: Assignment
+                     lhs: @str
+                     rhs: {
+                        type: BinaryExp
+                        a: @str
+                        b: Buzz
+                        op: plus
+                     }
+                  }
+               ]
+            }
+         ]
+         [
+            {
+               condition: {
+                  type: BinaryExp
+                  a: @str
+                  b: 
+                  op: ==
+               }
+               body: [
+                  {
+                     type: Return
+                     value: {
+                        type: BinaryExp
+                        a: {
+                           type: Call
+                           name: {
+                              type: Token
+                              tokenType: bareword
+                              text: fizzbuzz
+                           }
+                           args: [
+                              {
+                                 type: BinaryExp
+                                 a: @i
+                                 b: 1
+                                 op: minus
+                              }
+                           ]
+                        }
+                        b: @i
+                        op: plus
+                     }
+                  }
+               ]
+            }
+            {
+               body: [
+                  {
+                     type: Return
+                     value: {
+                        type: BinaryExp
+                        a: {
+                           type: Call
+                           name: {
+                              type: Token
+                              tokenType: bareword
+                              text: fizzbuzz
+                           }
+                           args: [
+                              {
+                                 type: BinaryExp
+                                 a: @i
+                                 b: 1
+                                 op: minus
+                              }
+                           ]
+                        }
+                        b: @str
+                        op: plus
+                     }
+                  }
+               ]
+            }
+         ]
+      ]
+   }
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: fizzbuzz
+      }
+      args: [
+         100
+      ]
+   }
+]

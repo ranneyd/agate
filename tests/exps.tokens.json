@@ -15,7 +15,7 @@
       "type": "stringlit",
       "line": 1,
       "column": 12,
-      "text": "\"Exps test\""
+      "text": "Exps test"
    },
    {
       "type": "newline",
@@ -195,7 +195,7 @@
       "type": "stringlit",
       "line": 9,
       "column": 19,
-      "text": "\"\""
+      "text": ""
    },
    {
       "type": "newline",
@@ -217,7 +217,7 @@
       "type": "stringlit",
       "line": 10,
       "column": 22,
-      "text": "\"hello world\""
+      "text": "hello world"
    },
    {
       "type": "newline",
@@ -1742,6 +1742,16 @@
       "line": 52,
       "column": 28,
       "text": "3"
+   },
+   {
+      "type": "newline",
+      "line": 52,
+      "column": 29
+   },
+   {
+      "type": "dedent",
+      "line": 52,
+      "column": 29
    },
    {
       "type": "EOF",

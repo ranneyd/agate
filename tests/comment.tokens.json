@@ -128,6 +128,16 @@
       "text": "Another div"
    },
    {
+      "type": "newline",
+      "line": 7,
+      "column": 22
+   },
+   {
+      "type": "dedent",
+      "line": 7,
+      "column": 22
+   },
+   {
       "type": "EOF",
       "line": 7,
       "column": 22

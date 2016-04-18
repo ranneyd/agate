@@ -1,4 +1,4 @@
-| template.agate
+| templates/template.agate
     {title}
         "Templating demo"
     {heading}

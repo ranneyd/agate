@@ -78,7 +78,7 @@
       "type": "stringlit",
       "line": 3,
       "column": 16,
-      "text": "\"1\""
+      "text": "1"
    },
    {
       "type": "newline",
@@ -105,7 +105,7 @@
       "type": "stringlit",
       "line": 4,
       "column": 12,
-      "text": "\"\""
+      "text": ""
    },
    {
       "type": "newline",
@@ -171,7 +171,7 @@
       "type": "stringlit",
       "line": 6,
       "column": 23,
-      "text": "\"Fizz\""
+      "text": "Fizz"
    },
    {
       "type": "newline",
@@ -242,7 +242,7 @@
       "type": "stringlit",
       "line": 8,
       "column": 23,
-      "text": "\"Buzz\""
+      "text": "Buzz"
    },
    {
       "type": "newline",
@@ -275,7 +275,7 @@
       "type": "stringlit",
       "line": 9,
       "column": 16,
-      "text": "\"\""
+      "text": ""
    },
    {
       "type": "newline",
@@ -441,6 +441,11 @@
       "line": 14,
       "column": 10,
       "text": "100"
+   },
+   {
+      "type": "newline",
+      "line": 14,
+      "column": 13
    },
    {
       "type": "EOF",

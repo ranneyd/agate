@@ -1,0 +1,641 @@
+[
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: head
+      }
+      args: [
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: bareword
+               text: title
+            }
+            args: [
+               Exps test
+            ]
+         }
+      ]
+   }
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: body
+      }
+      args: [
+         {
+            type: Assignment
+            lhs: @testbool
+            rhs: {
+               type: Call
+               name: {
+                  type: Token
+                  tokenType: bareword
+                  text: true
+               }
+            }
+         }
+         {
+            type: Assignment
+            lhs: @testboolalt
+            rhs: {
+               type: Call
+               name: {
+                  type: Token
+                  tokenType: bareword
+                  text: false
+               }
+            }
+         }
+         {
+            type: Assignment
+            lhs: @testint
+            rhs: 1
+         }
+         {
+            type: Assignment
+            lhs: @testintalt
+            rhs: {
+               type: UnaryExp
+               a: 325
+               op: minus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @testfloat
+            rhs: 3.14159
+         }
+         {
+            type: Assignment
+            lhs: @testfloatalt
+            rhs: {
+               type: UnaryExp
+               a: 123.14515
+               op: minus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @teststring
+            rhs: 
+         }
+         {
+            type: Assignment
+            lhs: @teststringalt
+            rhs: hello world
+         }
+         {
+            type: Assignment
+            lhs: @testarray
+            rhs: [
+               1
+               2
+               3
+            ]
+         }
+         {
+            type: Assignment
+            lhs: @testarrayalt
+            rhs: [
+               4
+               5
+               6
+            ]
+         }
+         {
+            type: Assignment
+            lhs: @testarrayalt2
+            rhs: [
+            ]
+         }
+         {
+            type: Assignment
+            lhs: @bool1
+            rhs: {
+               type: BinaryExp
+               a: @testbool
+               b: @testboolalt
+               op: and
+            }
+         }
+         {
+            type: Assignment
+            lhs: @bool2
+            rhs: {
+               type: BinaryExp
+               a: {
+                  type: BinaryExp
+                  a: {
+                     type: BinaryExp
+                     a: {
+                        type: BinaryExp
+                        a: {
+                           type: BinaryExp
+                           a: @testbool
+                           b: @testbool
+                           op: and
+                        }
+                        b: @testbool
+                        op: and
+                     }
+                     b: @testbool
+                     op: or
+                  }
+                  b: @testboolalt
+                  op: and
+               }
+               b: @testbool
+               op: or
+            }
+         }
+         {
+            type: Assignment
+            lhs: @bool3
+            rhs: {
+               type: BinaryExp
+               a: @testbool
+               b: @testint
+               op: and
+            }
+         }
+         {
+            type: Assignment
+            lhs: @bool4
+            rhs: {
+               type: BinaryExp
+               a: @testbool
+               b: @testfloat
+               op: and
+            }
+         }
+         {
+            type: Assignment
+            lhs: @bool5
+            rhs: {
+               type: BinaryExp
+               a: @testbool
+               b: @teststring
+               op: and
+            }
+         }
+         {
+            type: Assignment
+            lhs: @bool6
+            rhs: {
+               type: BinaryExp
+               a: @testbool
+               b: @teststringalt
+               op: and
+            }
+         }
+         {
+            type: Assignment
+            lhs: @int1
+            rhs: {
+               type: BinaryExp
+               a: @testint
+               b: @testint
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @int2
+            rhs: {
+               type: BinaryExp
+               a: @testint
+               b: @testint
+               op: minus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @int3
+            rhs: {
+               type: BinaryExp
+               a: @testint
+               b: {
+                  type: UnaryExp
+                  a: @testint
+                  op: minus
+               }
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @int4
+            rhs: {
+               type: BinaryExp
+               a: @testint
+               b: @testintalt
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @int5
+            rhs: {
+               type: BinaryExp
+               a: {
+                  type: BinaryExp
+                  a: {
+                     type: BinaryExp
+                     a: {
+                        type: BinaryExp
+                        a: @testint
+                        b: @testint
+                        op: plus
+                     }
+                     b: @testint
+                     op: plus
+                  }
+                  b: @testint
+                  op: minus
+               }
+               b: @testintalt
+               op: minus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @int6
+            rhs: {
+               type: UnaryExp
+               a: {
+                  type: UnaryExp
+                  a: {
+                     type: UnaryExp
+                     a: {
+                        type: UnaryExp
+                        a: {
+                           type: UnaryExp
+                           a: {
+                              type: UnaryExp
+                              a: {
+                                 type: UnaryExp
+                                 a: {
+                                    type: UnaryExp
+                                    a: @testintalt
+                                    op: minus
+                                 }
+                                 op: minus
+                              }
+                              op: minus
+                           }
+                           op: minus
+                        }
+                        op: minus
+                     }
+                     op: minus
+                  }
+                  op: minus
+               }
+               op: minus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @int7
+            rhs: {
+               type: BinaryExp
+               a: @testint
+               b: {
+                  type: UnaryExp
+                  a: {
+                     type: UnaryExp
+                     a: {
+                        type: UnaryExp
+                        a: {
+                           type: UnaryExp
+                           a: {
+                              type: UnaryExp
+                              a: {
+                                 type: UnaryExp
+                                 a: {
+                                    type: UnaryExp
+                                    a: {
+                                       type: UnaryExp
+                                       a: {
+                                          type: UnaryExp
+                                          a: {
+                                             type: UnaryExp
+                                             a: @testint
+                                             op: minus
+                                          }
+                                          op: minus
+                                       }
+                                       op: minus
+                                    }
+                                    op: minus
+                                 }
+                                 op: minus
+                              }
+                              op: minus
+                           }
+                           op: minus
+                        }
+                        op: minus
+                     }
+                     op: minus
+                  }
+                  op: minus
+               }
+               op: minus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @int8
+            rhs: {
+               type: BinaryExp
+               a: @testint
+               b: @testfloat
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @int8
+            rhs: {
+               type: BinaryExp
+               a: @testintalt
+               b: @testint
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @int9
+            rhs: {
+               type: BinaryExp
+               a: @testintalt
+               b: @testint
+               op: minus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @int10
+            rhs: {
+               type: BinaryExp
+               a: @testintalt
+               b: @testintalt
+               op: *
+            }
+         }
+         {
+            type: Assignment
+            lhs: @float1
+            rhs: {
+               type: BinaryExp
+               a: @testfloat
+               b: @testfloat
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @float2
+            rhs: {
+               type: BinaryExp
+               a: @testfloat
+               b: @testfloat
+               op: minus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @float3
+            rhs: {
+               type: BinaryExp
+               a: @testfloat
+               b: {
+                  type: UnaryExp
+                  a: @testfloat
+                  op: minus
+               }
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @float4
+            rhs: {
+               type: BinaryExp
+               a: @testfloat
+               b: @testfloatalt
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @float5
+            rhs: {
+               type: BinaryExp
+               a: {
+                  type: BinaryExp
+                  a: {
+                     type: BinaryExp
+                     a: {
+                        type: BinaryExp
+                        a: @testfloat
+                        b: @testfloat
+                        op: plus
+                     }
+                     b: @testfloat
+                     op: plus
+                  }
+                  b: @testfloat
+                  op: minus
+               }
+               b: @testfloatalt
+               op: minus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @float6
+            rhs: {
+               type: UnaryExp
+               a: {
+                  type: UnaryExp
+                  a: {
+                     type: UnaryExp
+                     a: {
+                        type: UnaryExp
+                        a: {
+                           type: UnaryExp
+                           a: {
+                              type: UnaryExp
+                              a: {
+                                 type: UnaryExp
+                                 a: {
+                                    type: UnaryExp
+                                    a: @testfloatalt
+                                    op: minus
+                                 }
+                                 op: minus
+                              }
+                              op: minus
+                           }
+                           op: minus
+                        }
+                        op: minus
+                     }
+                     op: minus
+                  }
+                  op: minus
+               }
+               op: minus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @float7
+            rhs: {
+               type: BinaryExp
+               a: @testfloat
+               b: {
+                  type: UnaryExp
+                  a: {
+                     type: UnaryExp
+                     a: {
+                        type: UnaryExp
+                        a: {
+                           type: UnaryExp
+                           a: {
+                              type: UnaryExp
+                              a: {
+                                 type: UnaryExp
+                                 a: {
+                                    type: UnaryExp
+                                    a: {
+                                       type: UnaryExp
+                                       a: {
+                                          type: UnaryExp
+                                          a: {
+                                             type: UnaryExp
+                                             a: @testfloat
+                                             op: minus
+                                          }
+                                          op: minus
+                                       }
+                                       op: minus
+                                    }
+                                    op: minus
+                                 }
+                                 op: minus
+                              }
+                              op: minus
+                           }
+                           op: minus
+                        }
+                        op: minus
+                     }
+                     op: minus
+                  }
+                  op: minus
+               }
+               op: minus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @float8
+            rhs: {
+               type: BinaryExp
+               a: @testfloat
+               b: @testint
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @float8
+            rhs: {
+               type: BinaryExp
+               a: @testfloatalt
+               b: @testfloat
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @float9
+            rhs: {
+               type: BinaryExp
+               a: @testfloatalt
+               b: @testfloat
+               op: minus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @string1
+            rhs: {
+               type: BinaryExp
+               a: @teststring
+               b: @teststringalt
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @string2
+            rhs: {
+               type: BinaryExp
+               a: @teststring
+               b: @teststring
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @string3
+            rhs: {
+               type: BinaryExp
+               a: @teststringalt
+               b: 3
+               op: *
+            }
+         }
+         {
+            type: Assignment
+            lhs: @array1
+            rhs: {
+               type: BinaryExp
+               a: @testarray
+               b: @testarrayalt
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @array2
+            rhs: {
+               type: BinaryExp
+               a: @testarray
+               b: @testarrayalt2
+               op: plus
+            }
+         }
+         {
+            type: Assignment
+            lhs: @array3
+            rhs: {
+               type: BinaryExp
+               a: @testarray
+               b: 3
+               op: *
+            }
+         }
+      ]
+   }
+]

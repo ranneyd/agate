@@ -12,6 +12,8 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |Program        |`Block EOF`                                                    |
 |Block*         |`newline+ (Statement ((?<!ChildBlock)newline+)?)+`             |
 |Statement      |`Template`                                                     |
+|               |`Include`                                                      |
+|               |`Label`                                                        |
 |               |`Control`                                                      |
 |               |`Definition`                                                   |
 |               |`comment`                                                      |
@@ -33,7 +35,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |While          |`while Exp ChildBlock`                                         |
 |Assignment     |`Exp (AddExp|MultExp|BoolExp)? equals Exp`                     |
 |Definition     |`def bareword openParen (id comma?)* closeParen ChildBlock`    |
-|Exp            |`TernaryIfExp`                                                 |
+|Exp            |`(Include|Label)? TernaryIfExp`                                |
 |TernaryIfExp   |`BoolExp (question BoolExp colon BoolExp)?`                    |
 |BoolExp        |`RelExp (boolop RelExp)*`                                      |
 |RelExp         |`AddExp (relop AddExp)*`                                       |
@@ -42,7 +44,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 |PostfixExp     |`ElemFuncExp postfixop?`                                       |
 |ElemFuncExp    |`ArrayElemExp (tilde bareword Args?)*`                         |
 |ArrayElemExp   |`MiscExp (openSquare (bareword|Exp) closeSquare)`              |
-|MiscExp        |`Literal|Label|Include|Array|HashMap|id|this|HtmlSelect`       |
+|MiscExp        |`Literal|Include|Array|HashMap|id|this|HtmlSelect`             |
 |               |`openParen Exp closeParen`                                     |
 |\*\*           |`(prefixop|minus)? id`                                         |
 |               |`Call`                                                         |
@@ -119,7 +121,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
 - Comments are C-style, `\\` denoting a single-line comment.
     - Comments will insert HTML comments into the code.
     - Adding an exclamation point (`\\! comment`) will prevent the comment from occurring in HTML in the compiled document.
-    - Block comments can be achieved with indentation. 
+    - Block comments can be achieved with indentation.
 
 ###Templates
 
@@ -141,7 +143,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
     - Content of tag (assuming non-self-closing tag) is in indented block
         - Contents can be included in one line if short, such as `p "contents of p"`
             - Contents can include variables and literals.
-                - Note, that a string literal containing raw HTML will be inserted into the resultant document. 
+                - Note, that a string literal containing raw HTML will be inserted into the resultant document.
             - This content can include tags
                 - Content belonging to tag is _non-greedy_.
                     - `p strong "bold" " stuff"` produces `<p><strong>bold</strong> stuff</p>`.
@@ -169,7 +171,7 @@ Agate is a template/scripting/markup hybrid language that aims to fix various pr
         - If, before the `style` block, the programmer writes `@foo = "red"` then the CSS `background-color:@foo` will be converted into `background-color: red`
 - CSS can be imported and templated in the same way as normal Agate
     - `>` and `|` statements can be written at top-level indentation and will be escaped from the CSS
-    - ex: injecting the contents of `p_styles.css` would go like 
+    - ex: injecting the contents of `p_styles.css` would go like
     ```
     style
         p: {

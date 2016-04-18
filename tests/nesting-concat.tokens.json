@@ -25,7 +25,7 @@
       "type": "stringlit",
       "line": 2,
       "column": 11,
-      "text": "\"Nesting and Concatenation Example\""
+      "text": "Nesting and Concatenation Example"
    },
    {
       "type": "newline",
@@ -68,7 +68,7 @@
       "type": "stringlit",
       "line": 4,
       "column": 13,
-      "text": "\"thing\""
+      "text": "thing"
    },
    {
       "type": "newline",
@@ -85,7 +85,7 @@
       "type": "stringlit",
       "line": 5,
       "column": 7,
-      "text": "\"A \""
+      "text": "A "
    },
    {
       "type": "bareword",
@@ -113,7 +113,7 @@
       "type": "stringlit",
       "line": 5,
       "column": 19,
-      "text": "'\\\\'"
+      "text": "\\\\"
    },
    {
       "type": "interpolate",
@@ -135,7 +135,7 @@
       "type": "stringlit",
       "line": 5,
       "column": 29,
-      "text": "'.html'"
+      "text": ".html"
    },
    {
       "type": "closeSquare",
@@ -162,7 +162,7 @@
       "type": "stringlit",
       "line": 5,
       "column": 45,
-      "text": "\"bold\""
+      "text": "bold"
    },
    {
       "type": "closeParen",
@@ -173,7 +173,7 @@
       "type": "stringlit",
       "line": 5,
       "column": 53,
-      "text": "\" link\""
+      "text": " link"
    },
    {
       "type": "closeParen",
@@ -181,20 +181,15 @@
       "column": 60
    },
    {
-      "type": "comma",
-      "line": 5,
-      "column": 61
-   },
-   {
       "type": "stringlit",
       "line": 5,
-      "column": 64,
-      "text": "\" for you\""
+      "column": 63,
+      "text": " for you"
    },
    {
       "type": "newline",
       "line": 5,
-      "column": 74
+      "column": 73
    },
    {
       "type": "bareword",
@@ -206,7 +201,7 @@
       "type": "stringlit",
       "line": 6,
       "column": 7,
-      "text": "\"An \""
+      "text": "An "
    },
    {
       "type": "bareword",
@@ -234,7 +229,7 @@
       "type": "stringlit",
       "line": 6,
       "column": 20,
-      "text": "'\\\\'"
+      "text": "\\\\"
    },
    {
       "type": "interpolate",
@@ -256,7 +251,7 @@
       "type": "stringlit",
       "line": 6,
       "column": 30,
-      "text": "'.html'"
+      "text": ".html"
    },
    {
       "type": "closeSquare",
@@ -278,7 +273,7 @@
       "type": "stringlit",
       "line": 6,
       "column": 43,
-      "text": "'italicized'"
+      "text": "italicized"
    },
    {
       "type": "closeParen",
@@ -289,7 +284,7 @@
       "type": "stringlit",
       "line": 6,
       "column": 57,
-      "text": "'link to \\\\'"
+      "text": "link to \\\\"
    },
    {
       "type": "interpolate",
@@ -311,7 +306,17 @@
       "type": "stringlit",
       "line": 6,
       "column": 75,
-      "text": "'.html'"
+      "text": ".html"
+   },
+   {
+      "type": "newline",
+      "line": 6,
+      "column": 82
+   },
+   {
+      "type": "dedent",
+      "line": 6,
+      "column": 82
    },
    {
       "type": "EOF",

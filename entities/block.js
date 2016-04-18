@@ -13,19 +13,18 @@ module.exports = class Block extends Entity{
         indent = indent || 3;
 
         let strArr = [];
-
         for(let stmt of this.statements) {
             strArr.push(stmt.toString(indentLevel + indent, indent))
         }
 
-        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
+        return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
     toStringArray(indentLevel, indent, attrs){
         // indentLevel = how many spaces whole block is indented by
         // indent = how many spaces we should indent with
         // attrs = additional attributes to spit out
         indentLevel = indentLevel || 0;
-        indent = indent || 3;        
+        indent = indent || 3;
         attrs = attrs || [];
 
         // Every entity should output its type. Optionally add more attrs to
@@ -44,7 +43,7 @@ module.exports = class Block extends Entity{
     analyze( env ) {
         let localEnv = env.makeChild();
         localEnv.safe = localEnv.safe && this.safe;
-        
+
         for( let stmt of this.statements) {
             stmt.analyze( localEnv );
             // If anything comes back unsafe, our whole block is unsafe

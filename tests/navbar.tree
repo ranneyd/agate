@@ -1,0 +1,107 @@
+[
+   {
+      type: Assignment
+      lhs: @pages
+      rhs: [
+         home
+         news
+         about
+         contact
+      ]
+   }
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: style
+      }
+      args: [
+         a{
+             text-decoration: none;
+         }
+         ul {
+             list-style-type: none;
+             margin: 0;
+             padding: 0;
+         }
+         a.home{
+             font-weight:bold;
+         }
+      ]
+   }
+   {
+      type: Call
+      name: {
+         type: Token
+         tokenType: bareword
+         text: ul
+      }
+      args: [
+         {
+            type: For
+            id: @page
+            iterable: @pages
+            body: [
+               {
+                  type: Call
+                  name: {
+                     type: Token
+                     tokenType: bareword
+                     text: li
+                  }
+                  args: [
+                     {
+                        type: Call
+                        name: {
+                           type: Token
+                           tokenType: bareword
+                           text: a
+                        }
+                        attrs: [
+                           [
+                              {
+                                 type: Attr
+                                 key: href
+                                 value: {
+                                    type: BinaryExp
+                                    a: {
+                                       type: BinaryExp
+                                       a: /
+                                       b: @page
+                                       op: plus
+                                    }
+                                    b: html
+                                    op: plus
+                                 }
+                              }
+                              {
+                                 type: Attr
+                                 key: class
+                                 value: [
+                                    {
+                                       condition: {
+                                          type: BinaryExp
+                                          a: @page
+                                          b: home
+                                          op: ==
+                                       }
+                                       body: home
+                                    }
+                                    {
+                                       body: 
+                                    }
+                                 ]
+                              }
+                           ]
+                        ]
+                        args: [
+                           @page
+                        ]
+                     }
+                  ]
+               }
+            ]
+         }
+      ]
+   }
+]

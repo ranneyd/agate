@@ -16,13 +16,17 @@ let While = require("../entities/while");
 let parseStatement = p => {
     let parseExp = require("./exp");
     let parseDef = require("./def");
+    let parseInclude = require("./include");
+    let parseTemplate = require("./template");
 
     if( p.at("comment") ) {
         return new Token( p.match("comment") );
     }
     else if ( p.at('template') ) {
-        // TODO
-        //return template();
+        return parseTemplate( p );
+    }
+    else if ( p.at('include') ) {
+        return parseInclude( p );
     }
     else if( p.at(p.controlTypes) ) {
         return parseControl( p );
@@ -52,7 +56,7 @@ let parseStatement = p => {
                     new BinaryExp( //rhs
                         op, // token
                         exp, // a
-                        p.parseExp(), // b
+                        parseExp( p ), // b
                         op // op
                     )
                 );
@@ -68,7 +72,7 @@ let parseStatement = p => {
                     new BinaryExp( //rhs
                         op, // token
                         exp, // a
-                        p.parseExp(), // b
+                        parseExp( p ), // b
                         op // op
                     )
                 );
@@ -85,7 +89,7 @@ let parseStatement = p => {
                     new BinaryExp( //rhs
                         op, // token
                         exp, // a
-                        p.parseExp(), // b
+                        parseExp( p ), // b
                         op // op
                     )
                 );
@@ -147,7 +151,8 @@ let parseIf = p =>{
 }
 let parseFor = p =>{
     let parseExp = require("./exp");
-    let parseChildBlock = require("./childBlock")
+    let parseChildBlock = require("./childBlock");
+
 
     let forToken = p.match('for');
 
@@ -162,7 +167,18 @@ let parseFor = p =>{
     );
 }
 let parseWhile = p =>{
-    // TODO
+    let parseExp = require("./exp");
+    let parseChildBlock = require("./childBlock");
+
+    let whileToken = p.match('while');
+
+    let exp = parseExp( p );
+
+    return new While(
+        whileToken, // token
+        exp, // exp
+        parseChildBlock( p ) //body
+    );
 }
 module.exports = ( p ) => {
     p.matchLog(`Matching Block`);
@@ -179,18 +195,27 @@ module.exports = ( p ) => {
 
         let stmt = parseStatement( p );
 
-        // They can put as many blank lines as they'd like, but that
-        // doesn't mean we have to pay attention to them
-        if(stmt !== "blank"){
+        // Make sure the statement didn't come back with nothing
+        if(stmt){
             statements.push( stmt );
         }
+        else{
+            // If it came back with nothing it's probably an include or template thing. So just
+            // restart
+            continue;
+        }
+        // Since a lot of things use block, and some of them are JSON related, we'll allow commas
+        if(p.at("comma")) {
+            p.match("comma");
+        }
+        // There should be at least one, or an EOF or a dedent
+        while(p.at("newline")) {
+            p.match("newline");
+        }
 
-        // child blocks are special cases. Since dedents come after the
-        // newlines, the ChildBlock pattern needs to consume the newline.
-        if(p.lastToken.type !== "dedent" && !p.at("EOF")){
-            do{
-                p.match("newline");
-            } while( p.at("newline") );
+        // If we're at the end of the file or a dedent, our work is done
+        if(p.at("EOF") || p.at("dedent")){
+            break;
         }
     }
 

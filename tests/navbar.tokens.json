@@ -19,25 +19,25 @@
       "type": "stringlit",
       "line": 1,
       "column": 11,
-      "text": "\"home\""
+      "text": "home"
    },
    {
       "type": "stringlit",
       "line": 1,
       "column": 18,
-      "text": "\"news\""
+      "text": "news"
    },
    {
       "type": "stringlit",
       "line": 1,
       "column": 25,
-      "text": "\"about\""
+      "text": "about"
    },
    {
       "type": "stringlit",
       "line": 1,
       "column": 33,
-      "text": "\"contact\""
+      "text": "contact"
    },
    {
       "type": "closeSquare",
@@ -280,7 +280,7 @@
       "type": "stringlit",
       "line": 18,
       "column": 19,
-      "text": "'/'"
+      "text": "/"
    },
    {
       "type": "interpolate",
@@ -302,7 +302,7 @@
       "type": "stringlit",
       "line": 18,
       "column": 28,
-      "text": "'html'"
+      "text": "html"
    },
    {
       "type": "bareword",
@@ -341,7 +341,7 @@
       "type": "stringlit",
       "line": 18,
       "column": 52,
-      "text": "\"home\""
+      "text": "home"
    },
    {
       "type": "closeParen",
@@ -357,7 +357,7 @@
       "type": "stringlit",
       "line": 18,
       "column": 62,
-      "text": "\"home\""
+      "text": "home"
    },
    {
       "type": "colon",
@@ -368,7 +368,7 @@
       "type": "stringlit",
       "line": 18,
       "column": 71,
-      "text": "\"\""
+      "text": ""
    },
    {
       "type": "closeParen",
@@ -385,6 +385,21 @@
       "line": 18,
       "column": 76,
       "text": "page"
+   },
+   {
+      "type": "newline",
+      "line": 18,
+      "column": 81
+   },
+   {
+      "type": "dedent",
+      "line": 18,
+      "column": 81
+   },
+   {
+      "type": "dedent",
+      "line": 18,
+      "column": 81
    },
    {
       "type": "EOF",

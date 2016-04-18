@@ -12,7 +12,7 @@ const AgateError = require("../error.js");
 
 describe("Agate Files", function() {
     it("(being mocha) is irritating", function(){
-    
+
     // http://stackoverflow.com/questions/7041638/walking-a-directory-with-node-js
     // Read the directory
     fs.readdir( dir, ( dir_err, list ) => {
@@ -49,7 +49,7 @@ describe("Agate Files", function() {
                     it('should parse properly', function () {
                         let expectedTree = fs.readFileSync( `${dir}/${fileParts[1]}.tree`, 'utf8');
 
-                        let parser = new Parser(tokens, error, false);
+                        let parser = new Parser(tokens, error, false, dir + "/");
                         tree = parser.init();
                         let str = tree.toString();
 

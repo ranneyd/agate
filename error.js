@@ -15,8 +15,12 @@ module.exports = class AgateError {
         this.log = true;
     }
     generic(message, line, col, warning) {
-        warning ? this.warnings++ : this.count++;
-        if(this.log){
+        if(warning) {
+            this.warnings++;
+            console.log(`Warning: ${message}`)
+        }
+        else{
+            this.count++;
             console.log(message);
         }
         if(line && this.log){
@@ -47,7 +51,7 @@ module.exports = class AgateError {
         if(message === "newline" && token.type === "dot") {
             this.hint = "Did you mean @var[attr] or @var~func instead of @var.attr?";
         }
-        if(message === "Expected some kind of expression" 
+        if(message === "Expected some kind of expression"
             && ["colon", "equals"].indexOf(token.type) !== -1) {
             this.hint = "Did you use parens instead of square brackets for attributes, like a(href='place.html') instead of a[href='place.html']?"
         }

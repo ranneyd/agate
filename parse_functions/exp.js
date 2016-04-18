@@ -13,17 +13,16 @@ let UnaryExp = require("../entities/unaryExp");
 
 let parseTernary = p => {
     let exp = parseBool( p );
-    
     if( p.at("question") ) {
-        
-        let qToken = match("question");
+
+        let qToken = p.match("question");
 
         let ifstmt = {
             condition: exp,
             body: parseBool( p )
         };
 
-        match("colon");
+        p.match("colon");
 
         let elsestmt = {
             body: parseBool( p )
@@ -31,7 +30,7 @@ let parseTernary = p => {
 
         return new If( qToken, [ifstmt, elsestmt] );
     }
-    
+
     return exp;
 };
 
@@ -40,7 +39,7 @@ let parseBool = p => {
     // While at a boolop, but not at an assignment of some kind
     while( p.at("boolop") && !p.atAhead("equals", 1) ) {
         let op = p.match("boolop");
-        return new BinaryExp( op, exp, parseRel( p ), op );
+        exp = new BinaryExp( op, exp, parseRel( p ), op );
     }
     return exp;
 };
@@ -50,7 +49,7 @@ let parseRel = p => {
     // While at a relop, but not at an assignment of some kind
     while( p.at("relop") && !p.atAhead("equals", 1)) {
         let op = p.match("relop");
-        return new BinaryExp( op, exp, parseAdd( p ), op );
+        exp =  new BinaryExp( op, exp, parseAdd( p ), op );
     }
     return exp;
 };
@@ -60,7 +59,7 @@ let parseAdd = p => {
     // While at a relop, but not at an assignment of some kind
     while( p.at(["plus", "minus"]) && !p.atAhead("equals", 1) ) {
         let op = (p.at("plus") ? p.match("plus") : p.match("minus"));
-        return new BinaryExp( op, exp, parseMult( p ), op );
+        exp =  new BinaryExp( op, exp, parseMult( p ), op );
     }
     return exp;
 };
@@ -70,7 +69,7 @@ let parseMult = p => {
     // While at a multop, but not at an assignment of some kind
     while( p.at("multop") && !p.atAhead("equals", 1) ) {
         let op = p.match("multop");
-        return new BinaryExp( op, exp, parsePostfix( p ), op );
+        exp =  new BinaryExp( op, exp, parsePostfix( p ), op );
     }
     return exp;
 };
@@ -95,7 +94,7 @@ let parseElemFunc = p => {
 
         let func = new Token( p.match("bareword") );
 
-        let args;
+        let args = [];
         p.error.hint = "The ~ operator is for member functions only. Thus, if you don't put parens after, we're going to gobble up as many potential arguments as we can";
 
         if( p.atArgs() ){
@@ -103,7 +102,7 @@ let parseElemFunc = p => {
         }
         p.error.hint = "";
 
-        return new ElemFunc(tilde, exp, func, args);
+        exp =  new ElemFunc(tilde, exp, func, args);
     }
     return exp;
 };
@@ -116,10 +115,10 @@ let parseArrayElem = p => {
         let index;
         // barewords can be array keys
         if( p.atSequential(["bareword", "closeSquare"]) ) {
-            index = new Token(match("bareword"));
+            index = new Token(p.match("bareword"));
         }
         else {
-            index = parseTernary( p );
+            index = parseExp( p );
         }
         exp = new ArrayAt(open, exp, index);
 
@@ -129,8 +128,6 @@ let parseArrayElem = p => {
 };
 
 let parseMisc = p => {
-    let parseLabel = require("./label");
-    let parseInclude = require("./include");
     let parseArray = require("./array");
     let parseHashMap = require("./hashmap");
     let parseSelector = require("./selector");
@@ -138,12 +135,6 @@ let parseMisc = p => {
 
     if( p.at(p.lits) ) {
         return parseLit( p );
-    }
-    else if( p.atSequential(["openCurly", "bareword", "closeCurly"]) ) {
-        return parseLabel( p );
-    }
-    else if( p.at("include") ) {
-        return parseInclude( p );
     }
     else if( p.at("openSquare") ){
         return parseArray( p );
@@ -168,7 +159,7 @@ let parseMisc = p => {
     }
     else if( p.at(["prefixop", "minus"]) ) {
         let op = (p.at("prefixop") ? p.match("prefixop") : p.match("minus"));
-        return new UnaryExp( op, parseTernary( p ), op );
+        return new UnaryExp( op, parseExp( p ), op );
     }
     else if( p.at(["bareword", ...p.builtins])){
         return parseCall( p );
@@ -214,8 +205,22 @@ let parseString = p => {
     return str;
 };
 
+let parseExp = p =>{
+    let parseInclude = require("./include");
+    let parseLabel = require("./label");
+    while(p.at("include") || p.atLabel()) {
+        if( p.at("include") ) {
+            parseInclude( p );
+        }
+        if( p.atLabel() ) {
+            parseLabel( p );
+        }
+    }
+    return parseTernary( p );
+}
+
 module.exports = ( p ) => {
     p.matchLog(`Matching Exp`);
-    
-    return parseTernary( p );
+
+    return parseExp( p );
 };

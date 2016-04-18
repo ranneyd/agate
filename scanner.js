@@ -215,7 +215,8 @@ module.exports = (data, error, verbose) => {
                 "line": line,
                 "column": column
             };
-            if (text) {
+            // We want to capture "", 0, other things that evaluate to false
+            if (text !== undefined && text !== false) {
                 ourToken.text = text;
             }
             return ourToken;
@@ -352,7 +353,12 @@ module.exports = (data, error, verbose) => {
                 }
 
                 if(lastGroup === "${") {
-                    stringToken.text = stringToken.text.slice(0, -1).replace(/.$/, "'");
+                    // Because we handle the beginning and ending quotes for normal strings, our
+                    // last character get knocked off. This is usually a quote, but in this case
+                    // it's a {. This still triggers because the last matching group is unchanged.
+                    // So our string was `'...${` and now it's `...$`. So we need to just knock off
+                    // the $ and we're good!
+                    stringToken.text = stringToken.text.slice(0, -1);
                     interpolating = true;
 
                     tokens.push( stringToken );
@@ -375,7 +381,7 @@ module.exports = (data, error, verbose) => {
                 cssMode = !jsMode;
             }
             if (matchData = /^(=|:)/.exec( truncData ) ) {
-                // If we just matched a style or a script, it's actually an attribute 
+                // If we just matched a style or a script, it's actually an attribute
                 let lastType = tokens[tokens.length - 1].type;
                 if(lastType === "script" || lastType === "style") {
                     jsMode = false;
@@ -391,7 +397,7 @@ module.exports = (data, error, verbose) => {
                 notMatched = false;
             }
         }
-        
+
         // Match the keywords in a special way
         for ( let keyword in keywords ) {
             let keywordRegex = new RegExp(`^${keywords[keyword]}(?![A-Za-z$_])`);
@@ -474,7 +480,7 @@ module.exports = (data, error, verbose) => {
                 if ( (jsMode || cssMode) && newModeTrigger) {
 
                     // If we're in JS/CSS mode, we want to ignore the first [previous indentation
-                    // level] space characters and capture the rest as raw js/css. 
+                    // level] space characters and capture the rest as raw js/css.
                     var specialIndentSize = indentSize - indent.peek();
 
 
@@ -549,6 +555,13 @@ module.exports = (data, error, verbose) => {
                 return error.scanner(`Could not tokenize \n...${data.slice(position - 10, position + 10)}...\n             ^`, line, column);
             }
         }
+    }
+    // Cleanup. Make sure, in case this gets imported somewhere, that it ends at the same
+    // indentation it began at
+    tokens.push( token("newline") );
+    while(indent.peek() !== 0){
+          tokens.push( token("dedent") );
+          indent.pop();
     }
     tokens.push( token("EOF") );
     return tokens;

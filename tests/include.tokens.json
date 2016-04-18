@@ -1,0 +1,88 @@
+[
+   {
+      "type": "bareword",
+      "line": 1,
+      "column": 1,
+      "text": "body"
+   },
+   {
+      "type": "newline",
+      "line": 1,
+      "column": 5
+   },
+   {
+      "type": "indent",
+      "line": 2,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 2,
+      "column": 5,
+      "text": "h1"
+   },
+   {
+      "type": "stringlit",
+      "line": 2,
+      "column": 8,
+      "text": "Testing including stuff"
+   },
+   {
+      "type": "newline",
+      "line": 2,
+      "column": 33
+   },
+   {
+      "type": "include",
+      "line": 3,
+      "column": 5
+   },
+   {
+      "type": "stringlit",
+      "line": 3,
+      "column": 13,
+      "text": "navbar.agate"
+   },
+   {
+      "type": "newline",
+      "line": 3,
+      "column": 27
+   },
+   {
+      "type": "newline",
+      "line": 4,
+      "column": 1
+   },
+   {
+      "type": "bareword",
+      "line": 5,
+      "column": 5,
+      "text": "p"
+   },
+   {
+      "type": "stringlit",
+      "line": 5,
+      "column": 7,
+      "text": "I hope it worked"
+   },
+   {
+      "type": "newline",
+      "line": 5,
+      "column": 25
+   },
+   {
+      "type": "dedent",
+      "line": 6,
+      "column": 1
+   },
+   {
+      "type": "newline",
+      "line": 6,
+      "column": 1
+   },
+   {
+      "type": "EOF",
+      "line": 6,
+      "column": 1
+   }
+]

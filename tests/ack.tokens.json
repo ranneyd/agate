@@ -314,6 +314,11 @@
       "text": "2"
    },
    {
+      "type": "newline",
+      "line": 8,
+      "column": 8
+   },
+   {
       "type": "EOF",
       "line": 8,
       "column": 8

@@ -3,12 +3,12 @@
       "type": "template",
       "line": 1,
       "column": 1,
-      "text": "simpleadventure.agate"
+      "text": "templates/simpleadventure.agate"
    },
    {
       "type": "newline",
       "line": 1,
-      "column": 24
+      "column": 34
    },
    {
       "type": "indent",
@@ -45,12 +45,12 @@
       "type": "stringlit",
       "line": 3,
       "column": 9,
-      "text": "\"./samplegame\""
+      "text": "samplegame"
    },
    {
       "type": "newline",
       "line": 3,
-      "column": 23
+      "column": 21
    },
    {
       "type": "dedent",
@@ -84,15 +84,20 @@
       "column": 1
    },
    {
+      "type": "include",
+      "line": 5,
+      "column": 9
+   },
+   {
       "type": "stringlit",
       "line": 5,
-      "column": 9,
-      "text": "\"./samplegame/make.json\""
+      "column": 17,
+      "text": "samplegame/make.json"
    },
    {
       "type": "newline",
       "line": 5,
-      "column": 33
+      "column": 39
    },
    {
       "type": "dedent",
@@ -101,6 +106,11 @@
    },
    {
       "type": "dedent",
+      "line": 6,
+      "column": 1
+   },
+   {
+      "type": "newline",
       "line": 6,
       "column": 1
    },

@@ -194,6 +194,11 @@
       "text": "5"
    },
    {
+      "type": "newline",
+      "line": 6,
+      "column": 6
+   },
+   {
       "type": "EOF",
       "line": 6,
       "column": 6
