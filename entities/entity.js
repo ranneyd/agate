@@ -10,14 +10,14 @@ module.exports = class Entity{
         // Thanks node for your default parameter support >:(
         indentLevel = indentLevel || 0;
         indent = indent || 3;
-        return this.toStringArray(indentLevel, indent).join("\n");  
+        return this.toStringArray(indentLevel, indent).join("\n");
     }
     toStringArray(indentLevel, indent, attrs){
         // indentLevel = how many spaces whole block is indented by
         // indent = how many spaces we should indent with
         // attrs = additional attributes to spit out
         indentLevel = indentLevel || 0;
-        indent = indent || 3;        
+        indent = indent || 3;
         attrs = attrs || [];
 
         // Every entity should output its type. Optionally add more attrs to
@@ -37,5 +37,14 @@ module.exports = class Entity{
     // No analysis necessary
     analyze( env ) {
 
+    }
+    get className() {
+        return this.constructor.name.toLowerCase();
+    }
+    generate(indentLevel, indent){
+        return this.toGenerateArray(indentLevel, indent).join("\n");
+    }
+    toGenerateArray(indentLevel, indent){
+        return [`<${this.className}/>`];
     }
 };

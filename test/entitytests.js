@@ -65,45 +65,48 @@ describe('Entity', function() {
         line: 1,
         column: 2
     };
-    describe('constructor', function () {
-        it('should construct', function () {
+    let entity = new Entity(practiceToken);
 
-            let entity = new Entity(practiceToken);
-            assert.deepStrictEqual(entity.line, 1, "line");
-            assert.deepStrictEqual(entity.column, 2, "column");
-        });
+    it('should construct', function () {
+
+        assert.deepStrictEqual(entity.line, 1, "line");
+        assert.deepStrictEqual(entity.column, 2, "column");
     });
-    describe('toString', function () {
-        it('should make the string', function () {
-            let entity = new Entity(practiceToken);
-            let expectedString = [
-                "{",
-                "   type: Entity",
-                "}"
-            ].join("\n");
-            assert.deepStrictEqual(entity.toString(), expectedString, "defaults");
 
-            expectedString = [
-                "{",
-                "      type: Entity",
-                "   }"
-            ].join("\n");
-            assert.deepStrictEqual(entity.toString(3), expectedString, "indent level 3");
+    it('should make the string', function () {
+        let expectedString = [
+            "{",
+            "   type: Entity",
+            "}"
+        ].join("\n");
+        assert.deepStrictEqual(entity.toString(), expectedString, "defaults");
 
-            expectedString = [
-                "{",
-                "    type: Entity",
-                "}"
-            ].join("\n");
-            assert.deepStrictEqual(entity.toString(0, 4), expectedString, "indent level 0, indent amount 4");
+        expectedString = [
+            "{",
+            "      type: Entity",
+            "   }"
+        ].join("\n");
+        assert.deepStrictEqual(entity.toString(3), expectedString, "indent level 3");
 
-            expectedString = [
-                "{",
-                "       type: Entity",
-                "   }"
-            ].join("\n");
-            assert.deepStrictEqual(entity.toString(3, 4), expectedString, "indent level 3, indent amount 4");
-        });
+        expectedString = [
+            "{",
+            "    type: Entity",
+            "}"
+        ].join("\n");
+        assert.deepStrictEqual(entity.toString(0, 4), expectedString, "indent level 0, indent amount 4");
+
+        expectedString = [
+            "{",
+            "       type: Entity",
+            "   }"
+        ].join("\n");
+        assert.deepStrictEqual(entity.toString(3, 4), expectedString, "indent level 3, indent amount 4");
+    });
+    it('should generate', function () {
+        let expectedCode = [
+            "<entity/>"
+        ].join("\n");
+        assert.deepStrictEqual(entity.generate(), expectedCode, "defaults");
     });
 });
 describe('Token', function() {
