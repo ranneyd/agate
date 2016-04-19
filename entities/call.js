@@ -32,22 +32,65 @@ module.exports = class Call extends Entity{
         return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
     analyze( env ) {
-        // if( env.existsFunc( this.name ) ) {
-        //     this.func = env.lookupFunc( this.name );
-        //     this.safe = this.safe && this.func.safe;
-        // }
-        // else {
-        //     this.safe = false;
-        // }
+    }
+    generate(g, context){
+        g.log(`Generating Call`);
 
-        // for( let attr of this.attrs ) {
-        //     attr.analyze( env );
-        //     this.safe = this.safe && attr.safe;
-        // }
+        let name = this.name.text;
 
-        // for( let arg of this.args ) {
-        //     arg.analyze( env );
-        //     this.safe = this.safe && arg.safe;
-        // }
+        if(context.isFunction(name)){
+            // TODO: javascript function call
+        }
+        else if(g.builtinFunctions[name]){
+            // TODO: what do I do when a built in function is called?
+        }
+        else{
+            // If it's not a user-defined or built-in function, we treat it like html
+
+            let ref = `elem${g.counter++}`;
+            let lines = [
+                ...g.setScriptMode(true),
+                `let ${ref} = document.createElement("${name}");`
+            ];
+
+            if(this.attrs){
+                // ES6 scope! :)
+                lines.push(`{`);
+
+                let attrLines = [`let attr;`];
+
+                for(let attr of this.attrs.statements) {
+                    let value = attr.value.generate(g, context, 0);
+
+                    // TODO: if they did some bullshit like making an attr equal to an html element,
+                    // bitch at them
+                    this.attrLines.push(`attr = ${value};`);
+                    this.attrLines.push(`${ref}.setAttribute("${attr.key}", attr);`);
+                }
+
+                lines.push(attrLines.map(str => " ".repeat(g.INDENT) + str));
+
+                lines.push(`}`);
+            }
+
+            if(this.args){
+                let localContext = context.makeChild();
+                localContext.container = ref;
+
+                for(let arg of this.args.statements){
+                    let argLines = arg.generate(g, localContext);
+
+                    if(Array.isArray(argLines)) {
+                        lines = lines.concat(g.formatArray(argLines));
+                    }
+                    else {
+                        lines.push(argLines);
+                    }
+                }
+            }
+
+            lines.push(`${context.container}.appendChild(${ref});`);
+            return g.formatArray(lines);
+        }
     }
 };

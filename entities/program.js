@@ -16,7 +16,19 @@ module.exports = class Program extends Entity{
         // this.body.analyze( new Env() );
         // this.safe = this.body.safe;
     }
-    generate(){
+    generate(g, context){
+        g.log(`Generating Program`);
 
+        let bodyLines = this.body.generate(g, context);
+        bodyLines = bodyLines.concat(g.setScriptMode(false));
+
+        let linesOfCode = [
+            "<!DOCTYPE>",
+            "<html>",
+            ...g.formatArray(bodyLines),
+            "</html>"
+        ];
+
+        return linesOfCode.join("\n");
     }
 };

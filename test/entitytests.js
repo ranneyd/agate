@@ -102,12 +102,6 @@ describe('Entity', function() {
         ].join("\n");
         assert.deepStrictEqual(entity.toString(3, 4), expectedString, "indent level 3, indent amount 4");
     });
-    it('should generate', function () {
-        let expectedCode = [
-            "<entity/>"
-        ].join("\n");
-        assert.deepStrictEqual(entity.generate(), expectedCode, "defaults");
-    });
 });
 describe('Token', function() {
     let practiceToken = {

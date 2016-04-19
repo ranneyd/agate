@@ -50,4 +50,23 @@ module.exports = class Block extends Entity{
             this.safe = this.safe && stmt.safe;
         }
     }
+    generate(g, context){
+        g.log(`Generating Block`);
+
+
+        let localContext = context.makeChild();
+        // first, go through and look for function defs in this scope
+        for(let stmt of this.statements) {
+            if(stmt.type === "Def"){
+                localContext.setFunction(stmt.name);
+            }
+        }
+
+        let lines = [];
+        for(let stmt of this.statements) {
+            lines = lines.concat(stmt.generate(g, context))
+        }
+
+        return g.formatArray(lines);
+    }
 };

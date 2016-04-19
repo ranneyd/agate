@@ -23,7 +23,7 @@ module.exports = class Entity{
         // Every entity should output its type. Optionally add more attrs to
         // this list
         let strArr = [
-            `type: ${this.constructor.name}`,
+            `type: ${this.type}`,
             ...attrs
         ];
         // Indent these attrs
@@ -38,13 +38,11 @@ module.exports = class Entity{
     analyze( env ) {
 
     }
-    get className() {
-        return this.constructor.name.toLowerCase();
+    get type() {
+        return this.constructor.name;
     }
+
     generate(indentLevel, indent){
-        return this.toGenerateArray(indentLevel, indent).join("\n");
-    }
-    toGenerateArray(indentLevel, indent){
         return [`<${this.className}/>`];
     }
 };

@@ -14,6 +14,8 @@ var error = new AgateError();
 
 var scanner = require("./scanner.js");
 let Parser  = require("./parser.js");
+let Generator  = require("./generator.js");
+
 
 var help = () =>{
     console.log("Help")
@@ -84,11 +86,11 @@ readFile(`${directory}${file}.agate`)
             console.log("Beginning Scanning...");
         }
         let tokens = scanner(code, error, verbose);
+        if(verbose) {
+            console.log("-".repeat(80));
+            console.log("Beginning Parsing...");
+        }
         if(dumpTokens) {
-            if(verbose) {
-                console.log("-".repeat(80));
-                console.log("Beginning Parsing...");
-            }
             let prettyTokens = JSON.stringify(tokens, null, 3);
             writeFile(`${directory}${outName || file}.tokens.json`, prettyTokens)
                 .catch( err => {
@@ -108,6 +110,14 @@ readFile(`${directory}${file}.agate`)
                             console.log(err);
                         });
                 }
+                if( !error.count ){
+                    let generator = new Generator(parseTree, error, verbose);
+                    let code = generator.init();
+                    writeFile(`${directory}${outName || file}.html`, code)
+                        .catch( err => {
+                            console.log(err);
+                        });
+                }
             }
             // The built-in error handling is so bad
             catch(e){
@@ -116,12 +126,6 @@ readFile(`${directory}${file}.agate`)
                 return;
             }
         }
-
-        // writeFile(`${outName || file}.html`, ---output I guess---)
-        //     .catch( err => {
-        //         console.log(err);
-        //     });
-
     })
     .catch( err => {
         console.log(err);

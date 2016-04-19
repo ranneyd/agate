@@ -16,4 +16,10 @@ module.exports = class Literal extends Entity{
     analyze( env ) {
 
     }
+    generate(g, context){
+        g.log(`Generating literal`);
+
+        // TODO: " vs '?
+        return `${context.container}.appendChild(document.createTextNode("${this.text}"));`;
+    }
 };
