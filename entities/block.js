@@ -62,12 +62,12 @@ module.exports = class Block extends Entity{
         // first, go through and look for function defs in this scope
         for(let stmt of this.statements) {
             if(stmt.type === "Def"){
-                localContext.setFunction(stmt.name);
+                localContext.setFunction(stmt.name.text);
             }
         }
 
         for(let stmt of this.statements) {
-            let generated = stmt.generate(g, context, js);
+            let generated = stmt.generate(g, localContext, js);
             lines.html = lines.html.concat(generated.html);
             lines.scripts = lines.scripts.concat(generated.scripts);
         }

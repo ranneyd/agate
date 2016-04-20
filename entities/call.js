@@ -82,6 +82,10 @@ module.exports = class Call extends Entity{
             lines.unshift('function(){')
 
             lines.push("}");
+            return {
+                html: [],
+                scripts: lines
+            };
         }
         else if(g.builtinFunctions[name]){
             // TODO: what do I do when a built in function is called?

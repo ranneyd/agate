@@ -27,7 +27,7 @@ module.exports = class Program extends Entity{
             ...lines.html,
         ];
         if(lines.scripts){
-            linesOfCode.concat([
+            linesOfCode = linesOfCode.concat([
                 `<script type="text/javascript">`,
                 ...g.indent(lines.scripts),
                 "</script>",

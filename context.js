@@ -27,6 +27,6 @@ module.exports = class Context {
         this.functions[name] = true;
     }
     isFunction(name){
-        return this.functions[name];
+        return (this.parent && this.parent.isFunction(name)) || this.functions[name];
     }
 };

@@ -17,6 +17,8 @@ module.exports = class Literal extends Entity{
 
     }
     generate(g, context, js) {
+        // TODO: we need a better way to do this. We need a way for parents to look for literals and
+        // deal with them appropriately
         if(js){
             return this.generateJS(g, context);
         }
@@ -25,7 +27,7 @@ module.exports = class Literal extends Entity{
 
         return {
             html: [this.text],
-            scripts: [this.text]
+            scripts: []
         };
     }
     generateJS(g, context){
