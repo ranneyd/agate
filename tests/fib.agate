@@ -3,4 +3,4 @@ def fib (@num)
         return 1
     return fib(@num - 1) + fib(@num - 2)
 
-fib 5
+p fib 5

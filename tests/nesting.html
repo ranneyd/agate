@@ -1,0 +1,26 @@
+<!DOCTYPE>
+<html>
+    <script type='text/javascript'>
+    'use strict';
+    let elem0 = document.createElement("body");
+    let elem1 = document.createElement("div");
+    let elem2 = document.createElement("p");
+    let elem3 = document.createElement("a");
+    elem3.appendChild(document.createTextNode("text"));
+    elem2.appendChild(elem3);
+    let elem4 = document.createElement("span");
+    elem4.appendChild(document.createTextNode("other text"));
+    elem2.appendChild(elem4);
+    elem1.appendChild(elem2);
+    let elem5 = document.createElement("p");
+    let elem6 = document.createElement("i");
+    elem6.appendChild(document.createTextNode("another p"));
+    elem5.appendChild(elem6);
+    elem1.appendChild(elem5);
+    elem0.appendChild(elem1);
+    let elem7 = document.createElement("div");
+    elem7.appendChild(document.createTextNode("Another div"));
+    elem0.appendChild(elem7);
+    document.getElementsByTagName('html')[0].appendChild(elem0);
+    </script>
+</html>

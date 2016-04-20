@@ -185,22 +185,28 @@
       "type": "bareword",
       "line": 6,
       "column": 1,
+      "text": "p"
+   },
+   {
+      "type": "bareword",
+      "line": 6,
+      "column": 3,
       "text": "fib"
    },
    {
       "type": "intlit",
       "line": 6,
-      "column": 5,
+      "column": 7,
       "text": "5"
    },
    {
       "type": "newline",
       "line": 6,
-      "column": 6
+      "column": 8
    },
    {
       "type": "EOF",
       "line": 6,
-      "column": 6
+      "column": 8
    }
 ]

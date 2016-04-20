@@ -119,11 +119,21 @@
       name: {
          type: Token
          tokenType: bareword
-         text: ack
+         text: p
       }
       args: [
-         1
-         2
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: bareword
+               text: ack
+            }
+            args: [
+               1
+               2
+            ]
+         }
       ]
    }
 ]

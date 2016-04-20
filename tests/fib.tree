@@ -72,10 +72,20 @@
       name: {
          type: Token
          tokenType: bareword
-         text: fib
+         text: p
       }
       args: [
-         5
+         {
+            type: Call
+            name: {
+               type: Token
+               tokenType: bareword
+               text: fib
+            }
+            args: [
+               5
+            ]
+         }
       ]
    }
 ]

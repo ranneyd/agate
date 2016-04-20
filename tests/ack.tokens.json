@@ -299,28 +299,34 @@
       "type": "bareword",
       "line": 8,
       "column": 1,
+      "text": "p"
+   },
+   {
+      "type": "bareword",
+      "line": 8,
+      "column": 3,
       "text": "ack"
    },
    {
       "type": "intlit",
       "line": 8,
-      "column": 5,
+      "column": 7,
       "text": "1"
    },
    {
       "type": "intlit",
       "line": 8,
-      "column": 7,
+      "column": 9,
       "text": "2"
    },
    {
       "type": "newline",
       "line": 8,
-      "column": 8
+      "column": 10
    },
    {
       "type": "EOF",
       "line": 8,
-      "column": 8
+      "column": 10
    }
 ]
