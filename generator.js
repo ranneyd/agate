@@ -17,31 +17,32 @@ module.exports = class Generator{
         }
     }
 
-    setScriptMode (isScriptMode){
-        let lines = [];
-        if(isScriptMode){
-            // If we belong in a script tag, but we're not in one, we need to start one
-            if(!this.inScript){
-                // Note I'm not going to indent this tag at the same level, so I have to do it separately
-                lines.push(`<script type='text/javascript'>`);
-                lines.push(`'use strict';`);
-                this.inScript = true;
-            }
-        }
-        else{
-            // Likewise, if this doesn't belong in a script tag, and we're in one, close it
-            if(this.inScript){
-                lines.push(`</script>`);
-                this.inScript = false;
-            }
-        }
-        return lines;
-    }
+    // setScriptMode (isScriptMode){
+    //     let lines = [];
+    //     if(isScriptMode){
+    //         // If we belong in a script tag, but we're not in one, we need to start one
+    //         if(!this.inScript){
+    //             // Note I'm not going to indent this tag at the same level, so I have to do it separately
+    //             lines.push(`<script type='text/javascript'>`);
+    //             lines.push(`'use strict';`);
+    //             this.inScript = true;
+    //         }
+    //     }
+    //     else{
+    //         // Likewise, if this doesn't belong in a script tag, and we're in one, close it
+    //         if(this.inScript){
+    //             lines.push(`</script>`);
+    //             this.inScript = false;
+    //         }
+    //     }
+    //     return lines;
+    // }
     // Takes an array of lines of code and fixes it in various ways
-    formatArray(lines){
+
+    indent(lines){
         lines = lines || [];
 
-        return lines.map(str => " ".repeat(this.inScript ? 0 : this.INDENT) + str);
+        return lines.map(str => " ".repeat(this.INDENT) + str);
     }
     get builtinFunctions() {
         return {};

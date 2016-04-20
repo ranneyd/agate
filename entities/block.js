@@ -53,6 +53,10 @@ module.exports = class Block extends Entity{
     generate(g, context){
         g.log(`Generating Block`);
 
+        let lines = {
+            html: [],
+            scripts: []
+        };
 
         let localContext = context.makeChild();
         // first, go through and look for function defs in this scope
@@ -62,11 +66,12 @@ module.exports = class Block extends Entity{
             }
         }
 
-        let lines = [];
         for(let stmt of this.statements) {
-            lines = lines.concat(stmt.generate(g, context))
+            let generated = stmt.generate(g, context);
+            lines.html = lines.html.concat(generated.html);
+            lines.scripts = lines.scripts.concat(generated.scripts);
         }
 
-        return g.formatArray(lines);
+        return lines;
     }
 };

@@ -19,15 +19,22 @@ module.exports = class Program extends Entity{
     generate(g, context){
         g.log(`Generating Program`);
 
-        let bodyLines = this.body.generate(g, context);
-        bodyLines = bodyLines.concat(g.setScriptMode(false));
+        let lines = this.body.generate(g, context);
 
         let linesOfCode = [
             "<!DOCTYPE>",
             "<html>",
-            ...g.formatArray(bodyLines),
-            "</html>"
+            ...lines.html,
         ];
+        if(lines.scripts){
+            linesOfCode.concat([
+                `<script type="text/javascript">`,
+                ...g.indent(lines.scripts),
+                "</script>",
+            ]);
+        }
+
+        linesOfCode.push("</html>");
 
         return linesOfCode.join("\n");
     }
