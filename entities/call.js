@@ -95,8 +95,8 @@ module.exports = class Call extends Entity{
                     argScripts = argScripts.concat(tempLines.scripts);
                 }
 
-                lines.concat(g.indent(argLines));
-                scripts.concat(g.indent(argScripts));
+                lines = lines.concat(g.indent(argLines));
+                scripts = scripts.concat(g.indent(argScripts));
 
                 lines.push(`</${name}>`);
             }
