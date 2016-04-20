@@ -13,4 +13,10 @@ module.exports = class Id extends Entity{
     analyze( env ) {
         // TODO: probably something
     }
+    generate(){
+        return {
+            html: [],
+            scripts: ["at" + this.id]
+        };
+    }
 };

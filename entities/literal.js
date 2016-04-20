@@ -16,15 +16,26 @@ module.exports = class Literal extends Entity{
     analyze( env ) {
 
     }
-    generate(g, context) {
+    generate(g, context, js) {
+        if(js){
+            return this.generateJS(g, context);
+        }
+
         g.log(`Generating literal`);
 
-        return this.text;
+        return {
+            html: [this.text],
+            scripts: [this.text]
+        };
     }
     generateJS(g, context){
         g.log(`Generating literal (js mode)`);
 
         // TODO: " vs '?
-        return [`${context.container}.appendChild(document.createTextNode("${this.text}"));`];
+        let lit =  [`${context.container}.appendChild(document.createTextNode("${this.text}"));`];
+        return {
+            html: lit,
+            scripts: lit
+        };
     }
 };

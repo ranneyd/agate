@@ -28,11 +28,28 @@ module.exports = class BinaryExp extends Entity{
             `b: ${this.b.toString(indentLevel + indent, indent)}`,
             `op: ${this.op}`
         ];
-        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
+        return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
     analyze( env ) {
         this.a.analyze( env );
         this.b.analyze( env );
         this.safe = this.safe && this.a.safe && this.b.safe;
+    }
+    // TODO: optimize me pls
+    generate(g, context){
+        g.log("Generating Binary Exp");
+        let a = this.a.generate(g, context).scripts;
+        let b = this.b.generate(g, context).scripts;
+
+        let opLine = a[a.length - 1] + ` ${this.op} ` + b[0];
+
+        return {
+            html: [],
+            scripts: [
+                ...a.slice(0, a.length - 1),
+                opLine,
+                ...b.slice(1)
+            ]
+        };
     }
 };

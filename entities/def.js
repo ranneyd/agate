@@ -29,17 +29,29 @@ module.exports = class Def extends Entity{
         return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
     analyze( env ) {
-        // let localEnv = env.makeChild();
-        // localEnv.safe = localEnv.safe && this.safe;
 
-        // for(let arg of this.args){
-        //     // hoisting since these obviously don't have values yet
-        //     localEnv.addVar( arg, null );
-        // }
+    }
 
-        // this.body.parse( localEnv );
+    generate(g, context, js){
+        g.log(`Generating Def`);
 
-        // this.safe = this.safe && this.body.safe;
-        // env.addFunc( this.name, this );
+        let name = this.name.text;
+        let lines = [];
+        let args = [];
+
+        for(let arg of this.args.statements) {
+            args.push("at" + arg.id);
+        }
+
+
+
+        return {
+            html: [],
+            scripts: [
+                `let func${name} = function(${args.join(", ")}){`,
+                ...g.indent(this.body.generate(g, context, true).scripts),
+                `}`
+            ]
+        };
     }
 };

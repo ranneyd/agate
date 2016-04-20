@@ -50,7 +50,7 @@ module.exports = class Block extends Entity{
             this.safe = this.safe && stmt.safe;
         }
     }
-    generate(g, context){
+    generate(g, context, js){
         g.log(`Generating Block`);
 
         let lines = {
@@ -67,7 +67,7 @@ module.exports = class Block extends Entity{
         }
 
         for(let stmt of this.statements) {
-            let generated = stmt.generate(g, context);
+            let generated = stmt.generate(g, context, js);
             lines.html = lines.html.concat(generated.html);
             lines.scripts = lines.scripts.concat(generated.scripts);
         }

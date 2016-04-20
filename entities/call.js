@@ -46,20 +46,52 @@ module.exports = class Call extends Entity{
     }
     analyze( env ) {
     }
-    generate(g, context){
+    // If js is true, force JS mode for html stuff
+    generate(g, context, js){
         g.log(`Generating Call`);
 
         let name = this.name.text;
 
         if(context.isFunction(name)){
-            // TODO: javascript function call
+            // TODO: if the arguments are all literals, make this easier for everyone
+            let lines = [];
+
+            // These kinds of functions don't have attributes, so who cares
+            let counter = 0;
+            if(this.args){
+                // TODO: make this so the arguments aren't their own variables
+                for(let arg of this.args.statements){
+                    // Since we're setting js to true, whatever we call should give us only js
+                    let scripts = arg.generate(g, context, true).scripts;
+
+                    scripts[0] = `let arg${counter++} = ${scripts[0]}`;
+                    scripts[scripts.length - 1] += ";";
+
+                    lines = lines.concat(scripts);
+                }
+            }
+
+            let args = "";
+            for(let i = 0; i < counter  - 1; ++i){
+                args += `arg${i}, `;
+            }
+            args += `arg${counter - 1}`;
+            lines.push(`return func${name}(${args});`);
+            lines = g.indent(lines);
+
+            lines.unshift('function(){')
+
+            lines.push("}");
         }
         else if(g.builtinFunctions[name]){
             // TODO: what do I do when a built in function is called?
         }
         // If it's not a user-defined or built-in function, we treat it like html
-        else{
-           return this.generateHTML(g, context);
+        else if(js){
+            return this.generateJS(g, context);
+        }
+        else {
+            return this.generateHTML(g, context);
         }
     }
     // This makes the html actually html
@@ -74,11 +106,12 @@ module.exports = class Call extends Entity{
         let lines = [];
         let scripts = [];
 
+        // TODO: only put the id if we actually need it later
         let signature = `<${name} id="${ref}">`;
 
         // If there is only one argument and it's a literal
         if(this.args.statements.length === 1 && this.args.statements[0].type === "Literal"){
-            signature += this.args.statements[0].generate(g, context);
+            signature += this.args.statements[0].generate(g, context).html;
             signature += `</${name}>`;
             lines = [signature];
         }
