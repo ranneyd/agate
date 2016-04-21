@@ -73,28 +73,26 @@ module.exports = class Call extends Entity{
             // TODO: do this too
         }
         else{
+            let b = g.branch();
             let ref = `elem_${g.counter++}`;
-            let lines = [
-                `let ${ref} = document.createElement("${name}")`,
-            ];
 
-            g.pushScripts(lines);
+            b.pushScripts(`let ${ref} = document.createElement("${name}")`);
             //TODO: attrs
 
             if(this.args){
-                let b = g.branch();
-                b.container = ref;
+                let b2 = b.branch();
                 for(let arg of this.args.statements) {
-                    g.pushScripts(`${ref}.innerHTML += `);
-                    arg.generateJS(b);
-                    g.merge(b);
-                    b = g.branch();
+                    b.pushScripts(`${ref}.innerHTML += `);
+                    arg.generateJS(b2);
+                    b.merge(b2);
+                    b2 = b.branch();
                 }
-                g.join(b);
+
             }
 
-            g.pushScripts(`return ${ref}.outerHTML`);
-            g.wrapClosure();
+            b.pushScripts(`return ${ref}.outerHTML`);
+            b.wrapClosure();
+            g.merge(b);
         }
     }
 };

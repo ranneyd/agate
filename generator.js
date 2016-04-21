@@ -6,19 +6,17 @@ module.exports = class Generator{
         this.verbose = verbose;
         this.INDENT = 4;
         this.counter = 0;
+        //this.container = "document.getElementsByTagName('html')[0]";
         this.html = [];
         this.scripts = [];
         this.functions = {};
         if(parent){
             this.counter = parent.counter;
-            this.container = parent.container;
+            //this.container = parent.container;
             // The deep copy lifestyle
             for(let key in parent.functions){
                 this.functions[key] = parent.functions[key];
             }
-        }
-        else{
-            this.container = "document.getElementsByTagName('html')[0]";
         }
     }
     log( message ) {
@@ -36,9 +34,8 @@ module.exports = class Generator{
     }
     wrapClosure(){
         this.indent();
-        this.scripts.unshift(`(function(){`);
+        this.scripts.unshift(`(() => {`);
         this.scripts.push("})()");
-
         return this;
     }
     // Remove the last "amount" characters from the last script string
