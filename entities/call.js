@@ -50,7 +50,24 @@ module.exports = class Call extends Entity{
         let name = this.name.text;
 
         if(g.isFunction(name)){
-            // TODO: user defined function
+            g.pushScripts(`${name}_func(`);
+
+            for(let arg of this.args.statements){
+                let b = g.branch();
+
+                if(arg.type === "Literal"){
+                    b.pushScripts(arg.text)
+                }
+                else{
+                    arg.generateJS(b);
+                    b.wrapClosure();
+                }
+                g.merge(b, ", ");
+            }
+            // get rid of the pesky end comma/space
+            g.scriptChop(2);
+            g.merge(g.branch().pushScripts(")"));
+            // Should parent be responsible for appending? Probably
         }
         else if (g.isBuiltInFunction(name)){
             // TODO: do this too
@@ -68,12 +85,13 @@ module.exports = class Call extends Entity{
                 let b = g.branch();
                 b.container = ref;
                 for(let arg of this.args.statements) {
+                    // TODO: is there a way to make the parent responsible for appending?
                     arg.generateJS(b);
                 }
-                g.joinWithSemicolon(b);
+                g.join(b, ";");
             }
 
-            g.pushScripts(`${g.container}.appendChild(${ref});`);
+            g.pushScripts(`${g.container}.appendChild(${ref})`);
         }
     }
 };

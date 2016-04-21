@@ -43,7 +43,13 @@ module.exports = class Block extends Entity{
     analyze( env ) {
     }
     generateJS(g){
-        // TODO: function defs
+
+        // function defs first
+        for(let stmt of this.statements){
+            if(stmt.type === "Def"){
+                g.addFunction(stmt.name.text);
+            }
+        }
 
         let lines = [];
         for(let stmt of this.statements){

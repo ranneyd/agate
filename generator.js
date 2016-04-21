@@ -28,44 +28,54 @@ module.exports = class Generator{
     }
     pushHTML( lines ){
         this.html = this.html.concat(lines);
+        return this;
     }
     pushScripts( lines ){
         this.scripts = this.scripts.concat(lines);
+        return this;
     }
-    pushClosure( lines ){
+    wrapClosure(){
         this.scripts = [
-            ...this.scripts,
             `(function(){`,
-            ...this.indent(lines),
+            ...this.indent(this.scripts),
             `})()`
-        ]
+        ];
+        return this;
+    }
+    scriptChop(amount){
+        let end = this.scripts.length - 1;
+        // I hate javascript
+        this.scripts[end] = this.scripts[end].substring(0, this.scripts[end].length - amount);
+        return this;
     }
     branch(){
         return new Generator(this.error, this.verbose, this);
     }
-    merge( g ){
+    merge( g, ending ){
         // Assume the last line of HTML was the close tag
-        this.html.splice(-1, 0, this.indent(g.html));
+        this.html.splice(-1, 0, ...this.indent(g.html));
 
-        // Whatever the last line was, add a semicolon
-        g.scripts[g.scripts.length - 1] += ";";
+        if(ending){
+            // Whatever the last line was, add ending
+            g.scripts[g.scripts.length - 1] += ending;
+        }
         // Merge the beginning of the branch with the end of the last line
         this.scripts[this.scripts.length - 1] += g.scripts[0];
 
         // Add the rest of the lines to us
-        this.scripts.concat(g.split(1));
+        this.scripts.concat(g.scripts.slice(1));
 
         this.counter = g.counter;
+        return this;
     }
-    join( g ){
+    join( g, ending){
         this.html = this.html.concat(g.html);
         this.scripts = this.scripts.concat(g.scripts);
-
+        if(ending){
+            this.scripts[this.scripts.length - 1] += ending;
+        }
         this.counter = g.counter;
-    }
-    joinWithSemicolon( g ){
-        this.join(g);
-        this.scripts[this.scripts.length - 1] += ";";
+        return this;
     }
     indent(lines){
         lines = lines || [];
@@ -78,6 +88,7 @@ module.exports = class Generator{
     }
     addFunction(name){
         this.functions[name] = true;
+        return this;
     }
 
     get builtInFunctions() {

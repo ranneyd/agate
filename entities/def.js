@@ -31,4 +31,7 @@ module.exports = class Def extends Entity{
     analyze( env ) {
 
     }
+    generateJS(g){
+        g.pushScripts("Someday");
+    }
 };
