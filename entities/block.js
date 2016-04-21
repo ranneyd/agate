@@ -51,9 +51,9 @@ module.exports = class Block extends Entity{
             }
         }
 
-        let lines = [];
         for(let stmt of this.statements){
             stmt.generateJS(g);
         }
+        g.indent();
     }
 };

@@ -22,6 +22,6 @@ module.exports = class Literal extends Entity{
             // TODO: " vs '?
             text = `"` + text + `"`;
         }
-        g.pushScripts(`${g.container}.appendChild(document.createTextNode(${text}))`)
+        g.pushScripts(text);
     }
 };

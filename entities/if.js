@@ -31,59 +31,17 @@ module.exports = class If extends Block{
     analyze( env ) {
 
     }
-    generate(g, context){
-        g.log("Generating if statement");
-        // Optimize me pls
+    generateJS(g){
+        let first = this.conditionals[0];
 
-        let firstCondition = this.conditionals[0].condition.generate(g, context).scripts;
-        firstCondition[0] = `let cond0 = ${firstCondition[0]}`;
-        firstCondition[firstCondition.length - 1] += ";";
+        g.pushScripts("if(");
 
-        let lines = [
-            ...firstCondition,
-            `if(cond0) {`,
-            ...g.indent(this.conditionals[0].body.generate(g, context).scripts),
-            `}`
-        ];
+        let b = g.branch();
+        first.condition.generateJS(b);
+        b.wrapClosure();
+        g.merge(b, ") {");
+        g.pushScripts("AYY");
+        g.pushScripts("}");
 
-        for(let i = 1; i < this.conditionals.length - 1; ++i){
-            let conditional = this.conditionals[i];
-            let condition = conditional.condition.generate(g, context).scripts;
-            condition[0] = `let cond${i} = ${condition[0]}`;
-            condition[condition.length - 1] += ";";
-
-            lines.concat(condition);
-            lines.push(`else if(cond${i}) {`);
-            lines.concat(g.indent(conditional.body.generate(g, context).scripts));
-            lines.push(`}`);
-        }
-
-        let lastCondition = this.conditionals[this.conditionals.length - 1];
-
-        // Either an else if or an else
-        if(lastCondition.condition){
-            let condition = lastCondition.condition.generate(g, context).scripts;
-            condition[0] = `let cond${this.conditionals.length - 1} = ${condition[0]}`;
-            condition[condition.length - 1] += ";";
-
-            lines.concat(condition);
-            lines.push(`else if(cond${this.conditionals.length - 1}) {`);
-            lines.concat(g.indent(lastCondition.body.generate(g, context).scripts));
-            lines.push(`}`);
-        }
-        else{
-            lines.push(`else {`);
-            lines.concat(g.indent(lastCondition.body.generate(g, context).scripts));
-            lines.push(`}`);
-        }
-
-        return {
-            html: [],
-            scripts: [
-                "{",
-                ...g.indent(lines),
-                "}"
-            ]
-        };
     }
 };

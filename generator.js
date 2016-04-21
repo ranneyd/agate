@@ -35,25 +35,28 @@ module.exports = class Generator{
         return this;
     }
     wrapClosure(){
-        this.scripts = [
-            `(function(){`,
-            ...this.indent(this.scripts),
-            `})()`
-        ];
+        this.indent();
+        this.scripts.unshift(`(function(){`);
+        this.scripts.push("})()");
+
         return this;
     }
+    // Remove the last "amount" characters from the last script string
     scriptChop(amount){
         let end = this.scripts.length - 1;
         // I hate javascript
         this.scripts[end] = this.scripts[end].substring(0, this.scripts[end].length - amount);
         return this;
     }
+    lastScriptPush(chars){
+        this.scripts[this.scripts.length - 1] += chars;
+    }
     branch(){
         return new Generator(this.error, this.verbose, this);
     }
     merge( g, ending ){
         // Assume the last line of HTML was the close tag
-        this.html.splice(-1, 0, ...this.indent(g.html));
+        this.html.splice(-1, 0, ...g.html);
 
         if(ending){
             // Whatever the last line was, add ending
@@ -63,7 +66,7 @@ module.exports = class Generator{
         this.scripts[this.scripts.length - 1] += g.scripts[0];
 
         // Add the rest of the lines to us
-        this.scripts.concat(g.scripts.slice(1));
+        this.scripts = this.scripts.concat(g.scripts.slice(1));
 
         this.counter = g.counter;
         return this;
@@ -77,10 +80,15 @@ module.exports = class Generator{
         this.counter = g.counter;
         return this;
     }
-    indent(lines){
-        lines = lines || [];
+    // indent(lines){
+    //     lines = lines || [];
 
-        return lines.map(str => " ".repeat(this.INDENT) + str);
+    //     return lines.map(str => " ".repeat(this.INDENT) + str);
+    // }
+    indent(){
+        this.html = this.html.map(str => " ".repeat(this.INDENT) + str);
+        this.scripts = this.scripts.map(str => " ".repeat(this.INDENT) + str);
+        return this;
     }
 
     isFunction(name){

@@ -23,14 +23,14 @@ module.exports = class Program extends Entity{
         let linesOfCode = [
             "<!DOCTYPE>",
             "<html>",
-            ...g.indent(g.html)
+            ...g.html
         ];
         if(g.scripts){
-            linesOfCode = linesOfCode.concat(g.indent([
+            linesOfCode = linesOfCode.concat([
                 `<script type="text/javascript">`,
-                ...g.indent(g.scripts).map(str => str + ";"),
+                ...g.scripts,//.map(str => str + ";"), TODO: how am I going to do this
                 "</script>",
-            ]));
+            ]);
         }
         linesOfCode.push("</html>");
         return linesOfCode.join("\n");

@@ -8,6 +8,7 @@ let Token = require("./token");
 module.exports = class Def extends Entity{
     constructor( token, name, args, body ) {
         super( token );
+        // TODO: Make this name.text?
         this.name = name;
         if(args.length){
             this.args = new Block(token, args);
@@ -32,6 +33,20 @@ module.exports = class Def extends Entity{
 
     }
     generateJS(g){
-        g.pushScripts("Someday");
+        let signature = `let ${this.name.text}_func = function(`;
+
+        for(let arg of this.args.statements){
+            // We know these are just IDs
+            signature += arg.id + "_id, ";
+        }
+        g.pushScripts(signature.slice(0, -2) + "){");
+
+        let b = g.branch();
+
+        this.body.generateJS(b);
+
+        g.join(b);
+
+        g.pushScripts("}");
     }
 };

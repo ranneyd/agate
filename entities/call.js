@@ -6,6 +6,7 @@ let Block = require("./block");
 module.exports = class Call extends Entity{
     constructor( token, name, attrs, args ) {
         super( token );
+        // TODO: make this name.text?
         this.name = name;
         // If it's a block and it's not an empty block
         if(attrs.statements && attrs.statements.length){
@@ -50,7 +51,7 @@ module.exports = class Call extends Entity{
         let name = this.name.text;
 
         if(g.isFunction(name)){
-            g.pushScripts(`${name}_func(`);
+            g.pushScripts(`${g.container}.innerHTML += ${name}_func(`);
 
             for(let arg of this.args.statements){
                 let b = g.branch();
@@ -67,7 +68,6 @@ module.exports = class Call extends Entity{
             // get rid of the pesky end comma/space
             g.scriptChop(2);
             g.merge(g.branch().pushScripts(")"));
-            // Should parent be responsible for appending? Probably
         }
         else if (g.isBuiltInFunction(name)){
             // TODO: do this too
@@ -85,13 +85,16 @@ module.exports = class Call extends Entity{
                 let b = g.branch();
                 b.container = ref;
                 for(let arg of this.args.statements) {
-                    // TODO: is there a way to make the parent responsible for appending?
+                    g.pushScripts(`${ref}.innerHTML += `);
                     arg.generateJS(b);
+                    g.merge(b);
+                    b = g.branch();
                 }
                 g.join(b);
             }
 
-            g.pushScripts(`${g.container}.appendChild(${ref})`);
+            g.pushScripts(`return ${ref}.outerHTML`);
+            g.wrapClosure();
         }
     }
 };

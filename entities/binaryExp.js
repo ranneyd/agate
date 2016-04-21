@@ -33,4 +33,7 @@ module.exports = class BinaryExp extends Entity{
     analyze( env ) {
 
     }
+    generateJS(g){
+
+    }
 };
