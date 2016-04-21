@@ -1,6 +1,5 @@
 'use strict';
 
-let Env = require('./env');
 let Entity = require("./entity");
 let Block = require("./block");
 
@@ -19,20 +18,21 @@ module.exports = class Program extends Entity{
         g.log(`Generating Program`);
 
         this.body.generate(g);
+        // TODO: Probably have to detect head/body tags so we can merge them properly
 
         let linesOfCode = [
             "<!DOCTYPE>",
             "<html>",
-            ...g.html,
-            "</html>",
+            ...g.indent(g.html)
         ];
         if(g.scripts){
-            linesOfCode = linesOfCode.concat([
+            linesOfCode = linesOfCode.concat(g.indent([
                 `<script type="text/javascript">`,
-                ...g.scripts,
+                ...g.indent(g.scripts),
                 "</script>",
-            ]);
+            ]));
         }
+        linesOfCode.push("</html>");
         return linesOfCode.join("\n");
     }
 };

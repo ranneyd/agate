@@ -26,10 +26,9 @@ module.exports = class Attr extends Entity{
             `key: ${this.key}`,
             `value: ${this.value.toString(indentLevel + indent, indent )}`
         ];
-        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
+        return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
-    analyze( env ) {     
-        this.value.analyze( env );
-        this.safe = this.safe && this.value.safe;
+    analyze( env ) {
+
     }
 };

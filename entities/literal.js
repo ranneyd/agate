@@ -16,5 +16,12 @@ module.exports = class Literal extends Entity{
     analyze( env ) {
 
     }
-
+    generateJS(g){
+        let text = this.text;
+        if(this.litType === "stringlit"){
+            // TODO: " vs '?
+            text = `"` + text + `"`;
+        }
+        g.pushScripts(`${g.container}.appendChild(document.createTextNode(${text}))`)
+    }
 };

@@ -17,13 +17,9 @@ module.exports = class Assignment extends Entity{
             `lhs: ${this.lhs.toString(indentLevel + indent, indent)}`,
             `rhs: ${this.rhs.toString(indentLevel + indent, indent)}`
         ];
-        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
+        return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
     analyze( env ) {
-        this.rhs.analyze( env );
-        
-        env.addVar(this.lhs, this.rhs);
 
-        this.safe = this.safe && this.rhs.safe;
     }
 };

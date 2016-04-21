@@ -17,9 +17,8 @@ module.exports = class While extends Entity{
             `exp: ${this.exp.toString(indentLevel + indent, indent)}`,
             `body: ${this.body.toString(indentLevel + indent, indent)}`
         ];
-        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
+        return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
     analyze( env ) {
-        // TODO
     }
 };

@@ -44,6 +44,6 @@ module.exports = class Entity{
 
     generate(g){
         // TODO: optimization
-        return this.generateJS(this);
+        return this.generateJS(g);
     }
 };

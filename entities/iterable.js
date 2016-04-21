@@ -11,7 +11,6 @@ module.exports = class Iterable extends Entity{
         return this.exp.toString(indentLevel, indent)
     }
     analyze( env ) {
-        this.exp.analyze( env );
-        this.safe = this.safe && this.exp.safe;
+
     }
 };

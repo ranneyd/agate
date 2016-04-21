@@ -11,7 +11,6 @@ module.exports = class Id extends Entity{
         return "@" + this.id;
     }
     analyze( env ) {
-        // TODO: probably something
     }
     generate(){
         return {

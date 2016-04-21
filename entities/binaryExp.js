@@ -31,8 +31,6 @@ module.exports = class BinaryExp extends Entity{
         return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
     analyze( env ) {
-        this.a.analyze( env );
-        this.b.analyze( env );
-        this.safe = this.safe && this.a.safe && this.b.safe;
+
     }
 };

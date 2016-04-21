@@ -12,6 +12,5 @@ module.exports = class This extends Entity{
         return "this";
     }
     analyze( env ) {
-        this.val.analyze( env );
     }
 };

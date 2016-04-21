@@ -47,6 +47,33 @@ module.exports = class Call extends Entity{
     analyze( env ) {
     }
     generateJS( g ){
+        let name = this.name.text;
 
+        if(g.isFunction(name)){
+            // TODO: user defined function
+        }
+        else if (g.isBuiltInFunction(name)){
+            // TODO: do this too
+        }
+        else{
+            let ref = `elem_${g.counter++}`;
+            let lines = [
+                `let ${ref} = document.createElement("${name}");`,
+            ];
+
+            g.pushScripts(lines);
+            //TODO: attrs
+
+            if(this.args){
+                let b = g.branch();
+                b.container = ref;
+                for(let arg of this.args.statements) {
+                    arg.generateJS(b);
+                }
+                g.joinWithSemicolon(b);
+            }
+
+            g.pushScripts(`${g.container}.appendChild(${ref});`);
+        }
     }
 };

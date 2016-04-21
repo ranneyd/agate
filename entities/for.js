@@ -19,9 +19,8 @@ module.exports = class For extends Entity{
             `iterable: ${this.iterable.toString(indentLevel + indent, indent)}`,
             `body: ${this.body.toString(indentLevel + indent, indent)}`
         ];
-        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
+        return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
     analyze( env ) {
-        // TODO
     }
 };

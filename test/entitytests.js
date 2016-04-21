@@ -2,7 +2,6 @@
 
 
 let Entity = require("../entities/entity");
-let Env = require("../entities/env");
 
 let ArrayAt = require("../entities/arrayAt");
 let ArrayLit = require("../entities/arraylit");
@@ -31,33 +30,6 @@ let While = require("../entities/while");
 
 var assert = require('assert');
 
-describe('Env', function() {
-  describe('constructor', function () {
-    it('should construct', function () {
-        let env1 = new Env();
-        let env2 = new Env(env1);
-        assert.deepStrictEqual(env1.parent, undefined, "null parent");
-        assert.deepStrictEqual(env2.parent, env1, "correct parent");
-        assert.deepStrictEqual(env2.error, env1.error, "correct error");
-
-    });
-  });
-  describe('markUnsafe', function () {
-    it('should make unsafe', function () {
-        let env = new Env();
-        env.markUnsafe();
-        assert.deepStrictEqual(env.safe, false, "correct error");
-
-    });
-  });
-  describe('makeChild', function () {
-    it('should make child', function () {
-        let env = new Env();
-        assert.deepStrictEqual(env.makeChild().parent, env, "correct parent");
-    });
-  });
-  // TODO: needs way more testing
-});
 describe('Entity', function() {
     let practiceToken = {
         type: "intlit",
@@ -268,13 +240,7 @@ describe('Attr', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let attr = new Attr(practiceBracket, "test", new Literal(practiceValue));
 
-            let env = new Env()
-
-            attr.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -388,13 +354,7 @@ describe('Unary Exp', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let exp = new UnaryExp(practiceOp, practiceValue, practiceOp.type);
 
-            let env = new Env()
-
-            exp.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -457,13 +417,7 @@ describe('Return', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let ret = new Return(practiceReturn, practiceUnary);
 
-            let env = new Env()
-
-            ret.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -521,13 +475,7 @@ describe('Assignment', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let assign = new Assignment(practiceEquals, practiceId, practiceLit);
 
-            let env = new Env()
-
-            assign.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -638,13 +586,7 @@ describe('Block', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let block = new Block(practiceId, [practiceAssign, practiceReturnStmt]);
 
-            let env = new Env()
-
-            block.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -708,13 +650,7 @@ describe('Arraylit', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let arraylit = new ArrayLit(practiceOpenBracket, [practiceLit, practiceLit2]);
 
-            let env = new Env()
-
-            arraylit.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -777,13 +713,7 @@ describe('ArrayAt', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let arrayAt = new ArrayAt(practiceOpenBracket, practiceId, practiceLit);
 
-            let env = new Env(null);
-
-            arrayAt.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -896,13 +826,7 @@ describe('Binary Exp', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let exp = new UnaryExp(practiceOp, practiceValue, practiceOp.type);
 
-            let env = new Env()
-
-            exp.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -1058,13 +982,7 @@ describe('Call', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let call = new Call(name.token, name, attrs, args);
 
-            let env = new Env()
-
-            call.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -1256,13 +1174,7 @@ describe('Def', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let def = new Def(defToken, name, args, body);
 
-            let env = new Env()
-
-            def.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -1388,13 +1300,7 @@ describe('ElemFunc', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let elemFunc = new ElemFunc(tilde, elem, func, args);
 
-            let env = new Env()
-
-            elemFunc.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -1433,13 +1339,7 @@ describe('Iterable', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let iterable = new Iterable(array, arrayId);
 
-            let env = new Env()
-
-            iterable.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -1505,13 +1405,7 @@ describe('For', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let forStmt = new For(forToken, id, iterable, body);
 
-            let env = new Env()
-
-            forStmt.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -1593,13 +1487,7 @@ describe('HashMap', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let hash = new HashMap(openCurly, [attr1, attr2]);
 
-            let env = new Env()
-
-            hash.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -1775,25 +1663,7 @@ describe('If', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let ifStmt = new If(ifToken, [
-                {
-                    condition: id1,
-                    body: lit1
-                },
-                {
-                    condition: id2,
-                    body: lit2
-                },
-                {
-                    body: lit3
-                }
-            ]);
 
-            let env = new Env()
-
-            ifStmt.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -1836,13 +1706,7 @@ describe('Label', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let label = new Label(name);
 
-            let env = new Env()
-
-            label.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -1885,13 +1749,7 @@ describe('Program', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let program = new Program(litToken, block);
 
-            let env = new Env()
-
-            program.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -1942,13 +1800,7 @@ describe('Selector', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let selector = new Selector(hash, "id", name);
 
-            let env = new Env()
-
-            selector.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -2037,13 +1889,7 @@ describe('SpecialBlock', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let special = new SpecialBlock(js1, [js1], "js");
 
-            let env = new Env()
-
-            special.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });
@@ -2100,13 +1946,7 @@ describe('While', function() {
     });
     describe('analyze', function () {
         it('should properly analyze', function () {
-            let whileStmt = new While(whileToken, id, body);
 
-            let env = new Env()
-
-            whileStmt.analyze(env);
-
-            // TODO: more complex analysis
         });
     });
 });

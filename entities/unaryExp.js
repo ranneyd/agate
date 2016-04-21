@@ -25,10 +25,8 @@ module.exports = class UnaryExp extends Entity{
             `a: ${this.a.toString(indentLevel + indent, indent)}`,
             `op: ${this.op}`
         ];
-        return this.toStringArray(indentLevel, indent, strArr).join("\n"); 
+        return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
     analyze( env ) {
-        this.a.analyze( env );
-        this.safe = this.safe && this.a.safe;
     }
 };

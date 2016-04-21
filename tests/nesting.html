@@ -1,15 +1,25 @@
 <!DOCTYPE>
 <html>
-<body id="elem0">
-    <div id="elem1">
-        <p id="elem2">
-            <a id="elem3">text</a>
-            <span id="elem4">other text</span>
-        </p>
-        <p id="elem5">
-            <i id="elem6">another p</i>
-        </p>
-    </div>
-    <div id="elem7">Another div</div>
-</body>
+    <script type="text/javascript">
+        let elem_0 = document.createElement("body");
+        let elem_1 = document.createElement("div");
+        let elem_2 = document.createElement("p");
+        let elem_3 = document.createElement("a");
+        elem_3.appendChild(document.createTextNode("text"));
+        elem_2.appendChild(elem_3);
+        let elem_4 = document.createElement("span");
+        elem_4.appendChild(document.createTextNode("other text"));
+        elem_2.appendChild(elem_4);;
+        elem_1.appendChild(elem_2);
+        let elem_5 = document.createElement("p");
+        let elem_6 = document.createElement("i");
+        elem_6.appendChild(document.createTextNode("another p"));
+        elem_5.appendChild(elem_6);;
+        elem_1.appendChild(elem_5);;
+        elem_0.appendChild(elem_1);
+        let elem_7 = document.createElement("div");
+        elem_7.appendChild(document.createTextNode("Another div"));
+        elem_0.appendChild(elem_7);;
+        document.getElementsByTagName('html')[0].appendChild(elem_0);
+    </script>
 </html>

@@ -1,9 +1,15 @@
 <!DOCTYPE>
 <html>
-<head id="elem0">
-    <title id="elem1">Hello World</title>
-</head>
-<body id="elem2">
-    <h1 id="elem3">Hello World</h1>
-</body>
+    <script type="text/javascript">
+        let elem_0 = document.createElement("head");
+        let elem_1 = document.createElement("title");
+        elem_1.appendChild(document.createTextNode("Hello World"));
+        elem_0.appendChild(elem_1);;
+        document.getElementsByTagName('html')[0].appendChild(elem_0);
+        let elem_2 = document.createElement("body");
+        let elem_3 = document.createElement("h1");
+        elem_3.appendChild(document.createTextNode("Hello World"));
+        elem_2.appendChild(elem_3);;
+        document.getElementsByTagName('html')[0].appendChild(elem_2);
+    </script>
 </html>

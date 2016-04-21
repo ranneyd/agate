@@ -18,7 +18,7 @@ module.exports = class Return extends Entity{
         return this.toStringArray(indentLevel, indent, strArr).join("\n");
     }
     analyze( env ) {
-        this.val.analyze( env );
+
     }
     generate(g, context){
         let value = this.val.generate(g, context).scripts;
