@@ -5,6 +5,8 @@ const assert = require('assert');
 
 const scanner = require( "../scanner.js" );
 const Parser = require("../parser.js");
+const Generator = require("../generator.js");
+
 
 const dir = "./tests";
 
@@ -56,6 +58,24 @@ describe("Agate Files", function() {
                         // Line endings >:(
                         expectedTree = expectedTree.replace(/\r/g, "");
                         assert.strictEqual(str, expectedTree, "parser");
+                    });
+                    it('should generate properly', function () {
+                        try{
+                            let expectedOut = fs.readFileSync( `${dir}/${fileParts[1]}.html`, 'utf8');
+                            let generator = new Generator(error, false);
+                            let code = tree.generate(generator);
+
+                            // Line endings >:(
+                            code = code.replace(/\r/g, "");
+                            assert.strictEqual(code, expectedOut, "generator");
+                        }
+                        catch(e){
+                            // Not found number
+                            if(e.errno !== -4058){
+                                throw e;
+                            }
+                        }
+
                     });
                 });
             }
