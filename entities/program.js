@@ -28,7 +28,7 @@ module.exports = class Program extends Entity{
         if(g.scripts){
             linesOfCode = linesOfCode.concat(g.indent([
                 `<script type="text/javascript">`,
-                ...g.indent(g.scripts),
+                ...g.indent(g.scripts).map(str => str + ";"),
                 "</script>",
             ]));
         }

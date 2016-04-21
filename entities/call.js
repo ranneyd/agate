@@ -75,7 +75,7 @@ module.exports = class Call extends Entity{
         else{
             let ref = `elem_${g.counter++}`;
             let lines = [
-                `let ${ref} = document.createElement("${name}");`,
+                `let ${ref} = document.createElement("${name}")`,
             ];
 
             g.pushScripts(lines);
@@ -88,7 +88,7 @@ module.exports = class Call extends Entity{
                     // TODO: is there a way to make the parent responsible for appending?
                     arg.generateJS(b);
                 }
-                g.join(b, ";");
+                g.join(b);
             }
 
             g.pushScripts(`${g.container}.appendChild(${ref})`);
