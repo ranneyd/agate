@@ -41,37 +41,13 @@ module.exports = class Block extends Entity{
         return ["[", ...strArr.map(str => " ".repeat(indentLevel) + str) ];
     }
     analyze( env ) {
-        let localEnv = env.makeChild();
-        localEnv.safe = localEnv.safe && this.safe;
-
-        for( let stmt of this.statements) {
-            stmt.analyze( localEnv );
-            // If anything comes back unsafe, our whole block is unsafe
-            this.safe = this.safe && stmt.safe;
-        }
     }
-    generate(g, context, js){
-        g.log(`Generating Block`);
+    generateJS(g){
+        // TODO: function defs
 
-        let lines = {
-            html: [],
-            scripts: []
-        };
-
-        let localContext = context.makeChild();
-        // first, go through and look for function defs in this scope
-        for(let stmt of this.statements) {
-            if(stmt.type === "Def"){
-                localContext.setFunction(stmt.name.text);
-            }
+        let lines = [];
+        for(let stmt of this.statements){
+            stmt.generateJS(g);
         }
-
-        for(let stmt of this.statements) {
-            let generated = stmt.generate(g, localContext, js);
-            lines.html = lines.html.concat(generated.html);
-            lines.scripts = lines.scripts.concat(generated.scripts);
-        }
-
-        return lines;
     }
 };

@@ -42,7 +42,8 @@ module.exports = class Entity{
         return this.constructor.name;
     }
 
-    generate(indentLevel, indent){
-        return [`<${this.className}/>`];
+    generate(g){
+        // TODO: optimization
+        return this.generateJS(this);
     }
 };

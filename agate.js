@@ -111,8 +111,8 @@ readFile(`${directory}${file}.agate`)
                         });
                 }
                 if( !error.count ){
-                    let generator = new Generator(parseTree, error, verbose);
-                    let code = generator.init();
+                    let generator = new Generator(error, verbose);
+                    let code = parseTree.generate(generator);
                     writeFile(`${directory}${outName || file}.html`, code)
                         .catch( err => {
                             console.log(err);

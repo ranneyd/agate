@@ -1,44 +1,53 @@
 "use strict";
 
-let Context = require("./context");
-
 module.exports = class Generator{
-    constructor( program, error, verbose ) {
-        this.program = program;
+    constructor( error, verbose, container) {
         this.error = error;
         this.verbose = verbose;
-        this.inScript = false;
         this.INDENT = 4;
         this.counter = 0;
+        this.html = [];
+        this.scripts = [];
+        this.container = container || "document.getElementsByTagName('html')[0]";
     }
     log( message ) {
         if(this.verbose) {
             console.log(message);
         }
     }
+    pushHTML( lines ){
+        this.html = this.html.concat(lines);
+    }
+    pushScript( lines ){
+        this.scripts = this.scripts.concat(lines);
+    }
+    pushClosure( lines ){
+        this.scripts = [
+            ...this.scripts,
+            `(function(){`,
+            ...this.indent(lines),
+            `})()`
+        ]
+    }
+    branch(){
+        return new Generator(this.error, this.verbose, this.container);
+    }
+    merge( g ){
+        // Assume the last line of HTML was the close tag
+        this.html.splice(-1, 0, this.indent(g.html));
 
-    // setScriptMode (isScriptMode){
-    //     let lines = [];
-    //     if(isScriptMode){
-    //         // If we belong in a script tag, but we're not in one, we need to start one
-    //         if(!this.inScript){
-    //             // Note I'm not going to indent this tag at the same level, so I have to do it separately
-    //             lines.push(`<script type='text/javascript'>`);
-    //             lines.push(`'use strict';`);
-    //             this.inScript = true;
-    //         }
-    //     }
-    //     else{
-    //         // Likewise, if this doesn't belong in a script tag, and we're in one, close it
-    //         if(this.inScript){
-    //             lines.push(`</script>`);
-    //             this.inScript = false;
-    //         }
-    //     }
-    //     return lines;
-    // }
-    // Takes an array of lines of code and fixes it in various ways
+        // Whatever the last line was, add a semicolon
+        g.scripts[g.scripts.length - 1] += ";";
+        // Merge the beginning of the branch with the end of the last line
+        this.scripts[this.scripts.length - 1] += g.scripts[0];
 
+        // Add the rest of the lines to us
+        this.scripts.concat(g.split(1));
+    }
+    join( g ){
+        this.html = this.html.concat(g.html);
+        this.scripts = this.scripts.concat(g.scripts);
+    }
     indent(lines){
         lines = lines || [];
 
@@ -46,9 +55,5 @@ module.exports = class Generator{
     }
     get builtinFunctions() {
         return {};
-    }
-    init() {
-        let context = new Context(null, this.error, "document.getElementsByTagName('html')[0]");
-        return this.program.generate( this, context );
     }
 };

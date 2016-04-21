@@ -13,29 +13,26 @@ module.exports = class Program extends Entity{
         return this.body.toString(indentLevel, indent);
     }
     analyze() {
-        // this.body.analyze( new Env() );
-        // this.safe = this.body.safe;
+
     }
-    generate(g, context){
+    generate(g){
         g.log(`Generating Program`);
 
-        let lines = this.body.generate(g, context);
+        this.body.generate(g);
 
         let linesOfCode = [
             "<!DOCTYPE>",
             "<html>",
-            ...lines.html,
+            ...g.html,
+            "</html>",
         ];
-        if(lines.scripts){
+        if(g.scripts){
             linesOfCode = linesOfCode.concat([
                 `<script type="text/javascript">`,
-                ...g.indent(lines.scripts),
+                ...g.scripts,
                 "</script>",
             ]);
         }
-
-        linesOfCode.push("</html>");
-
         return linesOfCode.join("\n");
     }
 };
