@@ -20,14 +20,16 @@ module.exports = class Return extends Entity{
     analyze( env ) {
 
     }
-    generate(g, context){
-        let value = this.val.generate(g, context).scripts;
-        value[0] = `return ${value[0]}`;
-        value[value.length - 1] += ";";
+    generateJS(g){
+        this.generate(g);
+    }
+    generate(g){
+        g.pushScripts("return ");
 
-        return {
-            html: [],
-            scripts: value
-        };
+        let b = g.branch();
+
+        this.val.generate(b);
+
+        g.merge(b, ";");
     }
 };

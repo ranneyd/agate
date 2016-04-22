@@ -6,13 +6,13 @@ module.exports = class Generator{
         this.verbose = verbose;
         this.INDENT = 4;
         this.counter = 0;
-        //this.container = "document.getElementsByTagName('html')[0]";
+        this.container = "document.getElementsByTagName('html')[0]";
         this.html = [];
         this.scripts = [];
         this.functions = {};
         if(parent){
             this.counter = parent.counter;
-            //this.container = parent.container;
+            this.container = parent.container;
             // The deep copy lifestyle
             for(let key in parent.functions){
                 this.functions[key] = parent.functions[key];
@@ -77,11 +77,6 @@ module.exports = class Generator{
         this.counter = g.counter;
         return this;
     }
-    // indent(lines){
-    //     lines = lines || [];
-
-    //     return lines.map(str => " ".repeat(this.INDENT) + str);
-    // }
     indent(){
         this.html = this.html.map(str => " ".repeat(this.INDENT) + str);
         this.scripts = this.scripts.map(str => " ".repeat(this.INDENT) + str);

@@ -33,7 +33,31 @@ module.exports = class BinaryExp extends Entity{
     analyze( env ) {
 
     }
-    generateJS(g){
+    generate(g){
+        // TODO: parens? Probably parens
+        this.a.generate(g);
 
+        let b = g.branch();
+
+        b.pushScripts(` ${this.realOp} `);
+
+        g.merge(b);
+
+        b = g.branch();
+
+        this.b.generate(b);
+
+        g.merge(b);
+    }
+    get realOp(){
+        if(this.op === "plus"){
+            return "+";
+        }
+        else if(this.op === "minus"){
+            return "-";
+        }
+        else{
+            return this.op;
+        }
     }
 };

@@ -15,9 +15,7 @@ module.exports = class Program extends Entity{
 
     }
     generate(g){
-        g.log(`Generating Program`);
-
-        this.body.generate(g);
+        this.body.generateJS(g);
         // TODO: Probably have to detect head/body tags so we can merge them properly
 
         let linesOfCode = [

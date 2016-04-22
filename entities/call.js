@@ -47,52 +47,57 @@ module.exports = class Call extends Entity{
     }
     analyze( env ) {
     }
+
+    generateUserDefined( g ){
+        g.pushScripts(`${g.container}.innerHTML += ${name}_func(`);
+
+        for(let arg of this.args.statements){
+            let b = g.branch();
+
+            if(arg.type === "Literal"){
+                b.pushScripts(arg.text)
+            }
+            else{
+                arg.generateJS(b);
+                b.wrapClosure();
+            }
+            g.merge(b, ", ");
+        }
+        // get rid of the pesky end comma/space
+        g.scriptChop(2);
+        g.merge(g.branch().pushScripts(")"));
+    }
+    generate( g ){
+
+    }
     generateJS( g ){
+        this.generate(g);
+        // TODO make work
+
         let name = this.name.text;
 
         if(g.isFunction(name)){
-            g.pushScripts(`${g.container}.innerHTML += ${name}_func(`);
-
-            for(let arg of this.args.statements){
-                let b = g.branch();
-
-                if(arg.type === "Literal"){
-                    b.pushScripts(arg.text)
-                }
-                else{
-                    arg.generateJS(b);
-                    b.wrapClosure();
-                }
-                g.merge(b, ", ");
-            }
-            // get rid of the pesky end comma/space
-            g.scriptChop(2);
-            g.merge(g.branch().pushScripts(")"));
+            generateUserDefined
         }
         else if (g.isBuiltInFunction(name)){
             // TODO: do this too
         }
         else{
-            let b = g.branch();
             let ref = `elem_${g.counter++}`;
 
-            b.pushScripts(`let ${ref} = document.createElement("${name}")`);
+            g.pushScripts(`let ${ref} = document.createElement("${name}");`);
             //TODO: attrs
 
             if(this.args){
-                let b2 = b.branch();
+                let b = g.branch();
+                b.container = ref;
                 for(let arg of this.args.statements) {
-                    b.pushScripts(`${ref}.innerHTML += `);
-                    arg.generateJS(b2);
-                    b.merge(b2);
-                    b2 = b.branch();
+                    arg.generateJS(b);
                 }
-
+                g.join(b);
             }
 
-            b.pushScripts(`return ${ref}.outerHTML`);
-            b.wrapClosure();
-            g.merge(b);
+            g.pushScripts(`${g.container}.innerHTML += ${ref}.outerHTML;`);
         }
     }
 };

@@ -36,12 +36,29 @@ module.exports = class If extends Block{
 
         g.pushScripts("if(");
 
-        let b = g.branch();
-        first.condition.generateJS(b);
-        b.wrapClosure();
-        g.merge(b, ") {");
-        g.pushScripts("AYY");
-        g.pushScripts("}");
 
+
+        for(let i = 0; i < this.conditionals.length; ++i){
+            let conditional = this.conditionals[i];
+            if(conditional.condition){
+                if(i === 0){
+                    g.pushScripts("if(");
+                }
+                else {
+                    g.pushScripts("else if(");
+                }
+                let b = g.branch();
+                conditional.condition.generate(b);
+                g.merge(b, ") {");
+            }
+            else {
+                g.pushScripts("else {")
+            }
+
+            let b = g.branch();
+            conditional.body.generateJS(b);
+            g.join(b);
+            g.pushScripts("}");
+        }
     }
 };

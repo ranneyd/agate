@@ -16,7 +16,7 @@ module.exports = class Literal extends Entity{
     analyze( env ) {
 
     }
-    generateJS(g){
+    generate(g){
         let text = this.text;
         if(this.litType === "stringlit"){
             // TODO: " vs '?

@@ -41,6 +41,7 @@ module.exports = class Def extends Entity{
         }
         g.pushScripts(signature.slice(0, -2) + "){");
 
+
         let b = g.branch();
 
         this.body.generateJS(b);

@@ -42,8 +42,10 @@ module.exports = class Entity{
         return this.constructor.name;
     }
 
-    generate(g){
-        // TODO: optimization
-        return this.generateJS(g);
+    generateJS(g){
+        let b = g.branch();
+        this.generate(b);
+        g.pushScripts(`${g.container}.innerHTML += `);
+        g.merge(b, ";");
     }
 };

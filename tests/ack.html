@@ -1,11 +1,13 @@
 <!DOCTYPE>
 <html>
 <script type="text/javascript">
-    let ack_func = function(m, n){
-        IF
+    let ack_func = function(m_id, n_id){
+        if(m_id == 0) {
+            return n_id + 1;
+        }
     }
-    let elem_0 = document.createElement("p")
+    let elem_0 = document.createElement("p");
     elem_0.innerHTML += ack_func(1, 2)
-    document.getElementsByTagName('html')[0].innerHTML += elem_0.outerHTML
+    document.getElementsByTagName('html')[0].innerHTML += elem_0.outerHTML;
 </script>
 </html>

@@ -12,7 +12,7 @@ module.exports = class Id extends Entity{
     }
     analyze( env ) {
     }
-    generateJS(g){
+    generate(g){
         g.pushScripts(this.id + "_id");
     }
 };
